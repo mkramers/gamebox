@@ -1,9 +1,11 @@
-﻿using SFML.Window;
+﻿using System.Collections;
+using SFML.Graphics;
+using SFML.Window;
 
 namespace RenderCore
 {
     public interface IBodyRepresentation
     {
-        void Draw(Window window);
+        void Draw(RenderTarget _renderTarget);
     }
 }
