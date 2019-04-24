@@ -65,14 +65,14 @@
     <Compile Include="RenderCoreWindowBase.cs" />
     <Compile Include="ResourceFactory.cs" />
     <Compile Include="ResourceId.cs" />
-    <Compile Include="SpriteFactory.cs" />
+    <Compile Include="CoreSpriteFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\man.png" />
-    <Content Include="Resources\wood.bmp" />
+    <EmbeddedResource Include="Resources\man.png" />
+    <EmbeddedResource Include="Resources\wood.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

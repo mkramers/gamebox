@@ -27,8 +27,14 @@ namespace GameBox
             const int sizeY = 600;
 
             RenderWindow renderWindow = RenderWindowFactory.CreateRenderWindow(windowTitle, sizeX, sizeY);
-
+            
             RenderCoreWindow window = new RenderCoreWindow(renderWindow);
+
+            ManBodyFactory manBodyFactory = new ManBodyFactory();
+            IBody manBody = manBodyFactory.GetManBody();
+
+            window.AddBodyRepresentation(manBody.GetBodyRepresentation());
+
             window.StartRenderLoop();
         }
     }
