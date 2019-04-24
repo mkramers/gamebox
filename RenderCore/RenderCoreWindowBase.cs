@@ -15,6 +15,8 @@ namespace RenderCore
         {
             while (m_renderWindow.IsOpen)
             {
+                m_renderWindow.DispatchEvents();
+
                 DrawScene(m_renderWindow);
             }
         }
