@@ -1,4 +1,6 @@
-﻿using SFML.Graphics;
+﻿using System;
+using System.Diagnostics;
+using SFML.Graphics;
 
 namespace RenderCore
 {
@@ -9,6 +11,15 @@ namespace RenderCore
         protected RenderCoreWindowBase(RenderWindow _renderWindow)
         {
             m_renderWindow = _renderWindow;
+            m_renderWindow.Closed += RenderWindowOnClosed;
+        }
+
+        private void RenderWindowOnClosed(object _sender, EventArgs _e)
+        {
+            RenderWindow window = _sender as RenderWindow;
+            Debug.Assert(window != null);
+
+            window.Close();
         }
 
         public void StartRenderLoop()
