@@ -1,10 +1,11 @@
 ﻿using System;
+using SFML.Graphics;
 
 namespace RenderCore
 {
     public class Character : IBody
     {
-        public IRenderable GetBodyRepresentation()
+        public Drawable GetDrawable()
         {
             throw new NotImplementedException();
         }

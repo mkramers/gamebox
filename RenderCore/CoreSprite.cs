@@ -1,19 +1,13 @@
-﻿using SFML.Graphics;
+﻿using System.Numerics;
+using SFML.System;
 
 namespace RenderCore
 {
-    public class CoreSprite : IRenderable
+    public static class Vector2Converter
     {
-        private readonly Sprite m_sprite;
-
-        public CoreSprite(Sprite _sprite)
+        public static Vector2f GetVector2f(this Vector2 _vector)
         {
-            m_sprite = _sprite;
-        }
-
-        public void Draw(RenderTarget _renderTarget)
-        {
-            m_sprite.Draw(_renderTarget, RenderStates.Default);
+            return new Vector2f(_vector.X, _vector.Y);
         }
     }
 }

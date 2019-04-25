@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RenderCore;
+﻿using RenderCore;
 using SFML.Graphics;
-using SFML.Window;
 
 namespace GameBox
 {
@@ -33,7 +27,7 @@ namespace GameBox
             ManBodyFactory manBodyFactory = new ManBodyFactory();
             IBody manBody = manBodyFactory.GetManBody();
 
-            window.AddBodyRepresentation(manBody.GetBodyRepresentation());
+            window.AddDrawable(manBody.GetDrawable());
 
             window.StartRenderLoop();
         }

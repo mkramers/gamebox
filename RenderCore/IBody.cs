@@ -4,7 +4,7 @@ namespace RenderCore
 {
     public interface IBody
     {
-        IRenderable GetBodyRepresentation();
+        Drawable GetDrawable();
     }
 
     public interface IRigidBody : IBody
@@ -19,22 +19,22 @@ namespace RenderCore
 
     public abstract class BodyBase : IBody
     {
-        private readonly IRenderable m_renderable;
+        private readonly Drawable m_drawable;
 
-        protected BodyBase(IRenderable _renderable)
+        protected BodyBase(Drawable _drawable)
         {
-            m_renderable = _renderable;
+            m_drawable = _drawable;
         }
 
-        public IRenderable GetBodyRepresentation()
+        public Drawable GetDrawable()
         {
-            return m_renderable;
+            return m_drawable;
         }
     }
 
     public class RigidBody : BodyBase, IRigidBody
     {
-        public RigidBody(IRenderable _renderable) : base(_renderable)
+        public RigidBody(Drawable _drawable) : base(_drawable)
         {
         }
 
@@ -48,8 +48,8 @@ namespace RenderCore
         public IBody GetManBody()
         {
             CoreSpriteFactory spriteFactory = new CoreSpriteFactory();
-            CoreSprite manSprite = spriteFactory.GetSprite(ResourceId.MAN, new IntRect(50, 24, 24, 24));
-            RigidBody body = new RigidBody(manSprite);
+            Sprite sprite = spriteFactory.GetSprite(ResourceId.MAN, new IntRect(50, 24, 24, 24));
+            RigidBody body = new RigidBody(sprite);
             return body;
         }
     }
