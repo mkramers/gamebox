@@ -2,7 +2,7 @@
 
 namespace RenderCore
 {
-    public class CoreSprite : IBodyRepresentation
+    public class CoreSprite : IRenderable
     {
         private readonly Sprite m_sprite;
 

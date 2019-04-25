@@ -3,7 +3,7 @@ using SFML.Graphics;
 
 namespace RenderCore
 {
-    public class MultiCoreSprite : IBodyRepresentation
+    public class MultiCoreSprite : IRenderable
     {
         private readonly IEnumerable<CoreSprite> m_sprites;
 

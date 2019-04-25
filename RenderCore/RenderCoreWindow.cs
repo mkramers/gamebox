@@ -6,27 +6,27 @@ namespace RenderCore
 {
     public class RenderCoreWindow : RenderCoreWindowBase
     {
-        private readonly List<IBodyRepresentation> m_bodyRepresentations;
+        private readonly List<IRenderable> m_renderables;
 
         public RenderCoreWindow(RenderWindow _renderWindow) : base(_renderWindow)
         {
-            m_bodyRepresentations = new List<IBodyRepresentation>();
+            m_renderables = new List<IRenderable>();
         }
 
-        public void AddBodyRepresentation(IBodyRepresentation _bodyRepresentation)
+        public void AddBodyRepresentation(IRenderable _renderable)
         {
-            Debug.Assert(_bodyRepresentation!=null);
+            Debug.Assert(_renderable!=null);
 
-            m_bodyRepresentations.Add(_bodyRepresentation);
+            m_renderables.Add(_renderable);
         }
 
         public override void DrawScene(RenderWindow _renderWindow)
         {
             _renderWindow.Clear(Color.Black);
 
-            foreach (IBodyRepresentation bodyRepresentation in m_bodyRepresentations)
+            foreach (IRenderable renderable in m_renderables)
             {
-                bodyRepresentation.Draw(_renderWindow);
+                renderable.Draw(_renderWindow);
             }
 
             _renderWindow.Display();

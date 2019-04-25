@@ -4,7 +4,7 @@ namespace RenderCore
 {
     public interface IBody
     {
-        IBodyRepresentation GetBodyRepresentation();
+        IRenderable GetBodyRepresentation();
     }
 
     public interface IRigidBody : IBody
@@ -19,22 +19,22 @@ namespace RenderCore
 
     public abstract class BodyBase : IBody
     {
-        private readonly IBodyRepresentation m_bodyRepresentation;
+        private readonly IRenderable m_renderable;
 
-        protected BodyBase(IBodyRepresentation _bodyRepresentation)
+        protected BodyBase(IRenderable _renderable)
         {
-            m_bodyRepresentation = _bodyRepresentation;
+            m_renderable = _renderable;
         }
 
-        public IBodyRepresentation GetBodyRepresentation()
+        public IRenderable GetBodyRepresentation()
         {
-            return m_bodyRepresentation;
+            return m_renderable;
         }
     }
 
     public class RigidBody : BodyBase, IRigidBody
     {
-        public RigidBody(IBodyRepresentation _bodyRepresentation) : base(_bodyRepresentation)
+        public RigidBody(IRenderable _renderable) : base(_renderable)
         {
         }
 

@@ -4,7 +4,7 @@ using SFML.Window;
 
 namespace RenderCore
 {
-    public interface IBodyRepresentation
+    public interface IRenderable
     {
         void Draw(RenderTarget _renderTarget);
     }

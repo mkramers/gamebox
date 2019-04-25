@@ -4,7 +4,7 @@ namespace RenderCore
 {
     public class Character : IBody
     {
-        public IBodyRepresentation GetBodyRepresentation()
+        public IRenderable GetBodyRepresentation()
         {
             throw new NotImplementedException();
         }
