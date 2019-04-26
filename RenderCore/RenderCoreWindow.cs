@@ -9,11 +9,9 @@ namespace RenderCore
     public class RenderCoreWindow : RenderCoreWindowBase
     {
         private readonly List<Drawable> m_drawables;
-        private readonly float m_tileSize;
 
-        public RenderCoreWindow(RenderWindow _renderWindow, float _tileSize) : base(_renderWindow)
+        public RenderCoreWindow(RenderWindow _renderWindow) : base(_renderWindow)
         {
-            m_tileSize = _tileSize;
             m_drawables = new List<Drawable>();
         }
 
@@ -43,9 +41,15 @@ namespace RenderCore
 
         private void DrawGrid()
         {
-            int rows = (int)Math.Round(1.0f / m_tileSize);
-            int columns = (int)Math.Round(1.0f / m_tileSize);
-            Drawable grid = DrawableFactory.GetGrid(rows, columns, Vector2.One, 0.005f, Vector2.Zero);
+            View view = m_renderWindow.GetView();
+
+            Vector2 viewSize = view.Size.GetVector2();
+            Vector2 position = view.Center.GetVector2() - viewSize / 2.0f;
+
+            int rows = (int)Math.Round(viewSize.X);
+            int columns = (int)Math.Round(viewSize.Y);
+
+            Drawable grid = DrawableFactory.GetGrid(rows, columns, viewSize, 0.05f, position);
 
             AddDrawable(grid);
         }

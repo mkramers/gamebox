@@ -22,14 +22,14 @@ namespace GameBox
         {
             const string windowTitle = "GameBox";
             Vector2u windowSize = new Vector2u(600, 600);
-            const float tileSize = 0.2f;
+            FloatRect viewRect = new FloatRect(0, -5, 20, 20);
 
-            RenderWindow renderWindow = RenderWindowFactory.CreateRenderWindow(windowTitle, windowSize);
+            RenderWindow renderWindow = RenderWindowFactory.CreateRenderWindow(windowTitle, windowSize, viewRect);
 
-            RenderCoreWindow window = new RenderCoreWindow(renderWindow, tileSize) { EnableGrid = true };
+            RenderCoreWindow window = new RenderCoreWindow(renderWindow) { EnableGrid = true };
 
             ManBodyFactory manBodyFactory = new ManBodyFactory();
-            IBody manBody = manBodyFactory.GetManBody(tileSize);
+            IBody manBody = manBodyFactory.GetManBody();
             window.AddDrawable(manBody.GetDrawable());
 
             window.StartRenderLoop();

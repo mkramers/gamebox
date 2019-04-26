@@ -6,7 +6,7 @@ namespace RenderCore
 {
     public abstract class RenderCoreWindowBase : IRenderCoreWindow
     {
-        private readonly RenderWindow m_renderWindow;
+        protected readonly RenderWindow m_renderWindow;
         private readonly RenderCoreWindowKeyboardHandler m_coreWindowInputHandler;
 
         protected RenderCoreWindowBase(RenderWindow _renderWindow)
