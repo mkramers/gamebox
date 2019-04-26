@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Numerics;
 using SFML.Graphics;
 using SFML.System;
@@ -38,58 +39,61 @@ namespace RenderCore
 
     public class LineSegment
     {
-        private readonly Vector2 m_start;
-        private readonly Vector2 m_end;
+        public Vector2 End { get; }
 
         public LineSegment(Vector2 _start, Vector2 _end)
         {
-            m_start = _start;
-            m_end = _end;
+            Start = _start;
+            End = _end;
         }
 
-        public float Length => (m_start - m_end).Length();
+        public float Length => Vector.Length();
+        public Vector2 Start { get; }
+        public Vector2 Vector => End - Start;
+        public Vector2 Direction => Vector2.Normalize(Vector);
     }
 
-    public class LineDrawable : Drawable
+    public static class DrawableFactory
     {
-        private readonly LineSegment m_line;
-        private readonly float m_thickness;
-
-        public LineDrawable(LineSegment _line, float _thickness)
-        {
-            m_line = _line;
-            m_thickness = _thickness;
-        }
-
-        public void Draw(RenderTarget _renderTarget, RenderStates _state)
-        {
-            Vector2f size = new Vector2f(m_thickness, m_line.Length);
-
-            RectangleShape rectangleShape = new RectangleShape(size);
-            rectangleShape.Draw(_renderTarget, _state);
-        }
-    }
-
-    public class GridDrawableFactory
-    {
-        public static AssemblyDrawable GetGrid(int _rows, int _columns, Vector2 _size, float _lineThickness)
+        public static Drawable GetGrid(int _rows, int _columns, Vector2 _size, float _lineThickness, Vector2 _position)
         {
             Vector2 cellSize = new Vector2(_size.X / _columns, _size.Y / _rows);
 
-            List<Drawable> renderables = new List<Drawable>();
+            List<LineSegment> segments = new List<LineSegment>(_rows + _columns);
 
-            for (int i = 0; i < _rows; i++)
+            for (int i = 1; i < _rows; i++)
             {
-                Vector2 start = new Vector2();
-                Vector2 end = new Vector2();
-                LineSegment lineSegment = new LineSegment(start, end);
-                LineDrawable line = new LineDrawable(lineSegment, _lineThickness);
+                Vector2 start = new Vector2(0, i * cellSize.Y - _lineThickness/2.0f) + _position;
+                Vector2 end = new Vector2(_size.X, i * cellSize.Y - _lineThickness / 2.0f) + _position;
 
-                renderables.Add(line);
+                segments.Add(new LineSegment(start, end));
+            }
+            for (int i = 1; i < _columns; i++)
+            {
+                Vector2 start = new Vector2(i * cellSize.X - _lineThickness / 2.0f, _size.Y) + _position;
+                Vector2 end = new Vector2(i * cellSize.X - _lineThickness / 2.0f, 0) + _position;
+
+                segments.Add(new LineSegment(start, end));
             }
 
-            AssemblyDrawable assemblyDrawable = new AssemblyDrawable(renderables);
+            IEnumerable<Drawable> drawables = segments.Select(_segment => GetLine(_segment, _lineThickness));
+
+            AssemblyDrawable assemblyDrawable = new AssemblyDrawable(drawables);
             return assemblyDrawable;
+        }
+
+        public static Drawable GetLine(LineSegment _line, float _thickness)
+        {
+            Vector2f size = new Vector2f(_thickness, _line.Length);
+            float dotProduct = Vector2.Dot(_line.Direction, -Vector2.UnitY);
+            float angle = ((float) Math.Acos(dotProduct)).ToDegrees();
+
+            RectangleShape rectangleShape = new RectangleShape(size)
+            {
+                Position = _line.End.GetVector2f(),
+                Rotation = angle,
+            };
+            return rectangleShape;
         }
     }
 
@@ -108,6 +112,14 @@ namespace RenderCore
             {
                 _target.Draw(drawable, _state);
             }
+        }
+    }
+
+    public static class ConvertToDegreesExtension
+    {
+        public static float ToDegrees(this float _radians)
+        {
+            return 180.0f * _radians / (float) Math.PI;
         }
     }
 }
