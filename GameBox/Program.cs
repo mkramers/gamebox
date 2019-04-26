@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Numerics;
+using System.Windows.Input;
 using RenderCore;
 using SFML.Graphics;
 using SFML.System;
+using SFML.Window;
 
 namespace GameBox
 {
@@ -25,12 +28,15 @@ namespace GameBox
             FloatRect viewRect = new FloatRect(0, -5, 20, 20);
 
             RenderWindow renderWindow = RenderWindowFactory.CreateRenderWindow(windowTitle, windowSize, viewRect);
-
             RenderCoreWindow window = new RenderCoreWindow(renderWindow) { EnableGrid = true };
 
             ManBodyFactory manBodyFactory = new ManBodyFactory();
-            IBody manBody = manBodyFactory.GetManBody();
-            window.AddDrawable(manBody.GetDrawable());
+            Sprite man = manBodyFactory.GetMan();
+            window.AddDrawable(man);
+
+            Dictionary<Keyboard.Key, ICommand> moveCommands = KeyCommandsFactory.GetTransformableMoveCommands(man, 1.0f);
+            KeyCommandExecuter keyCommandExecuter = new KeyCommandExecuter(moveCommands);
+            window.AddKeyHandler(keyCommandExecuter);
 
             window.StartRenderLoop();
         }

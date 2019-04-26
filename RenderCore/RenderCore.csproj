@@ -58,20 +58,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyDrawable.cs" />
-    <Compile Include="BodyBase.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="ConvertToDegreesExtension.cs" />
     <Compile Include="Vector2Converter.cs" />
     <Compile Include="DrawableFactory.cs" />
     <Compile Include="IForce.cs" />
-    <Compile Include="IRenderCoreWindowInputHandler.cs" />
     <Compile Include="IRigidBody.cs" />
-    <Compile Include="KeyTranslator.cs" />
+    <Compile Include="KeyCommandExecuter.cs" />
     <Compile Include="LineSegment.cs" />
     <Compile Include="ManBodyFactory.cs" />
-    <Compile Include="RenderCoreWindowKeyboardHandler.cs" />
+    <Compile Include="IKeyHandler.cs" />
     <Compile Include="RenderWindowFactory.cs" />
-    <Compile Include="IBody.cs" />
     <Compile Include="IRenderCoreWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RenderCoreWindow.cs" />
@@ -79,7 +76,6 @@
     <Compile Include="ResourceFactory.cs" />
     <Compile Include="ResourceId.cs" />
     <Compile Include="CoreSpriteFactory.cs" />
-    <Compile Include="RigidBody.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -3,7 +3,7 @@ using SFML.Graphics;
 
 namespace RenderCore
 {
-    public class Character : IBody
+    public class Character
     {
         public Drawable GetDrawable()
         {
