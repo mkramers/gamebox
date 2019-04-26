@@ -10,31 +10,49 @@ namespace RenderCore
 {
     public class RenderCoreWindow : RenderCoreWindowBase
     {
-        private readonly List<Drawable> m_renderables;
+        private readonly List<Drawable> m_drawables;
+        private readonly float m_tileSize;
 
-        public RenderCoreWindow(RenderWindow _renderWindow) : base(_renderWindow)
+        public RenderCoreWindow(RenderWindow _renderWindow, float _tileSize) : base(_renderWindow)
         {
-            m_renderables = new List<Drawable>();
+            m_tileSize = _tileSize;
+            m_drawables = new List<Drawable>();
         }
 
         public void AddDrawable(Drawable _drawable)
         {
             Debug.Assert(_drawable != null);
 
-            m_renderables.Add(_drawable);
+            m_drawables.Add(_drawable);
         }
 
         public override void DrawScene(RenderWindow _renderWindow)
         {
             _renderWindow.Clear(Color.Black);
 
-            foreach (Drawable drawable in m_renderables)
+            if (EnableGrid)
+            {
+                DrawGrid();
+            }
+
+            foreach (Drawable drawable in m_drawables)
             {
                 _renderWindow.Draw(drawable);
             }
 
             _renderWindow.Display();
         }
+
+        private void DrawGrid()
+        {
+            int rows = (int)Math.Round(1.0f / m_tileSize);
+            int columns = (int)Math.Round(1.0f / m_tileSize);
+            Drawable grid = DrawableFactory.GetGrid(rows, columns, Vector2.One, 0.005f, Vector2.Zero);
+
+            AddDrawable(grid);
+        }
+
+        public bool EnableGrid { get; set; }
     }
 
     public class LineSegment
@@ -63,15 +81,15 @@ namespace RenderCore
 
             for (int i = 1; i < _rows; i++)
             {
-                Vector2 start = new Vector2(0, i * cellSize.Y - _lineThickness/2.0f) + _position;
-                Vector2 end = new Vector2(_size.X, i * cellSize.Y - _lineThickness / 2.0f) + _position;
+                Vector2 start = new Vector2(0, i * cellSize.Y) + _position;
+                Vector2 end = new Vector2(_size.X, i * cellSize.Y) + _position;
 
                 segments.Add(new LineSegment(start, end));
             }
             for (int i = 1; i < _columns; i++)
             {
-                Vector2 start = new Vector2(i * cellSize.X - _lineThickness / 2.0f, _size.Y) + _position;
-                Vector2 end = new Vector2(i * cellSize.X - _lineThickness / 2.0f, 0) + _position;
+                Vector2 start = new Vector2(i * cellSize.X, _size.Y) + _position;
+                Vector2 end = new Vector2(i * cellSize.X, 0) + _position;
 
                 segments.Add(new LineSegment(start, end));
             }

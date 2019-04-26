@@ -22,20 +22,15 @@ namespace GameBox
         {
             const string windowTitle = "GameBox";
             Vector2u windowSize = new Vector2u(600, 600);
-            const int tileSize = 30;
+            const float tileSize = 0.2f;
 
             RenderWindow renderWindow = RenderWindowFactory.CreateRenderWindow(windowTitle, windowSize);
 
-            RenderCoreWindow window = new RenderCoreWindow(renderWindow);
+            RenderCoreWindow window = new RenderCoreWindow(renderWindow, tileSize) { EnableGrid = true };
 
             ManBodyFactory manBodyFactory = new ManBodyFactory();
-            IBody manBody = manBodyFactory.GetManBody();
+            IBody manBody = manBodyFactory.GetManBody(tileSize);
             window.AddDrawable(manBody.GetDrawable());
-
-            int rows = (int)Math.Round((float)windowSize.X / tileSize);
-            int columns = (int)Math.Round((float)windowSize.Y / tileSize);
-            Drawable grid = DrawableFactory.GetGrid(rows, columns, Vector2.One, 0.005f, Vector2.Zero);
-            window.AddDrawable(grid);
 
             window.StartRenderLoop();
         }
