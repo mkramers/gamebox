@@ -60,6 +60,10 @@
     <Compile Include="AssemblyDrawable.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="ConvertToDegreesExtension.cs" />
+    <Compile Include="IMoveCommand.cs" />
+    <Compile Include="KeyCommandsFactory.cs" />
+    <Compile Include="MoveCommandBase.cs" />
+    <Compile Include="MoveOffsetCommand.cs" />
     <Compile Include="Vector2Converter.cs" />
     <Compile Include="DrawableFactory.cs" />
     <Compile Include="IForce.cs" />
@@ -76,6 +80,7 @@
     <Compile Include="ResourceFactory.cs" />
     <Compile Include="ResourceId.cs" />
     <Compile Include="CoreSpriteFactory.cs" />
+    <Compile Include="Vector2fConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

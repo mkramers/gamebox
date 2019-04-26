@@ -10,11 +10,4 @@ namespace RenderCore
             return new Vector2f(_vector.X, _vector.Y);
         }
     }
-    public static class Vector2fConverter
-    {
-        public static Vector2 GetVector2(this Vector2f _vector)
-        {
-            return new Vector2(_vector.X, _vector.Y);
-        }
-    }
 }

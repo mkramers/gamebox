@@ -35,8 +35,8 @@ namespace GameBox
             window.AddDrawable(man);
 
             Dictionary<Keyboard.Key, ICommand> moveCommands = KeyCommandsFactory.GetTransformableMoveCommands(man, 1.0f);
-            KeyCommandExecuter keyCommandExecuter = new KeyCommandExecuter(moveCommands);
-            window.AddKeyHandler(keyCommandExecuter);
+            KeyCommandExecuter moveExecutor = new KeyCommandExecuter(moveCommands);
+            window.AddKeyHandler(moveExecutor);
 
             window.StartRenderLoop();
         }
