@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyDrawable.cs" />
+    <Compile Include="BodySprite.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="ConvertToDegreesExtension.cs" />
     <Compile Include="IMoveCommand.cs" />
@@ -66,8 +67,6 @@
     <Compile Include="MoveOffsetCommand.cs" />
     <Compile Include="Vector2Converter.cs" />
     <Compile Include="DrawableFactory.cs" />
-    <Compile Include="IForce.cs" />
-    <Compile Include="IRigidBody.cs" />
     <Compile Include="KeyCommandExecuter.cs" />
     <Compile Include="LineSegment.cs" />
     <Compile Include="ManBodyFactory.cs" />

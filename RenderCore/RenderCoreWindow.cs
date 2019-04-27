@@ -6,13 +6,31 @@ using SFML.Graphics;
 
 namespace RenderCore
 {
+    public class PhysicsController : List<IPhysicalObject>
+    {
+        public void ResolvePhysics()
+        {
+            List<IPhysicalObject> objects = new List<IPhysicalObject>(this);
+            foreach (IPhysicalObject physicalObject in objects)
+            {
+                IForce force = physicalObject.CombineAndDequeueForces();
+                if (force is NormalForce normalForce)
+                {
+                    physicalObject.Move(normalForce.ForceVector);
+                }
+            }
+        }
+    }
+
     public class RenderCoreWindow : RenderCoreWindowBase
     {
         private readonly List<Drawable> m_drawables;
+        private readonly PhysicsController m_physicsController;
 
-        public RenderCoreWindow(RenderWindow _renderWindow) : base(_renderWindow)
+        public RenderCoreWindow(RenderWindow _renderWindow, PhysicsController _physicsController) : base(_renderWindow)
         {
             m_drawables = new List<Drawable>();
+            m_physicsController = _physicsController;
         }
 
         public void AddDrawable(Drawable _drawable)
@@ -30,6 +48,8 @@ namespace RenderCore
             {
                 DrawGrid();
             }
+
+            m_physicsController.ResolvePhysics();
 
             foreach (Drawable drawable in m_drawables)
             {

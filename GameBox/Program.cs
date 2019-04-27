@@ -27,14 +27,18 @@ namespace GameBox
             Vector2u windowSize = new Vector2u(600, 600);
             FloatRect viewRect = new FloatRect(0, -5, 20, 20);
 
+            PhysicsController physics = new PhysicsController();
             RenderWindow renderWindow = RenderWindowFactory.CreateRenderWindow(windowTitle, windowSize, viewRect);
-            RenderCoreWindow window = new RenderCoreWindow(renderWindow) { EnableGrid = true };
+            RenderCoreWindow window = new RenderCoreWindow(renderWindow, physics) { EnableGrid = true };
 
+            const float mass = 1.0f;
             ManBodyFactory manBodyFactory = new ManBodyFactory();
-            Sprite man = manBodyFactory.GetMan();
+            BodySprite man = manBodyFactory.GetMan(mass);
             window.AddDrawable(man);
 
-            Dictionary<Keyboard.Key, ICommand> moveCommands = KeyCommandsFactory.GetTransformableMoveCommands(man, 1.0f);
+            physics.Add(man);
+
+            Dictionary<Keyboard.Key, ICommand> moveCommands = KeyCommandsFactory.GetBodySpriteCommands(man, 1.0f);
             KeyCommandExecuter moveExecutor = new KeyCommandExecuter(moveCommands);
             window.AddKeyHandler(moveExecutor);
 
