@@ -19,45 +19,6 @@ namespace RenderCore
             return sprite;
         }
     }
-
-    public class SpritePhysics : IPhysicalObject
-    {
-        private readonly float m_mass;
-        private readonly ConcurrentQueue<IForce> m_forceQueue;
-
-        public SpritePhysics(float _mass)
-        {
-            m_mass = _mass;
-            m_forceQueue = new ConcurrentQueue<IForce>();
-        }
-
-        public void ApplyForce(IForce _force)
-        {
-            m_forceQueue.Enqueue(_force);
-        }
-
-        public IForce CombineAndDequeueForces()
-        {
-            if (!m_forceQueue.TryDequeue(out IForce resultantForce))
-            {
-                return null;
-            }
-
-            for (int i = 0; i < m_forceQueue.Count; i++)
-            {
-                if (!m_forceQueue.TryDequeue(out IForce force))
-                {
-                    resultantForce.Add(force);
-                }
-            }
-
-            return resultantForce;
-        }
-
-        public void Move(Vector2 _offset)
-        {
-        }
-    }
     
     public class NormalForce : IForce
     {
