@@ -13,9 +13,9 @@ namespace RenderCore
         public BodySprite GetMan(float _mass)
         {
             CoreSpriteFactory spriteFactory = new CoreSpriteFactory();
-            IntRect textureCrop = new IntRect(50, 24, 24, 24);;
-            BodySprite sprite = spriteFactory.GetBodySprite(ResourceId.MAN, textureCrop, _mass);
-            sprite.Scale = new Vector2f(1.0f / textureCrop.Width, 1.0f / textureCrop.Height);
+            BodySprite sprite = spriteFactory.GetBodySprite(ResourceId.MAN, _mass);
+            Vector2u textureSize = sprite.Texture.Size;
+            sprite.Scale = new Vector2f(1.0f / textureSize.X, 1.0f / textureSize.Y);
             return sprite;
         }
     }

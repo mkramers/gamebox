@@ -15,13 +15,6 @@ namespace RenderCore
             m_forceQueue = new ConcurrentQueue<IForce>();
             m_mass = _mass;
         }
-
-        public BodySprite(Texture _texture, IntRect _rectangle, float _mass) : base(_texture, _rectangle)
-        {
-            m_forceQueue = new ConcurrentQueue<IForce>();
-            m_mass = _mass;
-        }
-
         
         public void ApplyForce(IForce _force)
         {
