@@ -6,7 +6,8 @@ namespace RenderCore
 {
     public class RenderWindowFactory
     {
-        public static RenderWindow CreateRenderWindow(string _name, Vector2u _windowSize, FloatRect _viewRect, FloatRect _viewPortRect)
+        public static RenderWindow CreateRenderWindow(string _name, Vector2u _windowSize, FloatRect _viewRect,
+            FloatRect _viewPortRect)
         {
             View view = new View(_viewRect) {Viewport = _viewPortRect};
 

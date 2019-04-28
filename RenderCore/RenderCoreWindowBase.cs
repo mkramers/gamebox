@@ -8,16 +8,28 @@ namespace RenderCore
 {
     public abstract class RenderCoreWindowBase : ITickable
     {
-        protected readonly RenderWindow m_renderWindow;
         private readonly List<IKeyHandler> m_keyHandlers;
+        protected readonly RenderWindow m_renderWindow;
 
         protected RenderCoreWindowBase(RenderWindow _renderWindow)
         {
             m_renderWindow = _renderWindow;
             m_renderWindow.Closed += RenderWindowOnClosed;
-            m_renderWindow.KeyPressed+= OnKeyPressed;
+            m_renderWindow.KeyPressed += OnKeyPressed;
 
             m_keyHandlers = new List<IKeyHandler>();
+        }
+
+        public virtual void Tick(long _elapsedMs)
+        {
+            if (!m_renderWindow.IsOpen)
+            {
+                return;
+            }
+
+            m_renderWindow.DispatchEvents();
+
+            DrawScene(m_renderWindow);
         }
 
         public void ClearKeyHandlers()
@@ -44,17 +56,5 @@ namespace RenderCore
         }
 
         public abstract void DrawScene(RenderWindow _renderWindow);
-
-        public virtual void Tick(long _elapsedMs)
-        {
-            if (!m_renderWindow.IsOpen)
-            {
-                return;
-            }
-
-            m_renderWindow.DispatchEvents();
-
-            DrawScene(m_renderWindow);
-        }
     }
 }

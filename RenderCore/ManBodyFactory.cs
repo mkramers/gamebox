@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Concurrent;
-using System.Linq;
-using SFML.Graphics;
-using SFML.System;
+﻿using SFML.System;
 
 namespace RenderCore
 {

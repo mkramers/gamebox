@@ -4,8 +4,8 @@ namespace RenderCore
 {
     public class ApplyNormalForceCommand : IMoveCommand
     {
-        private readonly NormalForce m_force;
         private readonly BodySprite m_bodySprite;
+        private readonly NormalForce m_force;
 
         public ApplyNormalForceCommand(BodySprite _bodySprite, NormalForce _force)
         {

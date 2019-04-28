@@ -3,6 +3,6 @@
     public enum ResourceId
     {
         MAN,
-        WOOD,
+        WOOD
     }
 }

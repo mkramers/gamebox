@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
 using System.Windows.Input;
-using SFML.Graphics;
 using SFML.Window;
 
 namespace RenderCore
@@ -12,16 +11,20 @@ namespace RenderCore
         {
             Dictionary<Keyboard.Key, ICommand> commandBindings = new Dictionary<Keyboard.Key, ICommand>();
 
-            ApplyNormalForceCommand moveUpCommand = new ApplyNormalForceCommand(_bodySprite, new NormalForce(-_amount * Vector2.UnitY));
+            ApplyNormalForceCommand moveUpCommand =
+                new ApplyNormalForceCommand(_bodySprite, new NormalForce(-_amount * Vector2.UnitY));
             commandBindings.Add(Keyboard.Key.Up, moveUpCommand);
 
-            ApplyNormalForceCommand moveDownCommand = new ApplyNormalForceCommand(_bodySprite, new NormalForce(_amount * Vector2.UnitY));
+            ApplyNormalForceCommand moveDownCommand =
+                new ApplyNormalForceCommand(_bodySprite, new NormalForce(_amount * Vector2.UnitY));
             commandBindings.Add(Keyboard.Key.Down, moveDownCommand);
 
-            ApplyNormalForceCommand moveLeftCommand = new ApplyNormalForceCommand(_bodySprite, new NormalForce(-_amount * Vector2.UnitX));
+            ApplyNormalForceCommand moveLeftCommand =
+                new ApplyNormalForceCommand(_bodySprite, new NormalForce(-_amount * Vector2.UnitX));
             commandBindings.Add(Keyboard.Key.Left, moveLeftCommand);
 
-            ApplyNormalForceCommand moveRightCommand = new ApplyNormalForceCommand(_bodySprite, new NormalForce(_amount * Vector2.UnitX));
+            ApplyNormalForceCommand moveRightCommand =
+                new ApplyNormalForceCommand(_bodySprite, new NormalForce(_amount * Vector2.UnitX));
             commandBindings.Add(Keyboard.Key.Right, moveRightCommand);
 
             return commandBindings;

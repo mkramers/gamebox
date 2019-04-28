@@ -10,7 +10,7 @@ namespace RenderCore
         public Texture GetTexture(ResourceId _resourceId)
         {
             string resourceName = "RenderCore.Resources.man.png";
-            
+
             byte[] resourceData = GetResourceData(resourceName);
 
             Image image = new Image(resourceData);

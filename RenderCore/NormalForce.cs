@@ -5,12 +5,12 @@ namespace RenderCore
 {
     public class NormalForce : IForce
     {
-        public Vector2 ForceVector { get; private set; }
-
         public NormalForce(Vector2 _forceVector)
         {
             ForceVector = _forceVector;
         }
+
+        public Vector2 ForceVector { get; private set; }
 
         public void Add(IForce _force)
         {

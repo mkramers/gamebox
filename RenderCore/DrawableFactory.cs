@@ -22,6 +22,7 @@ namespace RenderCore
 
                 segments.Add(new LineSegment(start, end));
             }
+
             for (int i = 1; i < _columns; i++)
             {
                 Vector2 start = new Vector2(i * cellSize.X, _size.Y) + _position;
@@ -45,7 +46,7 @@ namespace RenderCore
             RectangleShape rectangleShape = new RectangleShape(size)
             {
                 Position = _line.End.GetVector2f(),
-                Rotation = angle,
+                Rotation = angle
             };
             return rectangleShape;
         }

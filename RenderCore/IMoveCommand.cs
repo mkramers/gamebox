@@ -4,6 +4,5 @@ namespace RenderCore
 {
     public interface IMoveCommand : ICommand
     {
-
     }
 }
