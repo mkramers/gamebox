@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using SFML;
 using SFML.Graphics;
 using SFML.System;
 
@@ -9,7 +10,7 @@ namespace RenderCore
 {
     public static class DrawableFactory
     {
-        public static Drawable GetGrid(int _rows, int _columns, Vector2 _size, float _lineThickness, Vector2 _position)
+        public static ShapeAssemblyDrawable GetGrid(int _rows, int _columns, Vector2 _size, float _lineThickness, Vector2 _position)
         {
             Vector2 cellSize = new Vector2(_size.X / _columns, _size.Y / _rows);
 
@@ -31,13 +32,13 @@ namespace RenderCore
                 segments.Add(new LineSegment(start, end));
             }
 
-            IEnumerable<Drawable> drawables = segments.Select(_segment => GetLine(_segment, _lineThickness));
+            IEnumerable<Shape> drawables = segments.Select(_segment => GetLine(_segment, _lineThickness));
 
-            AssemblyDrawable assemblyDrawable = new AssemblyDrawable(drawables);
-            return assemblyDrawable;
+            ShapeAssemblyDrawable shapeAssemblyDrawable = new ShapeAssemblyDrawable(drawables);
+            return shapeAssemblyDrawable;
         }
 
-        public static Drawable GetLine(LineSegment _line, float _thickness)
+        private static RectangleShape GetLine(LineSegment _line, float _thickness)
         {
             Vector2f size = new Vector2f(_thickness, _line.Length);
             float dotProduct = Vector2.Dot(_line.Direction, -Vector2.UnitY);

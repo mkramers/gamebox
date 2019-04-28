@@ -6,6 +6,21 @@ using SFML.Graphics;
 
 namespace RenderCore
 {
+    public class GridDrawingUtilities
+    {
+        public static ShapeAssemblyDrawable GetGridDrawableFromView(View _view)
+        {
+            Vector2 viewSize = _view.Size.GetVector2();
+            Vector2 position = _view.Center.GetVector2() - viewSize / 2.0f;
+
+            int rows = (int) Math.Round(viewSize.X);
+            int columns = (int) Math.Round(viewSize.Y);
+
+            ShapeAssemblyDrawable grid = DrawableFactory.GetGrid(rows, columns, viewSize, 0.05f, position);
+            return grid;
+        }
+    }
+
     public class RenderCoreWindow : RenderCoreWindowBase
     {
         private readonly BlockingCollection<Drawable> m_drawables;
@@ -30,7 +45,12 @@ namespace RenderCore
 
             if (EnableGrid)
             {
-                DrawGrid();
+                View view = _renderWindow.GetView();
+                ShapeAssemblyDrawable gridDrawable = GridDrawingUtilities.GetGridDrawableFromView(view);
+
+                _renderWindow.Draw(gridDrawable);
+
+                gridDrawable.Dispose();
             }
             
             foreach (Drawable drawable in m_drawables)
@@ -39,28 +59,6 @@ namespace RenderCore
             }
 
             _renderWindow.Display();
-        }
-
-        private void DrawGrid()
-        {
-            View view = m_renderWindow.GetView();
-
-            Vector2 viewSize = view.Size.GetVector2();
-            Vector2 position = view.Center.GetVector2() - viewSize / 2.0f;
-
-            int rows = (int) Math.Round(viewSize.X);
-            int columns = (int) Math.Round(viewSize.Y);
-
-            Drawable grid = DrawableFactory.GetGrid(rows, columns, viewSize, 0.05f, position);
-
-            AddDrawable(grid);
-        }
-
-        public void SetViewCenter(Vector2 _center)
-        {
-            View view = m_renderWindow.GetView();
-
-            view.Center = _center.GetVector2f();
         }
     }
 }
