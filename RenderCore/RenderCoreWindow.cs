@@ -55,5 +55,12 @@ namespace RenderCore
 
             AddDrawable(grid);
         }
+
+        public void SetViewCenter(Vector2 _center)
+        {
+            View view = m_renderWindow.GetView();
+
+            view.Center = _center.GetVector2f();
+        }
     }
 }

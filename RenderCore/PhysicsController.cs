@@ -4,7 +4,7 @@ namespace RenderCore
 {
     public class PhysicsController : List<IPhysicalObject>, ITickable
     {
-        private void ResolvePhysics()
+        private void ResolvePhysics(long _elapsedMs)
         {
             List<IPhysicalObject> objects = new List<IPhysicalObject>(this);
             foreach (IPhysicalObject physicalObject in objects)
@@ -19,7 +19,7 @@ namespace RenderCore
 
         public void Tick(long _elapsedMs)
         {
-            ResolvePhysics();
+            ResolvePhysics(_elapsedMs);
         }
     }
 }

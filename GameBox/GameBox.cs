@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Numerics;
 using System.Windows.Input;
 using RenderCore;
 using SFML.Graphics;
@@ -13,12 +14,12 @@ namespace GameBox
         {
             const string windowTitle = "GameBox";
             Vector2u windowSize = new Vector2u(600, 600);
-            FloatRect viewRect = new FloatRect(0, -5, 20, 20);
+            FloatRect viewRect = new FloatRect(-10, 10, 20, 20);
 
             PhysicsController physics = new PhysicsController();
             RenderWindow renderWindow = RenderWindowFactory.CreateRenderWindow(windowTitle, windowSize, viewRect);
-            RenderCoreWindow window = new RenderCoreWindow(renderWindow) {EnableGrid = true};
-            
+            RenderCoreWindow window = new RenderCoreWindow(renderWindow) { EnableGrid = true };
+
             ObjectFramework objectFramework = new ObjectFramework();
             objectFramework.Add(window);
             objectFramework.Add(physics);
