@@ -9,12 +9,10 @@ namespace RenderCore
     public class RenderCoreWindow : RenderCoreWindowBase
     {
         private readonly BlockingCollection<Drawable> m_drawables;
-        private readonly PhysicsController m_physicsController;
 
-        public RenderCoreWindow(RenderWindow _renderWindow, PhysicsController _physicsController) : base(_renderWindow)
+        public RenderCoreWindow(RenderWindow _renderWindow) : base(_renderWindow)
         {
             m_drawables = new BlockingCollection<Drawable>();
-            m_physicsController = _physicsController;
         }
 
         public bool EnableGrid { get; set; }
@@ -34,9 +32,7 @@ namespace RenderCore
             {
                 DrawGrid();
             }
-
-            m_physicsController.ResolvePhysics();
-
+            
             foreach (Drawable drawable in m_drawables)
             {
                 _renderWindow.Draw(drawable);

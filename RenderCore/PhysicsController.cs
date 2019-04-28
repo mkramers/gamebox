@@ -2,9 +2,9 @@
 
 namespace RenderCore
 {
-    public class PhysicsController : List<IPhysicalObject>
+    public class PhysicsController : List<IPhysicalObject>, ITickable
     {
-        public void ResolvePhysics()
+        private void ResolvePhysics()
         {
             List<IPhysicalObject> objects = new List<IPhysicalObject>(this);
             foreach (IPhysicalObject physicalObject in objects)
@@ -15,6 +15,11 @@ namespace RenderCore
                     physicalObject.Move(normalForce.ForceVector);
                 }
             }
+        }
+
+        public void Tick(long _elapsedMs)
+        {
+            ResolvePhysics();
         }
     }
 }

@@ -17,10 +17,11 @@ namespace GameBox
 
             PhysicsController physics = new PhysicsController();
             RenderWindow renderWindow = RenderWindowFactory.CreateRenderWindow(windowTitle, windowSize, viewRect);
-            RenderCoreWindow window = new RenderCoreWindow(renderWindow, physics) {EnableGrid = true};
+            RenderCoreWindow window = new RenderCoreWindow(renderWindow) {EnableGrid = true};
             
             ObjectFramework objectFramework = new ObjectFramework();
             objectFramework.Add(window);
+            objectFramework.Add(physics);
 
             CreateMainCharacter(window, physics);
 
