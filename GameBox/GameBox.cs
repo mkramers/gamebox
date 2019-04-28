@@ -18,11 +18,14 @@ namespace GameBox
 
             PhysicsController physics = new PhysicsController();
             RenderWindow renderWindow = RenderWindowFactory.CreateRenderWindow(windowTitle, windowSize, viewRect);
-            RenderCoreWindow window = new RenderCoreWindow(renderWindow) { EnableGrid = true };
+            GridWidget gridWidget = new GridWidget(renderWindow.GetView());
+            RenderCoreWindow window = new RenderCoreWindow(renderWindow, new[] { gridWidget });
 
             ObjectFramework objectFramework = new ObjectFramework();
-            objectFramework.Add(window);
+
+            //order matters
             objectFramework.Add(physics);
+            objectFramework.Add(window);
 
             CreateMainCharacter(window, physics);
 
@@ -40,10 +43,12 @@ namespace GameBox
 
             Dictionary<Keyboard.Key, ICommand> moveCommands = KeyCommandsFactory.GetBodySpriteCommands(man, 1.0f);
             KeyCommandExecuter moveExecutor = new KeyCommandExecuter(moveCommands);
+
+            _window.ClearKeyHandlers();
             _window.AddKeyHandler(moveExecutor);
 
-            _window.AddDrawable(man);
             _physics.Add(man);
+            _window.Add(man);
         }
     }
 }

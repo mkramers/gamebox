@@ -10,7 +10,7 @@ namespace RenderCore
 {
     public static class DrawableFactory
     {
-        public static ShapeAssemblyDrawable GetGrid(int _rows, int _columns, Vector2 _size, float _lineThickness, Vector2 _position)
+        public static IEnumerable<Shape> GetGridShapes(int _rows, int _columns, Vector2 _size, float _lineThickness, Vector2 _position)
         {
             Vector2 cellSize = new Vector2(_size.X / _columns, _size.Y / _rows);
 
@@ -32,10 +32,8 @@ namespace RenderCore
                 segments.Add(new LineSegment(start, end));
             }
 
-            IEnumerable<Shape> drawables = segments.Select(_segment => GetLine(_segment, _lineThickness));
-
-            ShapeAssemblyDrawable shapeAssemblyDrawable = new ShapeAssemblyDrawable(drawables);
-            return shapeAssemblyDrawable;
+            IEnumerable<Shape> shapes = segments.Select(_segment => GetLine(_segment, _lineThickness));
+            return shapes;
         }
 
         private static RectangleShape GetLine(LineSegment _line, float _thickness)
