@@ -6,7 +6,7 @@ using SFML.Window;
 
 namespace RenderCore
 {
-    public abstract class RenderCoreWindowBase : IRenderCoreWindow
+    public abstract class RenderCoreWindowBase : ITickable
     {
         protected readonly RenderWindow m_renderWindow;
         private readonly List<IKeyHandler> m_keyHandlers;
@@ -43,16 +43,18 @@ namespace RenderCore
             window.Close();
         }
 
-        public void StartRenderLoop()
-        {
-            while (m_renderWindow.IsOpen)
-            {
-                m_renderWindow.DispatchEvents();
-
-                DrawScene(m_renderWindow);
-            }
-        }
-
         public abstract void DrawScene(RenderWindow _renderWindow);
+
+        public virtual void Tick(long _elapsedMs)
+        {
+            if (!m_renderWindow.IsOpen)
+            {
+                return;
+            }
+
+            m_renderWindow.DispatchEvents();
+
+            DrawScene(m_renderWindow);
+        }
     }
 }

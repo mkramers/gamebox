@@ -42,7 +42,13 @@ namespace GameBox
             KeyCommandExecuter moveExecutor = new KeyCommandExecuter(moveCommands);
             window.AddKeyHandler(moveExecutor);
 
-            window.StartRenderLoop();
+            ObjectFramework objectFramework = new ObjectFramework();
+            objectFramework.Add(window);
+
+            while (true)
+            {
+                objectFramework.Tick();
+            }
         }
     }
 }
