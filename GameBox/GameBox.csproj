@@ -6,6 +6,12 @@
     <StartupObject></StartupObject>
   </PropertyGroup>
 
+  <Target Name="CopySFMLBinaries" AfterTargets="BeforeBuild">
+    <Copy SourceFiles="../external/csfml-2.5/csfml-system-2.dll" DestinationFolder="$(OutDir)" />
+    <Copy SourceFiles="../external/csfml-2.5/csfml-graphics-2.dll" DestinationFolder="$(OutDir)" />
+    <Copy SourceFiles="../external/csfml-2.5/csfml-window-2.dll" DestinationFolder="$(OutDir)" />
+  </Target>
+
   <ItemGroup>
     <PackageReference Include="SFML.Graphics.NetCore" Version="1.0.0" />
     <PackageReference Include="SFML.System.NetCore" Version="1.0.0" />
