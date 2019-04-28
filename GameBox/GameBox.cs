@@ -18,7 +18,8 @@ namespace GameBox
 
             PhysicsController physics = new PhysicsController();
             RenderWindow renderWindow = RenderWindowFactory.CreateRenderWindow(windowTitle, windowSize, viewRect);
-            GridWidget gridWidget = new GridWidget(renderWindow.GetView());
+            GridWidget gridWidget = new GridWidget(renderWindow.GetView()) {IsDrawEnabled = true};
+
             RenderCoreWindow window = new RenderCoreWindow(renderWindow, new[] { gridWidget });
 
             ObjectFramework objectFramework = new ObjectFramework();

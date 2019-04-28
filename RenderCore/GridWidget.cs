@@ -3,7 +3,16 @@ using SFML.Graphics;
 
 namespace RenderCore
 {
-    public class GridWidget : IRenderCoreWindowWidget
+    public abstract class RenderCoreWindowWidget : IRenderCoreWindowWidget
+    {
+        public bool IsDrawEnabled { get; set; }
+
+        public abstract void Draw(RenderTarget _target, RenderStates _states);
+
+        public abstract void Dispose();
+    }
+
+    public class GridWidget : RenderCoreWindowWidget
     {
         private readonly List<Shape> m_shapes;
 
@@ -22,15 +31,20 @@ namespace RenderCore
             m_shapes.AddRange(shapes);
         }
 
-        public void Draw(RenderTarget _target, RenderStates _state)
+        public override void Draw(RenderTarget _target, RenderStates _state)
         {
+            if (!IsDrawEnabled)
+            {
+                return;
+            }
+
             foreach (Shape shape in m_shapes)
             {
                 _target.Draw(shape, _state);
             }
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             ClearShapes();
         }
