@@ -5,12 +5,16 @@ using BepuPhysics.Collidables;
 
 namespace RenderCore
 {
-    public interface ICharacter
+    public interface IBody : IDisposable
     {
-        BodyDescription GetBodyDescription();
+        Vector3 GetPosition();
     }
 
-    public class TestCharacter : IDisposable
+    public interface ICharacter : IBody
+    {
+    }
+
+    public class TestCharacter : ICharacter
     {
         private readonly int m_bodyIndex;
         private readonly TypedIndex m_shapeIndex;
@@ -58,6 +62,47 @@ namespace RenderCore
         public void Dispose()
         {
             RemoveFromSimulation();
+        }
+    }
+
+    public interface ILandscape : IBody
+    {
+
+    }
+
+    public class TestLandscape : ILandscape
+    {
+        private readonly int m_handle;
+        private readonly Simulation m_simulation;
+
+        public TestLandscape(Simulation _simulation)
+        {
+            m_simulation = _simulation;
+
+            Vector3 staticPosition = new Vector3(0, 0, 0);
+            Box staticBox = new Box(500, 1, 500);
+            TypedIndex boxShapeReference = _simulation.Shapes.Add(staticBox);
+            CollidableDescription staticCollidable = new CollidableDescription(boxShapeReference, 0.1f);
+            StaticDescription staticDescription = new StaticDescription(staticPosition, staticCollidable);
+
+            m_handle = _simulation.Statics.Add(staticDescription);
+        }
+
+        public Vector3 GetPosition()
+        {
+            StaticDescription staticDescription = GetStaticDescription();
+            return staticDescription.Pose.Position;
+        }
+
+        private StaticDescription GetStaticDescription()
+        {
+            m_simulation.Statics.GetDescription(m_handle, out StaticDescription staticDescription);
+            return staticDescription;
+        }
+
+        public void Dispose()
+        {
+            m_simulation.Statics.Remove(m_handle);
         }
     }
 }

@@ -14,29 +14,24 @@ namespace BepuSample
         {
             BufferPool bufferPool = new BufferPool();
 
-            Vector3 gravity = new Vector3(0, -10, 0);
-            Simulation simulation = Simulation.Create(bufferPool, new NarrowPhaseCallbacks(),
-                new PoseIntegratorCallbacks(gravity));
+            Physics2 physics = new Physics2();
 
-            TestCharacter tc = new TestCharacter(simulation);
+            ICharacter tc = new TestCharacter(physics.Simulation);
             
-            Vector3 staticPosition = new Vector3(0, 0, 0);
-            Box staticBox = new Box(500, 1, 500);
-            TypedIndex boxShapeReference = simulation.Shapes.Add(staticBox);
-            CollidableDescription staticCollidable = new CollidableDescription(boxShapeReference, 0.1f);
-            StaticDescription staticDescription = new StaticDescription(staticPosition, staticCollidable);
-
-            simulation.Statics.Add(staticDescription);
+            ILandscape landscape = new TestLandscape(physics.Simulation);
 
             for (int i = 0; i < 100; ++i)
             {
-                simulation.Timestep(0.01f);
+                physics.Tick(1);
 
                 Vector3 bd = tc.GetPosition();
-                Console.WriteLine(bd.ToString());
+                Vector3 lp = landscape.GetPosition();
+                Console.WriteLine(bd + "\t\t" + lp);
             }
 
-            simulation.Dispose();
+            tc.Dispose();
+
+            physics.Dispose();
             bufferPool.Clear();
         }
     }
