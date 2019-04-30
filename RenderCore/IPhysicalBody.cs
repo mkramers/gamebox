@@ -3,21 +3,22 @@ using System.Numerics;
 using BepuPhysics;
 using BepuPhysics.Collidables;
 using SFML.Graphics;
+using SFML.System;
 
 namespace RenderCore
 {
-    public interface IEntity : IPhysicalBody, IDrawable
+    public interface IEntity : IPhysicalBody, IDrawable, ITickable
     {
     }
 
     public class PhysicalBodyEntity : IEntity
     {
-        private readonly Drawable m_drawable;
+        private readonly Sprite m_sprite;
         private readonly IPhysicalBody m_body;
 
-        public PhysicalBodyEntity(Drawable _drawable, IPhysicalBody _body)
+        public PhysicalBodyEntity(Sprite _sprite, IPhysicalBody _body)
         {
-            m_drawable = _drawable;
+            m_sprite = _sprite;
             m_body = _body;
         }
 
@@ -33,7 +34,12 @@ namespace RenderCore
         
         public Drawable GetDrawable()
         {
-            return m_drawable;
+            return m_sprite;
+        }
+
+        public void SetPosition(Vector3 _position)
+        {
+            m_sprite.Position = _position.GetVector2f();
         }
 
         public BodyDescription GetBodyDescription()
@@ -45,11 +51,18 @@ namespace RenderCore
         {
             m_body.RemoveFromSimulation();
         }
+
+        public void Tick(long _elapsedMs)
+        {
+            Vector3 position = m_body.GetPosition();
+            SetPosition(position);
+        }
     }
 
     public interface IDrawable
     {
         Drawable GetDrawable();
+        void SetPosition(Vector3 _position);
     }
 
     public interface IBody : IDisposable
