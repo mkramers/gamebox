@@ -1,18 +1,22 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
 using System.Windows.Input;
+using BepuUtilities.Memory;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
 
 namespace RenderCore
 {
-    public abstract class Game
+    public abstract class Game : IDisposable
     {
         private readonly TickableContainer m_tickableContainer;
         protected readonly RenderCoreWindow m_renderCoreWindow;
+        protected readonly Physics2 m_physics2;
+        private BufferPool m_bufferPool;
 
         public Game(string _windowTitle, Vector2u _windowSize)
         {
@@ -24,7 +28,10 @@ namespace RenderCore
             m_renderCoreWindow = new RenderCoreWindow(renderWindow, new[] { gridWidget });
 
             m_tickableContainer = new TickableContainer();
-            
+
+            m_bufferPool = new BufferPool();
+            m_physics2 = new Physics2(m_bufferPool);
+
             //order matters
             m_tickableContainer.Add(m_renderCoreWindow);
         }
@@ -38,6 +45,13 @@ namespace RenderCore
         }
 
         public abstract void CreateMainCharacter();
+
+        public void Dispose()
+        {
+            m_bufferPool.Clear();
+            m_renderCoreWindow.Dispose();
+            m_physics2.Dispose();
+        }
     }
 
     public class TickableContainer

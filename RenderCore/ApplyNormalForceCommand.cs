@@ -4,12 +4,12 @@ namespace RenderCore
 {
     public class ApplyNormalForceCommand : IMoveCommand
     {
-        private readonly BodySprite m_bodySprite;
+        private readonly IPhysicalBody m_physicalBody;
         private readonly NormalForce m_force;
 
-        public ApplyNormalForceCommand(BodySprite _bodySprite, NormalForce _force)
+        public ApplyNormalForceCommand(IPhysicalBody _physicalBody, NormalForce _force)
         {
-            m_bodySprite = _bodySprite;
+            m_physicalBody = _physicalBody;
             m_force = _force;
         }
 
@@ -20,7 +20,7 @@ namespace RenderCore
 
         public void Execute(object _parameter)
         {
-            m_bodySprite.ApplyForce(m_force);
+            m_physicalBody.ApplyForce(m_force);
         }
 
         public event EventHandler CanExecuteChanged;

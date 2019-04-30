@@ -50,7 +50,7 @@ namespace RenderCore
             m_simulation?.Dispose();
         }
 
-        public IPhysicalBody CreatePhysicalObject()
+        public IPhysicalBody CreatePhysicalObject(float _mass)
         {
             Sphere sphere = new Sphere(1);
             sphere.ComputeInertia(1, out BodyInertia sphereInertia);

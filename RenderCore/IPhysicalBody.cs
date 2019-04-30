@@ -47,6 +47,11 @@ namespace RenderCore
             return m_body.GetBodyDescription();
         }
 
+        public void ApplyForce(NormalForce _force)
+        {
+            m_body.ApplyForce(_force);
+        }
+
         public void RemoveFromSimulation()
         {
             m_body.RemoveFromSimulation();
@@ -75,6 +80,7 @@ namespace RenderCore
     public interface IPhysicalBody : IBody
     {
         BodyDescription GetBodyDescription();
+        void ApplyForce(NormalForce _force);
     }
     
     public class PhysicalBody : IPhysicalBody
@@ -95,6 +101,11 @@ namespace RenderCore
             m_simulation.Bodies.GetDescription(m_bodyIndex, out BodyDescription bodyDescription);
 
             return bodyDescription;
+        }
+
+        public void ApplyForce(NormalForce _force)
+        {
+            //throw new NotImplementedException();
         }
 
         public Vector3 GetPosition()

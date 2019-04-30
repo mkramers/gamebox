@@ -17,8 +17,8 @@ namespace GameBox
         public override void CreateMainCharacter()
         {
             const float mass = 1.0f;
-            ManBodyFactory manBodyFactory = new ManBodyFactory();
-            BodySprite man = manBodyFactory.GetMan(mass);
+            ManEntityFactory manEntityFactory = new ManEntityFactory();
+            IEntity man = manEntityFactory.GetMan(mass, m_physics2);
 
             Dictionary<Keyboard.Key, ICommand> moveCommands = KeyCommandsFactory.GetBodySpriteCommands(man, 1.0f);
             KeyCommandExecuter moveExecutor = new KeyCommandExecuter(moveCommands);
@@ -26,7 +26,7 @@ namespace GameBox
             m_renderCoreWindow.ClearKeyHandlers();
             m_renderCoreWindow.AddKeyHandler(moveExecutor);
 
-            m_renderCoreWindow.Add(man);
+            m_renderCoreWindow.Add(man.GetDrawable());
         }
     }
 }
