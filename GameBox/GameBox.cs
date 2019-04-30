@@ -22,17 +22,17 @@ namespace GameBox
 
             RenderCoreWindow window = new RenderCoreWindow(renderWindow, new[] { gridWidget });
 
-            ObjectFramework objectFramework = new ObjectFramework();
+            TickableContainer tickableContainer = new TickableContainer();
 
             //order matters
-            objectFramework.Add(physics);
-            objectFramework.Add(window);
+            tickableContainer.Add(physics);
+            tickableContainer.Add(window);
 
             CreateMainCharacter(window, physics);
 
             while (true)
             {
-                objectFramework.Tick();
+                tickableContainer.Tick();
             }
         }
 

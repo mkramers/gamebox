@@ -3,12 +3,12 @@ using System.Diagnostics;
 
 namespace RenderCore
 {
-    public class ObjectFramework
+    public class TickableContainer
     {
         private readonly Stopwatch m_stopwatch;
         private readonly BlockingCollection<ITickable> m_tickables;
 
-        public ObjectFramework()
+        public TickableContainer()
         {
             m_tickables = new BlockingCollection<ITickable>();
 
