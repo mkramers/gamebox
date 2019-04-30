@@ -16,16 +16,15 @@ namespace BepuSample
 
             Physics2 physics = new Physics2(bufferPool);
 
-            IPhysicalBody tc = new PhysicalBody(physics.Simulation);
-            
-            ILandscape landscape = new LandscapeBody(physics.Simulation);
+            IPhysicalBody tc = physics.CreatePhysicalObject();
+            IStaticBody staticBody = physics.CreateStaticObject();
 
             for (int i = 0; i < 100; ++i)
             {
                 physics.Tick(1);
 
                 Vector3 bd = tc.GetPosition();
-                Vector3 lp = landscape.GetPosition();
+                Vector3 lp = staticBody.GetPosition();
                 Console.WriteLine(bd + "\t\t" + lp);
             }
 
