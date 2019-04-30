@@ -9,27 +9,24 @@ using SFML.Window;
 
 namespace RenderCore
 {
-    public class Game
+    public abstract class Game
     {
         private readonly TickableContainer m_tickableContainer;
+        protected readonly RenderCoreWindow m_renderCoreWindow;
 
         public Game(string _windowTitle, Vector2u _windowSize)
         {
             FloatRect viewRect = new FloatRect(-10, 10, 20, 20);
 
-            PhysicsController physics = new PhysicsController();
             RenderWindow renderWindow = RenderWindowFactory.CreateRenderWindow(_windowTitle, _windowSize, viewRect);
             GridWidget gridWidget = new GridWidget(renderWindow.GetView()) { IsDrawEnabled = true };
 
-            RenderCoreWindow window = new RenderCoreWindow(renderWindow, new[] { gridWidget });
+            m_renderCoreWindow = new RenderCoreWindow(renderWindow, new[] { gridWidget });
 
             m_tickableContainer = new TickableContainer();
-
-            CreateMainCharacter(window, physics);
-
+            
             //order matters
-            m_tickableContainer.Add(physics);
-            m_tickableContainer.Add(window);
+            m_tickableContainer.Add(m_renderCoreWindow);
         }
 
         public void StartLoop()
@@ -40,21 +37,7 @@ namespace RenderCore
             }
         }
 
-        private static void CreateMainCharacter(RenderCoreWindow _window, PhysicsController _physics)
-        {
-            const float mass = 1.0f;
-            ManBodyFactory manBodyFactory = new ManBodyFactory();
-            BodySprite man = manBodyFactory.GetMan(mass);
-
-            Dictionary<Keyboard.Key, ICommand> moveCommands = KeyCommandsFactory.GetBodySpriteCommands(man, 1.0f);
-            KeyCommandExecuter moveExecutor = new KeyCommandExecuter(moveCommands);
-
-            _window.ClearKeyHandlers();
-            _window.AddKeyHandler(moveExecutor);
-
-            _physics.Add(man);
-            _window.Add(man);
-        }
+        public abstract void CreateMainCharacter();
     }
 
     public class TickableContainer

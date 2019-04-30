@@ -8,15 +8,25 @@ using SFML.Window;
 
 namespace GameBox
 {
-    public class GameBox
+    public class GameBox : Game
     {
-        public static void Run()
+        public GameBox(string _windowTitle, Vector2u _windowSize) : base(_windowTitle, _windowSize)
         {
-            const string windowTitle = "GameBox";
-            Vector2u windowSize = new Vector2u(600, 600);
-            
-            Game game = new Game(windowTitle, windowSize);
-            game.StartLoop();
+        }
+
+        public override void CreateMainCharacter()
+        {
+            const float mass = 1.0f;
+            ManBodyFactory manBodyFactory = new ManBodyFactory();
+            BodySprite man = manBodyFactory.GetMan(mass);
+
+            Dictionary<Keyboard.Key, ICommand> moveCommands = KeyCommandsFactory.GetBodySpriteCommands(man, 1.0f);
+            KeyCommandExecuter moveExecutor = new KeyCommandExecuter(moveCommands);
+
+            m_renderCoreWindow.ClearKeyHandlers();
+            m_renderCoreWindow.AddKeyHandler(moveExecutor);
+
+            m_renderCoreWindow.Add(man);
         }
     }
 }
