@@ -2,25 +2,75 @@
 using System.Numerics;
 using BepuPhysics;
 using BepuPhysics.Collidables;
+using SFML.Graphics;
 
 namespace RenderCore
 {
+    public interface IEntity : IPhysicalBody, IDrawable
+    {
+    }
+
+    public class PhysicalBodyEntity : IEntity
+    {
+        private readonly Drawable m_drawable;
+        private readonly IPhysicalBody m_body;
+
+        public PhysicalBodyEntity(Drawable _drawable, IPhysicalBody _body)
+        {
+            m_drawable = _drawable;
+            m_body = _body;
+        }
+
+        public void Dispose()
+        {
+            m_body.Dispose();
+        }
+
+        public Vector3 GetPosition()
+        {
+            return m_body.GetPosition();
+        }
+        
+        public Drawable GetDrawable()
+        {
+            return m_drawable;
+        }
+
+        public BodyDescription GetBodyDescription()
+        {
+            return m_body.GetBodyDescription();
+        }
+
+        public void RemoveFromSimulation()
+        {
+            m_body.RemoveFromSimulation();
+        }
+    }
+
+    public interface IDrawable
+    {
+        Drawable GetDrawable();
+    }
+
     public interface IBody : IDisposable
     {
         Vector3 GetPosition();
+
+        void RemoveFromSimulation();
     }
 
-    public interface ICharacter : IBody
+    public interface IPhysicalBody : IBody
     {
+        BodyDescription GetBodyDescription();
     }
-
-    public class TestCharacter : ICharacter
+    
+    public class PhysicalBody : IPhysicalBody
     {
         private readonly int m_bodyIndex;
         private readonly TypedIndex m_shapeIndex;
         private readonly Simulation m_simulation;
 
-        public TestCharacter(Simulation _simulation)
+        public PhysicalBody(Simulation _simulation)
         {
             m_simulation = _simulation;
 
@@ -40,7 +90,7 @@ namespace RenderCore
             m_bodyIndex = _simulation.Bodies.Add(bodyDescription);
         }
 
-        private BodyDescription GetBodyDescription()
+        public BodyDescription GetBodyDescription()
         {
             m_simulation.Bodies.GetDescription(m_bodyIndex, out BodyDescription bodyDescription);
 
@@ -53,7 +103,7 @@ namespace RenderCore
             return bodyDescription.Pose.Position;
         }
 
-        private void RemoveFromSimulation()
+        public void RemoveFromSimulation()
         {
             m_simulation.Shapes.Remove(m_shapeIndex);
             m_simulation.Bodies.Remove(m_bodyIndex);
@@ -67,15 +117,15 @@ namespace RenderCore
 
     public interface ILandscape : IBody
     {
-
+        StaticDescription GetStaticDescription();
     }
 
-    public class TestLandscape : ILandscape
+    public class LandscapeBody : ILandscape
     {
         private readonly int m_handle;
         private readonly Simulation m_simulation;
 
-        public TestLandscape(Simulation _simulation)
+        public LandscapeBody(Simulation _simulation)
         {
             m_simulation = _simulation;
 
@@ -94,13 +144,18 @@ namespace RenderCore
             return staticDescription.Pose.Position;
         }
 
-        private StaticDescription GetStaticDescription()
+        public StaticDescription GetStaticDescription()
         {
             m_simulation.Statics.GetDescription(m_handle, out StaticDescription staticDescription);
             return staticDescription;
         }
 
         public void Dispose()
+        {
+            RemoveFromSimulation();
+        }
+
+        public void RemoveFromSimulation()
         {
             m_simulation.Statics.Remove(m_handle);
         }

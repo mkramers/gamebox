@@ -10,13 +10,11 @@ namespace RenderCore
     {
         public Simulation Simulation { get; }
 
-        public Physics2()
+        public Physics2(BufferPool _bufferPool)
         {
-            BufferPool bufferPool = new BufferPool();
-
             Vector3 gravity = new Vector3(0, -10, 0);
 
-            Simulation = Simulation.Create(bufferPool, new NarrowPhaseCallbacks(),
+            Simulation = Simulation.Create(_bufferPool, new NarrowPhaseCallbacks(),
                 new PoseIntegratorCallbacks(gravity));
         }
 

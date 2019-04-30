@@ -14,11 +14,11 @@ namespace BepuSample
         {
             BufferPool bufferPool = new BufferPool();
 
-            Physics2 physics = new Physics2();
+            Physics2 physics = new Physics2(bufferPool);
 
-            ICharacter tc = new TestCharacter(physics.Simulation);
+            IPhysicalBody tc = new PhysicalBody(physics.Simulation);
             
-            ILandscape landscape = new TestLandscape(physics.Simulation);
+            ILandscape landscape = new LandscapeBody(physics.Simulation);
 
             for (int i = 0; i < 100; ++i)
             {
