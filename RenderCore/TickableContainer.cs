@@ -15,7 +15,7 @@ namespace RenderCore
     {
         private readonly TickableContainer m_tickableContainer;
         protected readonly RenderCoreWindow m_renderCoreWindow;
-        protected readonly Physics2 m_physics2;
+        protected readonly EntityPhysics m_entityPhysics;
         private BufferPool m_bufferPool;
 
         public Game(string _windowTitle, Vector2u _windowSize)
@@ -30,9 +30,10 @@ namespace RenderCore
             m_tickableContainer = new TickableContainer();
 
             m_bufferPool = new BufferPool();
-            m_physics2 = new Physics2(m_bufferPool);
+            m_entityPhysics = new EntityPhysics(m_bufferPool);
 
             //order matters
+            m_tickableContainer.Add(m_entityPhysics);
             m_tickableContainer.Add(m_renderCoreWindow);
         }
 
@@ -50,7 +51,7 @@ namespace RenderCore
         {
             m_bufferPool.Clear();
             m_renderCoreWindow.Dispose();
-            m_physics2.Dispose();
+            m_entityPhysics.Dispose();
         }
     }
 

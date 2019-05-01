@@ -12,9 +12,9 @@ namespace RenderCore
     {
         private readonly List<IEntity> m_entities;
 
-        public EntityPhysics(BufferPool _bufferPool, List<IEntity> _entities) : base(_bufferPool)
+        public EntityPhysics(BufferPool _bufferPool) : base(_bufferPool)
         {
-            m_entities = _entities;
+            m_entities = new List<IEntity>();
         }
 
         public override void Tick(long _elapsedMs)
@@ -25,6 +25,11 @@ namespace RenderCore
             {
                 entity.Tick(_elapsedMs);
             }
+        }
+
+        public void Add(IEntity _entity)
+        {
+            m_entities.Add(_entity);
         }
     }
 
@@ -42,7 +47,8 @@ namespace RenderCore
 
         public virtual void Tick(long _elapsedMs)
         {
-            m_simulation.Timestep(_elapsedMs / 100.0f);
+            //m_simulation.Timestep(_elapsedMs / 100.0f);
+            m_simulation.Timestep(0.001f);
         }
 
         public void Dispose()

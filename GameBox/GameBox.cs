@@ -18,7 +18,9 @@ namespace GameBox
         {
             const float mass = 1.0f;
             ManEntityFactory manEntityFactory = new ManEntityFactory();
-            IEntity man = manEntityFactory.GetMan(mass, m_physics2);
+            IEntity man = manEntityFactory.GetMan(mass, m_entityPhysics);
+
+            m_entityPhysics.Add(man);
 
             Dictionary<Keyboard.Key, ICommand> moveCommands = KeyCommandsFactory.GetBodySpriteCommands(man, 1.0f);
             KeyCommandExecuter moveExecutor = new KeyCommandExecuter(moveCommands);

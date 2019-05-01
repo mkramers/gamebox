@@ -60,6 +60,7 @@ namespace RenderCore
         public void Tick(long _elapsedMs)
         {
             Vector3 position = m_body.GetPosition();
+            Console.WriteLine($"pos: {position.ToString()}");
             SetPosition(position);
         }
     }
@@ -105,7 +106,6 @@ namespace RenderCore
 
         public void ApplyForce(NormalForce _force)
         {
-            //throw new NotImplementedException();
         }
 
         public Vector3 GetPosition()
