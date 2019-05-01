@@ -16,12 +16,12 @@ namespace GameBox
 
         public override void CreateMainCharacter()
         {
-            const float mass = 1.0f;
+            const float mass = 0.1f;
             ManEntityFactory manEntityFactory = new ManEntityFactory();
             IDynamicEntity man = manEntityFactory.GetMan(mass, m_entityPhysics);
 
             m_entityPhysics.Add(man);
-            m_renderCoreWindow.Add(man.GetDrawable());
+            m_renderCoreWindow.Add(man);
 
             LogEntityFactory logEntityFactory = new LogEntityFactory();
 
@@ -30,7 +30,7 @@ namespace GameBox
             {
                 Vector3 position = new Vector3(-range/2 + i, 5, 0);
                 IStaticEntity wood = logEntityFactory.GetLog(m_entityPhysics, position);
-                m_renderCoreWindow.Add(wood.GetDrawable());
+                m_renderCoreWindow.Add(wood);
             }
             
             Dictionary<Keyboard.Key, ICommand> moveCommands = KeyCommandsFactory.GetBodySpriteCommands(man, 1.0f);

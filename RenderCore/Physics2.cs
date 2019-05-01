@@ -10,18 +10,18 @@ namespace RenderCore
 {
     public class EntityPhysics : Physics2
     {
-        private readonly List<IDynamicEntity> m_dynamicEntities;
+        private readonly List<IEntity> m_entities;
 
         public EntityPhysics(BufferPool _bufferPool) : base(_bufferPool)
         {
-            m_dynamicEntities = new List<IDynamicEntity>();
+            m_entities = new List<IEntity>();
         }
 
         public override void Tick(long _elapsedMs)
         {
             base.Tick(_elapsedMs);
 
-            foreach (IDynamicEntity entity in m_dynamicEntities)
+            foreach (IEntity entity in m_entities)
             {
                 entity.Tick(_elapsedMs);
             }
@@ -29,7 +29,7 @@ namespace RenderCore
 
         public void Add(IDynamicEntity _dynamicEntity)
         {
-            m_dynamicEntities.Add(_dynamicEntity);
+            m_entities.Add(_dynamicEntity);
         }
     }
 

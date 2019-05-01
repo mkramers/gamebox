@@ -18,22 +18,13 @@ namespace RenderCore
             m_drawLock = new object();
         }
 
-        public void Add(Drawable _drawable)
+        public void Add(IDrawable _drawable)
         {
             Debug.Assert(_drawable != null);
 
             lock (m_drawLock)
             {
-                m_drawables.Add(_drawable);
-            }
-        }
-        public void Add(IEnumerable<Drawable> _drawables)
-        {
-            Debug.Assert(_drawables != null);
-
-            foreach (Drawable drawable in _drawables)
-            {
-                Add(drawable);
+                m_drawables.Add(_drawable.GetDrawable());
             }
         }
 

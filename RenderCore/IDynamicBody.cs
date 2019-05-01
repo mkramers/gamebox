@@ -7,7 +7,12 @@ using SFML.System;
 
 namespace RenderCore
 {
-    public interface IDynamicEntity : IDynamicBody, IDrawable, ITickable
+    public interface IEntity : IBody, IDrawable, ITickable
+    {
+
+    }
+
+    public interface IDynamicEntity : IDynamicBody, IEntity
     {
     }
 
@@ -99,6 +104,8 @@ namespace RenderCore
 
         public void ApplyForce(NormalForce _force)
         {
+            BodyDescription bodyDescription = GetBodyDescription();
+            bodyDescription.Velocity.Linear = 100*_force.ForceVector.GetVector3();
         }
 
         public Vector3 GetPosition()
@@ -157,7 +164,7 @@ namespace RenderCore
             m_simulation.Statics.Remove(m_handle);
         }
     }
-    public interface IStaticEntity : IStaticBody, IDrawable, ITickable
+    public interface IStaticEntity : IStaticBody, IEntity
     {
     }
 
