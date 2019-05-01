@@ -18,17 +18,26 @@ namespace GameBox
         {
             const float mass = 1.0f;
             ManEntityFactory manEntityFactory = new ManEntityFactory();
-            IEntity man = manEntityFactory.GetMan(mass, m_entityPhysics);
+            IDynamicEntity man = manEntityFactory.GetMan(mass, m_entityPhysics);
 
             m_entityPhysics.Add(man);
+            m_renderCoreWindow.Add(man.GetDrawable());
 
+            LogEntityFactory logEntityFactory = new LogEntityFactory();
+
+            const int range = 20;
+            for (int i = 0; i < range; i++)
+            {
+                Vector3 position = new Vector3(-range/2 + i, 5, 0);
+                IStaticEntity wood = logEntityFactory.GetLog(m_entityPhysics, position);
+                m_renderCoreWindow.Add(wood.GetDrawable());
+            }
+            
             Dictionary<Keyboard.Key, ICommand> moveCommands = KeyCommandsFactory.GetBodySpriteCommands(man, 1.0f);
             KeyCommandExecuter moveExecutor = new KeyCommandExecuter(moveCommands);
 
             m_renderCoreWindow.ClearKeyHandlers();
             m_renderCoreWindow.AddKeyHandler(moveExecutor);
-
-            m_renderCoreWindow.Add(man.GetDrawable());
         }
     }
 }

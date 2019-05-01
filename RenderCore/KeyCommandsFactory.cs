@@ -7,24 +7,24 @@ namespace RenderCore
 {
     public static class KeyCommandsFactory
     {
-        public static Dictionary<Keyboard.Key, ICommand> GetBodySpriteCommands(IPhysicalBody _physicalBody, float _amount)
+        public static Dictionary<Keyboard.Key, ICommand> GetBodySpriteCommands(IDynamicBody _dynamicBody, float _amount)
         {
             Dictionary<Keyboard.Key, ICommand> commandBindings = new Dictionary<Keyboard.Key, ICommand>();
 
             ApplyNormalForceCommand moveUpCommand =
-                new ApplyNormalForceCommand(_physicalBody, new NormalForce(-_amount * Vector2.UnitY));
+                new ApplyNormalForceCommand(_dynamicBody, new NormalForce(-_amount * Vector2.UnitY));
             commandBindings.Add(Keyboard.Key.Up, moveUpCommand);
 
             ApplyNormalForceCommand moveDownCommand =
-                new ApplyNormalForceCommand(_physicalBody, new NormalForce(_amount * Vector2.UnitY));
+                new ApplyNormalForceCommand(_dynamicBody, new NormalForce(_amount * Vector2.UnitY));
             commandBindings.Add(Keyboard.Key.Down, moveDownCommand);
 
             ApplyNormalForceCommand moveLeftCommand =
-                new ApplyNormalForceCommand(_physicalBody, new NormalForce(-_amount * Vector2.UnitX));
+                new ApplyNormalForceCommand(_dynamicBody, new NormalForce(-_amount * Vector2.UnitX));
             commandBindings.Add(Keyboard.Key.Left, moveLeftCommand);
 
             ApplyNormalForceCommand moveRightCommand =
-                new ApplyNormalForceCommand(_physicalBody, new NormalForce(_amount * Vector2.UnitX));
+                new ApplyNormalForceCommand(_dynamicBody, new NormalForce(_amount * Vector2.UnitX));
             commandBindings.Add(Keyboard.Key.Right, moveRightCommand);
 
             return commandBindings;

@@ -16,8 +16,8 @@ namespace BepuSample
 
             Physics2 physics = new Physics2(bufferPool);
 
-            IPhysicalBody tc = physics.CreatePhysicalObject(1.0f);
-            IStaticBody staticBody = physics.CreateStaticObject();
+            IDynamicBody tc = physics.CreateDynamicBody(1.0f);
+            IStaticBody staticBody = physics.CreateStaticBody(5 * Vector3.UnitY);
 
             for (int i = 0; i < 100; ++i)
             {

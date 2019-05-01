@@ -7,16 +7,16 @@ using SFML.System;
 
 namespace RenderCore
 {
-    public interface IEntity : IPhysicalBody, IDrawable, ITickable
+    public interface IDynamicEntity : IDynamicBody, IDrawable, ITickable
     {
     }
 
-    public class PhysicalBodyEntity : IEntity
+    public class DynamicBodyEntity : IDynamicEntity
     {
         private readonly Sprite m_sprite;
-        private readonly IPhysicalBody m_body;
+        private readonly IDynamicBody m_body;
 
-        public PhysicalBodyEntity(Sprite _sprite, IPhysicalBody _body)
+        public DynamicBodyEntity(Sprite _sprite, IDynamicBody _body)
         {
             m_sprite = _sprite;
             m_body = _body;
@@ -36,12 +36,7 @@ namespace RenderCore
         {
             return m_sprite;
         }
-
-        public void SetPosition(Vector3 _position)
-        {
-            m_sprite.Position = _position.GetVector2f();
-        }
-
+        
         public BodyDescription GetBodyDescription()
         {
             return m_body.GetBodyDescription();
@@ -60,15 +55,13 @@ namespace RenderCore
         public void Tick(long _elapsedMs)
         {
             Vector3 position = m_body.GetPosition();
-            Console.WriteLine($"pos: {position.ToString()}");
-            SetPosition(position);
+            m_sprite.Position = position.GetVector2f();
         }
     }
 
     public interface IDrawable
     {
         Drawable GetDrawable();
-        void SetPosition(Vector3 _position);
     }
 
     public interface IBody : IDisposable
@@ -78,19 +71,19 @@ namespace RenderCore
         void RemoveFromSimulation();
     }
 
-    public interface IPhysicalBody : IBody
+    public interface IDynamicBody : IBody
     {
         BodyDescription GetBodyDescription();
         void ApplyForce(NormalForce _force);
     }
     
-    public class PhysicalBody : IPhysicalBody
+    public class DynamicBody : IDynamicBody
     {
         private readonly int m_bodyIndex;
         private readonly TypedIndex m_shapeIndex;
         private readonly Simulation m_simulation;
 
-        public PhysicalBody(TypedIndex _shapeIndex, int _bodyIndex, Simulation _simulation)
+        public DynamicBody(TypedIndex _shapeIndex, int _bodyIndex, Simulation _simulation)
         {
             m_shapeIndex = _shapeIndex;
             m_bodyIndex = _bodyIndex;
@@ -162,6 +155,54 @@ namespace RenderCore
         public void RemoveFromSimulation()
         {
             m_simulation.Statics.Remove(m_handle);
+        }
+    }
+    public interface IStaticEntity : IStaticBody, IDrawable, ITickable
+    {
+    }
+
+    public class StaticBodyEntity : IStaticEntity
+    {
+        private readonly Sprite m_sprite;
+        private readonly IStaticBody m_body;
+
+        public StaticBodyEntity(Sprite _sprite, IStaticBody _body)
+        {
+            m_sprite = _sprite;
+            m_body = _body;
+        }
+
+        public void Dispose()
+        {
+            m_body.Dispose();
+            m_sprite.Dispose();
+        }
+
+        public Vector3 GetPosition()
+        {
+            return m_body.GetPosition();
+        }
+
+        public void RemoveFromSimulation()
+        {
+            m_body.RemoveFromSimulation();
+        }
+
+        public StaticDescription GetStaticDescription()
+        {
+            return m_body.GetStaticDescription();
+        }
+
+        public Drawable GetDrawable()
+        {
+            return m_sprite;
+        }
+
+
+        public void Tick(long _elapsedMs)
+        {
+            Vector3 position = m_body.GetPosition();
+            m_sprite.Position = position.GetVector2f();
         }
     }
 }

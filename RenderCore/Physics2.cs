@@ -10,26 +10,26 @@ namespace RenderCore
 {
     public class EntityPhysics : Physics2
     {
-        private readonly List<IEntity> m_entities;
+        private readonly List<IDynamicEntity> m_dynamicEntities;
 
         public EntityPhysics(BufferPool _bufferPool) : base(_bufferPool)
         {
-            m_entities = new List<IEntity>();
+            m_dynamicEntities = new List<IDynamicEntity>();
         }
 
         public override void Tick(long _elapsedMs)
         {
             base.Tick(_elapsedMs);
 
-            foreach (IEntity entity in m_entities)
+            foreach (IDynamicEntity entity in m_dynamicEntities)
             {
                 entity.Tick(_elapsedMs);
             }
         }
 
-        public void Add(IEntity _entity)
+        public void Add(IDynamicEntity _dynamicEntity)
         {
-            m_entities.Add(_entity);
+            m_dynamicEntities.Add(_dynamicEntity);
         }
     }
 
@@ -39,7 +39,7 @@ namespace RenderCore
 
         public Physics2(BufferPool _bufferPool)
         {
-            Vector3 gravity = new Vector3(0, -10, 0);
+            Vector3 gravity = new Vector3(0, 10, 0);
 
             m_simulation = Simulation.Create(_bufferPool, new NarrowPhaseCallbacks(),
                 new PoseIntegratorCallbacks(gravity));
@@ -56,12 +56,12 @@ namespace RenderCore
             m_simulation?.Dispose();
         }
 
-        public IPhysicalBody CreatePhysicalObject(float _mass)
+        public IDynamicBody CreateDynamicBody(float _mass)
         {
-            Sphere sphere = new Sphere(1);
+            Sphere sphere = new Sphere(0.5f);
             sphere.ComputeInertia(1, out BodyInertia sphereInertia);
 
-            Vector3 position = new Vector3(0, 5, 0);
+            Vector3 position = new Vector3(0, -5, 0);
 
             TypedIndex shapeIndex = m_simulation.Shapes.Add(sphere);
 
@@ -73,17 +73,16 @@ namespace RenderCore
 
             int bodyIndex = m_simulation.Bodies.Add(bodyDescription);
 
-            PhysicalBody physicalBody = new PhysicalBody(shapeIndex, bodyIndex, m_simulation);
-            return physicalBody;
+            DynamicBody dynamicBody = new DynamicBody(shapeIndex, bodyIndex, m_simulation);
+            return dynamicBody;
         }
 
-        public IStaticBody CreateStaticObject()
+        public IStaticBody CreateStaticBody(Vector3 _position)
         {
-            Vector3 staticPosition = new Vector3(0, 0, 0);
-            Box staticBox = new Box(500, 1, 500);
+            Box staticBox = new Box(1, 1, 1);
             TypedIndex boxShapeReference = m_simulation.Shapes.Add(staticBox);
             CollidableDescription staticCollidable = new CollidableDescription(boxShapeReference, 0.1f);
-            StaticDescription staticDescription = new StaticDescription(staticPosition, staticCollidable);
+            StaticDescription staticDescription = new StaticDescription(_position, staticCollidable);
 
             int handle = m_simulation.Statics.Add(staticDescription);
 

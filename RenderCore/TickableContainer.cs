@@ -13,7 +13,7 @@ namespace RenderCore
 {
     public abstract class Game : IDisposable
     {
-        private readonly TickableContainer m_tickableContainer;
+        protected readonly TickableContainer m_tickableContainer;
         protected readonly RenderCoreWindow m_renderCoreWindow;
         protected readonly EntityPhysics m_entityPhysics;
         private BufferPool m_bufferPool;
