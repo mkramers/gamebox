@@ -14,16 +14,16 @@ namespace BepuSample
 
         private static void Physics()
         {
-            Vector2 gravity = new Vector2(0, -100);
+            Vector2 gravity = new Vector2(0, -10);
 
             Physics2 physics = new Physics2(gravity);
 
             IBody dynamicBody = physics.CreateBody(5 * Vector2.UnitY, 1.0f, BodyType.Dynamic);
             IBody staticBody = physics.CreateBody(-5 * Vector2.UnitY, 1.0f, BodyType.Static);
 
-            for (int i = 0; i < 10; ++i)
+            for (int i = 0; i < 1000; ++i)
             {
-                physics.Tick(1);
+                physics.Tick(TimeSpan.FromMilliseconds(30));
 
                 Vector2 bd = dynamicBody.GetPosition();
                 Vector2 lp = staticBody.GetPosition();

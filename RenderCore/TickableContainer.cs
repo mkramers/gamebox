@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
+using System.Threading;
 using System.Windows.Input;
 using SFML.Graphics;
 using SFML.System;
@@ -27,7 +28,7 @@ namespace RenderCore
 
             m_tickableContainer = new TickableContainer();
 
-            Vector2 gravity = new Vector2(0, -10);
+            Vector2 gravity = new Vector2(0, 10);
             m_entityPhysics = new EntityPhysics(gravity);
 
             //order matters
@@ -40,6 +41,7 @@ namespace RenderCore
             while (true)
             {
                 m_tickableContainer.Tick();
+                Thread.Sleep(30);
             }
         }
 
@@ -67,7 +69,7 @@ namespace RenderCore
 
         public void Tick()
         {
-            long elapsed = m_stopwatch.ElapsedMilliseconds;
+            TimeSpan elapsed = m_stopwatch.Elapsed;
 
             foreach (ITickable tickable in m_tickables)
             {

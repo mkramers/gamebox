@@ -20,7 +20,7 @@ namespace RenderCore
             m_keyHandlers = new List<IKeyHandler>();
         }
 
-        public virtual void Tick(long _elapsedMs)
+        public virtual void Tick(TimeSpan _elapsed)
         {
             if (!m_renderWindow.IsOpen)
             {

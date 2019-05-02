@@ -1,4 +1,5 @@
 ﻿
+using System;
 using SFML.Graphics;
 using Vector2 = System.Numerics.Vector2;
 
@@ -77,14 +78,13 @@ namespace RenderCore
         {
             m_body.RemoveFromWorld();
         }
-
-
+        
         public Drawable GetDrawable()
         {
             return m_sprite;
         }
 
-        public void Tick(long _elapsedMs)
+        public void Tick(TimeSpan _elapsed)
         {
             Vector2 position = m_body.GetPosition();
             m_sprite.Position = position.GetVector2f();

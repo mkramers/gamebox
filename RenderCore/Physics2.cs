@@ -15,13 +15,13 @@ namespace RenderCore
             m_entities = new List<IEntity>();
         }
 
-        public override void Tick(long _elapsedMs)
+        public override void Tick(TimeSpan _elapsed)
         {
-            base.Tick(_elapsedMs);
+            base.Tick(_elapsed);
 
             foreach (IEntity entity in m_entities)
             {
-                entity.Tick(_elapsedMs);
+                entity.Tick(_elapsed);
             }
         }
 
@@ -40,9 +40,9 @@ namespace RenderCore
             m_world = new World(_gravity.GetVector2());
         }
 
-        public virtual void Tick(long _elapsedMs)
+        public virtual void Tick(TimeSpan _elapsed)
         {
-            m_world.Step(10);
+            m_world.Step(_elapsed);
         }
 
         public void Dispose()
@@ -55,6 +55,8 @@ namespace RenderCore
             Aether.Physics2D.Dynamics.Body physicsBody = m_world.CreateRectangle(1, 1, _mass, _position.GetVector2(), 0, _bodyType);
             physicsBody.SetRestitution(0.3f);
             physicsBody.SetFriction(0.33f);
+
+            m_world.Add(physicsBody);
 
             Body body = new Body(physicsBody);
             return body;
