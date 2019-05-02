@@ -55,6 +55,6 @@ namespace RenderCore
             window.Close();
         }
 
-        public abstract void DrawScene(RenderWindow _renderWindow);
+        protected abstract void DrawScene(RenderWindow _renderWindow);
     }
 }

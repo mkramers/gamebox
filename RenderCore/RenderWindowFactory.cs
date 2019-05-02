@@ -4,9 +4,9 @@ using SFML.Window;
 
 namespace RenderCore
 {
-    public class RenderWindowFactory
+    public static class RenderWindowFactory
     {
-        public static RenderWindow CreateRenderWindow(string _name, Vector2u _windowSize, FloatRect _viewRect,
+        private static RenderWindow CreateRenderWindow(string _name, Vector2u _windowSize, FloatRect _viewRect,
             FloatRect _viewPortRect)
         {
             Vector2f center = new Vector2f(_viewRect.Left + _viewRect.Width / 2, _viewRect.Top - _viewRect.Height / 2);

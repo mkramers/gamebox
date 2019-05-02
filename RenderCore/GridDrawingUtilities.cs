@@ -5,7 +5,7 @@ using SFML.Graphics;
 
 namespace RenderCore
 {
-    public class GridDrawingUtilities
+    public static class GridDrawingUtilities
     {
         public static IEnumerable<Shape> GetGridDrawableFromView(View _view)
         {

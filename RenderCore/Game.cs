@@ -10,9 +10,9 @@ namespace RenderCore
     {
         protected readonly EntityPhysics m_entityPhysics;
         protected readonly RenderCoreWindow m_renderCoreWindow;
-        protected readonly TickableContainer m_tickableContainer;
+        private readonly TickableContainer m_tickableContainer;
 
-        public Game(string _windowTitle, Vector2u _windowSize)
+        protected Game(string _windowTitle, Vector2u _windowSize)
         {
             FloatRect viewRect = new FloatRect(-10, 10, 20, 20);
 
@@ -45,7 +45,5 @@ namespace RenderCore
                 Thread.Sleep(30);
             }
         }
-
-        public abstract void CreateMainCharacter();
     }
 }

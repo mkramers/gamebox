@@ -39,7 +39,7 @@ namespace RenderCore
             }
         }
 
-        public override void DrawScene(RenderWindow _renderWindow)
+        protected override void DrawScene(RenderWindow _renderWindow)
         {
             lock (m_drawLock)
             {

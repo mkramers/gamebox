@@ -14,7 +14,7 @@ namespace GameBox
         {
         }
 
-        public override void CreateMainCharacter()
+        public void CreateMainCharacter()
         {
             const float mass = 0.1f;
             IEntity man = EntityFactory.CreateEntity(mass, -5 * Vector2.UnitY, m_entityPhysics, ResourceId.MAN,
@@ -34,7 +34,7 @@ namespace GameBox
             }
 
             Dictionary<Keyboard.Key, ICommand> moveCommands = KeyCommandsFactory.GetBodySpriteCommands(man, 0.5f);
-            KeyCommandExecuter moveExecutor = new KeyCommandExecuter(moveCommands);
+            KeyCommandExecutor moveExecutor = new KeyCommandExecutor(moveCommands);
 
             m_renderCoreWindow.ClearKeyHandlers();
             m_renderCoreWindow.AddKeyHandler(moveExecutor);

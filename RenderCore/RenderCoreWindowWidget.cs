@@ -4,7 +4,7 @@ namespace RenderCore
 {
     public abstract class RenderCoreWindowWidget : IRenderCoreWindowWidget
     {
-        public bool IsDrawEnabled { get; set; }
+        public bool IsDrawEnabled { protected get; set; }
 
         public abstract void Draw(RenderTarget _target, RenderStates _states);
 

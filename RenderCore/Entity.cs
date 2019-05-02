@@ -20,7 +20,7 @@ namespace RenderCore
             return m_body.GetPosition();
         }
 
-        public void ApplyForce(NormalForce _force)
+        public void ApplyForce(Vector2 _force)
         {
             m_body.ApplyForce(_force);
         }

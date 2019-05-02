@@ -4,11 +4,11 @@ using SFML.Window;
 
 namespace RenderCore
 {
-    public class KeyCommandExecuter : IKeyHandler
+    public class KeyCommandExecutor : IKeyHandler
     {
         private readonly Dictionary<Keyboard.Key, ICommand> m_keyBindings;
 
-        public KeyCommandExecuter(Dictionary<Keyboard.Key, ICommand> _keyBindings)
+        public KeyCommandExecutor(Dictionary<Keyboard.Key, ICommand> _keyBindings)
         {
             m_keyBindings = _keyBindings;
         }

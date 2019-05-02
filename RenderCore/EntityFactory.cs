@@ -4,7 +4,7 @@ using SFML.Graphics;
 
 namespace RenderCore
 {
-    public class EntityFactory
+    public static class EntityFactory
     {
         public static IEntity CreateEntity(float _mass, Vector2 _position, Physics2 _physics2, ResourceId _resourceId,
             BodyType _bodyType)

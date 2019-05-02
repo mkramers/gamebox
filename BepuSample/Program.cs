@@ -5,9 +5,9 @@ using RenderCore;
 
 namespace BepuSample
 {
-    internal class Program
+    internal static class Program
     {
-        private static void Main(string[] _args)
+        private static void Main()
         {
             Physics();
         }

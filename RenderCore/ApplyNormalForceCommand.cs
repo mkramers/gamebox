@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Numerics;
 
 namespace RenderCore
 {
     public class ApplyNormalForceCommand : IMoveCommand
     {
         private readonly IBody m_body;
-        private readonly NormalForce m_force;
+        private readonly Vector2 m_force;
 
-        public ApplyNormalForceCommand(IBody _body, NormalForce _force)
+        public ApplyNormalForceCommand(IBody _body, Vector2 _force)
         {
             m_body = _body;
             m_force = _force;
