@@ -3,9 +3,9 @@ using SFML.System;
 
 namespace RenderCore
 {
-    public class SpriteFactory
+    public static class SpriteFactory
     {
-        public Sprite GetSprite(ResourceId _resourceId)
+        public static Sprite GetSprite(ResourceId _resourceId)
         {
             ResourceFactory resourceFactory = new ResourceFactory();
             Texture texture = resourceFactory.GetTexture(_resourceId);

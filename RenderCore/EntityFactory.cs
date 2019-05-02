@@ -9,8 +9,7 @@ namespace RenderCore
         public static IEntity CreateEntity(float _mass, Vector2 _position, Physics2 _physics2, ResourceId _resourceId,
             BodyType _bodyType)
         {
-            SpriteFactory spriteFactory = new SpriteFactory();
-            Sprite sprite = spriteFactory.GetSprite(_resourceId);
+            Sprite sprite = SpriteFactory.GetSprite(_resourceId);
 
             IBody body = _physics2.CreateBody(_position, _mass, _bodyType);
 

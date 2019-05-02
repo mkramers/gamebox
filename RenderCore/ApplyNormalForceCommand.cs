@@ -24,6 +24,6 @@ namespace RenderCore
             m_body.ApplyForce(m_force);
         }
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged { add { } remove { } }
     }
 }

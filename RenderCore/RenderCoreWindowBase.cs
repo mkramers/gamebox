@@ -47,7 +47,7 @@ namespace RenderCore
             m_keyHandlers.ForEach(_keyHandler => _keyHandler.KeyPressed(_e));
         }
 
-        private void RenderWindowOnClosed(object _sender, EventArgs _e)
+        private static void RenderWindowOnClosed(object _sender, EventArgs _e)
         {
             RenderWindow window = _sender as RenderWindow;
             Debug.Assert(window != null);

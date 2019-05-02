@@ -6,6 +6,16 @@
     <StartupObject></StartupObject>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+
   <Target Name="CopySFMLBinaries" AfterTargets="BeforeBuild">
     <Copy SourceFiles="../external/csfml-2.5/csfml-system-2.dll" DestinationFolder="$(OutDir)" />
     <Copy SourceFiles="../external/csfml-2.5/csfml-graphics-2.dll" DestinationFolder="$(OutDir)" />
