@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameBox", "GameBox\GameBox.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RenderCore", "RenderCore\RenderCore.csproj", "{3B15D191-D255-4CC6-8772-79ECAA0312D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BepuSample", "BepuSample\BepuSample.csproj", "{F52B8848-997B-4833-98C2-3754209FF5F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhysicsSample", "BepuSample\PhysicsSample.csproj", "{F52B8848-997B-4833-98C2-3754209FF5F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

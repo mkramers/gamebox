@@ -20,8 +20,7 @@ namespace GameBox
             IEntity man = EntityFactory.CreateEntity(mass, -5 * Vector2.UnitY, m_entityPhysics, ResourceId.MAN,
                 BodyType.Dynamic);
 
-            m_entityPhysics.Add(man);
-            m_renderCoreWindow.Add(man);
+            AddEntity(man);
 
             const int range = 20;
             for (int i = 0; i < range; i++)

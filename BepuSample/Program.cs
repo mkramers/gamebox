@@ -3,7 +3,7 @@ using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using RenderCore;
 
-namespace BepuSample
+namespace PhysicsSample
 {
     internal static class Program
     {
@@ -29,7 +29,7 @@ namespace BepuSample
                 Vector2 lp = staticBody.GetPosition();
                 Console.WriteLine(bd + "\t\t" + lp);
             }
-
+            
             physics.Dispose();
         }
     }
