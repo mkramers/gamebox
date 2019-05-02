@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using Aether.Physics2D.Dynamics;
 using SFML.Graphics;
 using SFML.System;
 
@@ -6,12 +7,12 @@ namespace RenderCore
 {
     public class EntityFactory
     {
-        public IEntity CreateEntity(float _mass, Physics2 _physics2, ResourceId _resourceId)
+        public static IEntity CreateEntity(float _mass, Vector2 _position, Physics2 _physics2, ResourceId _resourceId, BodyType _bodyType)
         {
             SpriteFactory spriteFactory = new SpriteFactory();
             Sprite sprite = spriteFactory.GetSprite(_resourceId);
 
-            IBody body = _physics2.CreateDynamicBody(_mass);
+            IBody body = _physics2.CreateBody(_position, _mass, _bodyType);
 
             Entity entity = new Entity(sprite, body);
             return entity;

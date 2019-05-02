@@ -50,26 +50,14 @@ namespace RenderCore
             m_world.Clear();
         }
 
-        public IBody CreateDynamicBody(float _mass)
+        public IBody CreateBody(Vector2 _position, float _mass, BodyType _bodyType)
         {
-            Vector2 position = new Vector2(0, 5);
-
-            Aether.Physics2D.Dynamics.Body physicsBody = m_world.CreateRectangle(1, 1, _mass, position.GetVector2(), 0, BodyType.Dynamic);
+            Aether.Physics2D.Dynamics.Body physicsBody = m_world.CreateRectangle(1, 1, _mass, _position.GetVector2(), 0, _bodyType);
             physicsBody.SetRestitution(0.3f);
-            physicsBody.SetFriction(0.5f);
+            physicsBody.SetFriction(0.33f);
 
             Body body = new Body(physicsBody);
             return body;
         }
-
-        public IBody CreateStaticBody(Vector2 _position, float _mass)
-        {
-            Aether.Physics2D.Dynamics.Body physicsBody = m_world.CreateRectangle(1, 1, _mass, _position.GetVector2());
-            physicsBody.SetRestitution(0.3f);
-            physicsBody.SetFriction(0.5f);
-
-            Body body = new Body(physicsBody);
-            return body;
-       }
     }
 }

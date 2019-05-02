@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using Aether.Physics2D.Dynamics;
 using RenderCore;
 
 namespace BepuSample
@@ -13,19 +14,19 @@ namespace BepuSample
 
         private static void Physics()
         {
-            Vector2 gravity = new Vector2(0, -10);
+            Vector2 gravity = new Vector2(0, -100);
 
             Physics2 physics = new Physics2(gravity);
 
-            IBody tc = physics.CreateDynamicBody(1.0f);
-            IBody staticBody = physics.CreateStaticBody(-5 * Vector2.UnitY, 1);
+            IBody dynamicBody = physics.CreateBody(5 * Vector2.UnitY, 1.0f, BodyType.Dynamic);
+            IBody staticBody = physics.CreateBody(-5 * Vector2.UnitY, 1.0f, BodyType.Static);
 
-            for (int i = 0; i < 100; ++i)
+            for (int i = 0; i < 10; ++i)
             {
                 physics.Tick(1);
 
-                var bd = tc.GetPosition();
-                var lp = staticBody.GetPosition();
+                Vector2 bd = dynamicBody.GetPosition();
+                Vector2 lp = staticBody.GetPosition();
                 Console.WriteLine(bd + "\t\t" + lp);
             }
 

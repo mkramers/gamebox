@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
 using System.Windows.Input;
+using Aether.Physics2D.Dynamics;
 using RenderCore;
 using SFML.Graphics;
 using SFML.System;
@@ -17,8 +18,7 @@ namespace GameBox
         public override void CreateMainCharacter()
         {
             const float mass = 0.1f;
-            EntityFactory entityFactory = new EntityFactory();
-            IEntity man = entityFactory.CreateEntity(mass, m_entityPhysics, ResourceId.MAN);
+            IEntity man = EntityFactory.CreateEntity(mass, 5*Vector2.UnitY,  m_entityPhysics, ResourceId.MAN, BodyType.Dynamic);
 
             m_entityPhysics.Add(man);
             m_renderCoreWindow.Add(man);
@@ -26,8 +26,8 @@ namespace GameBox
             const int range = 20;
             for (int i = 0; i < range; i++)
             {
-                Vector3 position = new Vector3(-range/2 + i, 5, 0);
-                IEntity wood = entityFactory.CreateEntity(1, m_entityPhysics, ResourceId.WOOD);
+                Vector2 position = new Vector2(-range/2 + i, 5);
+                IEntity wood = EntityFactory.CreateEntity(1, position, m_entityPhysics, ResourceId.WOOD, BodyType.Static);
                 m_renderCoreWindow.Add(wood);
             }
             
