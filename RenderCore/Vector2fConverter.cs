@@ -3,7 +3,7 @@ using SFML.System;
 
 namespace RenderCore
 {
-    public static class Vector2fConverter
+    public static class Vector2FConverter
     {
         public static Vector2 GetVector2(this Vector2f _vector)
         {

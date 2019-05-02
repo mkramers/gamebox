@@ -38,7 +38,7 @@ namespace RenderCore
         public void Tick(TimeSpan _elapsed)
         {
             Vector2 position = m_body.GetPosition();
-            m_sprite.Position = position.GetVector2f();
+            m_sprite.Position = position.GetVector2F();
         }
 
         public void Dispose()

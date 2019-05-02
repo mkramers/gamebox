@@ -44,7 +44,7 @@ namespace RenderCore
 
             RectangleShape rectangleShape = new RectangleShape(size)
             {
-                Position = _line.End.GetVector2f(),
+                Position = _line.End.GetVector2F(),
                 Rotation = angle
             };
             return rectangleShape;
