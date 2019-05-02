@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using SFML;
 using SFML.Graphics;
 using SFML.System;
 
@@ -10,7 +9,8 @@ namespace RenderCore
 {
     public static class DrawableFactory
     {
-        public static IEnumerable<Shape> GetGridShapes(int _rows, int _columns, Vector2 _size, float _lineThickness, Vector2 _position)
+        public static IEnumerable<Shape> GetGridShapes(int _rows, int _columns, Vector2 _size, float _lineThickness,
+            Vector2 _position)
         {
             Vector2 cellSize = new Vector2(_size.X / _columns, _size.Y / _rows);
 

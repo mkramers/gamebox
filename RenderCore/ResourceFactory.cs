@@ -14,8 +14,8 @@ namespace RenderCore
         {
             m_textureMetaInfo = new Dictionary<ResourceId, TextureMetaInfo>
             {
-                { ResourceId.MAN,  new TextureMetaInfo("RenderCore.Resources.man.png", new IntRect(50, 24, 24, 24))},
-                { ResourceId.WOOD, new TextureMetaInfo("RenderCore.Resources.wood.bmp")}
+                {ResourceId.MAN, new TextureMetaInfo("RenderCore.Resources.man.png", new IntRect(50, 24, 24, 24))},
+                {ResourceId.WOOD, new TextureMetaInfo("RenderCore.Resources.wood.bmp")}
             };
         }
 
@@ -27,7 +27,9 @@ namespace RenderCore
 
             Image image = new Image(resourceData);
 
-            Texture texture = resourceMeta.TextureCropRect.HasValue ? new Texture(image, resourceMeta.TextureCropRect.Value) : new Texture(image);
+            Texture texture = resourceMeta.TextureCropRect.HasValue
+                ? new Texture(image, resourceMeta.TextureCropRect.Value)
+                : new Texture(image);
 
             return texture;
         }

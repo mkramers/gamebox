@@ -11,7 +11,7 @@ namespace RenderCore
         {
             Vector2f center = new Vector2f(_viewRect.Left + _viewRect.Width / 2, _viewRect.Top - _viewRect.Height / 2);
 
-            View view = new View(_viewRect) { Viewport = _viewPortRect, Center = center};
+            View view = new View(_viewRect) {Viewport = _viewPortRect, Center = center};
 
             VideoMode videoMode = new VideoMode(_windowSize.X, _windowSize.Y);
             RenderWindow window = new RenderWindow(videoMode, _name);

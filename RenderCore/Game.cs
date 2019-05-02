@@ -8,18 +8,18 @@ namespace RenderCore
 {
     public abstract class Game : IDisposable
     {
-        protected readonly TickableContainer m_tickableContainer;
-        protected readonly RenderCoreWindow m_renderCoreWindow;
         protected readonly EntityPhysics m_entityPhysics;
+        protected readonly RenderCoreWindow m_renderCoreWindow;
+        protected readonly TickableContainer m_tickableContainer;
 
         public Game(string _windowTitle, Vector2u _windowSize)
         {
             FloatRect viewRect = new FloatRect(-10, 10, 20, 20);
 
             RenderWindow renderWindow = RenderWindowFactory.CreateRenderWindow(_windowTitle, _windowSize, viewRect);
-            GridWidget gridWidget = new GridWidget(renderWindow.GetView()) { IsDrawEnabled = true };
+            GridWidget gridWidget = new GridWidget(renderWindow.GetView()) {IsDrawEnabled = true};
 
-            m_renderCoreWindow = new RenderCoreWindow(renderWindow, new[] { gridWidget });
+            m_renderCoreWindow = new RenderCoreWindow(renderWindow, new[] {gridWidget});
 
             m_tickableContainer = new TickableContainer();
 
@@ -29,6 +29,12 @@ namespace RenderCore
             //order matters
             m_tickableContainer.Add(m_entityPhysics);
             m_tickableContainer.Add(m_renderCoreWindow);
+        }
+
+        public void Dispose()
+        {
+            m_renderCoreWindow.Dispose();
+            m_entityPhysics.Dispose();
         }
 
         public void StartLoop()
@@ -41,11 +47,5 @@ namespace RenderCore
         }
 
         public abstract void CreateMainCharacter();
-
-        public void Dispose()
-        {
-            m_renderCoreWindow.Dispose();
-            m_entityPhysics.Dispose();
-        }
     }
 }

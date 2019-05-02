@@ -9,6 +9,7 @@ namespace RenderCore
         {
             return new Vector2(_vector.X, _vector.Y);
         }
+
         public static Vector2f GetVector2f(this Aether.Physics2D.Common.Maths.Vector2 _vector)
         {
             return new Vector2f(_vector.X, _vector.Y);

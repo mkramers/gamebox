@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Windows.Input;
-using SFML.Window;
 
 namespace RenderCore
 {

@@ -1,4 +1,5 @@
-﻿using Vector2 = System.Numerics.Vector2;
+﻿using System.Numerics;
+using Aether.Physics2D.Dynamics;
 
 namespace RenderCore
 {
@@ -23,7 +24,7 @@ namespace RenderCore
 
         public void RemoveFromWorld()
         {
-            var world = m_body.World;
+            World world = m_body.World;
             world.Remove(m_body);
         }
     }

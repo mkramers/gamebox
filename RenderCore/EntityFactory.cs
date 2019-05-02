@@ -1,13 +1,13 @@
 ﻿using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using SFML.Graphics;
-using SFML.System;
 
 namespace RenderCore
 {
     public class EntityFactory
     {
-        public static IEntity CreateEntity(float _mass, Vector2 _position, Physics2 _physics2, ResourceId _resourceId, BodyType _bodyType)
+        public static IEntity CreateEntity(float _mass, Vector2 _position, Physics2 _physics2, ResourceId _resourceId,
+            BodyType _bodyType)
         {
             SpriteFactory spriteFactory = new SpriteFactory();
             Sprite sprite = spriteFactory.GetSprite(_resourceId);

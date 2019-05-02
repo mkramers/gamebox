@@ -3,8 +3,7 @@ using SFML.Graphics;
 
 namespace RenderCore
 {
-    public interface IRenderCoreWindowWidget: Drawable, IDisposable
+    public interface IRenderCoreWindowWidget : Drawable, IDisposable
     {
-
     }
 }

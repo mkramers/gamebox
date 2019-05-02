@@ -6,18 +6,13 @@ namespace RenderCore
 {
     public class Entity : IEntity
     {
-        private readonly Sprite m_sprite;
         private readonly IBody m_body;
+        private readonly Sprite m_sprite;
 
         public Entity(Sprite _sprite, IBody _body)
         {
             m_sprite = _sprite;
             m_body = _body;
-        }
-
-        public void Dispose()
-        {
-            m_sprite.Dispose();
         }
 
         public Vector2 GetPosition()
@@ -34,7 +29,7 @@ namespace RenderCore
         {
             m_body.RemoveFromWorld();
         }
-        
+
         public Drawable GetDrawable()
         {
             return m_sprite;
@@ -44,6 +39,11 @@ namespace RenderCore
         {
             Vector2 position = m_body.GetPosition();
             m_sprite.Position = position.GetVector2f();
+        }
+
+        public void Dispose()
+        {
+            m_sprite.Dispose();
         }
     }
 }
