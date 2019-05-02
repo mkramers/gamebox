@@ -13,7 +13,9 @@ namespace BepuSample
 
         private static void Physics()
         {
-            Physics2 physics = new Physics2();
+            Vector2 gravity = new Vector2(0, -10);
+
+            Physics2 physics = new Physics2(gravity);
 
             IBody tc = physics.CreateDynamicBody(1.0f);
             IBody staticBody = physics.CreateStaticBody(-5 * Vector2.UnitY, 1);

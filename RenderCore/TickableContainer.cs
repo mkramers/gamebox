@@ -27,7 +27,8 @@ namespace RenderCore
 
             m_tickableContainer = new TickableContainer();
 
-            m_entityPhysics = new EntityPhysics();
+            Vector2 gravity = new Vector2(0, -10);
+            m_entityPhysics = new EntityPhysics(gravity);
 
             //order matters
             m_tickableContainer.Add(m_entityPhysics);

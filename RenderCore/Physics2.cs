@@ -10,7 +10,7 @@ namespace RenderCore
     {
         private readonly List<IEntity> m_entities;
 
-        public EntityPhysics()
+        public EntityPhysics(Vector2 _gravity) : base(_gravity)
         {
             m_entities = new List<IEntity>();
         }
@@ -35,10 +35,9 @@ namespace RenderCore
     {
         private readonly World m_world;
 
-        public Physics2()
+        public Physics2(Vector2 _gravity)
         {
-            Vector2 gravity = new Vector2(0, -10);
-            m_world = new World();
+            m_world = new World(_gravity.GetVector2());
         }
 
         public virtual void Tick(long _elapsedMs)
