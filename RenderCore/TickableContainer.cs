@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
 using System.Windows.Input;
-using BepuUtilities.Memory;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
@@ -16,7 +15,6 @@ namespace RenderCore
         protected readonly TickableContainer m_tickableContainer;
         protected readonly RenderCoreWindow m_renderCoreWindow;
         protected readonly EntityPhysics m_entityPhysics;
-        private BufferPool m_bufferPool;
 
         public Game(string _windowTitle, Vector2u _windowSize)
         {
@@ -29,8 +27,7 @@ namespace RenderCore
 
             m_tickableContainer = new TickableContainer();
 
-            m_bufferPool = new BufferPool();
-            m_entityPhysics = new EntityPhysics(m_bufferPool);
+            m_entityPhysics = new EntityPhysics();
 
             //order matters
             m_tickableContainer.Add(m_entityPhysics);
@@ -49,7 +46,6 @@ namespace RenderCore
 
         public void Dispose()
         {
-            m_bufferPool.Clear();
             m_renderCoreWindow.Dispose();
             m_entityPhysics.Dispose();
         }

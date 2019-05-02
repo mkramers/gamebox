@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Numerics;
-using BepuPhysics;
-using BepuPhysics.Collidables;
-using BepuUtilities.Memory;
-using RenderCore.Physics;
+using Aether.Physics2D.Common.Maths;
+using Aether.Physics2D.Dynamics;
+using Vector2 = System.Numerics.Vector2;
 
 namespace RenderCore
 {
@@ -12,7 +10,7 @@ namespace RenderCore
     {
         private readonly List<IEntity> m_entities;
 
-        public EntityPhysics(BufferPool _bufferPool) : base(_bufferPool)
+        public EntityPhysics()
         {
             m_entities = new List<IEntity>();
         }
@@ -27,67 +25,52 @@ namespace RenderCore
             }
         }
 
-        public void Add(IDynamicEntity _dynamicEntity)
+        public void Add(IEntity _entity)
         {
-            m_entities.Add(_dynamicEntity);
+            m_entities.Add(_entity);
         }
     }
 
     public class Physics2 : ITickable, IDisposable
     {
-        private readonly Simulation m_simulation;
+        private readonly World m_world;
 
-        public Physics2(BufferPool _bufferPool)
+        public Physics2()
         {
-            Vector3 gravity = new Vector3(0, 10, 0);
-
-            m_simulation = Simulation.Create(_bufferPool, new NarrowPhaseCallbacks(),
-                new PoseIntegratorCallbacks(gravity));
+            Vector2 gravity = new Vector2(0, -10);
+            m_world = new World();
         }
 
         public virtual void Tick(long _elapsedMs)
         {
-            //m_simulation.Timestep(_elapsedMs / 100.0f);
-            m_simulation.Timestep(0.001f);
+            m_world.Step(10);
         }
 
         public void Dispose()
         {
-            m_simulation?.Dispose();
+            m_world.Clear();
         }
 
-        public IDynamicBody CreateDynamicBody(float _mass)
+        public IBody CreateDynamicBody(float _mass)
         {
-            Sphere sphere = new Sphere(0.5f);
-            sphere.ComputeInertia(1, out BodyInertia sphereInertia);
+            Vector2 position = new Vector2(0, 5);
 
-            Vector3 position = new Vector3(0, -5, 0);
+            Aether.Physics2D.Dynamics.Body physicsBody = m_world.CreateRectangle(1, 1, _mass, position.GetVector2(), 0, BodyType.Dynamic);
+            physicsBody.SetRestitution(0.3f);
+            physicsBody.SetFriction(0.5f);
 
-            TypedIndex shapeIndex = m_simulation.Shapes.Add(sphere);
-
-            CollidableDescription collidableDescription = new CollidableDescription(shapeIndex, 0.1f);
-            BodyActivityDescription bodyActivityDescription = new BodyActivityDescription(0.01f);
-
-            BodyDescription bodyDescription = BodyDescription.CreateDynamic(position, sphereInertia,
-                collidableDescription, bodyActivityDescription);
-
-            int bodyIndex = m_simulation.Bodies.Add(bodyDescription);
-
-            DynamicBody dynamicBody = new DynamicBody(shapeIndex, bodyIndex, m_simulation);
-            return dynamicBody;
+            Body body = new Body(physicsBody);
+            return body;
         }
 
-        public IStaticBody CreateStaticBody(Vector3 _position)
+        public IBody CreateStaticBody(Vector2 _position, float _mass)
         {
-            Box staticBox = new Box(1, 1, 1);
-            TypedIndex boxShapeReference = m_simulation.Shapes.Add(staticBox);
-            CollidableDescription staticCollidable = new CollidableDescription(boxShapeReference, 0.1f);
-            StaticDescription staticDescription = new StaticDescription(_position, staticCollidable);
+            Aether.Physics2D.Dynamics.Body physicsBody = m_world.CreateRectangle(1, 1, _mass, _position.GetVector2());
+            physicsBody.SetRestitution(0.3f);
+            physicsBody.SetFriction(0.5f);
 
-            int handle = m_simulation.Statics.Add(staticDescription);
-
-            StaticBody staticBody = new StaticBody(handle, m_simulation);
-            return staticBody;
-        }
+            Body body = new Body(physicsBody);
+            return body;
+       }
     }
 }

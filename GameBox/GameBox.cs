@@ -17,19 +17,17 @@ namespace GameBox
         public override void CreateMainCharacter()
         {
             const float mass = 0.1f;
-            ManEntityFactory manEntityFactory = new ManEntityFactory();
-            IDynamicEntity man = manEntityFactory.GetMan(mass, m_entityPhysics);
+            EntityFactory entityFactory = new EntityFactory();
+            IEntity man = entityFactory.CreateEntity(mass, m_entityPhysics, ResourceId.MAN);
 
             m_entityPhysics.Add(man);
             m_renderCoreWindow.Add(man);
-
-            LogEntityFactory logEntityFactory = new LogEntityFactory();
-
+            
             const int range = 20;
             for (int i = 0; i < range; i++)
             {
                 Vector3 position = new Vector3(-range/2 + i, 5, 0);
-                IStaticEntity wood = logEntityFactory.GetLog(m_entityPhysics, position);
+                IEntity wood = entityFactory.CreateEntity(1, m_entityPhysics, ResourceId.WOOD);
                 m_renderCoreWindow.Add(wood);
             }
             

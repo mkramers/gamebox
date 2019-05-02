@@ -4,12 +4,12 @@ namespace RenderCore
 {
     public class ApplyNormalForceCommand : IMoveCommand
     {
-        private readonly IDynamicBody m_dynamicBody;
+        private readonly IBody m_body;
         private readonly NormalForce m_force;
 
-        public ApplyNormalForceCommand(IDynamicBody _dynamicBody, NormalForce _force)
+        public ApplyNormalForceCommand(IBody _body, NormalForce _force)
         {
-            m_dynamicBody = _dynamicBody;
+            m_body = _body;
             m_force = _force;
         }
 
@@ -20,7 +20,7 @@ namespace RenderCore
 
         public void Execute(object _parameter)
         {
-            m_dynamicBody.ApplyForce(m_force);
+            m_body.ApplyForce(m_force);
         }
 
         public event EventHandler CanExecuteChanged;

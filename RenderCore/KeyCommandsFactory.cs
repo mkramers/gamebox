@@ -7,7 +7,7 @@ namespace RenderCore
 {
     public static class KeyCommandsFactory
     {
-        public static Dictionary<Keyboard.Key, ICommand> GetBodySpriteCommands(IDynamicBody _dynamicBody, float _amount)
+        public static Dictionary<Keyboard.Key, ICommand> GetBodySpriteCommands(IBody _dynamicBody, float _amount)
         {
             Dictionary<Keyboard.Key, ICommand> commandBindings = new Dictionary<Keyboard.Key, ICommand>();
 

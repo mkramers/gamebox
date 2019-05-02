@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Numerics;
-using BepuPhysics;
-using BepuPhysics.Collidables;
-using BepuUtilities.Memory;
 using RenderCore;
-using RenderCore.Physics;
 
 namespace BepuSample
 {
@@ -12,26 +8,26 @@ namespace BepuSample
     {
         private static void Main(string[] _args)
         {
-            BufferPool bufferPool = new BufferPool();
+            Physics();
+        }
 
-            Physics2 physics = new Physics2(bufferPool);
+        private static void Physics()
+        {
+            Physics2 physics = new Physics2();
 
-            IDynamicBody tc = physics.CreateDynamicBody(1.0f);
-            IStaticBody staticBody = physics.CreateStaticBody(5 * Vector3.UnitY);
+            IBody tc = physics.CreateDynamicBody(1.0f);
+            IBody staticBody = physics.CreateStaticBody(-5 * Vector2.UnitY, 1);
 
             for (int i = 0; i < 100; ++i)
             {
                 physics.Tick(1);
 
-                Vector3 bd = tc.GetPosition();
-                Vector3 lp = staticBody.GetPosition();
+                var bd = tc.GetPosition();
+                var lp = staticBody.GetPosition();
                 Console.WriteLine(bd + "\t\t" + lp);
             }
 
-            tc.Dispose();
-
             physics.Dispose();
-            bufferPool.Clear();
         }
     }
 }
