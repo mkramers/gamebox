@@ -48,7 +48,8 @@ namespace RenderCore
 
         public void Dispose()
         {
-            m_body.RemoveFromWorld();
+            RemoveFromWorld();
+
             m_sprite.Dispose();
         }
     }

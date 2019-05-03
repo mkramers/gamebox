@@ -30,7 +30,7 @@ namespace RenderCore
         public void RemoveFromWorld()
         {
             World world = m_body.World;
-            world.Remove(m_body);
+            world?.Remove(m_body);
         }
     }
 }

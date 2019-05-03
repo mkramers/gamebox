@@ -12,6 +12,7 @@ namespace GameBox
             GameBox gameBox = new GameBox(windowTitle, windowSize);
             gameBox.CreateMainCharacter();
             gameBox.StartLoop();
+            gameBox.Dispose();
         }
     }
 }
