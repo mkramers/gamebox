@@ -19,7 +19,7 @@ namespace RenderCore
 
         public void ApplyForce(Vector2 _force)
         {
-            m_body.ApplyLinearImpulse(_force.GetVector2());
+            m_body.ApplyForce(_force.GetVector2());
         }
 
         public void RemoveFromWorld()

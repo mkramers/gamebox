@@ -32,7 +32,7 @@ namespace GameBox
                 m_renderCoreWindow.Add(wood);
             }
 
-            Dictionary<Keyboard.Key, IKeyCommand> moveCommands = KeyCommandsFactory.GetMovementCommands(man, 0.5f);
+            Dictionary<Keyboard.Key, IKeyCommand> moveCommands = KeyCommandsFactory.GetMovementCommands(man, 2f);
             KeyHandler moveExecutor = KeyHandlerFactory.CreateKeyHandler(moveCommands); 
 
             m_keyHandlers.Add(moveExecutor);
