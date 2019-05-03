@@ -22,20 +22,44 @@ namespace GameBox
 
             AddEntity(man);
 
-            const int range = 20;
-            for (int i = 0; i < range; i++)
-            {
-                Vector2 position = new Vector2(-range / 2 + i, 5);
-                IEntity wood =
-                    EntityFactory.CreateEntity(1, position, m_entityPhysics, ResourceId.WOOD, BodyType.Static);
-                m_entityPhysics.Add(wood);
-                m_renderCoreWindow.Add(wood);
-            }
+            CreateLandscape();
 
             Dictionary<Keyboard.Key, IKeyCommand> moveCommands = KeyCommandsFactory.GetMovementCommands(man, 2f);
             KeyHandler moveExecutor = KeyHandlerFactory.CreateKeyHandler(moveCommands); 
 
             m_keyHandlers.Add(moveExecutor);
+        }
+
+        private void CreateLandscape()
+        {
+            const int range = 20;
+
+            IEnumerable<Vector2> positions = GetPyramid(new Vector2(-10, 5), range);
+
+            foreach (Vector2 pyramidPosition in positions)
+            {
+                IEntity wood =
+                    EntityFactory.CreateEntity(1, pyramidPosition, m_entityPhysics, ResourceId.WOOD, BodyType.Static);
+
+                AddEntity(wood);
+            }
+        }
+
+        private static IEnumerable<Vector2> GetPyramid(Vector2 _position, int _size)
+        {
+            List<Vector2> positions = new List<Vector2>();
+
+            for (int i = 0; i < _size; i++)
+            {
+                int height = i + 1;
+                for (int j = 0; j < height; j++)
+                {
+                    Vector2 position = _position + new Vector2(i, -j);
+                    positions.Add(position);
+                }
+            }
+
+            return positions;
         }
     }
 }
