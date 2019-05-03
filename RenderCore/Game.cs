@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Numerics;
 using System.Threading;
 using SFML.Graphics;
@@ -11,8 +12,9 @@ namespace RenderCore
     {
         protected readonly EntityPhysics m_entityPhysics;
         protected readonly RenderCoreWindow m_renderCoreWindow;
-        private readonly TickableContainer m_tickableContainer;
+        private readonly TickableContainer m_objectFramework;
         private readonly List<IEntity> m_entities;
+        protected readonly TickableContainer m_keyHandlers; 
         private bool m_shouldLoopExit;
 
         protected Game(string _windowTitle, Vector2u _windowSize)
@@ -25,14 +27,17 @@ namespace RenderCore
 
             m_renderCoreWindow = new RenderCoreWindow(renderWindow, new[] {gridWidget});
 
-            m_tickableContainer = new TickableContainer();
+            m_objectFramework = new TickableContainer();
+
+            m_keyHandlers =  new TickableContainer();
 
             Vector2 gravity = new Vector2(0, 10);
             m_entityPhysics = new EntityPhysics(gravity);
 
             //order matters
-            m_tickableContainer.Add(m_entityPhysics);
-            m_tickableContainer.Add(m_renderCoreWindow);
+            m_objectFramework.Add(m_entityPhysics);
+            m_objectFramework.Add(m_renderCoreWindow);
+            m_objectFramework.Add(m_keyHandlers);
 
             m_entities = new List<IEntity>();
         }
@@ -64,11 +69,17 @@ namespace RenderCore
 
         public void StartLoop()
         {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
             while (true)
             {
-                m_tickableContainer.Tick();
-                Thread.Sleep(30);
+                m_objectFramework.Tick(stopwatch.Elapsed);
 
+                stopwatch.Restart();
+
+                //too fast!
+                Thread.Sleep(30);
+                
                 if (m_shouldLoopExit)
                 {
                     break;

@@ -7,27 +7,27 @@ namespace RenderCore
 {
     public static class KeyCommandsFactory
     {
-        public static Dictionary<Keyboard.Key, ICommand> GetBodySpriteCommands(IBody _dynamicBody, float _amount)
+        public static Dictionary<Keyboard.Key, IKeyCommand> GetMovementCommands(IBody _body, float _force)
         {
-            Dictionary<Keyboard.Key, ICommand> commandBindings = new Dictionary<Keyboard.Key, ICommand>();
+            Dictionary<Keyboard.Key, IKeyCommand> commands = new Dictionary<Keyboard.Key, IKeyCommand>();
 
-            ApplyNormalForceCommand moveUpCommand =
-                new ApplyNormalForceCommand(_dynamicBody, -_amount * Vector2.UnitY);
-            commandBindings.Add(Keyboard.Key.Up, moveUpCommand);
+            MoveCommand moveUpCommand =
+                new MoveCommand(_body, -_force * Vector2.UnitY);
+            commands.Add(Keyboard.Key.Up, moveUpCommand);
 
-            ApplyNormalForceCommand moveDownCommand =
-                new ApplyNormalForceCommand(_dynamicBody, _amount * Vector2.UnitY);
-            commandBindings.Add(Keyboard.Key.Down, moveDownCommand);
+            MoveCommand moveDownCommand =
+                new MoveCommand(_body, _force * Vector2.UnitY);
+            commands.Add(Keyboard.Key.Down, moveDownCommand);
 
-            ApplyNormalForceCommand moveLeftCommand =
-                new ApplyNormalForceCommand(_dynamicBody, -_amount * Vector2.UnitX);
-            commandBindings.Add(Keyboard.Key.Left, moveLeftCommand);
+            MoveCommand moveLeftCommand =
+                new MoveCommand(_body, -_force * Vector2.UnitX);
+            commands.Add(Keyboard.Key.Left, moveLeftCommand);
 
-            ApplyNormalForceCommand moveRightCommand =
-                new ApplyNormalForceCommand(_dynamicBody, _amount * Vector2.UnitX);
-            commandBindings.Add(Keyboard.Key.Right, moveRightCommand);
+            MoveCommand moveRightCommand =
+                new MoveCommand(_body, _force * Vector2.UnitX);
+            commands.Add(Keyboard.Key.Right, moveRightCommand);
 
-            return commandBindings;
+            return commands;
         }
     }
 }
