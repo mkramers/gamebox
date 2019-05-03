@@ -22,6 +22,11 @@ namespace RenderCore
             m_body.ApplyForce(_force.GetVector2());
         }
 
+        public void ApplyLinearImpulse(Vector2 _force)
+        {
+            m_body.ApplyLinearImpulse(_force.GetVector2());
+        }
+
         public void RemoveFromWorld()
         {
             World world = m_body.World;

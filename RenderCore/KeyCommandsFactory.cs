@@ -27,6 +27,10 @@ namespace RenderCore
                 new MoveCommand(_body, _force * Vector2.UnitX);
             commands.Add(Keyboard.Key.Right, moveRightCommand);
 
+            JumpCommand jumpCommand =
+                new JumpCommand(_body, -_force / 5 * Vector2.UnitY);
+            commands.Add(Keyboard.Key.Space, jumpCommand);
+
             return commands;
         }
     }

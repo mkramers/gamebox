@@ -90,17 +90,16 @@ namespace RenderCore
     public interface IKeyCommand : ICommand
     {
         bool CanExecute(KeyState _keyState);
+        void Execute(KeyState _keyState);
     }
 
-    public class MoveCommand : IKeyCommand
+    public abstract class BodyCommandBase : IKeyCommand
     {
-        private readonly IBody m_body;
-        private readonly Vector2 m_forceVector;
+        protected IBody m_body;
 
-        public MoveCommand(IBody _body, Vector2 _forceVector)
+        protected BodyCommandBase(IBody _body)
         {
             m_body = _body;
-            m_forceVector = _forceVector;
         }
 
         public bool CanExecute(object _parameter)
@@ -111,20 +110,61 @@ namespace RenderCore
             return CanExecute(keyState);
         }
 
-        public void Execute(object _parameter)
-        {
-            m_body.ApplyForce(m_forceVector);
-        }
+        public abstract void Execute(KeyState _keyState);
 
         public event EventHandler CanExecuteChanged
         {
             add { }
             remove { }
         }
+        public abstract bool CanExecute(KeyState _keyState);
 
-        public bool CanExecute(KeyState _keyState)
+        public void Execute(object _parameter)
+        {
+            KeyState keyState = _parameter as KeyState;
+            Debug.Assert(keyState != null);
+
+            Execute(keyState);
+        }
+    }
+
+    public class MoveCommand : BodyCommandBase
+    {
+        private readonly Vector2 m_forceVector;
+
+        public MoveCommand(IBody _body, Vector2 _forceVector) : base(_body)
+        {
+            m_forceVector = _forceVector;
+        }
+
+        public override void Execute(KeyState _keyState)
+        {
+            m_body.ApplyForce(m_forceVector);
+        }
+
+        public override bool CanExecute(KeyState _keyState)
         {
             return _keyState.IsPressed;
+        }
+    }
+
+    public class JumpCommand : BodyCommandBase
+    {
+        private readonly Vector2 m_forceVector;
+
+        public JumpCommand(IBody _body, Vector2 _forceVector) : base(_body)
+        {
+            m_forceVector = _forceVector;
+        }
+        
+        public override bool CanExecute(KeyState _keyState)
+        {
+            return _keyState.IsPressed && !_keyState.PreviousIsPressed;
+        }
+
+        public override void Execute(KeyState _keyState)
+        {
+            m_body.ApplyLinearImpulse(m_forceVector);
         }
     }
 }
@@ -142,7 +182,7 @@ public class KeyState
 
     public void Update(bool _isPressed)
     {
-        IsPressed = _isPressed;
         PreviousIsPressed = IsPressed;
+        IsPressed = _isPressed;
     }
 }
