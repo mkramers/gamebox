@@ -21,7 +21,12 @@ namespace GameBox
 
             AddEntity(man);
 
-            CreateLandscape();
+            IEnumerable<IEntity> woodEntities = CreateLandscape();
+
+            foreach (IEntity woodEntity in woodEntities)
+            {
+                AddEntity(woodEntity);
+            }
 
             Dictionary<Keyboard.Key, IKeyCommand> moveCommands = KeyCommandsFactory.GetMovementCommands(man, 2f);
             KeyHandler moveExecutor = KeyHandlerFactory.CreateKeyHandler(moveCommands);
@@ -29,19 +34,23 @@ namespace GameBox
             m_keyHandlers.Add(moveExecutor);
         }
 
-        private void CreateLandscape()
+        private IEnumerable<IEntity> CreateLandscape()
         {
             const int range = 20;
 
             IEnumerable<Vector2> positions = GetPyramid(new Vector2(-10, 5), range);
+
+            List<IEntity> entities = new List<IEntity>();
 
             foreach (Vector2 pyramidPosition in positions)
             {
                 IEntity wood =
                     EntityFactory.CreateEntity(1, pyramidPosition, m_entityPhysics, ResourceId.WOOD, BodyType.Static);
 
-                AddEntity(wood);
+                entities.Add(wood);
             }
+
+            return entities;
         }
 
         private static IEnumerable<Vector2> GetPyramid(Vector2 _position, int _size)
