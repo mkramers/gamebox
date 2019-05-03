@@ -29,7 +29,7 @@ namespace PhysicsSample
                 Vector2 lp = staticBody.GetPosition();
                 Console.WriteLine(bd + "\t\t" + lp);
             }
-            
+
             physics.Dispose();
         }
     }

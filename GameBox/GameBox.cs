@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
-using System.Windows.Input;
 using Aether.Physics2D.Dynamics;
 using RenderCore;
 using SFML.System;
@@ -25,7 +24,7 @@ namespace GameBox
             CreateLandscape();
 
             Dictionary<Keyboard.Key, IKeyCommand> moveCommands = KeyCommandsFactory.GetMovementCommands(man, 2f);
-            KeyHandler moveExecutor = KeyHandlerFactory.CreateKeyHandler(moveCommands); 
+            KeyHandler moveExecutor = KeyHandlerFactory.CreateKeyHandler(moveCommands);
 
             m_keyHandlers.Add(moveExecutor);
         }

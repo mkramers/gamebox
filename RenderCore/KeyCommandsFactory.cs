@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
-using System.Windows.Input;
 using SFML.Window;
 
 namespace RenderCore
