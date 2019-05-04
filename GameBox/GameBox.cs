@@ -36,10 +36,11 @@ namespace GameBox
             KeyHandler moveExecutor = KeyHandlerFactory.CreateKeyHandler(moveCommands);
 
             m_keyHandlers.Add(moveExecutor);
+            
+            m_viewController = new ViewController(new Vector2(20, 20));
 
             RenderCoreWindow renderCoreWindow = GetRenderCoreWindow();
-            m_viewController = new ViewController(renderCoreWindow, new Vector2(20, 20));
-            m_viewControllers.Add(m_viewController);
+            renderCoreWindow.SetViewController(m_viewController);
         }
 
         private IEnumerable<IEntity> CreateLandscape()

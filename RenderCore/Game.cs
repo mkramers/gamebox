@@ -10,32 +10,15 @@ namespace RenderCore
 {
     public interface IViewController
     {
-
+        View GetView();
     }
-
-    public abstract class ViewControllerBase : IViewController, ITickable
-    {
-        protected readonly RenderCoreWindow m_renderCoreWindow;
-
-        protected ViewControllerBase(RenderCoreWindow _renderCoreWindow)
-        {
-            m_renderCoreWindow = _renderCoreWindow;
-        }
-        
-        public void Tick(TimeSpan _elapsed)
-        {
-            SetView();
-        }
-
-        protected abstract void SetView();
-    }
-
-    public class ViewController : ViewControllerBase
+    
+    public class ViewController : IViewController
     {
         private readonly Vector2 m_size;
         private Vector2 m_trackedCenter;
 
-        public ViewController(RenderCoreWindow _renderCoreWindow, Vector2 _size) : base(_renderCoreWindow)
+        public ViewController(Vector2 _size)
         {
             m_size = _size;
         }
@@ -45,13 +28,12 @@ namespace RenderCore
             m_trackedCenter = _center;
         }
 
-        protected override void SetView()
+        public View GetView()
         {
             Vector2 calculatedCenter = m_trackedCenter;
 
             View view = new View(calculatedCenter.GetVector2F(), m_size.GetVector2F());
-
-            m_renderCoreWindow.SetView(view);
+            return view;
         }
     }
 
@@ -71,9 +53,9 @@ namespace RenderCore
 
             RenderWindow renderWindow = RenderWindowFactory.CreateRenderWindow(_windowTitle, _windowSize, viewRect);
             renderWindow.Closed += RenderWindow_OnClosed;
-            GridWidget gridWidget = new GridWidget(renderWindow.GetView()) {IsDrawEnabled = true};
+            GridWidget gridWidget = new GridWidget(renderWindow.GetView()) { IsDrawEnabled = true };
 
-            m_renderCoreWindow = new RenderCoreWindow(renderWindow, new[] {gridWidget});
+            m_renderCoreWindow = new RenderCoreWindow(renderWindow, new[] { gridWidget });
 
             m_objectFramework = new TickableContainer();
 
@@ -131,7 +113,9 @@ namespace RenderCore
             while (true)
             {
                 m_objectFramework.Tick(stopwatch.Elapsed);
+
                 Tick(stopwatch.Elapsed);
+
                 stopwatch.Restart();
 
                 //too fast!

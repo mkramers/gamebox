@@ -7,11 +7,17 @@ namespace RenderCore
     public abstract class RenderCoreWindowBase : ITickable
     {
         protected readonly RenderWindow m_renderWindow;
+        private IViewController m_viewController;
 
         protected RenderCoreWindowBase(RenderWindow _renderWindow)
         {
             m_renderWindow = _renderWindow;
             m_renderWindow.Closed += RenderWindowOnClosed;
+        }
+
+        public void SetViewController(IViewController _viewController)
+        {
+            m_viewController = _viewController;
         }
 
         public virtual void Tick(TimeSpan _elapsed)
@@ -22,6 +28,9 @@ namespace RenderCore
             }
 
             m_renderWindow.DispatchEvents();
+
+            View view = m_viewController.GetView();
+            m_renderWindow.SetView(view);
 
             DrawScene(m_renderWindow);
         }
