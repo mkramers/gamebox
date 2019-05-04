@@ -19,8 +19,10 @@ namespace GameBox
 
         public void CreateMainCharacter()
         {
+            Physics2 physics = GetPhysics();
+
             const float mass = 0.1f;
-            m_manEntity = EntityFactory.CreateEntity(mass, -5 * Vector2.UnitY, m_entityPhysics, ResourceId.MAN,
+            m_manEntity = EntityFactory.CreateEntity(mass, -5 * Vector2.UnitY, physics, ResourceId.MAN,
                 BodyType.Dynamic);
 
             AddEntity(m_manEntity);
@@ -35,7 +37,7 @@ namespace GameBox
             Dictionary<Keyboard.Key, IKeyCommand> moveCommands = KeyCommandsFactory.GetMovementCommands(m_manEntity, 2f);
             KeyHandler moveExecutor = KeyHandlerFactory.CreateKeyHandler(moveCommands);
 
-            m_keyHandlers.Add(moveExecutor);
+            AddKeyHandler(moveExecutor);
             
             m_viewController = new ViewController(new Vector2(20, 20));
 
@@ -47,6 +49,8 @@ namespace GameBox
         {
             const int range = 20;
 
+            Physics2 physics = GetPhysics();
+
             IEnumerable<Vector2> positions = GetPyramid(new Vector2(-10, 5), range);
 
             List<IEntity> entities = new List<IEntity>();
@@ -54,7 +58,7 @@ namespace GameBox
             foreach (Vector2 pyramidPosition in positions)
             {
                 IEntity wood =
-                    EntityFactory.CreateEntity(1, pyramidPosition, m_entityPhysics, ResourceId.WOOD, BodyType.Static);
+                    EntityFactory.CreateEntity(1, pyramidPosition, physics, ResourceId.WOOD, BodyType.Static);
 
                 entities.Add(wood);
             }

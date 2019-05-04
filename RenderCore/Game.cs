@@ -40,11 +40,10 @@ namespace RenderCore
     public abstract class Game : IDisposable, ITickable
     {
         private readonly List<IEntity> m_entities;
-        protected readonly EntityPhysics m_entityPhysics;
-        protected readonly TickableContainer m_keyHandlers;
+        private readonly EntityPhysics m_entityPhysics;
+        private readonly TickableContainer m_keyHandlers;
         private readonly TickableContainer m_objectFramework;
         private readonly RenderCoreWindow m_renderCoreWindow;
-        protected readonly TickableContainer m_viewControllers;
         private bool m_shouldLoopExit;
 
         protected Game(string _windowTitle, Vector2u _windowSize)
@@ -60,9 +59,7 @@ namespace RenderCore
             m_objectFramework = new TickableContainer();
 
             m_keyHandlers = new TickableContainer();
-
-            m_viewControllers = new TickableContainer();
-
+            
             Vector2 gravity = new Vector2(0, 10);
             m_entityPhysics = new EntityPhysics(gravity);
 
@@ -70,7 +67,6 @@ namespace RenderCore
             m_objectFramework.Add(m_entityPhysics);
             m_objectFramework.Add(m_renderCoreWindow);
             m_objectFramework.Add(m_keyHandlers);
-            m_objectFramework.Add(m_viewControllers);
 
             m_entities = new List<IEntity>();
         }
@@ -78,6 +74,16 @@ namespace RenderCore
         protected RenderCoreWindow GetRenderCoreWindow()
         {
             return m_renderCoreWindow;
+        }
+
+        public void AddKeyHandler(IKeyHandler _keyHandler)
+        {
+            m_keyHandlers.Add(_keyHandler);
+        }
+
+        public Physics2 GetPhysics()
+        {
+            return m_entityPhysics;
         }
 
         public void Dispose()
