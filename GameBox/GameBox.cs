@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using RenderCore;
@@ -9,6 +10,9 @@ namespace GameBox
 {
     public class GameBox : Game
     {
+        private IEntity m_manEntity;
+        private ViewController m_viewController;
+
         public GameBox(string _windowTitle, Vector2u _windowSize) : base(_windowTitle, _windowSize)
         {
         }
@@ -16,10 +20,10 @@ namespace GameBox
         public void CreateMainCharacter()
         {
             const float mass = 0.1f;
-            IEntity man = EntityFactory.CreateEntity(mass, -5 * Vector2.UnitY, m_entityPhysics, ResourceId.MAN,
+            m_manEntity = EntityFactory.CreateEntity(mass, -5 * Vector2.UnitY, m_entityPhysics, ResourceId.MAN,
                 BodyType.Dynamic);
 
-            AddEntity(man);
+            AddEntity(m_manEntity);
 
             IEnumerable<IEntity> woodEntities = CreateLandscape();
 
@@ -28,10 +32,14 @@ namespace GameBox
                 AddEntity(woodEntity);
             }
 
-            Dictionary<Keyboard.Key, IKeyCommand> moveCommands = KeyCommandsFactory.GetMovementCommands(man, 2f);
+            Dictionary<Keyboard.Key, IKeyCommand> moveCommands = KeyCommandsFactory.GetMovementCommands(m_manEntity, 2f);
             KeyHandler moveExecutor = KeyHandlerFactory.CreateKeyHandler(moveCommands);
 
             m_keyHandlers.Add(moveExecutor);
+
+            RenderCoreWindow renderCoreWindow = GetRenderCoreWindow();
+            m_viewController = new ViewController(renderCoreWindow, new Vector2(20, 20));
+            m_viewControllers.Add(m_viewController);
         }
 
         private IEnumerable<IEntity> CreateLandscape()
@@ -68,6 +76,13 @@ namespace GameBox
             }
 
             return positions;
+        }
+
+        public override void Tick(TimeSpan _elapsed)
+        {
+            Vector2 manPosition = m_manEntity.GetPosition();
+
+            m_viewController.SetCenter(manPosition);
         }
     }
 }

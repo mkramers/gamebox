@@ -58,5 +58,10 @@ namespace RenderCore
                 _renderWindow.Display();
             }
         }
+
+        public void SetView(View _view)
+        {
+            m_renderWindow.SetView(_view);
+        }
     }
 }
