@@ -56,7 +56,8 @@ namespace GameBox
             Vector2 position = new Vector2(-10, 5);
             List<Vector2> positions = GetPyramid(position, range).ToList();
 
-            IEnumerable<Vector2> box = GetBox(position, range * new Vector2u(1, 1), 1.5f);
+            uint boxSize = (uint)Math.Round(1.5f * range);
+            IEnumerable<Vector2> box = GetBox(position, new Vector2u(boxSize, boxSize), 1);
 
             positions.AddRange(box);
 
