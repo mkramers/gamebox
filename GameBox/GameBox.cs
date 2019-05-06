@@ -93,11 +93,13 @@ namespace GameBox
                 {
                     bool isOutsideRow = i == 0 || i == _size.X - 1;
                     bool isOutsideColumn = j == 0 || j == _size.Y - 1;
-                    if (isOutsideRow || isOutsideColumn)
+                    if (!isOutsideRow && !isOutsideColumn)
                     {
-                        Vector2 position = _position + _stepSize * new Vector2(i, -j);
-                        positions.Add(position);
+                        continue;
                     }
+
+                    Vector2 position = _position + _stepSize * new Vector2(i, -j);
+                    positions.Add(position);
                 }
             }
 
