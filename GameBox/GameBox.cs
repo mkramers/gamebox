@@ -40,7 +40,7 @@ namespace GameBox
             KeyHandler moveExecutor = KeyHandlerFactory.CreateKeyHandler(moveCommands);
 
             AddKeyHandler(moveExecutor);
-            
+
             m_viewController = new ViewController(new Vector2(20, 20));
 
             RenderCoreWindow renderCoreWindow = GetRenderCoreWindow();
@@ -53,7 +53,12 @@ namespace GameBox
 
             IPhysics physics = GetPhysics();
 
-            IEnumerable<Vector2> positions = GetPyramid(new Vector2(-10, 5), range);
+            Vector2 position = new Vector2(-10, 5);
+            List<Vector2> positions = GetPyramid(position, range).ToList();
+
+            IEnumerable<Vector2> box = GetBox(position, range * new Vector2u(1, 1), 1.5f);
+
+            positions.AddRange(box);
 
             return positions.Select(_pyramidPosition => EntityFactory.CreateEntity(1, _pyramidPosition, physics, ResourceId.WOOD, BodyType.Static)).ToList();
         }
@@ -69,6 +74,26 @@ namespace GameBox
                 {
                     Vector2 position = _position + new Vector2(i, -j);
                     positions.Add(position);
+                }
+            }
+
+            return positions;
+        }
+        private static IEnumerable<Vector2> GetBox(Vector2 _position, Vector2u _size, float _stepSize)
+        {
+            List<Vector2> positions = new List<Vector2>();
+
+            for (uint i = 0; i < _size.X; i++)
+            {
+                for (uint j = 0; j < _size.Y; j++)
+                {
+                    bool isOutsideRow = i == 0 || i == _size.X - 1;
+                    bool isOutsideColumn = j == 0 || j == _size.Y - 1;
+                    if (isOutsideRow || isOutsideColumn)
+                    {
+                        Vector2 position = _position + _stepSize * new Vector2(i, -j);
+                        positions.Add(position);
+                    }
                 }
             }
 
