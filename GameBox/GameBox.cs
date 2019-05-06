@@ -16,9 +16,10 @@ namespace GameBox
 
         public GameBox(string _windowTitle, Vector2u _windowSize) : base(_windowTitle, _windowSize)
         {
+            CreateEntities();
         }
 
-        public void CreateMainCharacter()
+        private void CreateEntities()
         {
             IPhysics physics = GetPhysics();
 
