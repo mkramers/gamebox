@@ -27,7 +27,7 @@ namespace RenderCore
             m_objectFramework = new TickableContainer<ITickable>();
 
             m_keyHandlers = new TickableContainer<IKeyHandler>();
-            
+
             Vector2 gravity = new Vector2(0, 10);
             m_entityPhysics = new EntityPhysics(gravity);
 
@@ -38,6 +38,21 @@ namespace RenderCore
 
             m_entities = new List<IEntity>();
         }
+
+        public void Dispose()
+        {
+            m_renderCoreWindow.Dispose();
+            m_entityPhysics.Dispose();
+
+            foreach (IEntity entity in m_entities)
+            {
+                entity.Dispose();
+            }
+
+            m_entities.Clear();
+        }
+
+        public abstract void Tick(TimeSpan _elapsed);
 
         protected RenderCoreWindow GetRenderCoreWindow()
         {
@@ -52,19 +67,6 @@ namespace RenderCore
         protected IPhysics GetPhysics()
         {
             return m_entityPhysics;
-        }
-
-        public void Dispose()
-        {
-            m_renderCoreWindow.Dispose();
-            m_entityPhysics.Dispose();
-
-            foreach (IEntity entity in m_entities)
-            {
-                entity.Dispose();
-            }
-
-            m_entities.Clear();
         }
 
         private void RenderWindow_OnClosed(object _sender, EventArgs _e)
@@ -101,7 +103,5 @@ namespace RenderCore
                 }
             }
         }
-
-        public abstract void Tick(TimeSpan _elapsed);
     }
 }

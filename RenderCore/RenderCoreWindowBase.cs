@@ -15,11 +15,6 @@ namespace RenderCore
             m_renderWindow.Closed += RenderWindowOnClosed;
         }
 
-        public void SetViewController(IViewController _viewController)
-        {
-            m_viewController = _viewController;
-        }
-
         public virtual void Tick(TimeSpan _elapsed)
         {
             if (!m_renderWindow.IsOpen)
@@ -33,6 +28,11 @@ namespace RenderCore
             m_renderWindow.SetView(view);
 
             DrawScene(m_renderWindow);
+        }
+
+        public void SetViewController(IViewController _viewController)
+        {
+            m_viewController = _viewController;
         }
 
         private static void RenderWindowOnClosed(object _sender, EventArgs _e)
