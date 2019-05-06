@@ -12,8 +12,8 @@ namespace RenderCore
     {
         private readonly List<IEntity> m_entities;
         private readonly EntityPhysics m_entityPhysics;
-        private readonly TickableContainer m_keyHandlers;
-        private readonly TickableContainer m_objectFramework;
+        private readonly TickableContainer<IKeyHandler> m_keyHandlers;
+        private readonly TickableContainer<ITickable> m_objectFramework;
         private readonly RenderCoreWindow m_renderCoreWindow;
         private bool m_shouldLoopExit;
 
@@ -24,9 +24,9 @@ namespace RenderCore
             m_renderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize, viewRect);
             m_renderCoreWindow.Closed += RenderWindow_OnClosed;
 
-            m_objectFramework = new TickableContainer();
+            m_objectFramework = new TickableContainer<ITickable>();
 
-            m_keyHandlers = new TickableContainer();
+            m_keyHandlers = new TickableContainer<IKeyHandler>();
             
             Vector2 gravity = new Vector2(0, 10);
             m_entityPhysics = new EntityPhysics(gravity);
