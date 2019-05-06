@@ -4,7 +4,7 @@ using Aether.Physics2D.Dynamics;
 
 namespace RenderCore
 {
-    public class Physics : ITickable, IDisposable
+    public class Physics : IPhysics, IDisposable
     {
         private readonly World m_world;
 
