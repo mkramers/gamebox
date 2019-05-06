@@ -20,7 +20,7 @@ namespace GameBox
 
         public void CreateMainCharacter()
         {
-            Physics2 physics = GetPhysics();
+            Physics physics = GetPhysics();
 
             const float mass = 0.1f;
             m_manEntity = EntityFactory.CreateEntity(mass, -5 * Vector2.UnitY, physics, ResourceId.MAN,
@@ -50,7 +50,7 @@ namespace GameBox
         {
             const int range = 20;
 
-            Physics2 physics = GetPhysics();
+            Physics physics = GetPhysics();
 
             IEnumerable<Vector2> positions = GetPyramid(new Vector2(-10, 5), range);
 

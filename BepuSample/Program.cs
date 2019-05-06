@@ -16,7 +16,7 @@ namespace PhysicsSample
         {
             Vector2 gravity = new Vector2(0, -10);
 
-            Physics2 physics = new Physics2(gravity);
+            Physics physics = new Physics(gravity);
 
             IBody dynamicBody = physics.CreateBody(5 * Vector2.UnitY, 1.0f, BodyType.Dynamic);
             IBody staticBody = physics.CreateBody(-5 * Vector2.UnitY, 1.0f, BodyType.Static);

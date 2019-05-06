@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace RenderCore
 {
-    public class EntityPhysics : Physics2
+    public class EntityPhysics : Physics
     {
         private readonly List<IEntity> m_entities;
 

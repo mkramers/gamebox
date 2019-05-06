@@ -4,11 +4,11 @@ using Aether.Physics2D.Dynamics;
 
 namespace RenderCore
 {
-    public class Physics2 : ITickable, IDisposable
+    public class Physics : ITickable, IDisposable
     {
         private readonly World m_world;
 
-        public Physics2(Vector2 _gravity)
+        public Physics(Vector2 _gravity)
         {
             m_world = new World(_gravity.GetVector2());
         }
