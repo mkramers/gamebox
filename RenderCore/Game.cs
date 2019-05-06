@@ -47,12 +47,12 @@ namespace RenderCore
             return m_renderCoreWindow;
         }
 
-        public void AddKeyHandler(IKeyHandler _keyHandler)
+        protected void AddKeyHandler(IKeyHandler _keyHandler)
         {
             m_keyHandlers.Add(_keyHandler);
         }
 
-        public Physics2 GetPhysics()
+        protected Physics2 GetPhysics()
         {
             return m_entityPhysics;
         }

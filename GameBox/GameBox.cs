@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using RenderCore;
@@ -53,17 +54,7 @@ namespace GameBox
 
             IEnumerable<Vector2> positions = GetPyramid(new Vector2(-10, 5), range);
 
-            List<IEntity> entities = new List<IEntity>();
-
-            foreach (Vector2 pyramidPosition in positions)
-            {
-                IEntity wood =
-                    EntityFactory.CreateEntity(1, pyramidPosition, physics, ResourceId.WOOD, BodyType.Static);
-
-                entities.Add(wood);
-            }
-
-            return entities;
+            return positions.Select(_pyramidPosition => EntityFactory.CreateEntity(1, _pyramidPosition, physics, ResourceId.WOOD, BodyType.Static)).ToList();
         }
 
         private static IEnumerable<Vector2> GetPyramid(Vector2 _position, int _size)
