@@ -49,7 +49,7 @@ namespace RenderCore
             m_keyHandlers.Add(_keyHandler);
         }
 
-        protected Physics GetPhysics()
+        protected IPhysics GetPhysics()
         {
             return m_entityPhysics;
         }
