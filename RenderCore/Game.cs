@@ -21,11 +21,8 @@ namespace RenderCore
         {
             FloatRect viewRect = new FloatRect(-10, 10, 20, 20);
 
-            RenderWindow renderWindow = RenderWindowFactory.CreateRenderWindow(_windowTitle, _windowSize, viewRect);
-            renderWindow.Closed += RenderWindow_OnClosed;
-            GridWidget gridWidget = new GridWidget(renderWindow.GetView()) { IsDrawEnabled = true };
-
-            m_renderCoreWindow = new RenderCoreWindow(renderWindow, new[] { gridWidget });
+            m_renderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize, viewRect);
+            m_renderCoreWindow.Closed += RenderWindow_OnClosed;
 
             m_objectFramework = new TickableContainer();
 

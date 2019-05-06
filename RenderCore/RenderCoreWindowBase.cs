@@ -44,5 +44,11 @@ namespace RenderCore
         }
 
         protected abstract void DrawScene(RenderWindow _renderWindow);
+
+        public event EventHandler Closed
+        {
+            add => m_renderWindow.Closed += value;
+            remove => m_renderWindow.Closed -= value;
+        }
     }
 }
