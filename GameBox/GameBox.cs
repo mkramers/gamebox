@@ -23,9 +23,8 @@ namespace GameBox
 
             AddEntity(m_manEntity);
 
-            IEnumerable<IEntity> woodEntities = LandscapeFactory.CreateLandscape(physics);
-
-            foreach (IEntity woodEntity in woodEntities)
+            SampleMap map = new SampleMap();
+            foreach (IEntity woodEntity in map.GetEntities(physics))
             {
                 AddEntity(woodEntity);
             }

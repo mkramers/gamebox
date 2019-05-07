@@ -8,6 +8,11 @@ using SFML.System;
 
 namespace RenderCore
 {
+    public interface IMap
+    {
+        IEnumerable<IEntity> GetEntities(IPhysics _physics);
+    }
+    
     public abstract class Game : IDisposable, ITickable
     {
         private readonly List<IEntity> m_entities;
