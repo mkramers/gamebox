@@ -9,11 +9,6 @@ namespace RenderCore
 {
     public abstract class Game : IDisposable
     {
-        private EntityContainer EntitiesContainer { get; }
-        protected Physics Physics { get; }
-        private TickableContainer<IKeyHandler> KeyHandlers { get; }
-        protected RenderCoreWindow RenderCoreWindow { get; }
-
         private bool m_shouldLoopExit;
 
         protected Game(string _windowTitle, Vector2u _windowSize)
@@ -27,16 +22,14 @@ namespace RenderCore
 
             Vector2 gravity = new Vector2(0, 10);
             Physics = new Physics(gravity);
-            
+
             EntitiesContainer = new EntityContainer();
         }
-        protected void AddMap(IMap _map, IPhysics _physics)
-        {
-            foreach (IEntity woodEntity in _map.GetEntities(_physics))
-            {
-                AddEntity(woodEntity);
-            }
-        }
+
+        private EntityContainer EntitiesContainer { get; }
+        protected Physics Physics { get; }
+        private TickableContainer<IKeyHandler> KeyHandlers { get; }
+        protected RenderCoreWindow RenderCoreWindow { get; }
 
         public void Dispose()
         {
@@ -44,6 +37,14 @@ namespace RenderCore
             Physics.Dispose();
 
             EntitiesContainer.Dispose();
+        }
+
+        protected void AddMap(IMap _map, IPhysics _physics)
+        {
+            foreach (IEntity woodEntity in _map.GetEntities(_physics))
+            {
+                AddEntity(woodEntity);
+            }
         }
 
         protected void AddKeyHandler(IKeyHandler _keyHandler)

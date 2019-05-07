@@ -6,12 +6,12 @@ namespace RenderCore
 {
     public class Physics : IPhysics, IDisposable
     {
-        private World World { get; }
-
         public Physics(Vector2 _gravity)
         {
             World = new World(_gravity.GetVector2());
         }
+
+        private World World { get; }
 
         public void Dispose()
         {

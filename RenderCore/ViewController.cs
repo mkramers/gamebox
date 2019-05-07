@@ -22,11 +22,11 @@ namespace RenderCore
             return view;
         }
 
+        public abstract void Tick(TimeSpan _elapsed);
+
         public void SetCenter(Vector2 _center)
         {
             m_trackedCenter = _center;
         }
-
-        public abstract void Tick(TimeSpan _elapsed);
     }
 }

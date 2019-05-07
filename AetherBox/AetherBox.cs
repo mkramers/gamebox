@@ -20,7 +20,7 @@ namespace AetherBox
                 BodyType.Dynamic);
 
             AddEntity(manEntity);
-            
+
             KeyHandler moveExecutor = KeyHandlerFactory.CreateEntityKeyHandler(manEntity, force);
 
             AddKeyHandler(moveExecutor);

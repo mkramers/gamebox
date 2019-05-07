@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Numerics;
-using Aether.Physics2D.Dynamics;
 using SFML.System;
 
 namespace RenderCore

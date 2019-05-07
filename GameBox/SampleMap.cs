@@ -23,7 +23,7 @@ namespace GameBox
             Vector2 position = new Vector2(-10, 5);
             List<Vector2> positions = LandscapeFactory.GetPyramid(position, range).ToList();
 
-            uint boxSize = (uint)Math.Round(1.5f * range);
+            uint boxSize = (uint) Math.Round(1.5f * range);
             IEnumerable<Vector2> box = LandscapeFactory.GetBox(position, new Vector2u(boxSize, boxSize), 1);
 
             positions.AddRange(box);
@@ -31,6 +31,5 @@ namespace GameBox
             return positions.Select(_pyramidPosition =>
                 EntityFactory.CreateEntity(1, _pyramidPosition, _physics, ResourceId.WOOD, BodyType.Static)).ToList();
         }
-
     }
 }

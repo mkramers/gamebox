@@ -11,7 +11,7 @@ namespace RenderCore
         {
             m_entity = _entity;
         }
-        
+
         public override void Tick(TimeSpan _elapsed)
         {
             Vector2 entityPosition = m_entity.GetPosition();
