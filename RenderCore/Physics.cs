@@ -18,7 +18,7 @@ namespace RenderCore
             World.Clear();
         }
 
-        public virtual void Tick(TimeSpan _elapsed)
+        public void Tick(TimeSpan _elapsed)
         {
             World.Step(_elapsed);
         }

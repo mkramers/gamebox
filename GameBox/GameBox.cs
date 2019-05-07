@@ -10,18 +10,15 @@ namespace GameBox
 {
     public class GameBox : Game
     {
-        private readonly IEntity m_manEntity;
-        private readonly ViewController m_viewController;
-
         public GameBox(string _windowTitle, Vector2u _windowSize) : base(_windowTitle, _windowSize)
         {
-            IPhysics physics = EntityPhysics;
+            IPhysics physics = Physics;
 
             const float mass = 0.1f;
-            m_manEntity = EntityFactory.CreateEntity(mass, -5 * Vector2.UnitY, physics, ResourceId.MAN,
+            IEntity manEntity = EntityFactory.CreateEntity(mass, -5 * Vector2.UnitY, physics, ResourceId.MAN,
                 BodyType.Dynamic);
 
-            AddEntity(m_manEntity);
+            AddEntity(manEntity);
 
             SampleMap map = new SampleMap();
             foreach (IEntity woodEntity in map.GetEntities(physics))
@@ -30,21 +27,14 @@ namespace GameBox
             }
 
             Dictionary<Keyboard.Key, IKeyCommand>
-                moveCommands = KeyCommandsFactory.GetMovementCommands(m_manEntity, 2f);
+                moveCommands = KeyCommandsFactory.GetMovementCommands(manEntity, 2f);
             KeyHandler moveExecutor = KeyHandlerFactory.CreateKeyHandler(moveCommands);
 
             AddKeyHandler(moveExecutor);
 
-            m_viewController = new ViewController(new Vector2(20, 20));
+            ViewController viewController = new EntityCenterFollowerViewController(new Vector2(20, 20), manEntity);
 
-            RenderCoreWindow.SetViewController(m_viewController);
-        }
-        
-        public override void Tick(TimeSpan _elapsed)
-        {
-            Vector2 manPosition = m_manEntity.GetPosition();
-
-            m_viewController.SetCenter(manPosition);
+            RenderCoreWindow.SetViewController(viewController);
         }
     }
 }

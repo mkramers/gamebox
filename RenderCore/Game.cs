@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
 using System.Threading;
@@ -8,18 +7,13 @@ using SFML.System;
 
 namespace RenderCore
 {
-    public interface IMap
+    public abstract class Game : IDisposable
     {
-        IEnumerable<IEntity> GetEntities(IPhysics _physics);
-    }
-    
-    public abstract class Game : IDisposable, ITickable
-    {
-        private readonly List<IEntity> m_entities;
-        protected EntityPhysics EntityPhysics { get; }
-        private readonly TickableContainer<IKeyHandler> m_keyHandlers;
-        private readonly TickableContainer<ITickable> m_objectFramework;
+        private EntityContainer EntitiesContainer { get; }
+        protected Physics Physics { get; }
+        private TickableContainer<IKeyHandler> KeyHandlers { get; }
         protected RenderCoreWindow RenderCoreWindow { get; }
+
         private bool m_shouldLoopExit;
 
         protected Game(string _windowTitle, Vector2u _windowSize)
@@ -29,46 +23,27 @@ namespace RenderCore
             RenderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize, viewRect);
             RenderCoreWindow.Closed += RenderWindow_OnClosed;
 
-            m_objectFramework = new TickableContainer<ITickable>();
-
-            m_keyHandlers = new TickableContainer<IKeyHandler>();
+            KeyHandlers = new TickableContainer<IKeyHandler>();
 
             Vector2 gravity = new Vector2(0, 10);
-            EntityPhysics = new EntityPhysics(gravity);
-
-            //order matters
-            m_objectFramework.Add(EntityPhysics);
-            m_objectFramework.Add(RenderCoreWindow);
-            m_objectFramework.Add(m_keyHandlers);
-
-            m_entities = new List<IEntity>();
-        }
-
-        public void SetGravity(Vector2 _gravity)
-        {
-            EntityPhysics.SetGravity(_gravity);
+            Physics = new Physics(gravity);
+            
+            EntitiesContainer = new EntityContainer();
         }
 
         public void Dispose()
         {
             RenderCoreWindow.Dispose();
-            EntityPhysics.Dispose();
+            Physics.Dispose();
 
-            foreach (IEntity entity in m_entities)
-            {
-                entity.Dispose();
-            }
-
-            m_entities.Clear();
+            EntitiesContainer.Dispose();
         }
 
-        public abstract void Tick(TimeSpan _elapsed);
-        
         protected void AddKeyHandler(IKeyHandler _keyHandler)
         {
-            m_keyHandlers.Add(_keyHandler);
+            KeyHandlers.Add(_keyHandler);
         }
-        
+
         private void RenderWindow_OnClosed(object _sender, EventArgs _e)
         {
             m_shouldLoopExit = true;
@@ -76,9 +51,8 @@ namespace RenderCore
 
         protected void AddEntity(IEntity _entity)
         {
-            m_entities.Add(_entity);
+            EntitiesContainer.Add(_entity);
 
-            EntityPhysics.Add(_entity);
             RenderCoreWindow.Add(_entity);
         }
 
@@ -88,11 +62,17 @@ namespace RenderCore
 
             while (true)
             {
-                m_objectFramework.Tick(stopwatch.Elapsed);
+                TimeSpan elapsed = stopwatch.GetElapsedAndRestart();
 
-                Tick(stopwatch.Elapsed);
+                //the following order is important
 
-                stopwatch.Restart();
+                KeyHandlers.Tick(elapsed);
+
+                Physics.Tick(elapsed);
+
+                EntitiesContainer.Tick(elapsed);
+
+                RenderCoreWindow.Tick(elapsed);
 
                 //too fast!
                 Thread.Sleep(30);

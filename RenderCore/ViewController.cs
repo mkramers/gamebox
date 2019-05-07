@@ -1,9 +1,10 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using SFML.Graphics;
 
 namespace RenderCore
 {
-    public class ViewController : IViewController
+    public abstract class ViewController : IViewController
     {
         private readonly Vector2 m_size;
         private Vector2 m_trackedCenter;
@@ -25,5 +26,7 @@ namespace RenderCore
         {
             m_trackedCenter = _center;
         }
+
+        public abstract void Tick(TimeSpan _elapsed);
     }
 }

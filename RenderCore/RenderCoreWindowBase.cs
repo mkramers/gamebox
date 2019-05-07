@@ -24,6 +24,8 @@ namespace RenderCore
 
             m_renderWindow.DispatchEvents();
 
+            m_viewController.Tick(_elapsed);
+
             View view = m_viewController.GetView();
             m_renderWindow.SetView(view);
 

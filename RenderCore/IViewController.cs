@@ -2,7 +2,7 @@
 
 namespace RenderCore
 {
-    public interface IViewController
+    public interface IViewController : ITickable
     {
         View GetView();
     }
