@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
+﻿using System.Numerics;
 using Aether.Physics2D.Dynamics;
-using GameBox;
 using RenderCore;
 using SFML.System;
-using SFML.Window;
 
 namespace AetherBox
 {
@@ -25,9 +21,7 @@ namespace AetherBox
 
             AddEntity(manEntity);
             
-            Dictionary<Keyboard.Key, IKeyCommand>
-                moveCommands = KeyCommandsFactory.GetMovementCommands(manEntity, force);
-            KeyHandler moveExecutor = KeyHandlerFactory.CreateKeyHandler(moveCommands);
+            KeyHandler moveExecutor = KeyHandlerFactory.CreateEntityKeyHandler(manEntity, force);
 
             AddKeyHandler(moveExecutor);
 

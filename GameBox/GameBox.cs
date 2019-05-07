@@ -15,6 +15,8 @@ namespace GameBox
             IPhysics physics = Physics;
 
             const float mass = 0.1f;
+            const float force = 0.666f;
+
             IEntity manEntity = EntityFactory.CreateEntity(mass, -5 * Vector2.UnitY, physics, ResourceId.MAN,
                 BodyType.Dynamic);
 
@@ -26,9 +28,7 @@ namespace GameBox
                 AddEntity(woodEntity);
             }
 
-            Dictionary<Keyboard.Key, IKeyCommand>
-                moveCommands = KeyCommandsFactory.GetMovementCommands(manEntity, 2f);
-            KeyHandler moveExecutor = KeyHandlerFactory.CreateKeyHandler(moveCommands);
+            KeyHandler moveExecutor = KeyHandlerFactory.CreateEntityKeyHandler(manEntity, force);
 
             AddKeyHandler(moveExecutor);
 
