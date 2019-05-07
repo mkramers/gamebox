@@ -2,35 +2,34 @@
 using System.Collections.Generic;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
+using GameBox;
 using RenderCore;
 using SFML.System;
 using SFML.Window;
 
-namespace GameBox
+namespace AetherBox
 {
-    public class GameBox : Game
+    public class AetherBox : Game
     {
         private readonly IEntity m_manEntity;
         private readonly ViewController m_viewController;
 
-        public GameBox(string _windowTitle, Vector2u _windowSize) : base(_windowTitle, _windowSize)
+        public AetherBox(string _windowTitle, Vector2u _windowSize) : base(_windowTitle, _windowSize)
         {
             IPhysics physics = EntityPhysics;
 
-            const float mass = 0.1f;
-            m_manEntity = EntityFactory.CreateEntity(mass, -5 * Vector2.UnitY, physics, ResourceId.MAN,
+            physics.SetGravity(Vector2.Zero);
+
+            const float mass = 0.01f;
+            const float force = 0.666f;
+
+            m_manEntity = EntityFactory.CreateEntity(mass, Vector2.Zero, physics, ResourceId.MAN,
                 BodyType.Dynamic);
 
             AddEntity(m_manEntity);
-
-            SampleMap map = new SampleMap();
-            foreach (IEntity woodEntity in map.GetEntities(physics))
-            {
-                AddEntity(woodEntity);
-            }
-
+            
             Dictionary<Keyboard.Key, IKeyCommand>
-                moveCommands = KeyCommandsFactory.GetMovementCommands(m_manEntity, 2f);
+                moveCommands = KeyCommandsFactory.GetMovementCommands(m_manEntity, force);
             KeyHandler moveExecutor = KeyHandlerFactory.CreateKeyHandler(moveCommands);
 
             AddKeyHandler(moveExecutor);
@@ -39,7 +38,7 @@ namespace GameBox
 
             RenderCoreWindow.SetViewController(m_viewController);
         }
-        
+
         public override void Tick(TimeSpan _elapsed)
         {
             Vector2 manPosition = m_manEntity.GetPosition();

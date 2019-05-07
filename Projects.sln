@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RenderCore", "RenderCore\Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhysicsSample", "BepuSample\PhysicsSample.csproj", "{F52B8848-997B-4833-98C2-3754209FF5F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AetherBox", "AetherBox\AetherBox.csproj", "{E5917BFE-1984-4D89-BA23-EFDD32D497BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{F52B8848-997B-4833-98C2-3754209FF5F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F52B8848-997B-4833-98C2-3754209FF5F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F52B8848-997B-4833-98C2-3754209FF5F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5917BFE-1984-4D89-BA23-EFDD32D497BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5917BFE-1984-4D89-BA23-EFDD32D497BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5917BFE-1984-4D89-BA23-EFDD32D497BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5917BFE-1984-4D89-BA23-EFDD32D497BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

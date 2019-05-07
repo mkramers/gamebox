@@ -16,38 +16,43 @@ namespace RenderCore
     public abstract class Game : IDisposable, ITickable
     {
         private readonly List<IEntity> m_entities;
-        private readonly EntityPhysics m_entityPhysics;
+        protected EntityPhysics EntityPhysics { get; }
         private readonly TickableContainer<IKeyHandler> m_keyHandlers;
         private readonly TickableContainer<ITickable> m_objectFramework;
-        private readonly RenderCoreWindow m_renderCoreWindow;
+        protected RenderCoreWindow RenderCoreWindow { get; }
         private bool m_shouldLoopExit;
 
         protected Game(string _windowTitle, Vector2u _windowSize)
         {
             FloatRect viewRect = new FloatRect(-10, 10, 20, 20);
 
-            m_renderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize, viewRect);
-            m_renderCoreWindow.Closed += RenderWindow_OnClosed;
+            RenderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize, viewRect);
+            RenderCoreWindow.Closed += RenderWindow_OnClosed;
 
             m_objectFramework = new TickableContainer<ITickable>();
 
             m_keyHandlers = new TickableContainer<IKeyHandler>();
 
             Vector2 gravity = new Vector2(0, 10);
-            m_entityPhysics = new EntityPhysics(gravity);
+            EntityPhysics = new EntityPhysics(gravity);
 
             //order matters
-            m_objectFramework.Add(m_entityPhysics);
-            m_objectFramework.Add(m_renderCoreWindow);
+            m_objectFramework.Add(EntityPhysics);
+            m_objectFramework.Add(RenderCoreWindow);
             m_objectFramework.Add(m_keyHandlers);
 
             m_entities = new List<IEntity>();
         }
 
+        public void SetGravity(Vector2 _gravity)
+        {
+            EntityPhysics.SetGravity(_gravity);
+        }
+
         public void Dispose()
         {
-            m_renderCoreWindow.Dispose();
-            m_entityPhysics.Dispose();
+            RenderCoreWindow.Dispose();
+            EntityPhysics.Dispose();
 
             foreach (IEntity entity in m_entities)
             {
@@ -58,22 +63,12 @@ namespace RenderCore
         }
 
         public abstract void Tick(TimeSpan _elapsed);
-
-        protected RenderCoreWindow GetRenderCoreWindow()
-        {
-            return m_renderCoreWindow;
-        }
-
+        
         protected void AddKeyHandler(IKeyHandler _keyHandler)
         {
             m_keyHandlers.Add(_keyHandler);
         }
-
-        protected IPhysics GetPhysics()
-        {
-            return m_entityPhysics;
-        }
-
+        
         private void RenderWindow_OnClosed(object _sender, EventArgs _e)
         {
             m_shouldLoopExit = true;
@@ -83,8 +78,8 @@ namespace RenderCore
         {
             m_entities.Add(_entity);
 
-            m_entityPhysics.Add(_entity);
-            m_renderCoreWindow.Add(_entity);
+            EntityPhysics.Add(_entity);
+            RenderCoreWindow.Add(_entity);
         }
 
         public void StartLoop()
