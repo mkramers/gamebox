@@ -24,7 +24,7 @@ namespace GameBox
 
             KeyHandler moveExecutor = KeyHandlerFactory.CreateEntityKeyHandler(manEntity, force);
 
-            AddKeyHandler(moveExecutor);
+            KeyHandlers.Add(moveExecutor);
 
             ViewController viewController = new EntityCenterFollowerViewController(new Vector2(40, 40), manEntity);
 

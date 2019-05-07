@@ -16,7 +16,7 @@ namespace RenderCore
             FloatRect viewRect = new FloatRect(-10, 10, 20, 20);
 
             RenderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize, viewRect);
-            RenderCoreWindow.Closed += RenderWindow_OnClosed;
+            RenderCoreWindow.Closed += (_sender, _e) => m_shouldLoopExit = true;
 
             KeyHandlers = new TickableContainer<IKeyHandler>();
 
@@ -28,7 +28,7 @@ namespace RenderCore
 
         private EntityContainer EntitiesContainer { get; }
         protected Physics Physics { get; }
-        private TickableContainer<IKeyHandler> KeyHandlers { get; }
+        protected TickableContainer<IKeyHandler> KeyHandlers { get; }
         protected RenderCoreWindow RenderCoreWindow { get; }
 
         public void Dispose()
@@ -45,16 +45,6 @@ namespace RenderCore
             {
                 AddEntity(woodEntity);
             }
-        }
-
-        protected void AddKeyHandler(IKeyHandler _keyHandler)
-        {
-            KeyHandlers.Add(_keyHandler);
-        }
-
-        private void RenderWindow_OnClosed(object _sender, EventArgs _e)
-        {
-            m_shouldLoopExit = true;
         }
 
         protected void AddEntity(IEntity _entity)

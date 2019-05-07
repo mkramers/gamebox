@@ -4,7 +4,7 @@
     {
         protected override void Dispose(bool _disposing)
         {
-            foreach (IEntity entity in GetConsumingEnumerable())
+            foreach (IEntity entity in this)
             {
                 entity.Dispose();
             }
