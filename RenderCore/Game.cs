@@ -30,6 +30,13 @@ namespace RenderCore
             
             EntitiesContainer = new EntityContainer();
         }
+        protected void AddMap(IMap _map, IPhysics _physics)
+        {
+            foreach (IEntity woodEntity in _map.GetEntities(_physics))
+            {
+                AddEntity(woodEntity);
+            }
+        }
 
         public void Dispose()
         {

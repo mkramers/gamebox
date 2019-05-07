@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
+﻿using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using RenderCore;
 using SFML.System;
-using SFML.Window;
 
 namespace GameBox
 {
@@ -23,16 +20,13 @@ namespace GameBox
             AddEntity(manEntity);
 
             SampleMap map = new SampleMap();
-            foreach (IEntity woodEntity in map.GetEntities(physics))
-            {
-                AddEntity(woodEntity);
-            }
+            AddMap(map, physics);
 
             KeyHandler moveExecutor = KeyHandlerFactory.CreateEntityKeyHandler(manEntity, force);
 
             AddKeyHandler(moveExecutor);
 
-            ViewController viewController = new EntityCenterFollowerViewController(new Vector2(20, 20), manEntity);
+            ViewController viewController = new EntityCenterFollowerViewController(new Vector2(40, 40), manEntity);
 
             RenderCoreWindow.SetViewController(viewController);
         }
