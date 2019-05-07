@@ -10,16 +10,10 @@ namespace GameBox
 {
     public class GameBox : Game
     {
-        private IEntity m_manEntity;
-        private ViewController m_viewController;
+        private readonly IEntity m_manEntity;
+        private readonly ViewController m_viewController;
 
         public GameBox(string _windowTitle, Vector2u _windowSize) : base(_windowTitle, _windowSize)
-        {
-            CreateEntities();
-        }
-
-
-        private void CreateEntities()
         {
             IPhysics physics = GetPhysics();
 
@@ -47,7 +41,7 @@ namespace GameBox
             RenderCoreWindow renderCoreWindow = GetRenderCoreWindow();
             renderCoreWindow.SetViewController(m_viewController);
         }
-
+        
         public override void Tick(TimeSpan _elapsed)
         {
             Vector2 manPosition = m_manEntity.GetPosition();
