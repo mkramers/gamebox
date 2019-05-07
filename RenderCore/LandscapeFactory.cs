@@ -4,7 +4,7 @@ using SFML.System;
 
 namespace RenderCore
 {
-    public class LandscapeFactory
+    public static class LandscapeFactory
     {
         public static IEnumerable<Vector2> GetPyramid(Vector2 _position, int _size)
         {

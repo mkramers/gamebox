@@ -9,7 +9,7 @@ namespace RenderCore
         private readonly Vector2 m_size;
         private Vector2 m_trackedCenter;
 
-        public ViewController(Vector2 _size)
+        protected ViewController(Vector2 _size)
         {
             m_size = _size;
         }
@@ -24,7 +24,7 @@ namespace RenderCore
 
         public abstract void Tick(TimeSpan _elapsed);
 
-        public void SetCenter(Vector2 _center)
+        protected void SetCenter(Vector2 _center)
         {
             m_trackedCenter = _center;
         }

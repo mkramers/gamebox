@@ -9,7 +9,7 @@ namespace RenderCore
         {
             if (_collection == null)
             {
-                throw new ArgumentNullException("_collection");
+                throw new ArgumentNullException(nameof(_collection));
             }
 
             while (_collection.Count > 0)
