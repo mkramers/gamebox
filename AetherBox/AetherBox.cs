@@ -24,7 +24,7 @@ namespace AetherBox
             //IBody edgeBody = Physics.CreateEdge(new Vector2(-5, 5), new Vector2(5, 5));
             //Entity edgeEntity = new Entity(edgeBody);
 
-            MultiDrawable<SpriteDrawable> sample = SampleFactory.GetSample();
+            MultiDrawable sample = SampleFactory.GetSample();
             sample.SetRenderPosition(Vector2.Zero);
             RenderCoreWindow.Add(sample);
 
