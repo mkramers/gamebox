@@ -21,5 +21,10 @@ namespace RenderCore
         {
             _target.Draw(m_shape, _states);
         }
+
+        public void Dispose()
+        {
+            m_shape.Dispose();
+        }
     }
 }

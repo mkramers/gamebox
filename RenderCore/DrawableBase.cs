@@ -18,5 +18,6 @@ namespace RenderCore
         }
 
         public abstract void SetRenderPosition(Vector2 _position);
+        public abstract void Dispose();
     }
 }

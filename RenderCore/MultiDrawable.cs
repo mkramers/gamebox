@@ -28,5 +28,14 @@ namespace RenderCore
                 drawable.SetRenderPosition(relativePosition + _position);
             }
         }
+
+        public void Dispose()
+        {
+            foreach ((IDrawable drawable, Matrix3x2 _) in this)
+            {
+                drawable.Dispose();
+            }
+            Clear();
+        }
     }
 }

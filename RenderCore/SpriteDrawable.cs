@@ -1,5 +1,7 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using SFML.Graphics;
+using SFML.System;
 
 namespace RenderCore
 {
@@ -15,6 +17,11 @@ namespace RenderCore
         public override void SetRenderPosition(Vector2 _position)
         {
             m_sprite.Position = _position.GetVector2F();
+        }
+
+        public override void Dispose()
+        {
+            m_sprite.Dispose();
         }
     }
 }

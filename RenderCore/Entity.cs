@@ -51,9 +51,11 @@ namespace RenderCore
             m_drawable.SetRenderPosition(position);
         }
 
-        public virtual void Dispose()
+        public void Dispose()
         {
             RemoveFromWorld();
+
+            m_drawable.Dispose();
         }
 
         public void Draw(RenderTarget _target, RenderStates _states)
