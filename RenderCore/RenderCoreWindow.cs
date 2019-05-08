@@ -44,7 +44,7 @@ namespace RenderCore
                 _renderWindow.Draw(widget);
             }
 
-            foreach (Drawable shape in m_drawables)
+            foreach (IDrawable shape in m_drawables)
             {
                 _renderWindow.Draw(shape);
             }
