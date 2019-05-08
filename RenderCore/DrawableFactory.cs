@@ -12,6 +12,7 @@ namespace RenderCore
         {
             List<Tuple<IDrawable, Matrix3x2>> drawables = new List<Tuple<IDrawable, Matrix3x2>>();
 
+            // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (Vector2 position in _positions)
             {
                 Sprite sprite = SpriteFactory.GetSprite(_resourceId);
