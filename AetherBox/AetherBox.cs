@@ -28,9 +28,9 @@ namespace AetherBox
             Entity edgeEntity = new Entity(edgeDrawable, edgeBody);
             AddEntity(edgeEntity);
 
-            //MultiDrawable sample = SampleFactory.GetSample();
-            //sample.SetRenderPosition(Vector2.Zero);
-            //RenderCoreWindow.Add(sample);
+            MultiDrawable sample = SampleFactory.GetSample();
+            sample.SetRenderPosition(Vector2.Zero);
+            RenderCoreWindow.Add(sample);
 
             KeyHandler moveExecutor = KeyHandlerFactory.CreateEntityKeyHandler(manEntity, force);
 
