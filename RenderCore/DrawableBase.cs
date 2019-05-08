@@ -12,7 +12,7 @@ namespace RenderCore
             m_drawable = _drawable;
         }
 
-        public void Draw(RenderTarget _target, RenderStates _states)
+        public virtual void Draw(RenderTarget _target, RenderStates _states)
         {
             m_drawable.Draw(_target, _states);
         }

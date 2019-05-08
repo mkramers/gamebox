@@ -21,12 +21,16 @@ namespace AetherBox
 
             AddEntity(manEntity);
 
-            //IBody edgeBody = Physics.CreateEdge(new Vector2(-5, 5), new Vector2(5, 5));
-            //Entity edgeEntity = new Entity(edgeBody);
+            LineSegment lineSegment = new LineSegment(new Vector2(-5, 5), new Vector2(5, 5));
 
-            MultiDrawable sample = SampleFactory.GetSample();
-            sample.SetRenderPosition(Vector2.Zero);
-            RenderCoreWindow.Add(sample);
+            IBody edgeBody = Physics.CreateEdge(lineSegment);
+            ShapeDrawable edgeDrawable = DrawableFactory.GetLineSegment(lineSegment, 0.2f);
+            Entity edgeEntity = new Entity(edgeDrawable, edgeBody);
+            AddEntity(edgeEntity);
+
+            //MultiDrawable sample = SampleFactory.GetSample();
+            //sample.SetRenderPosition(Vector2.Zero);
+            //RenderCoreWindow.Add(sample);
 
             KeyHandler moveExecutor = KeyHandlerFactory.CreateEntityKeyHandler(manEntity, force);
 

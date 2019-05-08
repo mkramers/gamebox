@@ -9,6 +9,24 @@ namespace RenderCore
 {
     public static class DrawableFactory
     {
+        public static MultiDrawable CreateMultiDrawable(IEnumerable<Vector2> _positions, Vector2 _origin, ResourceId _resourceId)
+        {
+            List<Tuple<IDrawable, Matrix3x2>> drawables = new List<Tuple<IDrawable, Matrix3x2>>();
+
+            foreach (Vector2 position in _positions)
+            {
+                Sprite sprite = SpriteFactory.GetSprite(_resourceId);
+                SpriteDrawable spriteDrawable = new SpriteDrawable(sprite);
+
+                Matrix3x2 transform = Matrix3x2.CreateTranslation(position + _origin);
+
+                drawables.Add(new Tuple<IDrawable, Matrix3x2>(spriteDrawable, transform));
+            }
+
+            MultiDrawable multiDrawable = new MultiDrawable(drawables);
+            return multiDrawable;
+        }
+
         public static IEnumerable<Shape> GetGridShapes(int _rows, int _columns, Vector2 _size, float _lineThickness,
             Vector2 _position)
         {
@@ -32,11 +50,11 @@ namespace RenderCore
                 segments.Add(new LineSegment(start, end));
             }
 
-            IEnumerable<Shape> shapes = segments.Select(_segment => GetLine(_segment, _lineThickness));
+            IEnumerable<Shape> shapes = segments.Select(_segment => GetLineShape(_segment, _lineThickness));
             return shapes;
         }
 
-        private static RectangleShape GetLine(LineSegment _line, float _thickness)
+        private static RectangleShape GetLineShape(LineSegment _line, float _thickness)
         {
             Vector2f size = new Vector2f(_thickness, _line.Length);
             float dotProduct = Vector2.Dot(_line.Direction, -Vector2.UnitY);
@@ -48,6 +66,13 @@ namespace RenderCore
                 Rotation = angle
             };
             return rectangleShape;
+        }
+
+        public static ShapeDrawable GetLineSegment(LineSegment _line, float _thickness)
+        {
+            RectangleShape shape = GetLineShape(_line, _thickness);
+            ShapeDrawable drawable = new ShapeDrawable(shape);
+            return drawable;
         }
     }
 }
