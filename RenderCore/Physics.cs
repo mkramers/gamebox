@@ -23,21 +23,11 @@ namespace RenderCore
             World.Step(_elapsed);
         }
 
-        public IBody CreateEdge(Vector2 _edgeStart, Vector2 _edgeEnd)
-        {
-            Aether.Physics2D.Dynamics.Body edgeBody = World.CreateEdge(_edgeStart.GetVector2(), _edgeEnd.GetVector2());
-            edgeBody.SetRestitution(0.3f);
-            edgeBody.SetFriction(0.33f);
-
-            Body body = new Body(edgeBody);
-            return body;
-        }
-
         public IBody CreateBody(Vector2 _position, float _mass, BodyType _bodyType)
         {
             Aether.Physics2D.Dynamics.Body physicsBody =
                 World.CreateRectangle(1, 1, _mass, _position.GetVector2(), 0, _bodyType);
-            
+
             physicsBody.SetRestitution(0.3f);
             physicsBody.SetFriction(0.33f);
 
@@ -50,6 +40,16 @@ namespace RenderCore
         public void SetGravity(Vector2 _gravity)
         {
             World.Gravity = _gravity.GetVector2();
+        }
+
+        public IBody CreateEdge(Vector2 _edgeStart, Vector2 _edgeEnd)
+        {
+            Aether.Physics2D.Dynamics.Body edgeBody = World.CreateEdge(_edgeStart.GetVector2(), _edgeEnd.GetVector2());
+            edgeBody.SetRestitution(0.3f);
+            edgeBody.SetFriction(0.33f);
+
+            Body body = new Body(edgeBody);
+            return body;
         }
     }
 }

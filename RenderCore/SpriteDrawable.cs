@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Linq;
-using System.Numerics;
+﻿using System.Numerics;
 using SFML.Graphics;
 
 namespace RenderCore
