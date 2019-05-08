@@ -20,11 +20,11 @@ namespace GameBox
         {
             const int range = 20;
 
-            Vector2 position = new Vector2(-10, 5);
-            List<Vector2> positions = LandscapeFactory.GetPyramid(position, range).ToList();
+            Vector2 origin = new Vector2(-10, 5);
+            List<Vector2> positions = LandscapeFactory.GetPyramid(range).Select(_position => _position + origin).ToList();
 
             uint boxSize = (uint) Math.Round(1.5f * range);
-            IEnumerable<Vector2> box = LandscapeFactory.GetBox(position, new Vector2u(boxSize, boxSize), 1);
+            IEnumerable<Vector2> box = LandscapeFactory.GetBox(new Vector2u(boxSize, boxSize), 1).Select(_position => _position + origin);
 
             positions.AddRange(box);
 
