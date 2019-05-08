@@ -44,7 +44,8 @@ namespace RenderCore
 
         public IBody CreateEdge(LineSegment _lineSegment)
         {
-            Aether.Physics2D.Dynamics.Body edgeBody = World.CreateEdge(_lineSegment.Start.GetVector2(), _lineSegment.End.GetVector2());
+            Aether.Physics2D.Dynamics.Body edgeBody =
+                World.CreateEdge(_lineSegment.Start.GetVector2(), _lineSegment.End.GetVector2());
             edgeBody.SetRestitution(0.3f);
             edgeBody.SetFriction(0.33f);
 

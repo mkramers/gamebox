@@ -32,7 +32,7 @@ namespace RenderCore
                 segments.Add(new LineSegment(start, end));
             }
 
-            IEnumerable<Shape> shapes = segments.Select<LineSegment, RectangleShape>(_segment => GetLineShape(_segment, _lineThickness));
+            IEnumerable<Shape> shapes = segments.Select(_segment => GetLineShape(_segment, _lineThickness));
             return shapes;
         }
 
