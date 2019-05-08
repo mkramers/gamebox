@@ -32,5 +32,10 @@ namespace RenderCore
             World world = m_body.World;
             world?.Remove(m_body);
         }
+
+        public void SetPosition(Vector2 _position)
+        {
+            m_body.Position = _position.GetVector2();
+        }
     }
 }

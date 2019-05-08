@@ -21,6 +21,9 @@ namespace AetherBox
 
             AddEntity(manEntity);
 
+            IBody edgeBody = Physics.CreateEdge(new Vector2(-5, 5), new Vector2(5, 5));
+            //Entity edgeEntity = new Entity(edgeBody);
+
             KeyHandler moveExecutor = KeyHandlerFactory.CreateEntityKeyHandler(manEntity, force);
 
             KeyHandlers.Add(moveExecutor);

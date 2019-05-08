@@ -11,9 +11,11 @@ namespace RenderCore
         {
             Sprite sprite = SpriteFactory.GetSprite(_resourceId);
 
+            SpriteDrawable spriteDrawable = new SpriteDrawable(sprite);
+
             IBody body = _physics.CreateBody(_position, _mass, _bodyType);
 
-            Entity entity = new Entity(sprite, body);
+            Entity entity = new Entity(spriteDrawable, body);
             return entity;
         }
     }

@@ -10,5 +10,6 @@ namespace RenderCore
         void ApplyLinearImpulse(Vector2 _force);
 
         void RemoveFromWorld();
+        void SetPosition(Vector2 _position);
     }
 }

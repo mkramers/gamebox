@@ -8,13 +8,13 @@ namespace RenderCore
 {
     public class RenderCoreWindow : RenderCoreWindowBase, IDisposable
     {
-        private readonly BlockingCollection<Drawable> m_drawables;
+        private readonly BlockingCollection<IDrawable> m_drawables;
         private readonly IEnumerable<IRenderCoreWindowWidget> m_widgets;
 
         public RenderCoreWindow(RenderWindow _renderWindow, IEnumerable<IRenderCoreWindowWidget> _widgets) : base(
             _renderWindow)
         {
-            m_drawables = new BlockingCollection<Drawable>();
+            m_drawables = new BlockingCollection<IDrawable>();
             m_widgets = _widgets;
         }
 
@@ -32,7 +32,7 @@ namespace RenderCore
         {
             Debug.Assert(_drawable != null);
 
-            m_drawables.Add(_drawable.GetDrawable());
+            m_drawables.Add(_drawable);
         }
 
         protected override void DrawScene(RenderWindow _renderWindow)
