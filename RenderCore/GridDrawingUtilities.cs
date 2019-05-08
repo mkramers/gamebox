@@ -15,7 +15,7 @@ namespace RenderCore
             int rows = (int) Math.Round(viewSize.X);
             int columns = (int) Math.Round(viewSize.Y);
 
-            IEnumerable<Shape> shapes = DrawableFactory.GetGridShapes(rows, columns, viewSize, 0.05f, position);
+            IEnumerable<Shape> shapes = ShapeFactory.GetGridShapes(rows, columns, viewSize, 0.05f, position);
             return shapes;
         }
     }
