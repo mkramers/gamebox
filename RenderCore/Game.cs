@@ -22,10 +22,10 @@ namespace RenderCore
             Vector2 gravity = new Vector2(0, 10);
             Physics = new Physics(gravity);
 
-            EntitiesContainer = new EntityContainer();
+            EntityContainer = new DisposableTickableContainer<IEntity>();
         }
 
-        private EntityContainer EntitiesContainer { get; }
+        private DisposableTickableContainer<IEntity> EntityContainer { get; }
         protected Physics Physics { get; }
         protected TickableContainer<IKeyHandler> KeyHandlers { get; }
         protected RenderCoreWindow RenderCoreWindow { get; }
@@ -35,7 +35,7 @@ namespace RenderCore
             RenderCoreWindow.Dispose();
             Physics.Dispose();
 
-            EntitiesContainer.Dispose();
+            EntityContainer.Dispose();
         }
 
         protected void AddMap(IMap _map, IPhysics _physics)
@@ -48,7 +48,7 @@ namespace RenderCore
 
         protected void AddEntity(IEntity _entity)
         {
-            EntitiesContainer.Add(_entity);
+            EntityContainer.Add(_entity);
 
             RenderCoreWindow.Add(_entity);
         }
@@ -67,7 +67,7 @@ namespace RenderCore
 
                 Physics.Tick(elapsed);
 
-                EntitiesContainer.Tick(elapsed);
+                EntityContainer.Tick(elapsed);
 
                 RenderCoreWindow.Tick(elapsed);
 
