@@ -26,7 +26,7 @@ namespace GameBox
 
             KeyHandlers.Add(moveExecutor);
 
-            ViewController viewController = new EntityCenterFollowerViewController(new Vector2(40, 40), manEntity);
+            ViewController viewController = new EntityCenterFollowerViewController(new Vector2(20, 20), manEntity);
 
             RenderCoreWindow.SetViewController(viewController);
         }
