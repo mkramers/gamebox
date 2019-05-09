@@ -9,14 +9,11 @@ namespace RenderCore
 {
     public abstract class Game : IDisposable
     {
-        private bool m_shouldLoopExit;
-
         protected Game(string _windowTitle, Vector2u _windowSize)
         {
             FloatRect viewRect = new FloatRect(-10, 10, 20, 20);
 
             RenderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize, viewRect);
-            RenderCoreWindow.Closed += (_sender, _e) => m_shouldLoopExit = true;
 
             RenderCoreWindow.AddWidget(new GridWidget());
 
@@ -32,7 +29,7 @@ namespace RenderCore
         protected Physics Physics { get; }
         protected TickableContainer<IKeyHandler> KeyHandlers { get; }
         protected RenderCoreWindow RenderCoreWindow { get; }
-
+        
         public void Dispose()
         {
             RenderCoreWindow.Dispose();
@@ -60,7 +57,7 @@ namespace RenderCore
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
 
-            while (true)
+            while (RenderCoreWindow.IsOpen)
             {
                 TimeSpan elapsed = stopwatch.GetElapsedAndRestart();
 
@@ -76,11 +73,6 @@ namespace RenderCore
 
                 //too fast!
                 Thread.Sleep(30);
-
-                if (m_shouldLoopExit)
-                {
-                    break;
-                }
             }
         }
     }
