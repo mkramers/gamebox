@@ -15,7 +15,7 @@ namespace GameBox
             const float mass = 0.1f;
             const float force = 0.666f;
 
-            IEntity manEntity = EntityFactory.CreateEntity(mass, -5 * Vector2.UnitY, physics, ResourceId.MAN,
+            IEntity manEntity = EntityFactory.CreateEntity(mass, 2*Vector2.One, physics, ResourceId.MAN,
                 BodyType.Dynamic);
 
             AddEntity(manEntity);
