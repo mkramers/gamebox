@@ -8,7 +8,6 @@ namespace RenderCore
     public class GridWidget : IRenderCoreWindowWidget
     {
         private readonly List<Shape> m_shapes;
-        private View m_view;
 
         public GridWidget()
         {
@@ -23,22 +22,17 @@ namespace RenderCore
             }
         }
 
-        public virtual void Dispose()
+        public void Dispose()
         {
             ClearShapes();
         }
 
-        public virtual void SetRenderPosition(Vector2 _position)
+        public void SetRenderPosition(Vector2 _position)
         {
             throw new NotImplementedException();
         }
 
         public void SetView(View _view)
-        {
-            m_view = _view;
-        }
-
-        private void RefreshGrid(View _view)
         {
             ClearShapes();
 
@@ -57,11 +51,6 @@ namespace RenderCore
             }
 
             m_shapes.Clear();
-        }
-
-        public void Tick(TimeSpan _elapsed)
-        {
-            RefreshGrid(m_view);
         }
     }
 }
