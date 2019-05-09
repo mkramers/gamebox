@@ -10,9 +10,7 @@ namespace RenderCore
         {
             RenderWindow renderWindow = RenderWindowFactory.CreateRenderWindow(_windowTitle, _windowSize, _viewRect);
 
-            GridWidget gridWidget = new GridWidget(renderWindow.GetView()) {IsDrawEnabled = true};
-
-            return new RenderCoreWindow(renderWindow, new[] {gridWidget});
+            return new RenderCoreWindow(renderWindow);
         }
     }
 }

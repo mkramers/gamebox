@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using SFML.Graphics;
 
 namespace RenderCore
@@ -9,13 +10,12 @@ namespace RenderCore
     public class RenderCoreWindow : RenderCoreWindowBase, IDisposable
     {
         private readonly BlockingCollection<IDrawable> m_drawables;
-        private readonly IEnumerable<IRenderCoreWindowWidget> m_widgets;
+        private readonly BlockingCollection<IRenderCoreWindowWidget> m_widgets;
 
-        public RenderCoreWindow(RenderWindow _renderWindow, IEnumerable<IRenderCoreWindowWidget> _widgets) : base(
-            _renderWindow)
+        public RenderCoreWindow(RenderWindow _renderWindow) : base(_renderWindow)
         {
             m_drawables = new BlockingCollection<IDrawable>();
-            m_widgets = _widgets;
+            m_widgets = new BlockingCollection<IRenderCoreWindowWidget>();
         }
 
         public void Dispose()
@@ -35,9 +35,16 @@ namespace RenderCore
             m_drawables.Add(_drawable);
         }
 
+        public void AddWidget(IRenderCoreWindowWidget _widget)
+        {
+            Debug.Assert(_widget != null);
+
+            m_widgets.Add(_widget);
+        }
+
         protected override void DrawScene(RenderWindow _renderWindow)
         {
-            _renderWindow.Clear(Color.Green);
+            _renderWindow.Clear(Color.Black);
 
             foreach (IRenderCoreWindowWidget widget in m_widgets)
             {
@@ -50,6 +57,18 @@ namespace RenderCore
             }
 
             _renderWindow.Display();
+        }
+
+        public override void Tick(TimeSpan _elapsed)
+        {
+            View view = m_renderWindow.GetView();
+            foreach (IRenderCoreWindowWidget widget in m_widgets)
+            {
+                widget.SetView(view);
+                widget.Tick(_elapsed);
+            }
+
+            base.Tick(_elapsed);
         }
     }
 }

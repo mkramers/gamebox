@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using Aether.Physics2D.Common.Maths;
 using SFML.Graphics;
+using SFML.System;
+using SFML.Window;
 
 namespace RenderCore
 {
@@ -13,6 +16,7 @@ namespace RenderCore
         {
             m_renderWindow = _renderWindow;
             m_renderWindow.Closed += RenderWindowOnClosed;
+            m_renderWindow.Resized += RenderWindowOnResized;
         }
 
         public virtual void Tick(TimeSpan _elapsed)
@@ -43,6 +47,12 @@ namespace RenderCore
             Debug.Assert(window != null);
 
             window.Close();
+        }
+
+        private void RenderWindowOnResized(object _sender, SizeEventArgs _e)
+        {
+            Vector2u windowSize = new Vector2u(_e.Width, _e.Height);
+            m_viewController.SetParentSize(windowSize);
         }
 
         protected abstract void DrawScene(RenderWindow _renderWindow);

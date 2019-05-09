@@ -18,6 +18,8 @@ namespace RenderCore
             RenderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize, viewRect);
             RenderCoreWindow.Closed += (_sender, _e) => m_shouldLoopExit = true;
 
+            RenderCoreWindow.AddWidget(new GridWidget());
+
             KeyHandlers = new TickableContainer<IKeyHandler>();
 
             Vector2 gravity = new Vector2(0, 10);

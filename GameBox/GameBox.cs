@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using RenderCore;
+using SFML.Graphics;
 using SFML.System;
 
 namespace GameBox
@@ -26,7 +27,8 @@ namespace GameBox
 
             KeyHandlers.Add(moveExecutor);
 
-            ViewController viewController = new EntityCenterFollowerViewController(new Vector2(20, 20), manEntity);
+            View view = new View(Vector2.Zero.GetVector2F(), new Vector2(20, 20).GetVector2F());
+            ViewController viewController = new EntityCenterFollowerViewController(view, 0.03f, manEntity);
 
             RenderCoreWindow.SetViewController(viewController);
         }

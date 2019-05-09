@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using SFML.Graphics;
 
 namespace RenderCore
 {
@@ -7,7 +8,7 @@ namespace RenderCore
     {
         private readonly IEntity m_entity;
 
-        public EntityCenterFollowerViewController(Vector2 _size, IEntity _entity) : base(_size)
+        public EntityCenterFollowerViewController(View _view, float _windowRatio, IEntity _entity) : base(_view, _windowRatio)
         {
             m_entity = _entity;
         }
