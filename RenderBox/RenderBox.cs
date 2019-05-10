@@ -34,12 +34,17 @@ namespace RenderBox
 
             Stopwatch stopwatch = Stopwatch.StartNew();
 
-            const int FPS_BUFFER_SIZE = 10;
+            const int FPS_BUFFER_SIZE = 5;
             int fpsBufferIndex = 0;
             TimeSpan fpsBufferAccumulator = TimeSpan.Zero;
 
             while (true)
             {
+                if (!renderCoreWindow.IsOpen)
+                {
+                    break;
+                }
+
                 TimeSpan elapsed = stopwatch.GetElapsedAndRestart();
 
                 if (fpsBufferIndex < FPS_BUFFER_SIZE)
