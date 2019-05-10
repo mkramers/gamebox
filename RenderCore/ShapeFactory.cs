@@ -13,7 +13,7 @@ namespace RenderCore
             Vector2 _position)
         {
             Vector2 cellSize = new Vector2(_size.X / _columns, _size.Y / _rows);
-
+            
             List<LineSegment> segments = new List<LineSegment>(_rows + _columns);
 
             for (int i = 1; i < _rows; i++)
@@ -26,8 +26,8 @@ namespace RenderCore
 
             for (int i = 1; i < _columns; i++)
             {
-                Vector2 start = new Vector2(i * cellSize.X, _size.Y) + _position;
-                Vector2 end = new Vector2(i * cellSize.X, 0) + _position;
+                Vector2 start = new Vector2(i * cellSize.X, 0) + _position;
+                Vector2 end = new Vector2(i * cellSize.X, _size.Y) + _position;
 
                 segments.Add(new LineSegment(start, end));
             }
@@ -39,12 +39,12 @@ namespace RenderCore
         public static RectangleShape GetLineShape(LineSegment _line, float _thickness)
         {
             Vector2f size = new Vector2f(_thickness, _line.Length);
-            float dotProduct = Vector2.Dot(_line.Direction, -Vector2.UnitY);
-            float angle = ((float) Math.Acos(dotProduct)).ToDegrees();
+            float dotProduct = Vector2.Dot(_line.Direction, Vector2.UnitY);
+            float angle = -((float)Math.Acos(dotProduct)).ToDegrees();
 
             RectangleShape rectangleShape = new RectangleShape(size)
             {
-                Position = _line.End.GetVector2F(),
+                Position = _line.Start.GetVector2F(),
                 Rotation = angle
             };
             return rectangleShape;

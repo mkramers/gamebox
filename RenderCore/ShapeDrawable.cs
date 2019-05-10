@@ -26,5 +26,10 @@ namespace RenderCore
         {
             m_shape.Dispose();
         }
+
+        public void SetColor(Color _color)
+        {
+            m_shape.FillColor = _color;
+        }
     }
 }
