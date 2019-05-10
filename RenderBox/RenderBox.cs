@@ -22,16 +22,43 @@ namespace RenderBox
             renderCoreWindow.Add(lineSegmentDrawable);
 
             GridWidget gridWidget = new GridWidget();
+            //renderCoreWindow.AddWidget(gridWidget);
 
-            renderCoreWindow.AddWidget(gridWidget);
+            FontFactory fontFactory = new FontFactory();
+            Font font = fontFactory.GetFont(FontId.ROBOTO);
+            //Vector2 textPosition = new Vector2(0.1f, 0.9f);
+            Vector2 textPosition = new Vector2(5, 45);
+            TextWidget textWidget = new TextWidget(font, 24);
+            textWidget.SetRenderPosition(textPosition);
+            renderCoreWindow.AddWidget(textWidget);
 
             Stopwatch stopwatch = Stopwatch.StartNew();
+
+            const int FPS_BUFFER_SIZE = 10;
+            int fpsBufferIndex = 0;
+            TimeSpan fpsBufferAccumulator = TimeSpan.Zero;
 
             while (true)
             {
                 TimeSpan elapsed = stopwatch.GetElapsedAndRestart();
 
+                if (fpsBufferIndex < FPS_BUFFER_SIZE)
+                {
+                    fpsBufferAccumulator = (fpsBufferAccumulator + elapsed) / 2.0f;
+                    fpsBufferIndex++;
+                }
+                else
+                {
+                    string message = $"FPS: {1.0 / fpsBufferAccumulator.TotalSeconds:0.00}\tTick: {fpsBufferAccumulator.TotalMilliseconds:0.00} ms";
+                    textWidget.SetMessage(message);
+
+                    fpsBufferAccumulator = TimeSpan.Zero;
+                    fpsBufferIndex = 0;
+                }
+
+
                 renderCoreWindow.Tick(elapsed);
+
                 Thread.Sleep(30);
             }
         }

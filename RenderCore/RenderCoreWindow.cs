@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
+using System.Numerics;
+using System.Text;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
