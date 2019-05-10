@@ -1,4 +1,7 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Diagnostics;
+using System.Numerics;
+using System.Threading;
 using RenderCore;
 using SFML.Graphics;
 using SFML.System;
@@ -13,13 +16,22 @@ namespace RenderBox
             RenderCoreWindow renderCoreWindow =
                 RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize, viewRect);
 
-            LineSegment lineSegment = new LineSegment(new Vector2(-5, 5), new Vector2(5, 5));
-            ShapeDrawable lineSegmentDrawable = DrawableFactory.GetLineSegment(lineSegment, 0.25f);
-            //renderCoreWindow.Add(lineSegmentDrawable);
+            LineSegment lineSegment = new LineSegment(new Vector2(-50, 5), new Vector2(50, 5));
+            ShapeDrawable lineSegmentDrawable = DrawableFactory.GetLineSegment(lineSegment, 1);
+            renderCoreWindow.Add(lineSegmentDrawable);
+
+            GridWidget gridWidget = new GridWidget();
+
+            renderCoreWindow.AddWidget(gridWidget);
+
+            Stopwatch stopwatch = Stopwatch.StartNew();
 
             while (true)
             {
-                renderCoreWindow.Tick();
+                TimeSpan elapsed = stopwatch.GetElapsedAndRestart();
+
+                renderCoreWindow.Tick(elapsed);
+                Thread.Sleep(30);
             }
         }
     }
