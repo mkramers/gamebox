@@ -22,6 +22,8 @@ namespace RenderCore
 
             m_drawables = new BlockingCollection<IDrawable>();
             m_widgets = new BlockingCollection<IRenderCoreWindowWidget>();
+
+            //m_viewController = new StaticViewControllerBase(m_renderWindow.GetView(), 0.03f);
         }
 
         public bool IsOpen => m_renderWindow.IsOpen;
@@ -50,16 +52,16 @@ namespace RenderCore
 
             m_renderWindow.DispatchEvents();
 
-            m_viewController.Tick(_elapsed);
+            //m_viewController.Tick(_elapsed);
 
-            View view = m_viewController.GetView();
+            //View view = m_viewController.GetView();
 
-            foreach (IRenderCoreWindowWidget widget in m_widgets)
-            {
-                widget.SetView(view);
-            }
+            //foreach (IRenderCoreWindowWidget widget in m_widgets)
+            //{
+            //    widget.SetView(view);
+            //}
             
-            m_renderWindow.SetView(view);
+            //m_renderWindow.SetView(view);
 
             DrawScene(m_renderWindow);
         }

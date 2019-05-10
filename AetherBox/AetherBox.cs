@@ -38,7 +38,7 @@ namespace AetherBox
             KeyHandlers.Add(moveExecutor);
 
             View view = new View(Vector2.Zero.GetVector2F(), new Vector2(20, 20).GetVector2F());
-            ViewController viewController = new EntityCenterFollowerViewController(view, 0.03f, manEntity);
+            ViewControllerBase viewController = new EntityCenterFollowerViewController(view, 0.03f, manEntity);
 
             RenderCoreWindow.SetViewController(viewController);
         }

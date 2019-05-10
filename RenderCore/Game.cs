@@ -29,7 +29,7 @@ namespace RenderCore
         protected Physics Physics { get; }
         protected TickableContainer<IKeyHandler> KeyHandlers { get; }
         protected RenderCoreWindow RenderCoreWindow { get; }
-        
+
         public void Dispose()
         {
             RenderCoreWindow.Dispose();
