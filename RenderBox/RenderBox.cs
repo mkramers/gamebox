@@ -21,8 +21,8 @@ namespace RenderBox
             lineSegmentDrawable.SetColor(Color.Red);
             renderCoreWindow.Add(lineSegmentDrawable);
 
-            GridWidget gridWidget = new GridWidget();
-            renderCoreWindow.AddWidget(gridWidget);
+            //GridWidget gridWidget = new GridWidget();
+            //renderCoreWindow.AddWidget(gridWidget);
 
             FontFactory fontFactory = new FontFactory();
             Font font = fontFactory.GetFont(FontId.ROBOTO);

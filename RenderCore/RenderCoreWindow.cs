@@ -88,6 +88,7 @@ namespace RenderCore
         public void SetViewController(IViewController _viewController)
         {
             m_viewController = _viewController;
+            m_viewController.SetParentSize(m_renderWindow.Size);
         }
 
         private void RenderWindowOnResized(object _sender, SizeEventArgs _e)
