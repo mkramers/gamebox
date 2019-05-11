@@ -35,6 +35,7 @@ namespace RenderCore
             {
                 drawable.Dispose();
             }
+
             Clear();
         }
     }

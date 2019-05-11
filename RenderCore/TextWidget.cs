@@ -1,34 +1,10 @@
 ﻿using System;
 using System.Numerics;
-using System.Security.Cryptography.X509Certificates;
 using SFML.Graphics;
 using SFML.System;
 
 namespace RenderCore
 {
-    public abstract class RenderCoreViewWidgetBase : IRenderCoreWindowWidget
-    {
-        protected View m_view;
-
-        protected RenderCoreViewWidgetBase()
-        {
-
-        }
-
-        public abstract void Draw(RenderTarget _target, RenderStates _states);
-        public abstract void Dispose();
-
-        public abstract void SetRenderPosition(Vector2 _positionScreen);
-
-        public void SetView(View _view)
-        {
-            m_view = _view;
-        }
-
-        public virtual void Tick(TimeSpan _elapsed)
-        {
-        }
-    }
     public class TextWidget : RenderCoreViewWidgetBase
     {
         private readonly Text m_text;
@@ -36,7 +12,8 @@ namespace RenderCore
 
         public TextWidget(Font _font, uint _fontSize, float _fontScale)
         {
-            m_text = new Text("", _font, _fontSize) { Scale = new Vector2f(_fontScale/_fontSize, _fontScale / _fontSize) };
+            m_text = new Text("", _font, _fontSize)
+                {Scale = new Vector2f(_fontScale / _fontSize, _fontScale / _fontSize)};
         }
 
         public void SetMessage(string _message)

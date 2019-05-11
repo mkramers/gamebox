@@ -13,7 +13,7 @@ namespace RenderCore
             Vector2 _position)
         {
             Vector2 cellSize = new Vector2(_size.X / _columns, _size.Y / _rows);
-            
+
             List<LineSegment> segments = new List<LineSegment>(_rows + _columns);
 
             for (int i = 1; i < _rows; i++)
@@ -40,7 +40,7 @@ namespace RenderCore
         {
             Vector2f size = new Vector2f(_thickness, _line.Length);
             float dotProduct = Vector2.Dot(_line.Direction, Vector2.UnitY);
-            float angle = -((float)Math.Acos(dotProduct)).ToDegrees();
+            float angle = -((float) Math.Acos(dotProduct)).ToDegrees();
 
             RectangleShape rectangleShape = new RectangleShape(size)
             {

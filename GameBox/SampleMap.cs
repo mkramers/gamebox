@@ -24,7 +24,7 @@ namespace GameBox
             List<Vector2> positions =
                 LandscapeFactory.GetPyramid(range).Select(_position => _position + origin).ToList();
 
-            uint boxSize = (uint)Math.Round(1.5f * range);
+            uint boxSize = (uint) Math.Round(1.5f * range);
             IEnumerable<Vector2> box = LandscapeFactory.GetBox(new Vector2u(3 * boxSize, 2 * boxSize), 1)
                 .Select(_position => _position + origin);
 

@@ -1,5 +1,4 @@
-﻿using Aether.Physics2D.Common.Maths;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 using SFML.System;
 
 namespace RenderCore

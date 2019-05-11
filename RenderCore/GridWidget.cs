@@ -38,7 +38,8 @@ namespace RenderCore
 
             ClearShapes();
 
-            Vector2 snappedCenter = new Vector2((float)Math.Round(m_view.Center.X), (float)Math.Round(m_view.Center.Y));
+            Vector2 snappedCenter =
+                new Vector2((float) Math.Round(m_view.Center.X), (float) Math.Round(m_view.Center.Y));
             View snappedView = new View(snappedCenter.GetVector2F(), m_view.Size);
 
             IEnumerable<Shape> shapes = GridDrawingUtilities.GetGridDrawableFromView(snappedView);

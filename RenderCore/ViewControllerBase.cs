@@ -5,17 +5,6 @@ using SFML.System;
 
 namespace RenderCore
 {
-    public class StaticViewControllerBase : ViewControllerBase
-    {
-        public StaticViewControllerBase(View _view, float _windowRatio) : base(_view, _windowRatio)
-        {
-        }
-
-        public override void Tick(TimeSpan _elapsed)
-        {
-        }
-    }
-
     public abstract class ViewControllerBase : IViewController
     {
         private readonly View m_view;

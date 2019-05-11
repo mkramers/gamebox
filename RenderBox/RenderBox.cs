@@ -32,7 +32,7 @@ namespace RenderBox
             renderCoreWindow.AddWidget(fpsTextWidget);
 
             Stopwatch stopwatch = Stopwatch.StartNew();
-            
+
             while (true)
             {
                 if (!renderCoreWindow.IsOpen)
