@@ -43,8 +43,8 @@ namespace RenderBox
 
                 TimeSpan elapsed = stopwatch.GetElapsedAndRestart();
 
-                fpsTextWidget.SetElapsed(elapsed);
 
+                fpsTextWidget.Tick(elapsed);
                 renderCoreWindow.Tick(elapsed);
 
                 Thread.Sleep(30);
