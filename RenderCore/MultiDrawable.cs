@@ -19,13 +19,13 @@ namespace RenderCore
             }
         }
 
-        public void SetRenderPosition(Vector2 _position)
+        public void SetRenderPosition(Vector2 _positionScreen)
         {
             foreach ((IDrawable drawable, Matrix3x2 transform) in this)
             {
                 Vector2 relativePosition = transform.Translation;
 
-                drawable.SetRenderPosition(relativePosition + _position);
+                drawable.SetRenderPosition(relativePosition + _positionScreen);
             }
         }
 

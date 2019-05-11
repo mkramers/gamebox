@@ -61,6 +61,7 @@ namespace RenderCore
             foreach (IRenderCoreWindowWidget widget in m_widgets)
             {
                 widget.SetView(view);
+                widget.Tick(_elapsed);
             }
 
             m_renderWindow.SetView(view);

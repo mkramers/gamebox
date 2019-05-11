@@ -17,7 +17,7 @@ namespace RenderCore
             m_drawable.Draw(_target, _states);
         }
 
-        public abstract void SetRenderPosition(Vector2 _position);
+        public abstract void SetRenderPosition(Vector2 _positionScreen);
         public abstract void Dispose();
     }
 }

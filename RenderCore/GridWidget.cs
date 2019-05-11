@@ -5,7 +5,7 @@ using SFML.Graphics;
 
 namespace RenderCore
 {
-    public class GridWidget : IRenderCoreWindowWidget
+    public class GridWidget : RenderCoreViewWidgetBase
     {
         private readonly List<Shape> m_shapes;
 
@@ -14,7 +14,7 @@ namespace RenderCore
             m_shapes = new List<Shape>();
         }
 
-        public void Draw(RenderTarget _target, RenderStates _state)
+        public override void Draw(RenderTarget _target, RenderStates _state)
         {
             foreach (Shape shape in m_shapes)
             {
@@ -22,22 +22,24 @@ namespace RenderCore
             }
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             ClearShapes();
         }
 
-        public void SetRenderPosition(Vector2 _position)
+        public override void SetRenderPosition(Vector2 _positionScreen)
         {
             throw new NotImplementedException();
         }
 
-        public void SetView(View _view)
+        public override void Tick(TimeSpan _elapsed)
         {
+            base.Tick(_elapsed);
+
             ClearShapes();
 
-            Vector2 snappedCenter = new Vector2((float)Math.Round(_view.Center.X), (float)Math.Round(_view.Center.Y));
-            View snappedView = new View(snappedCenter.GetVector2F(), _view.Size);
+            Vector2 snappedCenter = new Vector2((float)Math.Round(m_view.Center.X), (float)Math.Round(m_view.Center.Y));
+            View snappedView = new View(snappedCenter.GetVector2F(), m_view.Size);
 
             IEnumerable<Shape> shapes = GridDrawingUtilities.GetGridDrawableFromView(snappedView);
             m_shapes.AddRange(shapes);

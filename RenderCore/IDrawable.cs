@@ -6,6 +6,6 @@ namespace RenderCore
 {
     public interface IDrawable : Drawable, IDisposable
     {
-        void SetRenderPosition(Vector2 _position);
+        void SetRenderPosition(Vector2 _positionScreen);
     }
 }

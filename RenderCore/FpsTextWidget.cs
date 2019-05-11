@@ -3,7 +3,7 @@ using SFML.Graphics;
 
 namespace RenderCore
 {
-    public class FpsTextWidget : TextWidget, ITickable
+    public class FpsTextWidget : TextWidget
     {
         private readonly int m_fpsBufferSize;
         private int m_fpsBufferIndex;
@@ -16,8 +16,10 @@ namespace RenderCore
             m_fpsBufferAccumulator = TimeSpan.Zero;
         }
 
-        public void Tick(TimeSpan _elapsed)
+        public override void Tick(TimeSpan _elapsed)
         {
+            base.Tick(_elapsed);
+
             if (m_fpsBufferIndex < m_fpsBufferSize)
             {
                 m_fpsBufferAccumulator = (m_fpsBufferAccumulator + _elapsed) / 2.0f;

@@ -12,9 +12,9 @@ namespace RenderCore
             m_shape = _shape;
         }
 
-        public void SetRenderPosition(Vector2 _position)
+        public void SetRenderPosition(Vector2 _positionScreen)
         {
-            m_shape.Position = _position.GetVector2F();
+            m_shape.Position = _positionScreen.GetVector2F();
         }
 
         public void Draw(RenderTarget _target, RenderStates _states)

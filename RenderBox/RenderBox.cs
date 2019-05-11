@@ -45,6 +45,7 @@ namespace RenderBox
 
 
                 fpsTextWidget.Tick(elapsed);
+
                 renderCoreWindow.Tick(elapsed);
 
                 Thread.Sleep(30);
