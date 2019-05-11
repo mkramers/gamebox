@@ -38,9 +38,9 @@ namespace RenderCore
             float height = _parentSize.Y * m_windowRatio;
 
             Vector2f size = new Vector2f(width, height);
+
             m_view.Size = size;
-            m_view.Center = new Vector2f(width / 2, height / 2);
-            m_view.Viewport = new FloatRect(0.0f, 0, 0.8f, 1);
+            m_view.Viewport = new FloatRect(0.0f, 0, 1f, 1);
         }
 
         public abstract void Tick(TimeSpan _elapsed);

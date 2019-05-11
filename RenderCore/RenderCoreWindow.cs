@@ -25,7 +25,8 @@ namespace RenderCore
             m_drawables = new BlockingCollection<IDrawable>();
             m_widgets = new BlockingCollection<IRenderCoreWindowWidget>();
 
-            m_viewController = new StaticViewControllerBase(m_renderWindow.GetView(), 0.03f);
+            m_viewController = new StaticViewControllerBase(m_renderWindow.GetView(), 50.0f / 800.0f);
+            m_viewController.SetParentSize(_renderWindow.Size);
         }
 
         public bool IsOpen => m_renderWindow.IsOpen;

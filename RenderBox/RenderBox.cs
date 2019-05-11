@@ -22,7 +22,7 @@ namespace RenderBox
             renderCoreWindow.Add(lineSegmentDrawable);
 
             GridWidget gridWidget = new GridWidget();
-            //renderCoreWindow.AddWidget(gridWidget);
+            renderCoreWindow.AddWidget(gridWidget);
 
             FontFactory fontFactory = new FontFactory();
             Font font = fontFactory.GetFont(FontId.ROBOTO);
