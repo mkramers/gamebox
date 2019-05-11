@@ -26,8 +26,8 @@ namespace RenderBox
 
             FontFactory fontFactory = new FontFactory();
             Font font = fontFactory.GetFont(FontId.ROBOTO);
-            Vector2 textPosition = new Vector2(0.1f, 0.9f);
-            FpsTextWidget fpsTextWidget = new FpsTextWidget(font, 24, 5);
+            Vector2 textPosition = new Vector2(0.01f, 0.98f);
+            FpsTextWidget fpsTextWidget = new FpsTextWidget(font, 32, 5, 1f);
             fpsTextWidget.SetRenderPosition(textPosition);
             renderCoreWindow.AddWidget(fpsTextWidget);
 

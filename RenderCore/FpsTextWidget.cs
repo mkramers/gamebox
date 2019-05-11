@@ -9,7 +9,7 @@ namespace RenderCore
         private int m_fpsBufferIndex;
         private TimeSpan m_fpsBufferAccumulator;
 
-        public FpsTextWidget(Font _font, uint _fontSize, int _fpsBufferSize) : base(_font, _fontSize)
+        public FpsTextWidget(Font _font, uint _fontSize, int _fpsBufferSize, float _fontScale) : base(_font, _fontSize, _fontScale)
         {
             m_fpsBufferSize = _fpsBufferSize;
             m_fpsBufferIndex = 0;

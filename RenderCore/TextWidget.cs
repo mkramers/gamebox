@@ -34,9 +34,9 @@ namespace RenderCore
         private readonly Text m_text;
         private Vector2 m_positionScreen;
 
-        public TextWidget(Font _font, uint _fontSize)
+        public TextWidget(Font _font, uint _fontSize, float _fontScale)
         {
-            m_text = new Text("", _font, _fontSize) { Scale = new Vector2f(2.0f / _fontSize, 2.0f / _fontSize) };
+            m_text = new Text("", _font, _fontSize) { Scale = new Vector2f(_fontScale/_fontSize, _fontScale / _fontSize) };
         }
 
         public void SetMessage(string _message)
