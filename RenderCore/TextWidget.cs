@@ -64,9 +64,8 @@ namespace RenderCore
             }
 
             Vector2f size = m_view.Size;
-            Vector2f position = m_view.Center - size / 2.0f;
 
-            Vector2f positionViewSpace = new Vector2f(m_positionScreen.X * position.X, m_positionScreen.Y * position.Y);
+            Vector2f positionViewSpace = new Vector2f(size.X * m_positionScreen.X, size.Y * m_positionScreen.Y);
 
             m_text.Position = positionViewSpace;
         }
