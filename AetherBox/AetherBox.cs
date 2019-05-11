@@ -31,7 +31,7 @@ namespace AetherBox
 
             MultiDrawable sample = SampleFactory.GetSample();
             sample.SetRenderPosition(Vector2.Zero);
-            RenderCoreWindow.Add(sample);
+            RenderCoreWindow.AddDrawable(sample);
 
             KeyHandler moveExecutor = KeyHandlerFactory.CreateEntityKeyHandler(manEntity, force);
 

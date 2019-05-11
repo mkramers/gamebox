@@ -50,7 +50,7 @@ namespace RenderCore
         {
             EntityContainer.Add(_entity);
 
-            RenderCoreWindow.Add(_entity);
+            RenderCoreWindow.AddDrawable(_entity);
         }
 
         public void StartLoop()

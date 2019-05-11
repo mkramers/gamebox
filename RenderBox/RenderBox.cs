@@ -19,7 +19,7 @@ namespace RenderBox
             LineSegment lineSegment = new LineSegment(new Vector2(5, 5), new Vector2(45, 25));
             ShapeDrawable lineSegmentDrawable = DrawableFactory.GetLineSegment(lineSegment, 1);
             lineSegmentDrawable.SetColor(Color.Red);
-            renderCoreWindow.Add(lineSegmentDrawable);
+            renderCoreWindow.AddDrawable(lineSegmentDrawable);
 
             //GridWidget gridWidget = new GridWidget();
             //renderCoreWindow.AddWidget(gridWidget);

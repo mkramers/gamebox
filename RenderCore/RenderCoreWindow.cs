@@ -68,7 +68,7 @@ namespace RenderCore
             DrawScene(m_renderWindow);
         }
 
-        public void Add(IDrawable _drawable)
+        public void AddDrawable(IDrawable _drawable)
         {
             Debug.Assert(_drawable != null);
 
@@ -80,7 +80,7 @@ namespace RenderCore
             Debug.Assert(_widget != null);
 
             m_widgets.Add(_widget);
-            Add(_widget);
+            AddDrawable(_widget);
         }
 
         public void SetViewController(IViewController _viewController)
