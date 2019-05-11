@@ -10,13 +10,13 @@ namespace RenderCore
         private readonly Text m_text;
         private Vector2 m_positionScreen;
 
-        public TextWidget(Font _font, uint _fontSize, float _fontScale)
+        protected TextWidget(Font _font, uint _fontSize, float _fontScale)
         {
             m_text = new Text("", _font, _fontSize)
                 {Scale = new Vector2f(_fontScale / _fontSize, _fontScale / _fontSize)};
         }
 
-        public void SetMessage(string _message)
+        protected void SetMessage(string _message)
         {
             m_text.DisplayedString = _message;
         }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
-using System.Numerics;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
@@ -106,14 +105,6 @@ namespace RenderCore
             }
 
             _renderWindow.Display();
-        }
-
-        public Vector2 GetWorldCoordinate(Vector2 _pixelCoordinate)
-        {
-            int x = (int) Math.Round(_pixelCoordinate.X * m_renderWindow.Size.X);
-            int y = (int) Math.Round(_pixelCoordinate.Y * m_renderWindow.Size.Y);
-            Vector2i screenCoord = new Vector2i(x, y);
-            return m_renderWindow.MapPixelToCoords(screenCoord).GetVector2();
         }
     }
 }
