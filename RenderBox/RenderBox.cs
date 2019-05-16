@@ -22,14 +22,14 @@ namespace RenderBox
             renderCoreWindow.AddDrawable(lineSegmentDrawable);
 
             //GridWidget gridWidget = new GridWidget();
-            //renderCoreWindow.AddWidget(gridWidget);
+            //renderCoreWindow.AddViewWidget(gridWidget);
 
             FontFactory fontFactory = new FontFactory();
             Font font = fontFactory.GetFont(FontId.ROBOTO);
             Vector2 textPosition = new Vector2(0.01f, 0.98f);
             FpsTextWidget fpsTextWidget = new FpsTextWidget(font, 32, 5, 1f);
             fpsTextWidget.SetRenderPosition(textPosition);
-            renderCoreWindow.AddWidget(fpsTextWidget);
+            renderCoreWindow.AddViewWidget(fpsTextWidget);
 
             Stopwatch stopwatch = Stopwatch.StartNew();
 

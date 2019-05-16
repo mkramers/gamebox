@@ -4,7 +4,7 @@ using SFML.Graphics;
 
 namespace RenderCore
 {
-    public abstract class RenderCoreViewWidgetBase : IRenderCoreWindowWidget
+    public abstract class RenderCoreViewWidgetBase : IRenderCoreViewWidget
     {
         protected View m_view;
 
@@ -18,8 +18,6 @@ namespace RenderCore
             m_view = _view;
         }
 
-        public virtual void Tick(TimeSpan _elapsed)
-        {
-        }
+        public abstract void Tick(TimeSpan _elapsed);
     }
 }

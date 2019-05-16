@@ -34,8 +34,6 @@ namespace RenderCore
 
         public override void Tick(TimeSpan _elapsed)
         {
-            base.Tick(_elapsed);
-
             ClearShapes();
 
             Vector2 snappedCenter =

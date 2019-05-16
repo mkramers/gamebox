@@ -15,7 +15,7 @@ namespace RenderCore
 
             RenderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize, viewRect);
 
-            RenderCoreWindow.AddWidget(new GridWidget());
+            RenderCoreWindow.AddViewWidget(new GridWidget());
 
             KeyHandlers = new TickableContainer<IKeyHandler>();
 

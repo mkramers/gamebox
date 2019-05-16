@@ -11,7 +11,7 @@ namespace RenderCore
     {
         private readonly BlockingCollection<IDrawable> m_drawables;
         private readonly RenderWindow m_renderWindow;
-        private readonly BlockingCollection<IRenderCoreWindowWidget> m_widgets;
+        private readonly BlockingCollection<IRenderCoreViewWidget> m_viewWidgets;
         private IViewController m_viewController;
 
         public RenderCoreWindow(RenderWindow _renderWindow)
@@ -21,7 +21,7 @@ namespace RenderCore
             m_renderWindow.Resized += RenderWindowOnResized;
 
             m_drawables = new BlockingCollection<IDrawable>();
-            m_widgets = new BlockingCollection<IRenderCoreWindowWidget>();
+            m_viewWidgets = new BlockingCollection<IRenderCoreViewWidget>();
 
             m_viewController = new StaticViewControllerBase(m_renderWindow.GetView(), 50.0f / 800.0f);
             m_viewController.SetParentSize(_renderWindow.Size);
@@ -31,7 +31,7 @@ namespace RenderCore
 
         public void Dispose()
         {
-            foreach (IRenderCoreWindowWidget widget in m_widgets)
+            foreach (IRenderCoreViewWidget widget in m_viewWidgets)
             {
                 widget.Dispose();
             }
@@ -57,7 +57,7 @@ namespace RenderCore
 
             View view = m_viewController.GetView();
 
-            foreach (IRenderCoreWindowWidget widget in m_widgets)
+            foreach (IRenderCoreViewWidget widget in m_viewWidgets)
             {
                 widget.SetView(view);
                 widget.Tick(_elapsed);
@@ -75,11 +75,11 @@ namespace RenderCore
             m_drawables.Add(_drawable);
         }
 
-        public void AddWidget(IRenderCoreWindowWidget _widget)
+        public void AddViewWidget(IRenderCoreViewWidget _widget)
         {
             Debug.Assert(_widget != null);
 
-            m_widgets.Add(_widget);
+            m_viewWidgets.Add(_widget);
             AddDrawable(_widget);
         }
 
