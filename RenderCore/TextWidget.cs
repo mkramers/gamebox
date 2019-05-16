@@ -4,11 +4,11 @@ using SFML.System;
 
 namespace RenderCore
 {
-    public class TextWidget : PositionalRenderCoreWidgetBase
+    public class TextWidget : ScreenRenderCoreWidget
     {
         private readonly Text m_text;
 
-        protected TextWidget(Font _font, uint _fontSize, float _fontScale)
+        protected TextWidget(Font _font, uint _fontSize, float _fontScale, ISpaceConverter _spaceConverter) : base(_spaceConverter)
         {
             m_text = new Text("", _font, _fontSize)
             { Scale = new Vector2f(_fontScale / _fontSize, _fontScale / _fontSize) };
@@ -31,9 +31,7 @@ namespace RenderCore
 
         public override void Tick(TimeSpan _elapsed)
         {
-            base.Tick(_elapsed);
-
-            m_text.Position = m_screenPosition;
+            m_text.Position = GetScreenSpacePosition().GetVector2F();
         }
     }
 }

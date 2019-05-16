@@ -5,12 +5,14 @@ using SFML.Graphics;
 
 namespace RenderCore
 {
-    public class GridWidget : RenderCoreViewWidgetBase
+    public class GridWidget : RenderCoreWidgetBase
     {
+        private readonly IViewProvider m_viewProvider;
         private readonly List<Shape> m_shapes;
 
-        public GridWidget()
+        public GridWidget(IViewProvider _viewProvider)
         {
+            m_viewProvider = _viewProvider;
             m_shapes = new List<Shape>();
         }
 
@@ -27,18 +29,15 @@ namespace RenderCore
             ClearShapes();
         }
 
-        public override void SetRenderPosition(Vector2 _positionScreen)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void Tick(TimeSpan _elapsed)
         {
             ClearShapes();
 
+            View view = m_viewProvider.GetView();
+
             Vector2 snappedCenter =
-                new Vector2((float) Math.Round(m_view.Center.X), (float) Math.Round(m_view.Center.Y));
-            View snappedView = new View(snappedCenter.GetVector2F(), m_view.Size);
+                new Vector2((float) Math.Round(view.Center.X), (float) Math.Round(view.Center.Y));
+            View snappedView = new View(snappedCenter.GetVector2F(), view.Size);
 
             IEnumerable<Shape> shapes = GridDrawingUtilities.GetGridDrawableFromView(snappedView);
             m_shapes.AddRange(shapes);

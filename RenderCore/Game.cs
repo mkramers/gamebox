@@ -4,6 +4,7 @@ using System.Numerics;
 using System.Threading;
 using SFML.Graphics;
 using SFML.System;
+using SFML.Window;
 
 namespace RenderCore
 {
@@ -12,10 +13,13 @@ namespace RenderCore
         protected Game(string _windowTitle, Vector2u _windowSize)
         {
             FloatRect viewRect = new FloatRect(-10, 10, 20, 20);
-
+            
             RenderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize, viewRect);
 
-            RenderCoreWindow.AddViewWidget(new GridWidget());
+            IViewProvider viewProvider = RenderCoreWindow.GetViewProvider();
+            GridWidget gridWidget = new GridWidget(viewProvider);
+
+            RenderCoreWindow.AddViewWidget(gridWidget);
 
             KeyHandlers = new TickableContainer<IKeyHandler>();
 
@@ -24,7 +28,7 @@ namespace RenderCore
 
             EntityContainer = new DisposableTickableContainer<IEntity>();
         }
-
+        
         private DisposableTickableContainer<IEntity> EntityContainer { get; }
         protected Physics Physics { get; }
         protected TickableContainer<IKeyHandler> KeyHandlers { get; }
