@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using SFML.Graphics;
 
 namespace RenderCore
@@ -9,8 +10,7 @@ namespace RenderCore
         private TimeSpan m_fpsBufferAccumulator;
         private int m_fpsBufferIndex;
 
-        public FpsTextWidget(Font _font, uint _fontSize, int _fpsBufferSize, float _fontScale, ISpaceConverter _spaceConverter) : base(_font, _fontSize,
-            _fontScale, _spaceConverter)
+        public FpsTextWidget(Font _font, int _fpsBufferSize, Vector2 _renderObjectScale, ISpaceConverter _spaceConverter, Text _text) : base(_font, _renderObjectScale, _spaceConverter, _text)
         {
             m_fpsBufferSize = _fpsBufferSize;
             m_fpsBufferIndex = 0;

@@ -13,8 +13,8 @@ namespace RenderCore
     public class TickableView : View, IViewProvider
     {
         private readonly float m_windowRatio;
-
-        public TickableView(float _windowRatio)
+        
+        public TickableView(View _view, float _windowRatio) : base(_view)
         {
             m_windowRatio = _windowRatio;
         }

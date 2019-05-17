@@ -17,12 +17,13 @@ namespace RenderCore
         public RenderCoreWindow(RenderWindow _renderWindow, IViewProvider _viewProvider)
         {
             m_renderWindow = _renderWindow;
-            m_viewProvider = _viewProvider;
             m_renderWindow.Closed += (_sender, _e) => m_renderWindow.Close();
             m_renderWindow.Resized += RenderWindowOnResized;
 
             m_drawables = new BlockingCollection<IDrawable>();
             m_viewWidgets = new BlockingCollection<IRenderCoreWidget>();
+
+            SetViewProvider(_viewProvider);
         }
 
         private void RenderWindowOnResized(object _sender, SizeEventArgs _e)
@@ -106,6 +107,7 @@ namespace RenderCore
         public void SetViewProvider(IViewProvider _viewProvider)
         {
             m_viewProvider = _viewProvider;
+            m_viewProvider.SetParentSize(m_renderWindow.Size);
         }
     }
 }
