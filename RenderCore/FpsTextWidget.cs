@@ -4,6 +4,8 @@ using SFML.Graphics;
 
 namespace RenderCore
 {
+
+
     public class FpsTextWidget : TextWidget
     {
         private readonly int m_fpsBufferSize;
