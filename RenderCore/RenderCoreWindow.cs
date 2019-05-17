@@ -47,15 +47,14 @@ namespace RenderCore
 
         public void Draw(RenderTarget _target, RenderStates _states)
         {
-            Sprite sceneSprite = new Sprite(m_sceneRenderTarget.Texture);
-
-            _target.Draw(sceneSprite, _states);
+            _target.Draw(m_sceneRenderTarget, _states);
+            _target.Draw(m_overlayRenderTarget, _states);
         }
 
         public void Clear(Color _color)
         {
             m_sceneRenderTarget.Clear(_color);
-            m_overlayRenderTarget.Clear(_color);
+            m_overlayRenderTarget.Clear(Color.Transparent);
         }
 
         public void Display()
