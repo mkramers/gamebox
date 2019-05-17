@@ -14,7 +14,7 @@ namespace RenderCore
         {
             FloatRect viewRect = new FloatRect(-10, 10, 20, 20);
             
-            RenderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize, viewRect);
+            RenderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize);
 
             IViewProvider viewProvider = RenderCoreWindow.GetViewProvider();
             GridWidget gridWidget = new GridWidget(viewProvider);
