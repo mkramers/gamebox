@@ -4,11 +4,20 @@ using SFML.Graphics;
 
 namespace RenderCore
 {
-    public abstract class TickableDrawable<T> : ITickableDrawable where T : Transformable, Drawable
+    public abstract class TickableDrawable<T> : Drawable<T>, ITickable where T : Transformable, Drawable
+    {
+        protected TickableDrawable(T _renderObject) : base(_renderObject)
+        {
+        }
+
+        public abstract void Tick(TimeSpan _elapsed);
+    }
+    
+    public class Drawable<T> : IDrawable where T : Transformable, Drawable
     {
         private readonly T m_renderObject;
 
-        protected TickableDrawable(T _renderObject)
+        public Drawable(T _renderObject)
         {
             m_renderObject = _renderObject;
         }
@@ -27,8 +36,6 @@ namespace RenderCore
         {
             m_renderObject.Position = _positionScreen.GetVector2F();
         }
-
-        public abstract void Tick(TimeSpan _elapsed);
     }
 
     public interface ITickableDrawable : IDrawable, ITickable

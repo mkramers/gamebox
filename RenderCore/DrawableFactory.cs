@@ -16,7 +16,8 @@ namespace RenderCore
             foreach (Vector2 position in _positions)
             {
                 Sprite sprite = SpriteFactory.GetSprite(_resourceId);
-                SpriteDrawable spriteDrawable = new SpriteDrawable(sprite);
+                Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(sprite);
+                
 
                 Matrix3x2 transform = Matrix3x2.CreateTranslation(position + _origin);
 
