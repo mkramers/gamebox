@@ -1,6 +1,9 @@
-﻿namespace RenderCore
+﻿using System;
+using SFML.Graphics;
+
+namespace RenderCore
 {
-    public interface IEntity : IBody, IDrawable, ITickable
+    public interface IEntity : IBody, ITickable, IDrawable
     {
     }
 }

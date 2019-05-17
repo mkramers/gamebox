@@ -7,6 +7,8 @@ namespace RenderCore
 {
     public class MultiDrawable : List<Tuple<IDrawable, Matrix3x2>>, IDrawable
     {
+        private Vector2 m_position;
+
         public MultiDrawable(IEnumerable<Tuple<IDrawable, Matrix3x2>> _children) : base(_children)
         {
         }
@@ -19,13 +21,20 @@ namespace RenderCore
             }
         }
 
-        public void SetRenderPosition(Vector2 _positionScreen)
+        public Vector2 GetPosition()
         {
+            return m_position;
+        }
+
+        public void SetPosition(Vector2 _position)
+        {
+            m_position = _position;
+
             foreach ((IDrawable drawable, Matrix3x2 transform) in this)
             {
                 Vector2 relativePosition = transform.Translation;
 
-                drawable.SetRenderPosition(relativePosition + _positionScreen);
+                drawable.SetPosition(relativePosition + m_position);
             }
         }
 

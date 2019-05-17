@@ -1,35 +1,16 @@
-﻿using System.Numerics;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 
 namespace RenderCore
 {
-    public class ShapeDrawable : IDrawable
+    public class ShapeDrawable : Drawable<Shape>
     {
-        private readonly Shape m_shape;
-
-        public ShapeDrawable(Shape _shape)
+        public ShapeDrawable(Shape _renderObject) : base(_renderObject)
         {
-            m_shape = _shape;
         }
 
-        public void SetRenderPosition(Vector2 _positionScreen)
+        public void SetFillColor(Color _color)
         {
-            m_shape.Position = _positionScreen.GetVector2F();
-        }
-
-        public void Draw(RenderTarget _target, RenderStates _states)
-        {
-            _target.Draw(m_shape, _states);
-        }
-
-        public void Dispose()
-        {
-            m_shape.Dispose();
-        }
-
-        public void SetColor(Color _color)
-        {
-            m_shape.FillColor = _color;
+            m_renderObject.FillColor = _color;
         }
     }
 }

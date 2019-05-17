@@ -5,7 +5,7 @@ using SFML.System;
 
 namespace RenderCore
 {
-    public class RenderCoreWindowTargets : IDrawable
+    public class RenderCoreWindowTargets : Drawable, IDisposable
     {
         private RenderTexture m_overlayRenderTarget;
         private RenderTexture m_sceneRenderTarget;
@@ -21,7 +21,7 @@ namespace RenderCore
             m_overlayRenderTarget.Dispose();
         }
 
-        public void SetRenderPosition(Vector2 _positionScreen)
+        public void SetPosition(Vector2 _positionScreen)
         {
             throw new NotImplementedException();
         }

@@ -40,15 +40,10 @@ namespace RenderCore
             m_body.SetPosition(_position);
         }
 
-        public void SetRenderPosition(Vector2 _positionScreen)
-        {
-            m_drawable.SetRenderPosition(_positionScreen);
-        }
-
         public void Tick(TimeSpan _elapsed)
         {
             Vector2 position = m_body.GetPosition();
-            m_drawable.SetRenderPosition(position);
+            m_drawable.SetPosition(position);
         }
 
         public void Dispose()

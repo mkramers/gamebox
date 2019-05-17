@@ -13,9 +13,9 @@ namespace RenderCore
         public abstract void Tick(TimeSpan _elapsed);
     }
     
-    public class Drawable<T> : IDrawable where T : Transformable, Drawable
+    public class Drawable<T> : IDrawable, IDisposable where T : Transformable, Drawable
     {
-        private readonly T m_renderObject;
+        public readonly T m_renderObject;
 
         public Drawable(T _renderObject)
         {
@@ -32,19 +32,18 @@ namespace RenderCore
             m_renderObject.Dispose();
         }
 
-        public void SetRenderPosition(Vector2 _positionScreen)
+        public Vector2 GetPosition()
         {
-            m_renderObject.Position = _positionScreen.GetVector2F();
+            return m_renderObject.Position.GetVector2();
+        }
+
+        public void SetPosition(Vector2 _position)
+        {
+            m_renderObject.Position = _position.GetVector2F();
         }
     }
 
-    public interface ITickableDrawable : IDrawable, ITickable
+    public interface IDrawable : Drawable, IDisposable, IPosition
     {
-
-    }
-
-    public interface IDrawable : Drawable, IDisposable
-    {
-        void SetRenderPosition(Vector2 _positionScreen);
     }
 }

@@ -11,7 +11,12 @@ namespace RenderCore
         public abstract void Draw(RenderTarget _target, RenderStates _states);
         public abstract void Dispose();
 
-        public void SetRenderPosition(Vector2 _positionScreen)
+        public Vector2 GetPosition()
+        {
+            return m_position;
+        }
+
+        public void SetPosition(Vector2 _positionScreen)
         {
             m_position = _positionScreen;
         }
