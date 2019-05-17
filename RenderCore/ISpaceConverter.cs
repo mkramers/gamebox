@@ -6,6 +6,5 @@ namespace RenderCore
     {
         Vector2 Transform(Vector2 _vector);
         Vector2 TransformScale(Vector2 _vector);
-        Vector2 TransformBack(Vector2 _vector);
     }
 }

@@ -21,7 +21,7 @@ namespace RenderCore
             m_renderObject.Dispose();
         }
 
-        public T GetRenderObject()
+        protected T GetRenderObject()
         {
             return m_renderObject;
         }

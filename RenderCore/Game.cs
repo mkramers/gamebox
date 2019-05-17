@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Numerics;
 using System.Threading;
-using SFML.Graphics;
 using SFML.System;
 
 namespace RenderCore
@@ -11,8 +10,6 @@ namespace RenderCore
     {
         protected Game(string _windowTitle, Vector2u _windowSize)
         {
-            FloatRect viewRect = new FloatRect(-10, 10, 20, 20);
-
             RenderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize);
 
             IViewProvider viewProvider = RenderCoreWindow.GetViewProvider();

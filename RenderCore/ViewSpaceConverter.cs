@@ -1,5 +1,4 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 using SFML.Graphics;
 using SFML.System;
 
@@ -33,11 +32,6 @@ namespace RenderCore
 
             Vector2 screenSpaceVector = new Vector2(size.X * _vector.X, size.Y * _vector.Y);
             return screenSpaceVector;
-        }
-
-        public Vector2 TransformBack(Vector2 _vector)
-        {
-            throw new NotImplementedException();
         }
     }
 }

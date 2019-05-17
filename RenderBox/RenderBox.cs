@@ -29,10 +29,10 @@ namespace RenderBox
 
             IViewProvider viewProvider = renderCoreWindow.GetViewProvider();
             ViewSpaceConverter viewSpaceConverter = new ViewSpaceConverter(viewProvider);
-            uint fontSize = 32;
+            const uint fontSize = 32;
             Text textRenderObject = new Text("", font, fontSize);
             Vector2 textScale = new Vector2(0.1f / fontSize, 0.1f / fontSize);
-            FpsTextWidget fpsTextWidget = new FpsTextWidget(font, 5, textScale, viewSpaceConverter, textRenderObject);
+            FpsTextWidget fpsTextWidget = new FpsTextWidget(5, textScale, viewSpaceConverter, textRenderObject);
             fpsTextWidget.SetRenderPosition(textPosition);
             renderCoreWindow.AddViewWidget(fpsTextWidget);
 
