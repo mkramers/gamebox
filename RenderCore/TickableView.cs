@@ -4,16 +4,10 @@ using SFML.System;
 
 namespace RenderCore
 {
-    public interface IViewProvider : ITickable
-    {
-        View GetView();
-        void SetParentSize(Vector2u _windowSize);
-    }
-
     public class TickableView : View, IViewProvider
     {
         private readonly float m_windowRatio;
-        
+
         public TickableView(View _view, float _windowRatio) : base(_view)
         {
             m_windowRatio = _windowRatio;
@@ -32,7 +26,6 @@ namespace RenderCore
 
         public virtual void Tick(TimeSpan _elapsed)
         {
-
         }
 
         public View GetView()

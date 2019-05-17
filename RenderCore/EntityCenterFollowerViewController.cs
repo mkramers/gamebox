@@ -10,7 +10,8 @@ namespace RenderCore
         private const float MOVEMENT_BUFFER_SIZE = 0.75f;
         private readonly IEntity m_entity;
 
-        public EntityCenterFollowerViewController(float _windowRatio, IEntity _entity, View _view) : base(_view, _windowRatio)
+        public EntityCenterFollowerViewController(float _windowRatio, IEntity _entity, View _view) : base(_view,
+            _windowRatio)
         {
             m_entity = _entity;
         }

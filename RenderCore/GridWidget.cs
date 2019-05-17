@@ -7,8 +7,8 @@ namespace RenderCore
 {
     public class GridWidget : RenderCoreWidgetBase
     {
-        private readonly IViewProvider m_viewProvider;
         private readonly List<Shape> m_shapes;
+        private readonly IViewProvider m_viewProvider;
 
         public GridWidget(IViewProvider _viewProvider)
         {

@@ -9,11 +9,11 @@ namespace RenderCore
         {
             View view = new View(new Vector2f(0, 0), new Vector2f(50, 50))
             {
-                Center = new Vector2f(0, 0),
+                Center = new Vector2f(0, 0)
             };
 
             IViewProvider viewProvider = new TickableView(view, 0.0625f);
-            
+
             RenderWindow renderWindow = RenderWindowFactory.CreateRenderWindow(_windowTitle, _windowSize);
 
             return new RenderCoreWindow(renderWindow, viewProvider);

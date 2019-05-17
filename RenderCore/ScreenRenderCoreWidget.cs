@@ -10,7 +10,8 @@ namespace RenderCore
         private readonly Vector2 m_renderObjectScale;
         private readonly ISpaceConverter m_spaceConverter;
 
-        protected ScreenRenderCoreWidget(T _renderObject, Vector2 _renderObjectScale, ISpaceConverter _spaceConverter) : base(_renderObject)
+        protected ScreenRenderCoreWidget(T _renderObject, Vector2 _renderObjectScale, ISpaceConverter _spaceConverter) :
+            base(_renderObject)
         {
             Debug.Assert(_spaceConverter != null);
 
