@@ -9,8 +9,8 @@ namespace RenderCore
 {
     public class RenderCoreWindow : ITickable, IDisposable
     {
-        private readonly BlockingCollection<IPositionDrawable> m_drawables;
         private readonly IRenderCoreTarget m_sceneTarget;
+        private readonly IRenderCoreTarget m_overlayTarget;
         private readonly RenderWindow m_renderWindow;
         private readonly BlockingCollection<ITickablePositionDrawable> m_viewWidgets;
         private IViewProvider m_viewProvider;
@@ -21,27 +21,23 @@ namespace RenderCore
             m_renderWindow.Closed += (_sender, _e) => m_renderWindow.Close();
             m_renderWindow.Resized += RenderWindowOnResized;
 
-            m_drawables = new BlockingCollection<IPositionDrawable>();
             m_viewWidgets = new BlockingCollection<ITickablePositionDrawable>();
 
             Vector2u windowSize = m_renderWindow.Size;
 
             SetViewProvider(_viewProvider);
-            m_sceneTarget = new RenderCoreTarget(windowSize);
+            m_sceneTarget = new RenderCoreTarget(windowSize, Color.Black);
+            m_overlayTarget = new RenderCoreTarget(windowSize, Color.Transparent);
         }
 
         public bool IsOpen => m_renderWindow.IsOpen;
 
         public void Dispose()
         {
-            foreach (IPositionDrawable drawable in m_drawables)
-            {
-                drawable.Dispose();
-            }
-
             m_renderWindow.Dispose();
 
             m_sceneTarget.Dispose();
+            m_overlayTarget.Dispose();
         }
 
         public void Tick(TimeSpan _elapsed)
@@ -73,40 +69,30 @@ namespace RenderCore
             m_viewProvider.SetParentSize(windowSize);
 
             m_sceneTarget.SetSize(windowSize);
+            m_overlayTarget.SetSize(windowSize);
         }
 
-        public void AddDrawable(IPositionDrawable _drawable)
+        public void AddToScene(IPositionDrawable _drawable)
         {
             Debug.Assert(_drawable != null);
 
-            m_drawables.Add(_drawable);
+            m_sceneTarget.AddDrawable(_drawable);
         }
 
-        public void AddViewWidget(ITickablePositionDrawable _widget)
+        public void AddWidgetToScene(ITickablePositionDrawable _widget)
         {
             Debug.Assert(_widget != null);
 
             m_viewWidgets.Add(_widget);
-            AddDrawable(_widget);
+            AddToScene(_widget);
         }
 
         private void DrawScene(RenderWindow _renderWindow)
         {
-            Color clearColor = Color.Black;
-
-            m_sceneTarget.Clear(clearColor);
-
-            RenderTarget sceneTarget = m_sceneTarget.GetRenderTarget();
-            foreach (IPositionDrawable drawable in m_drawables)
-            {
-                sceneTarget.Draw(drawable);
-            }
-
-            m_sceneTarget.Display();
-
             _renderWindow.Clear();
 
             _renderWindow.Draw(m_sceneTarget);
+            _renderWindow.Draw(m_overlayTarget);
 
             _renderWindow.Display();
         }
