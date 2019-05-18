@@ -10,7 +10,7 @@ namespace RenderCore
     public class RenderCoreWindow : ITickable, IDisposable
     {
         private readonly BlockingCollection<IPositionDrawable> m_drawables;
-        private readonly RenderCoreTexture m_sceneTarget;
+        private readonly IRenderCoreTarget m_sceneTarget;
         private readonly RenderWindow m_renderWindow;
         private readonly BlockingCollection<ITickablePositionDrawable> m_viewWidgets;
         private IViewProvider m_viewProvider;
@@ -27,7 +27,7 @@ namespace RenderCore
             Vector2u windowSize = m_renderWindow.Size;
 
             SetViewProvider(_viewProvider);
-            m_sceneTarget = new RenderCoreTexture(windowSize);
+            m_sceneTarget = new RenderCoreTarget(windowSize);
         }
 
         public bool IsOpen => m_renderWindow.IsOpen;

@@ -5,11 +5,20 @@ using SFML.System;
 
 namespace RenderCore
 {
-    public class RenderCoreTexture : IDrawable
+    public interface IRenderCoreTarget : IDrawable
+    {
+        void SetSize(Vector2u _size);
+        void SetView(View _view);
+        RenderTarget GetRenderTarget();
+        void Clear(Color _color);
+        void Display();
+    }
+
+    public class RenderCoreTarget : IRenderCoreTarget
     {
         private RenderTexture m_renderTexture;
 
-        public RenderCoreTexture(Vector2u _size)
+        public RenderCoreTarget(Vector2u _size)
         {
             SetSize(_size);
         }
