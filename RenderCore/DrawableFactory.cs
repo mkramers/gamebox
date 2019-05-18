@@ -7,24 +7,21 @@ namespace RenderCore
 {
     public static class DrawableFactory
     {
-        public static MultiDrawable CreateMultiDrawable(IEnumerable<Vector2> _positions, Vector2 _origin,
+        public static MultiDrawable<Sprite> CreateMultiDrawable(IEnumerable<Vector2> _positions, Vector2 _origin,
             ResourceId _resourceId)
         {
-            List<Tuple<IDrawable, Matrix3x2>> drawables = new List<Tuple<IDrawable, Matrix3x2>>();
+            List<Drawable<Sprite>> drawables = new List<Drawable<Sprite>>();
 
             // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (Vector2 position in _positions)
             {
                 Sprite sprite = SpriteFactory.GetSprite(_resourceId);
-                Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(sprite);
-                
+                sprite.Position = (position + _origin).GetVector2F();
 
-                Matrix3x2 transform = Matrix3x2.CreateTranslation(position + _origin);
-
-                drawables.Add(new Tuple<IDrawable, Matrix3x2>(spriteDrawable, transform));
+                drawables.Add(new Drawable<Sprite>(sprite));
             }
 
-            MultiDrawable multiDrawable = new MultiDrawable(drawables);
+            MultiDrawable<Sprite> multiDrawable = new MultiDrawable<Sprite>(drawables);
             return multiDrawable;
         }
 

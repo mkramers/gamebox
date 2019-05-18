@@ -12,7 +12,7 @@ namespace RenderCore
         private readonly BlockingCollection<IDrawable> m_drawables;
         private readonly RenderCoreWindowTargets m_renderCoreWindowTargets;
         private readonly RenderWindow m_renderWindow;
-        private readonly BlockingCollection<IRenderCoreWidget> m_viewWidgets;
+        private readonly BlockingCollection<ITickableDrawable> m_viewWidgets;
         private IViewProvider m_viewProvider;
 
         public RenderCoreWindow(RenderWindow _renderWindow, IViewProvider _viewProvider)
@@ -22,7 +22,7 @@ namespace RenderCore
             m_renderWindow.Resized += RenderWindowOnResized;
 
             m_drawables = new BlockingCollection<IDrawable>();
-            m_viewWidgets = new BlockingCollection<IRenderCoreWidget>();
+            m_viewWidgets = new BlockingCollection<ITickableDrawable>();
 
             Vector2u windowSize = m_renderWindow.Size;
 
@@ -34,11 +34,6 @@ namespace RenderCore
 
         public void Dispose()
         {
-            foreach (IRenderCoreWidget widget in m_viewWidgets)
-            {
-                widget.Dispose();
-            }
-
             foreach (IDrawable drawable in m_drawables)
             {
                 drawable.Dispose();
@@ -60,7 +55,7 @@ namespace RenderCore
 
             m_viewProvider.Tick(_elapsed);
 
-            foreach (IRenderCoreWidget widget in m_viewWidgets)
+            foreach (ITickableDrawable widget in m_viewWidgets)
             {
                 widget.Tick(_elapsed);
             }
@@ -87,7 +82,7 @@ namespace RenderCore
             m_drawables.Add(_drawable);
         }
 
-        public void AddViewWidget(IRenderCoreWidget _widget)
+        public void AddViewWidget(ITickableDrawable _widget)
         {
             Debug.Assert(_widget != null);
 

@@ -32,9 +32,9 @@ namespace RenderBox
             const uint fontSize = 32;
             Text textRenderObject = new Text("", font, fontSize);
             Vector2 textScale = new Vector2(0.1f / fontSize, 0.1f / fontSize);
-            FpsTextWidget fpsTextWidget = new FpsTextWidget(5, textScale, viewSpaceConverter, textRenderObject);
+            FpsTextWidget fpsTextWidget = new FpsTextWidget(5, textRenderObject);
             fpsTextWidget.SetPosition(textPosition);
-            renderCoreWindow.AddViewWidget(fpsTextWidget);
+            //renderCoreWindow.AddViewWidget(fpsTextWidget);
 
             Stopwatch stopwatch = Stopwatch.StartNew();
 

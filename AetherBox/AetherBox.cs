@@ -29,7 +29,7 @@ namespace AetherBox
             Entity edgeEntity = new Entity(edgeDrawable, edgeBody);
             AddEntity(edgeEntity);
 
-            MultiDrawable sample = SampleFactory.GetSample();
+            MultiDrawable<Sprite> sample = SampleFactory.GetSample();
             sample.SetPosition(Vector2.Zero);
             RenderCoreWindow.AddDrawable(sample);
 
