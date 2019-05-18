@@ -66,7 +66,7 @@ namespace RenderCore
                 KeyHandlers.Tick(elapsed);
 
                 Physics.Tick(elapsed);
-
+                
                 EntityContainer.Tick(elapsed);
 
                 RenderCoreWindow.Tick(elapsed);

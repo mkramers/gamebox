@@ -12,7 +12,6 @@ namespace RenderCore
         private readonly IRenderCoreTarget m_sceneTarget;
         private readonly IRenderCoreTarget m_overlayTarget;
         private readonly RenderWindow m_renderWindow;
-        private readonly BlockingCollection<ITickablePositionDrawable> m_viewWidgets;
         private IViewProvider m_viewProvider;
 
         public RenderCoreWindow(RenderWindow _renderWindow, IViewProvider _viewProvider)
@@ -20,8 +19,6 @@ namespace RenderCore
             m_renderWindow = _renderWindow;
             m_renderWindow.Closed += (_sender, _e) => m_renderWindow.Close();
             m_renderWindow.Resized += RenderWindowOnResized;
-
-            m_viewWidgets = new BlockingCollection<ITickablePositionDrawable>();
 
             Vector2u windowSize = m_renderWindow.Size;
 
@@ -51,13 +48,11 @@ namespace RenderCore
 
             m_viewProvider.Tick(_elapsed);
 
-            foreach (ITickablePositionDrawable widget in m_viewWidgets)
-            {
-                widget.Tick(_elapsed);
-            }
-
             View view = m_viewProvider.GetView();
             m_sceneTarget.SetView(view);
+
+            m_sceneTarget.Tick(_elapsed);
+            m_overlayTarget.Tick(_elapsed);
 
             DrawScene(m_renderWindow);
         }
@@ -79,12 +74,9 @@ namespace RenderCore
             m_sceneTarget.AddDrawable(_drawable);
         }
 
-        public void AddWidgetToScene(ITickablePositionDrawable _widget)
+        public void AddWidgetToScene(IWidget _widget)
         {
-            Debug.Assert(_widget != null);
-
-            m_viewWidgets.Add(_widget);
-            AddToScene(_widget);
+            m_sceneTarget.AddWidget(_widget);
         }
 
         private void DrawScene(RenderWindow _renderWindow)
