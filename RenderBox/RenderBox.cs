@@ -15,10 +15,12 @@ namespace RenderBox
             RenderCoreWindow renderCoreWindow =
                 RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize);
 
+            IRenderCoreTarget scene = renderCoreWindow.GetScene();
+            
             LineSegment lineSegment = new LineSegment(new Vector2(5, 5), new Vector2(45, 25));
             ShapeDrawable lineSegmentDrawable = DrawableFactory.GetLineSegment(lineSegment, 1);
             lineSegmentDrawable.SetFillColor(Color.Red);
-            renderCoreWindow.AddToScene(lineSegmentDrawable);
+            scene.AddDrawable(lineSegmentDrawable);
 
             //GridWidget gridWidget = new GridWidget();
             //renderCoreWindow.AddWidgetToScene(gridWidget);

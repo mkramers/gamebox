@@ -54,7 +54,7 @@ namespace RenderCore
             m_sceneTarget.Tick(_elapsed);
             m_overlayTarget.Tick(_elapsed);
 
-            DrawScene(m_renderWindow);
+            Draw(m_renderWindow);
         }
 
         private void RenderWindowOnResized(object _sender, SizeEventArgs _e)
@@ -67,19 +67,17 @@ namespace RenderCore
             m_overlayTarget.SetSize(windowSize);
         }
 
-        public void AddToScene(IPositionDrawable _drawable)
+        public IRenderCoreTarget GetScene()
         {
-            Debug.Assert(_drawable != null);
-
-            m_sceneTarget.AddDrawable(_drawable);
+            return m_sceneTarget;
         }
 
-        public void AddWidgetToScene(IWidget _widget)
+        public IRenderCoreTarget GetOverlay()
         {
-            m_sceneTarget.AddWidget(_widget);
+            return m_overlayTarget;
         }
 
-        private void DrawScene(RenderWindow _renderWindow)
+        private void Draw(RenderWindow _renderWindow)
         {
             _renderWindow.Clear();
 

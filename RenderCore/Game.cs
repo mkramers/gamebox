@@ -15,7 +15,9 @@ namespace RenderCore
             IViewProvider viewProvider = RenderCoreWindow.GetViewProvider();
             GridWidget gridWidget = new GridWidget(viewProvider);
 
-            RenderCoreWindow.AddWidgetToScene(gridWidget);
+            IRenderCoreTarget scene = RenderCoreWindow.GetScene();
+
+            scene.AddWidget(gridWidget);
 
             KeyHandlers = new TickableContainer<IKeyHandler>();
 
@@ -50,7 +52,8 @@ namespace RenderCore
         {
             EntityContainer.Add(_entity);
 
-            RenderCoreWindow.AddToScene(_entity);
+            IRenderCoreTarget scene = RenderCoreWindow.GetScene();
+            scene.AddDrawable(_entity);
         }
 
         public void StartLoop()
