@@ -16,7 +16,8 @@ namespace RenderCore
 
         public void Draw(RenderTarget _target, RenderStates _states)
         {
-            _target.Draw(m_renderTexture, _states);
+            Texture texture = m_renderTexture.Texture;
+            _target.Draw(texture, _states);
         }
 
         public void Dispose()
