@@ -4,7 +4,7 @@ using SFML.Graphics;
 
 namespace RenderCore
 {
-    public abstract class TickableDrawable<T> : Drawable<T>, ITickable where T : Transformable, Drawable
+    public abstract class TickableDrawable<T> : Drawable<T>, IWidget where T : Transformable, Drawable
     {
         protected TickableDrawable(T _renderObject) : base(_renderObject)
         {
@@ -13,9 +13,9 @@ namespace RenderCore
         public abstract void Tick(TimeSpan _elapsed);
     }
     
-    public class Drawable<T> : IPositionDrawable, IDisposable where T : Transformable, Drawable
+    public class Drawable<T> : IPositionDrawable where T : Transformable, Drawable
     {
-        public readonly T m_renderObject;
+        protected readonly T m_renderObject;
 
         public Drawable(T _renderObject)
         {

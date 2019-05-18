@@ -21,22 +21,24 @@ namespace RenderBox
             ShapeDrawable lineSegmentDrawable = DrawableFactory.GetLineSegment(lineSegment, 1);
             lineSegmentDrawable.SetFillColor(Color.Red);
             scene.AddDrawable(lineSegmentDrawable);
+            
+            IViewProvider viewProvider = renderCoreWindow.GetViewProvider();
 
-            //GridWidget gridWidget = new GridWidget();
-            //renderCoreWindow.AddWidgetToScene(gridWidget);
+            GridWidget gridWidget = new GridWidget(viewProvider);
+            scene.AddWidget(gridWidget);
 
             FontFactory fontFactory = new FontFactory();
             Font font = fontFactory.GetFont(FontId.ROBOTO);
-            Vector2 textPosition = new Vector2(0.01f, 0.98f);
+            Vector2 textPosition = new Vector2(0.1f, 0.1f);
 
-            IViewProvider viewProvider = renderCoreWindow.GetViewProvider();
             ViewSpaceConverter viewSpaceConverter = new ViewSpaceConverter(viewProvider);
             const uint fontSize = 32;
             Text textRenderObject = new Text("", font, fontSize);
-            Vector2 textScale = new Vector2(0.1f / fontSize, 0.1f / fontSize);
             FpsTextWidget fpsTextWidget = new FpsTextWidget(5, textRenderObject);
             fpsTextWidget.SetPosition(textPosition);
-            //renderCoreWindow.AddWidgetToScene(fpsTextWidget);
+
+            IRenderCoreTarget overlay = renderCoreWindow.GetOverlay();
+            overlay.AddWidget(fpsTextWidget);
 
             Stopwatch stopwatch = Stopwatch.StartNew();
 
