@@ -13,7 +13,7 @@ namespace RenderCore
         public abstract void Tick(TimeSpan _elapsed);
     }
     
-    public class Drawable<T> : IDrawable, IDisposable where T : Transformable, Drawable
+    public class Drawable<T> : IPositionDrawable, IDisposable where T : Transformable, Drawable
     {
         public readonly T m_renderObject;
 
@@ -43,12 +43,16 @@ namespace RenderCore
         }
     }
 
-    public interface ITickableDrawable : IDrawable, ITickable
+    public interface ITickablePositionDrawable : IPositionDrawable, ITickable
     {
 
     }
 
-    public interface IDrawable : Drawable, IDisposable, IPosition
+    public interface IDrawable : Drawable, IDisposable
+    {
+    }
+
+    public interface IPositionDrawable : IPosition, IDrawable
     {
     }
 }

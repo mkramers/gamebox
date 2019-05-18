@@ -9,10 +9,10 @@ namespace RenderCore
 {
     public class RenderCoreWindow : ITickable, IDisposable
     {
-        private readonly BlockingCollection<IDrawable> m_drawables;
-        private readonly RenderCoreWindowTargets m_renderCoreWindowTargets;
+        private readonly BlockingCollection<IPositionDrawable> m_drawables;
+        private readonly RenderCoreTexture m_sceneTarget;
         private readonly RenderWindow m_renderWindow;
-        private readonly BlockingCollection<ITickableDrawable> m_viewWidgets;
+        private readonly BlockingCollection<ITickablePositionDrawable> m_viewWidgets;
         private IViewProvider m_viewProvider;
 
         public RenderCoreWindow(RenderWindow _renderWindow, IViewProvider _viewProvider)
@@ -21,27 +21,27 @@ namespace RenderCore
             m_renderWindow.Closed += (_sender, _e) => m_renderWindow.Close();
             m_renderWindow.Resized += RenderWindowOnResized;
 
-            m_drawables = new BlockingCollection<IDrawable>();
-            m_viewWidgets = new BlockingCollection<ITickableDrawable>();
+            m_drawables = new BlockingCollection<IPositionDrawable>();
+            m_viewWidgets = new BlockingCollection<ITickablePositionDrawable>();
 
             Vector2u windowSize = m_renderWindow.Size;
 
             SetViewProvider(_viewProvider);
-            m_renderCoreWindowTargets = new RenderCoreWindowTargets(windowSize);
+            m_sceneTarget = new RenderCoreTexture(windowSize);
         }
 
         public bool IsOpen => m_renderWindow.IsOpen;
 
         public void Dispose()
         {
-            foreach (IDrawable drawable in m_drawables)
+            foreach (IPositionDrawable drawable in m_drawables)
             {
                 drawable.Dispose();
             }
 
             m_renderWindow.Dispose();
 
-            m_renderCoreWindowTargets.Dispose();
+            m_sceneTarget.Dispose();
         }
 
         public void Tick(TimeSpan _elapsed)
@@ -55,13 +55,13 @@ namespace RenderCore
 
             m_viewProvider.Tick(_elapsed);
 
-            foreach (ITickableDrawable widget in m_viewWidgets)
+            foreach (ITickablePositionDrawable widget in m_viewWidgets)
             {
                 widget.Tick(_elapsed);
             }
 
             View view = m_viewProvider.GetView();
-            m_renderCoreWindowTargets.SetSceneView(view);
+            m_sceneTarget.SetView(view);
 
             DrawScene(m_renderWindow);
         }
@@ -72,17 +72,17 @@ namespace RenderCore
 
             m_viewProvider.SetParentSize(windowSize);
 
-            m_renderCoreWindowTargets.SetSize(windowSize);
+            m_sceneTarget.SetSize(windowSize);
         }
 
-        public void AddDrawable(IDrawable _drawable)
+        public void AddDrawable(IPositionDrawable _drawable)
         {
             Debug.Assert(_drawable != null);
 
             m_drawables.Add(_drawable);
         }
 
-        public void AddViewWidget(ITickableDrawable _widget)
+        public void AddViewWidget(ITickablePositionDrawable _widget)
         {
             Debug.Assert(_widget != null);
 
@@ -94,18 +94,19 @@ namespace RenderCore
         {
             Color clearColor = Color.Black;
 
-            m_renderCoreWindowTargets.Clear(clearColor);
+            m_sceneTarget.Clear(clearColor);
 
-            foreach (IDrawable drawable in m_drawables)
+            RenderTarget sceneTarget = m_sceneTarget.GetRenderTarget();
+            foreach (IPositionDrawable drawable in m_drawables)
             {
-                m_renderCoreWindowTargets.DrawToScene(drawable);
+                sceneTarget.Draw(drawable);
             }
 
-            m_renderCoreWindowTargets.Display();
+            m_sceneTarget.Display();
 
             _renderWindow.Clear();
 
-            _renderWindow.Draw(m_renderCoreWindowTargets);
+            _renderWindow.Draw(m_sceneTarget);
 
             _renderWindow.Display();
         }

@@ -7,9 +7,9 @@ namespace RenderCore
     public class Entity : IEntity
     {
         private readonly IBody m_body;
-        private readonly IDrawable m_drawable;
+        private readonly IPositionDrawable m_drawable;
 
-        public Entity(IDrawable _drawable, IBody _body)
+        public Entity(IPositionDrawable _drawable, IBody _body)
         {
             m_drawable = _drawable;
             m_body = _body;

@@ -3,7 +3,7 @@ using SFML.Graphics;
 
 namespace RenderCore
 {
-    public interface IEntity : IBody, ITickable, IDrawable
+    public interface IEntity : IBody, ITickable, IPositionDrawable
     {
     }
 }

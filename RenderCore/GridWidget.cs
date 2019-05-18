@@ -5,7 +5,7 @@ using SFML.Graphics;
 
 namespace RenderCore
 {
-    public class GridWidget : MultiDrawable<Shape>, ITickableDrawable
+    public class GridWidget : MultiDrawable<Shape>, ITickablePositionDrawable
     {
         private readonly IViewProvider m_viewProvider;
 

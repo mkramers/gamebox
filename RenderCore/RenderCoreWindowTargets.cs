@@ -5,59 +5,48 @@ using SFML.System;
 
 namespace RenderCore
 {
-    public class RenderCoreWindowTargets : Drawable, IDisposable
+    public class RenderCoreTexture : IDrawable
     {
-        private RenderTexture m_overlayRenderTarget;
-        private RenderTexture m_sceneRenderTarget;
+        private RenderTexture m_renderTexture;
 
-        public RenderCoreWindowTargets(Vector2u _size)
+        public RenderCoreTexture(Vector2u _size)
         {
             SetSize(_size);
         }
 
-        public void Dispose()
-        {
-            m_sceneRenderTarget.Dispose();
-            m_overlayRenderTarget.Dispose();
-        }
-
-        public void SetPosition(Vector2 _positionScreen)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Draw(RenderTarget _target, RenderStates _states)
         {
-            _target.Draw(m_sceneRenderTarget, _states);
-            _target.Draw(m_overlayRenderTarget, _states);
+            _target.Draw(m_renderTexture, _states);
         }
 
+        public void Dispose()
+        {
+            m_renderTexture.Dispose();
+        }
+        
         public void SetSize(Vector2u _size)
         {
-            m_overlayRenderTarget = new RenderTexture(_size.X, _size.Y);
-            m_sceneRenderTarget = new RenderTexture(_size.X, _size.Y);
+            m_renderTexture = new RenderTexture(_size.X, _size.Y);
         }
 
-        public void SetSceneView(View _view)
+        public void SetView(View _view)
         {
-            m_sceneRenderTarget.SetView(_view);
+            m_renderTexture.SetView(_view);
         }
 
-        public void DrawToScene(IDrawable _drawable)
+        public RenderTarget GetRenderTarget()
         {
-            m_sceneRenderTarget.Draw(_drawable);
+            return m_renderTexture;
         }
 
         public void Clear(Color _color)
         {
-            m_sceneRenderTarget.Clear(_color);
-            m_overlayRenderTarget.Clear(Color.Transparent);
+            m_renderTexture.Clear(_color);
         }
 
         public void Display()
         {
-            m_sceneRenderTarget.Display();
-            m_overlayRenderTarget.Display();
+            m_renderTexture.Display();
         }
     }
 }

@@ -5,7 +5,7 @@ using SFML.Graphics;
 
 namespace RenderCore
 {
-    public class MultiDrawable<T> : List<Drawable<T>>, IDrawable where T : Transformable, Drawable
+    public class MultiDrawable<T> : List<Drawable<T>>, IPositionDrawable where T : Transformable, Drawable
     {
         private Vector2 m_position;
 
@@ -19,7 +19,7 @@ namespace RenderCore
 
         public void Draw(RenderTarget _target, RenderStates _states)
         {
-            foreach (IDrawable drawable in this)
+            foreach (IPositionDrawable drawable in this)
             {
                 drawable.Draw(_target, _states);
             }
@@ -50,7 +50,7 @@ namespace RenderCore
 
         public void DisposeItemsAndClear()
         {
-            foreach (IDrawable drawable in this)
+            foreach (IPositionDrawable drawable in this)
             {
                 drawable.Dispose();
             }
