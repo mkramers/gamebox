@@ -12,7 +12,7 @@ namespace RenderCore
                 Center = new Vector2f(0, 0)
             };
 
-            IViewProvider viewProvider = new TickableView(view, 0.0625f);
+            IViewProvider viewProvider = new ViewProviderBase(view);
 
             RenderWindow renderWindow = RenderWindowFactory.CreateRenderWindow(_windowTitle, _windowSize);
 

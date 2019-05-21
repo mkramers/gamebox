@@ -12,7 +12,6 @@ namespace RenderCore
         private readonly IRenderCoreTarget m_sceneTarget;
         private readonly IRenderCoreTarget m_overlayTarget;
         private readonly RenderWindow m_renderWindow;
-        private IViewProvider m_viewProvider;
 
         public RenderCoreWindow(RenderWindow _renderWindow, IViewProvider _viewProvider)
         {
@@ -22,7 +21,6 @@ namespace RenderCore
 
             Vector2u windowSize = m_renderWindow.Size;
 
-            SetViewProvider(_viewProvider);
             m_sceneTarget = new RenderCoreTarget(windowSize, Color.Black);
             m_overlayTarget = new RenderCoreTarget(windowSize, Color.Transparent);
         }
@@ -46,11 +44,6 @@ namespace RenderCore
 
             m_renderWindow.DispatchEvents();
 
-            m_viewProvider.Tick(_elapsed);
-
-            View view = m_viewProvider.GetView();
-            m_sceneTarget.SetView(view);
-
             m_sceneTarget.Tick(_elapsed);
             m_overlayTarget.Tick(_elapsed);
 
@@ -60,8 +53,6 @@ namespace RenderCore
         private void RenderWindowOnResized(object _sender, SizeEventArgs _e)
         {
             Vector2u windowSize = new Vector2u(_e.Width, _e.Height);
-
-            m_viewProvider.SetParentSize(windowSize);
 
             m_sceneTarget.SetSize(windowSize);
             m_overlayTarget.SetSize(windowSize);
@@ -85,17 +76,6 @@ namespace RenderCore
             _renderWindow.Draw(m_overlayTarget);
 
             _renderWindow.Display();
-        }
-
-        public IViewProvider GetViewProvider()
-        {
-            return m_viewProvider;
-        }
-
-        public void SetViewProvider(IViewProvider _viewProvider)
-        {
-            m_viewProvider = _viewProvider;
-            m_viewProvider.SetParentSize(m_renderWindow.Size);
         }
     }
 }

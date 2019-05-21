@@ -14,26 +14,32 @@ namespace RenderBox
         {
             RenderCoreWindow renderCoreWindow =
                 RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize);
-
-            IRenderCoreTarget scene = renderCoreWindow.GetScene();
             
-            LineSegment lineSegment = new LineSegment(new Vector2(5, 5), new Vector2(45, 25));
+            FloatRect viewRect = new FloatRect(-_windowSize.X/2.0f, -_windowSize.Y / 2.0f, _windowSize.X, _windowSize.Y);
+            View view = new View(viewRect);
+            
+            IRenderCoreTarget scene = renderCoreWindow.GetScene();
+
+            ViewProviderBase viewProvider = new ViewProviderBase(view);
+            scene.SetViewProvider(viewProvider);
+            
+            LineSegment lineSegment = new LineSegment(new Vector2(3, 0), new Vector2(10, 0));
             ShapeDrawable lineSegmentDrawable = DrawableFactory.GetLineSegment(lineSegment, 1);
             lineSegmentDrawable.SetFillColor(Color.Red);
             scene.AddDrawable(lineSegmentDrawable);
             
-            IViewProvider viewProvider = renderCoreWindow.GetViewProvider();
-
             GridWidget gridWidget = new GridWidget(viewProvider);
+            scene.AddDrawable(gridWidget);
             scene.AddWidget(gridWidget);
 
             FontFactory fontFactory = new FontFactory();
             Font font = fontFactory.GetFont(FontId.ROBOTO);
-            Vector2 textPosition = new Vector2(0.1f, 0.1f);
+            Vector2 textPosition = new Vector2(0, 0);
 
             ViewSpaceConverter viewSpaceConverter = new ViewSpaceConverter(viewProvider);
             const uint fontSize = 32;
             Text textRenderObject = new Text("", font, fontSize);
+            textRenderObject.Scale = new Vector2f(0.5f / 32.0f, 0.5f / 32.0f);
             FpsTextWidget fpsTextWidget = new FpsTextWidget(5, textRenderObject);
             fpsTextWidget.SetPosition(textPosition);
 

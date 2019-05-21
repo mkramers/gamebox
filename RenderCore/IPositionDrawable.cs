@@ -43,7 +43,7 @@ namespace RenderCore
         }
     }
 
-    public interface IWidget : IPositionDrawable, ITickable
+    public interface IWidget : ITickable
     {
 
     }

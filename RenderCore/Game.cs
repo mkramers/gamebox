@@ -12,10 +12,11 @@ namespace RenderCore
         {
             RenderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize);
 
-            IViewProvider viewProvider = RenderCoreWindow.GetViewProvider();
+            IRenderCoreTarget scene = RenderCoreWindow.GetScene();
+
+            IViewProvider viewProvider = scene.GetViewProvider();
             GridWidget gridWidget = new GridWidget(viewProvider);
 
-            IRenderCoreTarget scene = RenderCoreWindow.GetScene();
 
             scene.AddWidget(gridWidget);
 

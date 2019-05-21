@@ -28,10 +28,11 @@ namespace GameBox
             KeyHandlers.Add(moveExecutor);
 
             View view = new View(new Vector2f(0, 0), new Vector2f(50, 50));
-            EntityCenterFollowerViewController
-                viewController = new EntityCenterFollowerViewController(0.03f, manEntity, view);
+            EntityFollowerViewProvider
+                viewProvider = new EntityFollowerViewProvider(0.03f, manEntity, view);
 
-            RenderCoreWindow.SetViewProvider(viewController);
+            IRenderCoreTarget scene = RenderCoreWindow.GetScene();
+            scene.SetViewProvider(viewProvider);
         }
     }
 }

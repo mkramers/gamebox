@@ -3,9 +3,10 @@ using SFML.System;
 
 namespace RenderCore
 {
-    public interface IViewProvider : ITickable
+    public interface IViewProvider
     {
         View GetView();
-        void SetParentSize(Vector2u _windowSize);
+        void SetSize(Vector2f _size);
+        void SetCenter(Vector2f _center);
     }
 }

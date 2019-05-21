@@ -5,18 +5,17 @@ using SFML.System;
 
 namespace RenderCore
 {
-    public class EntityCenterFollowerViewController : TickableView
+    public class EntityFollowerViewProvider : ViewProviderBase, ITickable
     {
         private const float MOVEMENT_BUFFER_SIZE = 0.75f;
         private readonly IEntity m_entity;
 
-        public EntityCenterFollowerViewController(float _windowRatio, IEntity _entity, View _view) : base(_view,
-            _windowRatio)
+        public EntityFollowerViewProvider(float _windowRatio, IEntity _entity, View _view) : base(_view)
         {
             m_entity = _entity;
         }
 
-        public override void Tick(TimeSpan _elapsed)
+        public void Tick(TimeSpan _elapsed)
         {
             Vector2f bufferSize = MOVEMENT_BUFFER_SIZE * Size;
 
