@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Numerics;
 using SFML.Graphics;
 using SFML.System;
 
@@ -28,6 +26,11 @@ namespace RenderCore
             m_drawables = new BlockingCollection<IDrawable>();
         }
 
+        public void AddDrawable(IDrawable _drawable)
+        {
+            m_drawables.Add(_drawable);
+        }
+
         public void Draw(RenderTarget _target, RenderStates _states)
         {
             foreach (IDrawable drawable in m_drawables)
@@ -42,22 +45,18 @@ namespace RenderCore
             {
                 drawable.Dispose();
             }
-            m_drawables.Clear();
-        }
 
-        public void AddDrawable(IDrawable _drawable)
-        {
-            m_drawables.Add(_drawable);
+            m_drawables.Clear();
         }
     }
 
     public class RenderCoreTarget : IRenderCoreTarget
     {
         private readonly Color m_clearColor;
-        private RenderTexture m_renderTexture;
         private readonly RenderObjectContainer m_renderObjectContainer;
+        private readonly RenderTexture m_renderTexture;
         private IViewProvider m_viewProvider;
-        
+
         public RenderCoreTarget(Vector2u _size, Color _clearColor)
         {
             m_clearColor = _clearColor;
@@ -108,7 +107,7 @@ namespace RenderCore
         {
             m_renderObjectContainer.AddDrawable(_drawable);
         }
-        
+
         public IViewProvider GetViewProvider()
         {
             return m_viewProvider;

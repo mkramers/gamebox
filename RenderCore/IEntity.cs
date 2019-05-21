@@ -1,7 +1,4 @@
-﻿using System;
-using SFML.Graphics;
-
-namespace RenderCore
+﻿namespace RenderCore
 {
     public interface IEntity : IBody, ITickable, IPositionDrawable
     {

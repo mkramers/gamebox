@@ -10,7 +10,7 @@ namespace RenderCore
             BodyType _bodyType)
         {
             Sprite sprite = SpriteFactory.GetSprite(_resourceId);
-            
+
             Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(sprite);
 
             IBody body = _physics.CreateBody(_position, _mass, _bodyType);

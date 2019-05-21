@@ -1,7 +1,4 @@
-﻿using System.Numerics;
-using Aether.Physics2D.Dynamics;
-using RenderCore;
-using SFML.Graphics;
+﻿using RenderCore;
 using SFML.System;
 
 namespace AetherBox

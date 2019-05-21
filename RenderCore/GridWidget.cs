@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Numerics;
 using SFML.Graphics;
 
@@ -13,7 +12,7 @@ namespace RenderCore
         {
             m_viewProvider = _viewProvider;
         }
-        
+
         public void Tick(TimeSpan _elapsed)
         {
             View view = m_viewProvider.GetView();

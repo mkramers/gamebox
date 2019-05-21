@@ -18,7 +18,8 @@ namespace RenderCore
 
             IEnumerable<Shape> shapes = ShapeFactory.GetGridShapes(rows, columns, viewSize, 0.05f, position);
 
-            MultiDrawable<Shape> gridDrawable= new MultiDrawable<Shape>(shapes.Select(_shape => new Drawable<Shape>(_shape)));
+            MultiDrawable<Shape> gridDrawable =
+                new MultiDrawable<Shape>(shapes.Select(_shape => new Drawable<Shape>(_shape)));
             return gridDrawable;
         }
     }

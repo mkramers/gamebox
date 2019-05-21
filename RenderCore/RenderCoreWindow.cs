@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Diagnostics;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
@@ -9,9 +7,9 @@ namespace RenderCore
 {
     public class RenderCoreWindow : ITickable, IDisposable
     {
-        private readonly IRenderCoreTarget m_sceneTarget;
         private readonly IRenderCoreTarget m_overlayTarget;
         private readonly RenderWindow m_renderWindow;
+        private readonly IRenderCoreTarget m_sceneTarget;
 
         public RenderCoreWindow(RenderWindow _renderWindow, IViewProvider _viewProvider)
         {

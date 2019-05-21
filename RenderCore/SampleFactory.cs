@@ -11,7 +11,8 @@ namespace RenderCore
             Vector2 origin = Vector2.Zero;
 
             IEnumerable<Vector2> positions = LandscapeFactory.GetPyramid(20);
-            MultiDrawable<Sprite> multiDrawable = DrawableFactory.CreateMultiDrawable(positions, origin, ResourceId.WOOD);
+            MultiDrawable<Sprite> multiDrawable =
+                DrawableFactory.CreateMultiDrawable(positions, origin, ResourceId.WOOD);
             return multiDrawable;
         }
     }

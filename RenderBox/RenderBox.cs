@@ -45,7 +45,7 @@ namespace RenderBox
             Text textRenderObject = new Text("", font, fontSize)
             {
                 Scale = new Vector2f(FONT_SCALE / fontSize, FONT_SCALE / fontSize),
-                FillColor = Color.Blue,
+                FillColor = Color.Blue
             };
             FpsTextWidget fpsTextWidget = new FpsTextWidget(5, textRenderObject);
             fpsTextWidget.SetPosition(textPosition);
@@ -84,11 +84,13 @@ namespace RenderBox
                 DrawLine(scene, lineSegment);
             }
             {
-                LineSegment lineSegment = new LineSegment(new Vector2(sceneSize.X, 0), new Vector2(sceneSize.X, sceneSize.Y));
+                LineSegment lineSegment =
+                    new LineSegment(new Vector2(sceneSize.X, 0), new Vector2(sceneSize.X, sceneSize.Y));
                 DrawLine(scene, lineSegment);
             }
             {
-                LineSegment lineSegment = new LineSegment(new Vector2(0, sceneSize.Y), new Vector2(sceneSize.X, sceneSize.Y));
+                LineSegment lineSegment =
+                    new LineSegment(new Vector2(0, sceneSize.Y), new Vector2(sceneSize.X, sceneSize.Y));
                 DrawLine(scene, lineSegment);
             }
         }
