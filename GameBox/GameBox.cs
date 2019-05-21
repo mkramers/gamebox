@@ -11,6 +11,7 @@ namespace GameBox
         public GameBox(string _windowTitle, Vector2u _windowSize) : base(_windowTitle, _windowSize)
         {
             IPhysics physics = Physics;
+            physics.SetGravity(new Vector2(0, 5));
 
             const float mass = 0.1f;
             const float force = 0.666f;
@@ -26,7 +27,7 @@ namespace GameBox
 
             View view = new View(new Vector2f(0, 0), new Vector2f(30, 30));
             EntityFollowerViewProvider
-                viewProvider = new EntityFollowerViewProvider(0.03f, manEntity, view);
+                viewProvider = new EntityFollowerViewProvider(manEntity, view);
 
             AddWidget(viewProvider);
 

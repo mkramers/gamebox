@@ -47,7 +47,7 @@ namespace RenderCore
             DisposeItemsAndClear();
         }
 
-        public void DisposeItemsAndClear()
+        protected void DisposeItemsAndClear()
         {
             foreach (IPositionDrawable drawable in this)
             {

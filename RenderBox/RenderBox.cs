@@ -15,8 +15,8 @@ namespace RenderBox
             RenderCoreWindow renderCoreWindow =
                 RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize);
 
-            const float SIZE = 10;
-            Vector2 sceneSize = new Vector2(SIZE, SIZE);
+            const float size = 10;
+            Vector2 sceneSize = new Vector2(size, size);
             Vector2 scenePosition = new Vector2();
             FloatRect viewRect = new FloatRect(scenePosition.GetVector2F(), sceneSize.GetVector2F());
             View view = new View(viewRect);
@@ -35,16 +35,16 @@ namespace RenderBox
 
             widgets.Add(gridWidget);
 
-            const float FONT_SCALE = 0.025f;
+            const float fontScale = 0.025f;
             const uint fontSize = 32;
-            Vector2 textPosition = new Vector2(FONT_SCALE, 1.0f - 1.5f * FONT_SCALE);
+            Vector2 textPosition = new Vector2(fontScale, 1.0f - 1.5f * fontScale);
 
             FontFactory fontFactory = new FontFactory();
             Font font = fontFactory.GetFont(FontId.ROBOTO);
 
             Text textRenderObject = new Text("", font, fontSize)
             {
-                Scale = new Vector2f(FONT_SCALE / fontSize, FONT_SCALE / fontSize),
+                Scale = new Vector2f(fontScale / fontSize, fontScale / fontSize),
                 FillColor = Color.Blue
             };
             FpsTextWidget fpsTextWidget = new FpsTextWidget(5, textRenderObject);
@@ -73,33 +73,33 @@ namespace RenderBox
             }
         }
 
-        private static void DrawBox(Vector2 sceneSize, IRenderCoreTarget scene)
+        private static void DrawBox(Vector2 _sceneSize, IRenderObjectContainer _scene)
         {
             {
-                LineSegment lineSegment = new LineSegment(new Vector2(0, 0), new Vector2(sceneSize.X, 0));
-                DrawLine(scene, lineSegment);
+                LineSegment lineSegment = new LineSegment(new Vector2(0, 0), new Vector2(_sceneSize.X, 0));
+                DrawLine(_scene, lineSegment);
             }
             {
-                LineSegment lineSegment = new LineSegment(new Vector2(0, 0), new Vector2(0, sceneSize.Y));
-                DrawLine(scene, lineSegment);
-            }
-            {
-                LineSegment lineSegment =
-                    new LineSegment(new Vector2(sceneSize.X, 0), new Vector2(sceneSize.X, sceneSize.Y));
-                DrawLine(scene, lineSegment);
+                LineSegment lineSegment = new LineSegment(new Vector2(0, 0), new Vector2(0, _sceneSize.Y));
+                DrawLine(_scene, lineSegment);
             }
             {
                 LineSegment lineSegment =
-                    new LineSegment(new Vector2(0, sceneSize.Y), new Vector2(sceneSize.X, sceneSize.Y));
-                DrawLine(scene, lineSegment);
+                    new LineSegment(new Vector2(_sceneSize.X, 0), new Vector2(_sceneSize.X, _sceneSize.Y));
+                DrawLine(_scene, lineSegment);
+            }
+            {
+                LineSegment lineSegment =
+                    new LineSegment(new Vector2(0, _sceneSize.Y), new Vector2(_sceneSize.X, _sceneSize.Y));
+                DrawLine(_scene, lineSegment);
             }
         }
 
-        private static void DrawLine(IRenderCoreTarget scene, LineSegment lineSegment)
+        private static void DrawLine(IRenderObjectContainer _scene, LineSegment _lineSegment)
         {
-            ShapeDrawable lineSegmentDrawable = DrawableFactory.GetLineSegment(lineSegment, 1);
+            ShapeDrawable lineSegmentDrawable = DrawableFactory.GetLineSegment(_lineSegment, 1);
             lineSegmentDrawable.SetFillColor(Color.Red);
-            scene.AddDrawable(lineSegmentDrawable);
+            _scene.AddDrawable(lineSegmentDrawable);
         }
     }
 }

@@ -41,16 +41,5 @@ namespace RenderCore
         {
             World.Gravity = _gravity.GetVector2();
         }
-
-        public IBody CreateEdge(LineSegment _lineSegment)
-        {
-            Aether.Physics2D.Dynamics.Body edgeBody =
-                World.CreateEdge(_lineSegment.Start.GetVector2(), _lineSegment.End.GetVector2());
-            edgeBody.SetRestitution(0.3f);
-            edgeBody.SetFriction(0.33f);
-
-            Body body = new Body(edgeBody);
-            return body;
-        }
     }
 }

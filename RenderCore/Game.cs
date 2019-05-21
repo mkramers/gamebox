@@ -14,7 +14,7 @@ namespace RenderCore
 
             KeyHandlers = new TickableContainer<IKeyHandler>();
 
-            Vector2 gravity = new Vector2(0, 5);
+            Vector2 gravity = new Vector2(0, 9);
             Physics = new Physics(gravity);
 
             EntityContainer = new DisposableTickableContainer<IEntity>();

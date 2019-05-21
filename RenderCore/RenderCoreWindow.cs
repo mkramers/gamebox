@@ -1,7 +1,6 @@
 ﻿using System;
 using SFML.Graphics;
 using SFML.System;
-using SFML.Window;
 
 namespace RenderCore
 {
@@ -11,11 +10,10 @@ namespace RenderCore
         private readonly RenderWindow m_renderWindow;
         private readonly IRenderCoreTarget m_sceneTarget;
 
-        public RenderCoreWindow(RenderWindow _renderWindow, IViewProvider _viewProvider)
+        public RenderCoreWindow(RenderWindow _renderWindow)
         {
             m_renderWindow = _renderWindow;
             m_renderWindow.Closed += (_sender, _e) => m_renderWindow.Close();
-            m_renderWindow.Resized += RenderWindowOnResized;
 
             Vector2u windowSize = m_renderWindow.Size;
 
@@ -50,15 +48,7 @@ namespace RenderCore
 
             Draw(m_renderWindow);
         }
-
-        private void RenderWindowOnResized(object _sender, SizeEventArgs _e)
-        {
-            Vector2u windowSize = new Vector2u(_e.Width, _e.Height);
-
-            m_sceneTarget.SetSize(windowSize);
-            m_overlayTarget.SetSize(windowSize);
-        }
-
+        
         public IRenderCoreTarget GetScene()
         {
             return m_sceneTarget;

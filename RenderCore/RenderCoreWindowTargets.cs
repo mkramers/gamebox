@@ -7,9 +7,7 @@ namespace RenderCore
 {
     public interface IRenderCoreTarget : IDrawable, ITickable, IRenderObjectContainer
     {
-        void SetSize(Vector2u _size);
         void SetViewProvider(IViewProvider _viewProvider);
-        IViewProvider GetViewProvider();
     }
 
     public interface IRenderObjectContainer
@@ -63,8 +61,6 @@ namespace RenderCore
 
             m_viewProvider = new ViewProviderBase();
 
-            SetSize(_size);
-
             m_renderTexture = new RenderTexture(_size.X, _size.Y);
 
             m_renderObjectContainer = new RenderObjectContainer();
@@ -88,13 +84,6 @@ namespace RenderCore
             m_renderObjectContainer.Dispose();
         }
 
-        public void SetSize(Vector2u _size)
-        {
-            //m_renderTexture = new RenderTexture(_size.X, _size.Y);
-
-            //m_viewProvider.SetSize(new Vector2f(_size.X * RATIO, _size.Y * RATIO));
-        }
-
         public void SetViewProvider(IViewProvider _viewProvider)
         {
             m_viewProvider = _viewProvider;
@@ -106,11 +95,6 @@ namespace RenderCore
         public void AddDrawable(IDrawable _drawable)
         {
             m_renderObjectContainer.AddDrawable(_drawable);
-        }
-
-        public IViewProvider GetViewProvider()
-        {
-            return m_viewProvider;
         }
 
         public void Tick(TimeSpan _elapsed)
