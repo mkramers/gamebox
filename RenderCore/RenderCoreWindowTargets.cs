@@ -17,18 +17,15 @@ namespace RenderCore
     public interface IRenderObjectContainer
     {
         void AddDrawable(IDrawable _drawable);
-        void AddWidget(IWidget _widget);
     }
 
     public class RenderObjectContainer : IRenderObjectContainer
     {
         private readonly BlockingCollection<IDrawable> m_drawables;
-        private readonly TickableContainer<IWidget> m_widgets;
 
         public RenderObjectContainer()
         {
             m_drawables = new BlockingCollection<IDrawable>();
-            m_widgets = new TickableContainer<IWidget>();
         }
 
         public void Draw(RenderTarget _target, RenderStates _states)
@@ -41,8 +38,6 @@ namespace RenderCore
 
         public void Dispose()
         {
-            m_widgets.Clear();
-
             foreach (IDrawable drawable in m_drawables)
             {
                 drawable.Dispose();
@@ -53,16 +48,6 @@ namespace RenderCore
         public void AddDrawable(IDrawable _drawable)
         {
             m_drawables.Add(_drawable);
-        }
-
-        public void AddWidget(IWidget _widget)
-        {
-            m_widgets.Add(_widget);
-        }
-
-        public void Tick(TimeSpan _elapsed)
-        {
-            m_widgets.Tick(_elapsed);
         }
     }
 
@@ -123,12 +108,7 @@ namespace RenderCore
         {
             m_renderObjectContainer.AddDrawable(_drawable);
         }
-
-        public void AddWidget(IWidget _widget)
-        {
-            m_renderObjectContainer.AddWidget(_widget);
-        }
-
+        
         public IViewProvider GetViewProvider()
         {
             return m_viewProvider;
@@ -136,8 +116,6 @@ namespace RenderCore
 
         public void Tick(TimeSpan _elapsed)
         {
-            m_renderObjectContainer.Tick(_elapsed);
-
             View view = m_viewProvider.GetView();
             m_renderTexture.SetView(view);
         }

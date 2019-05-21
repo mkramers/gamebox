@@ -31,8 +31,15 @@ namespace GameBox
             EntityFollowerViewProvider
                 viewProvider = new EntityFollowerViewProvider(0.03f, manEntity, view);
 
+            AddWidget(viewProvider);
+
             IRenderCoreTarget scene = RenderCoreWindow.GetScene();
             scene.SetViewProvider(viewProvider);
+
+            GridWidget gridWidget = new GridWidget(viewProvider);
+            scene.AddDrawable(gridWidget);
+            
+            AddWidget(gridWidget);
         }
     }
 }

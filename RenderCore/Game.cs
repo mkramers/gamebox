@@ -12,26 +12,22 @@ namespace RenderCore
         {
             RenderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize);
 
-            IRenderCoreTarget scene = RenderCoreWindow.GetScene();
-
-            IViewProvider viewProvider = scene.GetViewProvider();
-            GridWidget gridWidget = new GridWidget(viewProvider);
-
-
-            scene.AddWidget(gridWidget);
-
             KeyHandlers = new TickableContainer<IKeyHandler>();
 
-            Vector2 gravity = new Vector2(0, 10);
+            Vector2 gravity = new Vector2(0, 5);
             Physics = new Physics(gravity);
 
             EntityContainer = new DisposableTickableContainer<IEntity>();
+
+            Widgets = new TickableContainer<ITickable>();
         }
 
         private DisposableTickableContainer<IEntity> EntityContainer { get; }
         protected Physics Physics { get; }
         protected TickableContainer<IKeyHandler> KeyHandlers { get; }
         protected RenderCoreWindow RenderCoreWindow { get; }
+
+        private TickableContainer<ITickable> Widgets { get; }
 
         public void Dispose()
         {
@@ -57,6 +53,11 @@ namespace RenderCore
             scene.AddDrawable(_entity);
         }
 
+        protected void AddWidget(ITickable _widget)
+        {
+            Widgets.Add(_widget);
+        }
+
         public void StartLoop()
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
@@ -70,8 +71,10 @@ namespace RenderCore
                 KeyHandlers.Tick(elapsed);
 
                 Physics.Tick(elapsed);
-                
+
                 EntityContainer.Tick(elapsed);
+
+                Widgets.Tick(elapsed);
 
                 RenderCoreWindow.Tick(elapsed);
 
