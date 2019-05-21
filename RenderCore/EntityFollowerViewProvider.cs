@@ -5,7 +5,7 @@ using SFML.System;
 
 namespace RenderCore
 {
-    public class EntityFollowerViewProvider : ViewProviderBase, ITickable
+    public class EntityFollowerViewProvider : ViewProviderBase, IWidget
     {
         private const float MOVEMENT_BUFFER_SIZE = 0.75f;
         private readonly IEntity m_entity;

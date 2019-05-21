@@ -8,18 +8,17 @@ namespace RenderCore
 {
     public abstract class Game : IDisposable
     {
-        protected Game(string _windowTitle, Vector2u _windowSize)
+        protected Game(string _windowTitle, Vector2u _windowSize, Vector2 _gravity)
         {
             RenderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize);
 
             KeyHandlers = new TickableContainer<IKeyHandler>();
 
-            Vector2 gravity = new Vector2(0, 9);
-            Physics = new Physics(gravity);
+            Physics = new Physics(_gravity);
 
             EntityContainer = new DisposableTickableContainer<IEntity>();
 
-            Widgets = new TickableContainer<ITickable>();
+            Widgets = new TickableContainer<IWidget>();
         }
 
         private DisposableTickableContainer<IEntity> EntityContainer { get; }
@@ -27,7 +26,7 @@ namespace RenderCore
         protected TickableContainer<IKeyHandler> KeyHandlers { get; }
         protected RenderCoreWindow RenderCoreWindow { get; }
 
-        private TickableContainer<ITickable> Widgets { get; }
+        private TickableContainer<IWidget> Widgets { get; }
 
         public void Dispose()
         {
@@ -53,7 +52,7 @@ namespace RenderCore
             scene.AddDrawable(_entity);
         }
 
-        protected void AddWidget(ITickable _widget)
+        protected void AddWidget(IWidget _widget)
         {
             Widgets.Add(_widget);
         }
@@ -66,8 +65,6 @@ namespace RenderCore
             {
                 TimeSpan elapsed = stopwatch.GetElapsedAndRestart();
 
-                //the following order is important
-
                 KeyHandlers.Tick(elapsed);
 
                 Physics.Tick(elapsed);
@@ -78,9 +75,13 @@ namespace RenderCore
 
                 RenderCoreWindow.Tick(elapsed);
 
-                //too fast!
-                Thread.Sleep(30);
+                DelayLoop();
             }
+        }
+
+        private static void DelayLoop()
+        {
+            Thread.Sleep(30);
         }
     }
 }

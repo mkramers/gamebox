@@ -8,7 +8,7 @@ namespace GameBox
 {
     public class GameBox : Game
     {
-        public GameBox(string _windowTitle, Vector2u _windowSize) : base(_windowTitle, _windowSize)
+        public GameBox(string _windowTitle, Vector2u _windowSize, Vector2 _gravity) : base(_windowTitle, _windowSize, _gravity)
         {
             IPhysics physics = Physics;
             physics.SetGravity(new Vector2(0, 5));
