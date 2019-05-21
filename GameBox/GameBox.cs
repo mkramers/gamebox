@@ -27,7 +27,7 @@ namespace GameBox
 
             KeyHandlers.Add(moveExecutor);
 
-            View view = new View(new Vector2f(0, 0), new Vector2f(50, 50));
+            View view = new View(new Vector2f(0, 0), new Vector2f(30, 30));
             EntityFollowerViewProvider
                 viewProvider = new EntityFollowerViewProvider(0.03f, manEntity, view);
 

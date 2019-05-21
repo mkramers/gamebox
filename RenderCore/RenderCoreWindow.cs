@@ -23,6 +23,9 @@ namespace RenderCore
 
             m_sceneTarget = new RenderCoreTarget(windowSize, Color.Black);
             m_overlayTarget = new RenderCoreTarget(windowSize, Color.Transparent);
+            View view = new View(new FloatRect(0f, 0, 1, 1));
+            ViewProviderBase viewProviderBase = new ViewProviderBase(view);
+            m_overlayTarget.SetViewProvider(viewProviderBase);
         }
 
         public bool IsOpen => m_renderWindow.IsOpen;

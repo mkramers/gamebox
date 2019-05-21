@@ -58,8 +58,6 @@ namespace RenderCore
         private readonly RenderObjectContainer m_renderObjectContainer;
         private IViewProvider m_viewProvider;
         
-        const float RATIO = 0.05f;
-
         public RenderCoreTarget(Vector2u _size, Color _clearColor)
         {
             m_clearColor = _clearColor;
@@ -67,6 +65,8 @@ namespace RenderCore
             m_viewProvider = new ViewProviderBase();
 
             SetSize(_size);
+
+            m_renderTexture = new RenderTexture(_size.X, _size.Y);
 
             m_renderObjectContainer = new RenderObjectContainer();
         }
@@ -91,17 +91,17 @@ namespace RenderCore
 
         public void SetSize(Vector2u _size)
         {
-            m_renderTexture = new RenderTexture(_size.X, _size.Y);
+            //m_renderTexture = new RenderTexture(_size.X, _size.Y);
 
-            m_viewProvider.SetSize(new Vector2f(_size.X * RATIO, _size.Y * RATIO));
+            //m_viewProvider.SetSize(new Vector2f(_size.X * RATIO, _size.Y * RATIO));
         }
 
         public void SetViewProvider(IViewProvider _viewProvider)
         {
             m_viewProvider = _viewProvider;
 
-            Vector2u size = m_renderTexture.Size;
-            m_viewProvider.SetSize(new Vector2f(size.X * RATIO, size.Y * RATIO));
+            //Vector2u size = m_renderTexture.Size;
+            //m_viewProvider.SetSize(new Vector2f(size.X * RATIO, size.Y * RATIO));
         }
 
         public void AddDrawable(IDrawable _drawable)

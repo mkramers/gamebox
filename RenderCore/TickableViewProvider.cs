@@ -12,7 +12,6 @@ namespace RenderCore
 
         public ViewProviderBase()
         {
-            Viewport = new FloatRect(0.0f, 0, 1f, 1);
         }
 
         public View GetView()
