@@ -24,7 +24,9 @@ namespace RenderBox
             ViewProviderBase viewProvider = new ViewProviderBase(view);
             scene.SetViewProvider(viewProvider);
 
-            DrawableFactory.DrawBox(sceneSize, scene);
+            MultiDrawable<RectangleShape> box = DrawableFactory.GetBox(sceneSize, 1);
+
+            scene.AddDrawable(box);
 
             GridWidget gridWidget = new GridWidget(viewProvider);
             scene.AddDrawable(gridWidget);
@@ -60,7 +62,7 @@ namespace RenderBox
                 }
 
                 TimeSpan elapsed = stopwatch.GetElapsedAndRestart();
-                
+
                 renderCoreWindow.Tick(elapsed);
 
                 Thread.Sleep(30);

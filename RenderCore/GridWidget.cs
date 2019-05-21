@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 using SFML.Graphics;
 
@@ -21,10 +22,10 @@ namespace RenderCore
                 new Vector2((float) Math.Round(view.Center.X), (float) Math.Round(view.Center.Y));
             View snappedView = new View(snappedCenter.GetVector2F(), view.Size);
 
-            MultiDrawable<Shape> gridDrawable = GridDrawingUtilities.GetGridDrawableFromView(snappedView);
+            IEnumerable<Shape> gridDrawables = GridDrawingUtilities.GetGridDrawableFromView(snappedView);
 
             DisposeItemsAndClear();
-            AddRange(gridDrawable);
+            AddRange(gridDrawables);
         }
     }
 }
