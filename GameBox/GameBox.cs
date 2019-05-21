@@ -17,11 +17,8 @@ namespace GameBox
 
             IEntity manEntity = EntityFactory.CreateEntity(mass, 2 * Vector2.One, physics, ResourceId.MAN,
                 BodyType.Dynamic);
-
-            AddEntity(manEntity);
-
+            
             SampleMap map = new SampleMap();
-            AddMap(map, physics);
 
             KeyHandler moveExecutor = KeyHandlerFactory.CreateEntityKeyHandler(manEntity, force);
 
@@ -40,6 +37,10 @@ namespace GameBox
             scene.AddDrawable(gridWidget);
             
             AddWidget(gridWidget);
+
+            AddMap(map, physics);
+
+            AddEntity(manEntity);
         }
     }
 }
