@@ -38,7 +38,7 @@ namespace RenderCore
 
         protected void AddMap(IMap _map, IPhysics _physics)
         {
-            foreach (IEntity woodEntity in _map.GetEntities(_physics, new Vector2(0, 5)))
+            foreach (IEntity woodEntity in _map.GetEntities(_physics, new Vector2(0, 0)))
             {
                 AddEntity(woodEntity);
             }

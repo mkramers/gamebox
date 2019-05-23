@@ -17,7 +17,7 @@ namespace GameBox
             const float mass = 0.1f;
             const float force = 0.666f;
 
-            IEntity manEntity = EntityFactory.CreateEntity(mass, 2 * Vector2.One, physics, ResourceId.MAN,
+            IEntity manEntity = EntityFactory.CreateEntity(mass, new Vector2(0, -3), physics, ResourceId.MAN,
                 BodyType.Dynamic);
 
             SampleMap map = new SampleMap();
@@ -37,6 +37,9 @@ namespace GameBox
 
             GridWidget gridWidget = new GridWidget(viewProvider);
             scene.AddDrawable(gridWidget);
+
+            MultiDrawable<RectangleShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.2f);
+            scene.AddDrawable(crossHairs);
 
             AddWidget(gridWidget);
 

@@ -24,7 +24,7 @@ namespace GameBox
             List<Vector2> positions =
                 LandscapeFactory.GetPyramid(range).Select(_position => _position + origin).ToList();
 
-            uint boxSize = (uint) Math.Round(1.5f * range);
+            uint boxSize = (uint)Math.Round(1.5f * range);
             IEnumerable<Vector2> box = LandscapeFactory.GetBox(new Vector2u(3 * boxSize, 2 * boxSize), 1)
                 .Select(_position => _position + origin);
 
@@ -36,11 +36,12 @@ namespace GameBox
 
         private static IEnumerable<IEntity> CreateLandscape2(IPhysics _physics, Vector2 _position)
         {
-            Polygon floor = ShapeFactory.CreateRectangle(_position, new Vector2(100, 1));
+            Polygon floor = ShapeFactory.CreateRectangle(_position, new Vector2(20, 1));
+            floor.Translate(new Vector2(-10, 0));
 
             Entity entity = EntityFactory.CreatePolygonEntity(_physics, _position, floor);
 
-            return new[] {entity};
+            return new[] { entity };
         }
     }
 }

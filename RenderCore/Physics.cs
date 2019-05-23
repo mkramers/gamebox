@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
 
@@ -27,9 +28,10 @@ namespace RenderCore
         {
             Aether.Physics2D.Dynamics.Body physicsBody = World.CreatePolygon(_vertexObject.GetVertices(), _mass,
                 _position.GetVector2(), 0, _bodyType);
-
-            physicsBody.SetRestitution(0.3f);
-            physicsBody.SetFriction(0.33f);
+            
+            //adjust the fixture radius 
+            Fixture fixture = physicsBody.FixtureList.FirstOrDefault();
+            fixture.Shape.Radius = 0.5f;
 
             World.Add(physicsBody);
 
