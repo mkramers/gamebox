@@ -7,11 +7,11 @@ namespace RenderCore
     public class Entity : IEntity
     {
         private readonly IBody m_body;
-        private readonly Sprite m_sprite;
+        private readonly IPositionDrawable m_drawable;
 
-        public Entity(Sprite _sprite, IBody _body)
+        public Entity(IPositionDrawable _drawable, IBody _body)
         {
-            m_sprite = _sprite;
+            m_drawable = _drawable;
             m_body = _body;
         }
 
@@ -35,22 +35,27 @@ namespace RenderCore
             m_body.RemoveFromWorld();
         }
 
-        public Drawable GetDrawable()
+        public void SetPosition(Vector2 _position)
         {
-            return m_sprite;
+            m_body.SetPosition(_position);
         }
 
         public void Tick(TimeSpan _elapsed)
         {
             Vector2 position = m_body.GetPosition();
-            m_sprite.Position = position.GetVector2F();
+            m_drawable.SetPosition(position);
         }
 
         public void Dispose()
         {
             RemoveFromWorld();
 
-            m_sprite.Dispose();
+            m_drawable.Dispose();
+        }
+
+        public void Draw(RenderTarget _target, RenderStates _states)
+        {
+            m_drawable.Draw(_target, _states);
         }
     }
 }

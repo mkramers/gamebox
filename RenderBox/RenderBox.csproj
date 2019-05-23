@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <Target Name="CopySFMLBinaries" AfterTargets="BeforeBuild">
+    <Copy SourceFiles="../external/csfml-2.5/csfml-system-2.dll" DestinationFolder="$(OutDir)" />
+    <Copy SourceFiles="../external/csfml-2.5/csfml-graphics-2.dll" DestinationFolder="$(OutDir)" />
+    <Copy SourceFiles="../external/csfml-2.5/csfml-window-2.dll" DestinationFolder="$(OutDir)" />
+  </Target>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RenderCore\RenderCore.csproj" />
+  </ItemGroup>
+
+</Project>

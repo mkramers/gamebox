@@ -17,11 +17,13 @@
 
   <ItemGroup>
     <None Remove="Resources\man.png" />
+    <None Remove="Resources\Roboto-Regular.ttf" />
     <None Remove="Resources\wood.bmp" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\man.png" />
+    <EmbeddedResource Include="Resources\Roboto-Regular.ttf" />
     <EmbeddedResource Include="Resources\wood.bmp" />
   </ItemGroup>
 

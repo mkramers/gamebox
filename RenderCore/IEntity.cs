@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace RenderCore
+﻿namespace RenderCore
 {
-    public interface IEntity : IBody, IDrawable, ITickable, IDisposable
+    public interface IEntity : IBody, ITickable, IPositionDrawable
     {
     }
 }

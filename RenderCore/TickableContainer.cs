@@ -3,12 +3,12 @@ using System.Collections.Concurrent;
 
 namespace RenderCore
 {
-    public class TickableContainer : BlockingCollection<ITickable>, ITickable
+    public class TickableContainer<T> : BlockingCollection<T>, ITickable where T : ITickable
     {
         public void Tick(TimeSpan _elapsed)
         {
-            ITickable[] tickables = ToArray();
-            foreach (ITickable tickable in tickables)
+            T[] tickables = ToArray();
+            foreach (T tickable in tickables)
             {
                 tickable.Tick(_elapsed);
             }

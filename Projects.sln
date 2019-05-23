@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RenderCore", "RenderCore\Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhysicsSample", "BepuSample\PhysicsSample.csproj", "{F52B8848-997B-4833-98C2-3754209FF5F4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RenderBox", "RenderBox\RenderBox.csproj", "{EFB905DE-8888-44DB-B144-E7E11BBE274C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{F52B8848-997B-4833-98C2-3754209FF5F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F52B8848-997B-4833-98C2-3754209FF5F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F52B8848-997B-4833-98C2-3754209FF5F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFB905DE-8888-44DB-B144-E7E11BBE274C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFB905DE-8888-44DB-B144-E7E11BBE274C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFB905DE-8888-44DB-B144-E7E11BBE274C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFB905DE-8888-44DB-B144-E7E11BBE274C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

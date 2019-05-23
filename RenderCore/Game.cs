@@ -1,91 +1,87 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
 using System.Threading;
-using SFML.Graphics;
 using SFML.System;
 
 namespace RenderCore
 {
     public abstract class Game : IDisposable
     {
-        private readonly List<IEntity> m_entities;
-        protected readonly EntityPhysics m_entityPhysics;
-        protected readonly TickableContainer m_keyHandlers;
-        private readonly TickableContainer m_objectFramework;
-        private readonly RenderCoreWindow m_renderCoreWindow;
-        private bool m_shouldLoopExit;
-
-        protected Game(string _windowTitle, Vector2u _windowSize)
+        protected Game(string _windowTitle, Vector2u _windowSize, Vector2 _gravity)
         {
-            FloatRect viewRect = new FloatRect(-10, 10, 20, 20);
+            RenderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize);
 
-            RenderWindow renderWindow = RenderWindowFactory.CreateRenderWindow(_windowTitle, _windowSize, viewRect);
-            renderWindow.Closed += RenderWindow_OnClosed;
-            GridWidget gridWidget = new GridWidget(renderWindow.GetView()) {IsDrawEnabled = true};
+            KeyHandlers = new TickableContainer<IKeyHandler>();
 
-            m_renderCoreWindow = new RenderCoreWindow(renderWindow, new[] {gridWidget});
+            Physics = new Physics(_gravity);
 
-            m_objectFramework = new TickableContainer();
+            EntityContainer = new DisposableTickableContainer<IEntity>();
 
-            m_keyHandlers = new TickableContainer();
-
-            Vector2 gravity = new Vector2(0, 10);
-            m_entityPhysics = new EntityPhysics(gravity);
-
-            //order matters
-            m_objectFramework.Add(m_entityPhysics);
-            m_objectFramework.Add(m_renderCoreWindow);
-            m_objectFramework.Add(m_keyHandlers);
-
-            m_entities = new List<IEntity>();
+            Widgets = new TickableContainer<IWidget>();
         }
+
+        private DisposableTickableContainer<IEntity> EntityContainer { get; }
+        protected Physics Physics { get; }
+        protected TickableContainer<IKeyHandler> KeyHandlers { get; }
+        protected RenderCoreWindow RenderCoreWindow { get; }
+
+        private TickableContainer<IWidget> Widgets { get; }
 
         public void Dispose()
         {
-            m_renderCoreWindow.Dispose();
-            m_entityPhysics.Dispose();
+            RenderCoreWindow.Dispose();
+            Physics.Dispose();
 
-            foreach (IEntity entity in m_entities)
-            {
-                entity.Dispose();
-            }
-
-            m_entities.Clear();
+            EntityContainer.Dispose();
         }
 
-        private void RenderWindow_OnClosed(object _sender, EventArgs _e)
+        protected void AddMap(IMap _map, IPhysics _physics)
         {
-            m_shouldLoopExit = true;
+            foreach (IEntity woodEntity in _map.GetEntities(_physics))
+            {
+                AddEntity(woodEntity);
+            }
         }
 
         protected void AddEntity(IEntity _entity)
         {
-            m_entities.Add(_entity);
+            EntityContainer.Add(_entity);
 
-            m_entityPhysics.Add(_entity);
-            m_renderCoreWindow.Add(_entity);
+            IRenderCoreTarget scene = RenderCoreWindow.GetScene();
+            scene.AddDrawable(_entity);
+        }
+
+        protected void AddWidget(IWidget _widget)
+        {
+            Widgets.Add(_widget);
         }
 
         public void StartLoop()
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
 
-            while (true)
+            while (RenderCoreWindow.IsOpen)
             {
-                m_objectFramework.Tick(stopwatch.Elapsed);
+                TimeSpan elapsed = stopwatch.GetElapsedAndRestart();
 
-                stopwatch.Restart();
+                KeyHandlers.Tick(elapsed);
 
-                //too fast!
-                Thread.Sleep(30);
+                Physics.Tick(elapsed);
 
-                if (m_shouldLoopExit)
-                {
-                    break;
-                }
+                EntityContainer.Tick(elapsed);
+
+                Widgets.Tick(elapsed);
+
+                RenderCoreWindow.Tick(elapsed);
+
+                DelayLoop();
             }
+        }
+
+        private static void DelayLoop()
+        {
+            Thread.Sleep(30);
         }
     }
 }

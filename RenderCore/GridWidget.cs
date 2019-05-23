@@ -1,53 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Numerics;
 using SFML.Graphics;
 
 namespace RenderCore
 {
-    public class GridWidget : RenderCoreWindowWidget
+    public class GridWidget : MultiDrawable<Shape>, IWidget
     {
-        private readonly List<Shape> m_shapes;
+        private readonly IViewProvider m_viewProvider;
 
-        public GridWidget(View _view)
+        public GridWidget(IViewProvider _viewProvider)
         {
-            m_shapes = new List<Shape>();
-
-            UpdateView(_view);
+            m_viewProvider = _viewProvider;
         }
 
-        private void UpdateView(View _view)
+        public void Tick(TimeSpan _elapsed)
         {
-            ClearShapes();
+            View view = m_viewProvider.GetView();
 
-            IEnumerable<Shape> shapes = GridDrawingUtilities.GetGridDrawableFromView(_view);
-            m_shapes.AddRange(shapes);
-        }
+            Vector2 snappedCenter =
+                new Vector2((float) Math.Round(view.Center.X), (float) Math.Round(view.Center.Y));
+            View snappedView = new View(snappedCenter.GetVector2F(), view.Size);
 
-        public override void Draw(RenderTarget _target, RenderStates _state)
-        {
-            if (!IsDrawEnabled)
-            {
-                return;
-            }
+            IEnumerable<Shape> gridDrawables = GridDrawingUtilities.GetGridDrawableFromView(snappedView);
 
-            foreach (Shape shape in m_shapes)
-            {
-                _target.Draw(shape, _state);
-            }
-        }
-
-        public override void Dispose()
-        {
-            ClearShapes();
-        }
-
-        private void ClearShapes()
-        {
-            foreach (Shape shape in m_shapes)
-            {
-                shape.Dispose();
-            }
-
-            m_shapes.Clear();
+            DisposeItemsAndClear();
+            AddRange(gridDrawables);
         }
     }
 }

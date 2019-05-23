@@ -1,62 +1,72 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using SFML.Graphics;
+using SFML.System;
 
 namespace RenderCore
 {
-    public class RenderCoreWindow : RenderCoreWindowBase, IDisposable
+    public class RenderCoreWindow : ITickable, IDisposable
     {
-        private readonly List<Drawable> m_drawables;
-        private readonly object m_drawLock;
-        private readonly IEnumerable<IRenderCoreWindowWidget> m_widgets;
+        private readonly IRenderCoreTarget m_overlayTarget;
+        private readonly RenderWindow m_renderWindow;
+        private readonly IRenderCoreTarget m_sceneTarget;
 
-        public RenderCoreWindow(RenderWindow _renderWindow, IEnumerable<IRenderCoreWindowWidget> _widgets) : base(
-            _renderWindow)
+        public RenderCoreWindow(RenderWindow _renderWindow)
         {
-            m_drawables = new List<Drawable>();
-            m_widgets = _widgets;
-            m_drawLock = new object();
+            m_renderWindow = _renderWindow;
+            m_renderWindow.Closed += (_sender, _e) => m_renderWindow.Close();
+
+            Vector2u windowSize = m_renderWindow.Size;
+
+            m_sceneTarget = new RenderCoreTarget(windowSize, Color.Black);
+            m_overlayTarget = new RenderCoreTarget(windowSize, Color.Transparent);
+            View view = new View(new FloatRect(0f, 0, 1, 1));
+            ViewProviderBase viewProviderBase = new ViewProviderBase(view);
+            m_overlayTarget.SetViewProvider(viewProviderBase);
         }
+
+        public bool IsOpen => m_renderWindow.IsOpen;
 
         public void Dispose()
         {
-            foreach (IRenderCoreWindowWidget widget in m_widgets)
-            {
-                widget.Dispose();
-            }
-
             m_renderWindow.Dispose();
+
+            m_sceneTarget.Dispose();
+            m_overlayTarget.Dispose();
         }
 
-        public void Add(IDrawable _drawable)
+        public void Tick(TimeSpan _elapsed)
         {
-            Debug.Assert(_drawable != null);
-
-            lock (m_drawLock)
+            if (!m_renderWindow.IsOpen)
             {
-                m_drawables.Add(_drawable.GetDrawable());
+                return;
             }
+
+            m_renderWindow.DispatchEvents();
+
+            m_sceneTarget.Tick(_elapsed);
+            m_overlayTarget.Tick(_elapsed);
+
+            Draw(m_renderWindow);
+        }
+        
+        public IRenderCoreTarget GetScene()
+        {
+            return m_sceneTarget;
         }
 
-        protected override void DrawScene(RenderWindow _renderWindow)
+        public IRenderCoreTarget GetOverlay()
         {
-            lock (m_drawLock)
-            {
-                _renderWindow.Clear(Color.Green);
+            return m_overlayTarget;
+        }
 
-                foreach (IRenderCoreWindowWidget widget in m_widgets)
-                {
-                    _renderWindow.Draw(widget);
-                }
+        private void Draw(RenderWindow _renderWindow)
+        {
+            _renderWindow.Clear();
 
-                foreach (Drawable shape in m_drawables)
-                {
-                    _renderWindow.Draw(shape);
-                }
+            _renderWindow.Draw(m_sceneTarget);
+            _renderWindow.Draw(m_overlayTarget);
 
-                _renderWindow.Display();
-            }
+            _renderWindow.Display();
         }
     }
 }

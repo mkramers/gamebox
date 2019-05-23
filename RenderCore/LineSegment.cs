@@ -10,10 +10,10 @@ namespace RenderCore
             End = _end;
         }
 
-        public Vector2 End { get; }
+        private Vector2 End { get; }
 
         public float Length => Vector.Length();
-        private Vector2 Start { get; }
+        public Vector2 Start { get; }
         private Vector2 Vector => End - Start;
         public Vector2 Direction => Vector2.Normalize(Vector);
     }
