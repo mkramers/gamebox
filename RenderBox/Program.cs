@@ -6,8 +6,8 @@ namespace RenderBox
     {
         private static void Main()
         {
-            // ReSharper disable once UnusedVariable
             RenderBox renderBox = new RenderBox("RenderBox", new Vector2u(800, 800));
+            renderBox.StartLoop();
         }
     }
 }

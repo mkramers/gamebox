@@ -50,23 +50,8 @@ namespace RenderBox
 
             IRenderCoreTarget overlay = renderCoreWindow.GetOverlay();
             overlay.AddDrawable(fpsTextWidget);
+
             AddWidget(fpsTextWidget);
-
-            Stopwatch stopwatch = Stopwatch.StartNew();
-
-            while (true)
-            {
-                if (!renderCoreWindow.IsOpen)
-                {
-                    break;
-                }
-
-                TimeSpan elapsed = stopwatch.GetElapsedAndRestart();
-
-                renderCoreWindow.Tick(elapsed);
-
-                Thread.Sleep(30);
-            }
         }
     }
 }
