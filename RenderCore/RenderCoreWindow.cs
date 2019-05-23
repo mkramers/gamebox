@@ -48,7 +48,7 @@ namespace RenderCore
 
             Draw(m_renderWindow);
         }
-        
+
         public IRenderCoreTarget GetScene()
         {
             return m_sceneTarget;

@@ -17,7 +17,8 @@ namespace RenderCore
 
         public static MultiDrawable<RectangleShape> GetBox(Vector2 _size, float _thickness)
         {
-            IEnumerable<RectangleShape> shapes = GetBoxLineSegments(_size).Select(_segment => ShapeFactory.GetLineShape(_segment, _thickness));
+            IEnumerable<RectangleShape> shapes = GetBoxLineSegments(_size)
+                .Select(_segment => ShapeFactory.GetLineShape(_segment, _thickness));
             return new MultiDrawable<RectangleShape>(shapes.ToList());
         }
     }

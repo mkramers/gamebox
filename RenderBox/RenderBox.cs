@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Numerics;
-using System.Threading;
+﻿using System.Numerics;
 using RenderCore;
 using SFML.Graphics;
 using SFML.System;

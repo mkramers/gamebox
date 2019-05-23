@@ -40,7 +40,7 @@ namespace RenderCore
         {
             Vector2f size = new Vector2f(_thickness, _line.Length);
             float dotProduct = Vector2.Dot(_line.Direction, Vector2.UnitY);
-            float angle = -((float)Math.Acos(dotProduct)).ToDegrees();
+            float angle = -((float) Math.Acos(dotProduct)).ToDegrees();
 
             RectangleShape rectangleShape = new RectangleShape(size)
             {
@@ -53,13 +53,13 @@ namespace RenderCore
 
         public static ConvexShape GetConvexShape(IVertexObject _vertices)
         {
-            ConvexShape shape = new ConvexShape((uint)_vertices.Count);
+            ConvexShape shape = new ConvexShape((uint) _vertices.Count);
 
             for (int i = 0; i < _vertices.Count; i++)
             {
                 Vector2 vertex = _vertices[i];
 
-                shape.SetPoint((uint)i, vertex.GetVector2F());
+                shape.SetPoint((uint) i, vertex.GetVector2F());
             }
 
             return shape;
