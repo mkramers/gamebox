@@ -36,8 +36,6 @@ namespace GameBox
 
         private static IEnumerable<IEntity> CreateLandscape2(IPhysics _physics, Vector2 _position)
         {
-            List<IEntity> entities = new List<IEntity>();
-
             Polygon floor = ShapeFactory.CreateRectangle(_position, new Vector2(100, 1));
 
             Entity entity = EntityFactory.CreatePolygonEntity(_physics, _position, floor);
