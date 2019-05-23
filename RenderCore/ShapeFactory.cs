@@ -40,7 +40,7 @@ namespace RenderCore
         {
             Vector2f size = new Vector2f(_thickness, _line.Length);
             float dotProduct = Vector2.Dot(_line.Direction, Vector2.UnitY);
-            float angle = -((float) Math.Acos(dotProduct)).ToDegrees();
+            float angle = -((float)Math.Acos(dotProduct)).ToDegrees();
 
             RectangleShape rectangleShape = new RectangleShape(size)
             {
@@ -49,6 +49,38 @@ namespace RenderCore
                 Rotation = angle
             };
             return rectangleShape;
+        }
+
+        public static ConvexShape GetConvexShape(IVertexObject _vertices)
+        {
+            ConvexShape shape = new ConvexShape((uint)_vertices.Count);
+
+            for (int i = 0; i < _vertices.Count; i++)
+            {
+                Vector2 vertex = _vertices[i];
+
+                shape.SetPoint((uint)i, vertex.GetVector2F());
+            }
+
+            return shape;
+        }
+
+        public static Polygon CreateRectangle(Vector2 _position, Vector2 _size)
+        {
+            Polygon rectangle = CreateRectangle(_size);
+            rectangle.Translate(_position);
+            return rectangle;
+        }
+
+        private static Polygon CreateRectangle(Vector2 _size)
+        {
+            Polygon polygon = new Polygon(4)
+            {
+                new Vector2(0, 0), new Vector2(0, _size.Y), new Vector2(_size.X, _size.Y), new Vector2(_size.X, 0)
+            };
+
+
+            return polygon;
         }
     }
 }

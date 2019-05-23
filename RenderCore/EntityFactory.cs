@@ -18,5 +18,17 @@ namespace RenderCore
             Entity entity = new Entity(spriteDrawable, body);
             return entity;
         }
+
+        public static Entity CreatePolygonEntity(IPhysics _physics, Vector2 _position, Polygon _polygon)
+        {
+            IBody body = _physics.CreateVertexBody(_polygon, _position, 1, BodyType.Static);
+
+            ConvexShape shape = ShapeFactory.GetConvexShape(_polygon);
+
+            Drawable<ConvexShape> drawable = new Drawable<ConvexShape>(shape);
+
+            Entity entity = new Entity(drawable, body);
+            return entity;
+        }
     }
 }
