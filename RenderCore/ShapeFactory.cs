@@ -64,15 +64,8 @@ namespace RenderCore
 
             return shape;
         }
-
-        public static Polygon CreateRectangle(Vector2 _position, Vector2 _halfSize)
-        {
-            Polygon rectangle = CreateRectangle(_halfSize);
-            rectangle.Translate(_position);
-            return rectangle;
-        }
-
-        private static Polygon CreateRectangle(Vector2 _halfSize)
+        
+        public static Polygon CreateRectangle(Vector2 _halfSize)
         {
             Polygon polygon = new Polygon(4)
             {
@@ -81,7 +74,6 @@ namespace RenderCore
                 new Vector2(_halfSize.X, _halfSize.Y),
                 new Vector2(-_halfSize.X, _halfSize.Y)
             };
-
 
             return polygon;
         }

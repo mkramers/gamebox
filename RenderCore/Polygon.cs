@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 
 namespace RenderCore
@@ -17,12 +18,12 @@ namespace RenderCore
         {
         }
 
-        public void Translate(Vector2 _translation)
+        public static IVertexObject Translate(IVertexObject _polygon, Vector2 _translation)
         {
-            for (int i = 0; i < Count; i++)
-            {
-                this[i] += _translation;
-            }
+            IEnumerable<Vector2> translatedVertices = _polygon.Select(_vertex => _vertex + _translation);
+
+            Polygon translatedPolygon = new Polygon(translatedVertices);
+            return translatedPolygon;
         }
     }
 }

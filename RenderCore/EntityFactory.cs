@@ -7,30 +7,21 @@ namespace RenderCore
     public static class SpriteEntityFactory
     {
         public static IEntity CreateSpriteEntity(float _mass, Vector2 _position, IPhysics _physics, BodyType _bodyType,
-            Sprite _sprite, Vector2 _size)
+            Sprite _sprite)
         {
-            Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(_sprite, -_size / 2);
+            FloatRect spriteLocalBounds = _sprite.GetGlobalBounds();
 
-            Polygon bodyPolygon = ShapeFactory.CreateRectangle(Vector2.Zero, _size / 2);
+            Vector2 spriteSize = spriteLocalBounds.GetSize();
 
-            IBody body = _physics.CreateVertexBody(bodyPolygon, _position, _mass, _bodyType);
+            Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(_sprite, -spriteSize / 2);
+
+            IVertexObject bodyVertexObject = ShapeFactory.CreateRectangle(Vector2.Zero);
+
+            IVertexObject transformedVertexObject = Polygon.Translate(bodyVertexObject, spriteSize / 2);
+
+            IBody body = _physics.CreateVertexBody(transformedVertexObject, _position, _mass, _bodyType);
 
             Entity entity = new Entity(spriteDrawable, body);
-            return entity;
-        }
-    }
-
-    public static class EntityFactory
-    {
-        public static Entity CreatePolygonEntity(IPhysics _physics, Vector2 _position, Polygon _polygon)
-        {
-            IBody body = _physics.CreateVertexBody(_polygon, _position, 1, BodyType.Static);
-
-            ConvexShape shape = ShapeFactory.GetConvexShape(_polygon);
-
-            Drawable<ConvexShape> drawable = new Drawable<ConvexShape>(shape);
-
-            Entity entity = new Entity(drawable, body);
             return entity;
         }
     }

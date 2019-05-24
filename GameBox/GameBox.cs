@@ -75,12 +75,11 @@ namespace GameBox
         {
             const float mass = 0.1f;
 
-            Vector2 size = Vector2.One;
             Vector2 manPosition = new Vector2(0, -3);
 
             Sprite sprite = SpriteFactory.GetSprite(ResourceId.MAN);
             IEntity manEntity =
-                SpriteEntityFactory.CreateSpriteEntity(mass, manPosition, _physics, BodyType.Dynamic, sprite, size);
+                SpriteEntityFactory.CreateSpriteEntity(mass, manPosition, _physics, BodyType.Dynamic, sprite);
             return manEntity;
         }
     }
