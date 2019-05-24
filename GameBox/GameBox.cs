@@ -12,7 +12,7 @@ namespace GameBox
             _gravity)
         {
             IPhysics physics = Physics;
-            physics.SetGravity(new Vector2(0, 5));
+            physics.SetGravity(new Vector2(0, 3));
 
             const float mass = 0.1f;
             const float force = 0.666f;
