@@ -18,44 +18,27 @@ namespace GameBox
             Color fillColor = Color.Red;
 
             Vector2 floorSize = new Vector2(10, 0.5f);
-            VertexObjectEntityCreationArgs floor = CreateFloor(mass, bodyType, fillColor, outlineColor, outlineThickness, floorSize);
+            IEntityCreator floorCreator = BuildFloorCreator(mass, bodyType, fillColor, outlineColor, outlineThickness, floorSize);
 
-            VertexObjectEntityCreationArgs[] items = {floor};
+            IEntityCreator[] entityCreators = { floorCreator };
 
-            return items.Select(_entityCreationArgs => _entityCreationArgs.CreateEntity(_physics)).ToList();
+            return entityCreators.Select(_entityCreationArgs => _entityCreationArgs.CreateEntity(_physics)).ToList();
         }
 
-        private static VertexObjectEntityCreationArgs CreateFloor(float _mass, BodyType _bodyType, Color _fillColor, Color _outlineColor,
+        private static IEntityCreator BuildFloorCreator(float _mass, BodyType _bodyType, Color _fillColor, Color _outlineColor,
             float _outlineThickness, Vector2 _size)
         {
             Polygon floor = ShapeFactory.CreateRectangle(_size / 2);
+
             VertexObjectBodyCreationArgs bodyCreationArgs = new VertexObjectBodyCreationArgs(floor, _mass, _bodyType);
+
             VertexObjectShapeCreationArgs shapeCreationArgs =
                 new VertexObjectShapeCreationArgs(floor, _fillColor, _outlineColor, _outlineThickness);
+
             VertexObjectEntityCreationArgs entityCreationArgs =
                 new VertexObjectEntityCreationArgs(bodyCreationArgs, shapeCreationArgs);
+
             return entityCreationArgs;
-        }
-    }
-
-    public static class VertexObjectShapeCreationArgsExtensions
-    {
-        public static ConvexShape CreateConvexShape(this VertexObjectShapeCreationArgs _creationArgs)
-        {
-            ConvexShape shape = ShapeFactory.GetConvexShape(_creationArgs.VertexObject);
-            shape.OutlineThickness = _creationArgs.OutlineThickness;
-            shape.FillColor = _creationArgs.FillColor;
-            shape.OutlineColor = _creationArgs.OutlineColor;
-            return shape;
-        }
-    }
-
-    public static class VertexObjectBodyCreationArgsExtensions
-    {
-        public static IBody CreateBody(this VertexObjectBodyCreationArgs _creationArgs, IPhysics _physics)
-        {
-            IBody body = _physics.CreateVertexBody(_creationArgs.VertexObject, Vector2.Zero, _creationArgs.Mass, _creationArgs.BodyType);
-            return body;
         }
     }
 
@@ -69,7 +52,21 @@ namespace GameBox
         public IVertexObject VertexObject { get; }
     }
 
-    public class VertexObjectShapeCreationArgs : VertexObjectCreationArgsBase
+    public interface IDrawableCreator
+    {
+        IPositionDrawable CreateDrawable();
+    }
+
+    public abstract class VertexObjectDrawableCreationArgsBase : VertexObjectCreationArgsBase, IDrawableCreator
+    {
+        protected VertexObjectDrawableCreationArgsBase(IVertexObject _vertexObject) : base(_vertexObject)
+        {
+        }
+
+        public abstract IPositionDrawable CreateDrawable();
+    }
+
+    public class VertexObjectShapeCreationArgs : VertexObjectDrawableCreationArgsBase
     {
         public VertexObjectShapeCreationArgs(IVertexObject _vertexObject, Color _fillColor, Color _outlineColor, float _outlineThickness) : base(_vertexObject)
         {
@@ -81,41 +78,64 @@ namespace GameBox
         public Color FillColor { get; }
         public Color OutlineColor { get; }
         public float OutlineThickness { get; }
+
+        public override IPositionDrawable CreateDrawable()
+        {
+            ConvexShape shape = ShapeFactory.GetConvexShape(VertexObject);
+            shape.OutlineThickness = OutlineThickness;
+            shape.FillColor = FillColor;
+            shape.OutlineColor = OutlineColor;
+
+            Drawable<ConvexShape> shapeDrawable = new Drawable<ConvexShape>(shape);
+            return shapeDrawable;
+        }
     }
-    public class VertexObjectBodyCreationArgs : VertexObjectCreationArgsBase
+
+    public interface IBodyCreator
+    {
+        IBody CreateBody(IPhysics _physics);
+    }
+
+    public class VertexObjectBodyCreationArgs : VertexObjectCreationArgsBase, IBodyCreator
     {
         public VertexObjectBodyCreationArgs(IVertexObject _vertexObject, float _mass, BodyType _bodyType) : base(_vertexObject)
         {
             Mass = _mass;
             BodyType = _bodyType;
         }
+        public IBody CreateBody(IPhysics _physics)
+        {
+            IBody body = _physics.CreateVertexBody(VertexObject, Vector2.Zero, Mass, BodyType);
+            return body;
+        }
 
         public float Mass { get; }
         public BodyType BodyType { get; }
     }
 
-    public static class VertexObjectEntityCreationArgsExtensions
+    public interface IEntityCreator
     {
-        public static IEntity CreateEntity(this VertexObjectEntityCreationArgs _creationArgs, IPhysics _physics)
-        {
-            IBody body = _creationArgs.BodyCreationArgs.CreateBody(_physics);
-            ConvexShape shape = _creationArgs.ShapeCreationArgs.CreateConvexShape();
-
-            Drawable<ConvexShape> shapeDrawable = new Drawable<ConvexShape>(shape);
-            Entity entity = new Entity(shapeDrawable, body);
-            return entity;
-        }
+        IEntity CreateEntity(IPhysics _physics);
     }
 
-    public class VertexObjectEntityCreationArgs
+    public class VertexObjectEntityCreationArgs : IEntityCreator
     {
-        public VertexObjectEntityCreationArgs(VertexObjectBodyCreationArgs _bodyCreationArgs, VertexObjectShapeCreationArgs _shapeCreationArgs)
+        public VertexObjectEntityCreationArgs(IBodyCreator _bodyCreator, IDrawableCreator _drawableCreator)
         {
-            BodyCreationArgs = _bodyCreationArgs;
-            ShapeCreationArgs = _shapeCreationArgs;
+            BodyCreator = _bodyCreator;
+            DrawableCreator = _drawableCreator;
+        }
+        
+        public IEntity CreateEntity(IPhysics _physics)
+        {
+            IBody body = BodyCreator.CreateBody(_physics);
+            IPositionDrawable drawable = DrawableCreator.CreateDrawable();
+
+            Entity entity = new Entity(drawable, body);
+            return entity;
         }
 
-        public VertexObjectBodyCreationArgs BodyCreationArgs { get; }
-        public VertexObjectShapeCreationArgs ShapeCreationArgs { get; }
+        public IBodyCreator BodyCreator { get; }
+        public IDrawableCreator DrawableCreator { get; }
     }
 }
