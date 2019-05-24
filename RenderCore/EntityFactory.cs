@@ -9,11 +9,15 @@ namespace RenderCore
         public static IEntity CreateEntity(float _mass, Vector2 _position, IPhysics _physics, ResourceId _resourceId,
             BodyType _bodyType)
         {
+            Vector2 size = Vector2.One;
+
             Sprite sprite = SpriteFactory.GetSprite(_resourceId);
 
-            Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(sprite);
+            Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(sprite, -size / 2);
 
-            IBody body = _physics.CreateBody(_position, _mass, _bodyType);
+            Polygon bodyPolygon = ShapeFactory.CreateRectangle(Vector2.Zero, size / 2);
+
+            IBody body = _physics.CreateVertexBody(bodyPolygon, _position, _mass, _bodyType);
 
             Entity entity = new Entity(spriteDrawable, body);
             return entity;

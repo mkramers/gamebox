@@ -6,9 +6,15 @@ namespace RenderCore
     public class Drawable<T> : IPositionDrawable where T : Transformable, Drawable
     {
         protected readonly T m_renderObject;
+        private readonly Vector2 m_origin;
 
-        public Drawable(T _renderObject)
+        public Drawable(T _renderObject) : this(_renderObject, Vector2.Zero)
         {
+        }
+
+        public Drawable(T _renderObject, Vector2 _origin)
+        {
+            m_origin = _origin;
             m_renderObject = _renderObject;
         }
 
@@ -24,12 +30,14 @@ namespace RenderCore
 
         public Vector2 GetPosition()
         {
-            return m_renderObject.Position.GetVector2();
+            Vector2 position = m_renderObject.Position.GetVector2() - m_origin;
+            return position;
         }
 
         public void SetPosition(Vector2 _position)
         {
-            m_renderObject.Position = _position.GetVector2F();
+            Vector2 position = _position + m_origin;
+            m_renderObject.Position = position.GetVector2F();
         }
     }
 }

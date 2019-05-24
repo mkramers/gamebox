@@ -29,24 +29,6 @@ namespace RenderCore
             Aether.Physics2D.Dynamics.Body physicsBody = World.CreatePolygon(_vertexObject.GetVertices(), _mass,
                 _position.GetVector2(), 0, _bodyType);
             
-            //adjust the fixture radius 
-            Fixture fixture = physicsBody.FixtureList.FirstOrDefault();
-            fixture.Shape.Radius = 0.5f;
-
-            World.Add(physicsBody);
-
-            Body body = new Body(physicsBody);
-            return body;
-        }
-
-        public IBody CreateBody(Vector2 _position, float _mass, BodyType _bodyType)
-        {
-            Aether.Physics2D.Dynamics.Body physicsBody =
-                World.CreateRectangle(1, 1, _mass, _position.GetVector2(), 0, _bodyType);
-
-            physicsBody.SetRestitution(0.3f);
-            physicsBody.SetFriction(0.33f);
-
             World.Add(physicsBody);
 
             Body body = new Body(physicsBody);
