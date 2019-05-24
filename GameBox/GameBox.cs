@@ -13,39 +13,75 @@ namespace GameBox
         {
             IPhysics physics = Physics;
             physics.SetGravity(new Vector2(0, 3));
-
-            const float mass = 0.1f;
-            const float force = 0.666f;
-
-            IEntity manEntity = EntityFactory.CreateEntity(mass, new Vector2(0, -3), physics, ResourceId.MAN,
-                BodyType.Dynamic);
-
-            SampleMap map = new SampleMap();
-
-            KeyHandler moveExecutor = KeyHandlerFactory.CreateEntityKeyHandler(manEntity, force);
-
-            KeyHandlers.Add(moveExecutor);
-
+            
+            IEntity manEntity = CreateMan(physics);
+            
             View view = new View(new Vector2f(0, 0), new Vector2f(30, 30));
             EntityFollowerViewProvider
                 viewProvider = new EntityFollowerViewProvider(manEntity, view);
-
-            AddWidget(viewProvider);
-
+            
             IRenderCoreTarget scene = RenderCoreWindow.GetScene();
-            scene.SetViewProvider(viewProvider);
 
-            GridWidget gridWidget = new GridWidget(viewProvider);
-            scene.AddDrawable(gridWidget);
+            SetSceneViewerProvider(scene, viewProvider);
 
-            MultiDrawable<RectangleShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.2f);
-            scene.AddDrawable(crossHairs);
+            AddWidgets(scene, viewProvider);
+            
+            AddMap(physics);
+
+            AddMan(manEntity);
+        }
+
+        private void AddMan(IEntity _manEntity)
+        {
+            AddManKeyHandler(_manEntity);
+
+            AddEntity(_manEntity);
+        }
+
+        private static void SetSceneViewerProvider(IRenderCoreTarget _scene, EntityFollowerViewProvider _viewProvider)
+        {
+            _scene.SetViewProvider(_viewProvider);
+        }
+
+        private void AddMap(IPhysics _physics)
+        {
+            SampleMap map = new SampleMap();
+            AddMap(map, _physics);
+        }
+
+        private void AddWidgets(IRenderObjectContainer _scene, EntityFollowerViewProvider _viewProvider)
+        {
+            AddWidget(_viewProvider);
+
+            GridWidget gridWidget = new GridWidget(_viewProvider);
+            _scene.AddDrawable(gridWidget);
 
             AddWidget(gridWidget);
 
-            AddMap(map, physics);
+            MultiDrawable<RectangleShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.2f);
+            _scene.AddDrawable(crossHairs);
+        }
 
-            AddEntity(manEntity);
+        private void AddManKeyHandler(IEntity _manEntity)
+        {
+            const float force = 0.666f;
+
+            KeyHandler moveExecutor = KeyHandlerFactory.CreateEntityKeyHandler(_manEntity, force);
+
+            KeyHandlers.Add(moveExecutor);
+        }
+
+        private static IEntity CreateMan(IPhysics _physics)
+        {
+            const float mass = 0.1f;
+
+            Vector2 size = Vector2.One;
+            Vector2 manPosition = new Vector2(0, -3);
+
+            Sprite sprite = SpriteFactory.GetSprite(ResourceId.MAN);
+            IEntity manEntity =
+                SpriteEntityFactory.CreateSpriteEntity(mass, manPosition, _physics, BodyType.Dynamic, sprite, size);
+            return manEntity;
         }
     }
 }

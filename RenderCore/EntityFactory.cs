@@ -22,16 +22,6 @@ namespace RenderCore
 
     public static class EntityFactory
     {
-        public static IEntity CreateEntity(float _mass, Vector2 _position, IPhysics _physics, ResourceId _resourceId,
-            BodyType _bodyType)
-        {
-            Vector2 size = Vector2.One;
-
-            Sprite sprite = SpriteFactory.GetSprite(_resourceId);
-
-            return SpriteEntityFactory.CreateSpriteEntity(_mass, _position, _physics, _bodyType, sprite, size);
-        }
-
         public static Entity CreatePolygonEntity(IPhysics _physics, Vector2 _position, Polygon _polygon)
         {
             IBody body = _physics.CreateVertexBody(_polygon, _position, 1, BodyType.Static);
