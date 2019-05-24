@@ -4,6 +4,22 @@ using SFML.Graphics;
 
 namespace RenderCore
 {
+    public static class SpriteEntityFactory
+    {
+        public static IEntity CreateSpriteEntity(float _mass, Vector2 _position, IPhysics _physics, BodyType _bodyType,
+            Sprite _sprite, Vector2 _size)
+        {
+            Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(_sprite, -_size / 2);
+
+            Polygon bodyPolygon = ShapeFactory.CreateRectangle(Vector2.Zero, _size / 2);
+
+            IBody body = _physics.CreateVertexBody(bodyPolygon, _position, _mass, _bodyType);
+
+            Entity entity = new Entity(spriteDrawable, body);
+            return entity;
+        }
+    }
+
     public static class EntityFactory
     {
         public static IEntity CreateEntity(float _mass, Vector2 _position, IPhysics _physics, ResourceId _resourceId,
@@ -13,14 +29,7 @@ namespace RenderCore
 
             Sprite sprite = SpriteFactory.GetSprite(_resourceId);
 
-            Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(sprite, -size / 2);
-
-            Polygon bodyPolygon = ShapeFactory.CreateRectangle(Vector2.Zero, size / 2);
-
-            IBody body = _physics.CreateVertexBody(bodyPolygon, _position, _mass, _bodyType);
-
-            Entity entity = new Entity(spriteDrawable, body);
-            return entity;
+            return SpriteEntityFactory.CreateSpriteEntity(_mass, _position, _physics, _bodyType, sprite, size);
         }
 
         public static Entity CreatePolygonEntity(IPhysics _physics, Vector2 _position, Polygon _polygon)
