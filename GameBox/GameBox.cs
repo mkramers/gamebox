@@ -12,7 +12,7 @@ namespace GameBox
             _gravity)
         {
             IPhysics physics = Physics;
-            physics.SetGravity(new Vector2(0, 3));
+            physics.SetGravity(new Vector2(0, 0));
             
             IEntity manEntity = CreateMan(physics);
             
