@@ -13,19 +13,19 @@ namespace GameBox
         {
             IPhysics physics = Physics;
             physics.SetGravity(new Vector2(0, 0));
-            
+
             IEntity manEntity = CreateMan(physics);
-            
+
             View view = new View(new Vector2f(0, 0), new Vector2f(30, 30));
             EntityFollowerViewProvider
                 viewProvider = new EntityFollowerViewProvider(manEntity, view);
-            
+
             IRenderCoreTarget scene = RenderCoreWindow.GetScene();
 
             SetSceneViewerProvider(scene, viewProvider);
 
             AddWidgets(scene, viewProvider);
-            
+
             AddMap(physics);
 
             AddMan(manEntity);

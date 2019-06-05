@@ -27,7 +27,7 @@ namespace RenderCore
         {
             Aether.Physics2D.Dynamics.Body physicsBody = World.CreatePolygon(_vertexObject.GetVertices(), _mass,
                 _position.GetVector2(), 0, _bodyType);
-            
+
             World.Add(physicsBody);
 
             Body body = new Body(physicsBody);

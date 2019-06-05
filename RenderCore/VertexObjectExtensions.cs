@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Aether.Physics2D.Common;
-using Vector2 = Aether.Physics2D.Common.Maths.Vector2;
+using Aether.Physics2D.Common.Maths;
 
 namespace RenderCore
 {

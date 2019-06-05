@@ -5,8 +5,8 @@ namespace RenderCore
 {
     public class Drawable<T> : IPositionDrawable where T : Transformable, Drawable
     {
-        protected readonly T m_renderObject;
         private readonly Vector2 m_origin;
+        protected readonly T m_renderObject;
 
         public Drawable(T _renderObject) : this(_renderObject, Vector2.Zero)
         {
