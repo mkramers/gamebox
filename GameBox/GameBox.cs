@@ -12,11 +12,11 @@ namespace GameBox
             _gravity)
         {
             IPhysics physics = Physics;
-            physics.SetGravity(new Vector2(0, 0));
+            physics.SetGravity(new Vector2(0, 3));
 
             IEntity manEntity = CreateMan(physics);
 
-            View view = new View(new Vector2f(0, 0), new Vector2f(30, 30));
+            View view = new View(new Vector2f(0, -10), new Vector2f(30, 30));
             EntityFollowerViewProvider
                 viewProvider = new EntityFollowerViewProvider(manEntity, view);
 
@@ -54,12 +54,14 @@ namespace GameBox
             AddWidget(_viewProvider);
 
             GridWidget gridWidget = new GridWidget(_viewProvider);
-            _scene.AddDrawable(gridWidget);
+            //_scene.AddDrawable(gridWidget);
 
-            AddWidget(gridWidget);
+            //AddWidget(gridWidget);
 
             MultiDrawable<RectangleShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.2f);
-            _scene.AddDrawable(crossHairs);
+            //_scene.AddDrawable(crossHairs);
+
+            AddFpsWidget();
         }
 
         private void AddManKeyHandler(IEntity _manEntity)
@@ -81,6 +83,29 @@ namespace GameBox
             IEntity manEntity =
                 SpriteEntityFactory.CreateSpriteEntity(mass, manPosition, _physics, BodyType.Dynamic, sprite);
             return manEntity;
+        }
+
+        private void AddFpsWidget()
+        {
+            const float fontScale = 0.025f;
+            const uint fontSize = 32;
+            Vector2 textPosition = new Vector2(fontScale, 1.0f - 1.5f * fontScale);
+
+            FontFactory fontFactory = new FontFactory();
+            Font font = fontFactory.GetFont(FontId.ROBOTO);
+
+            Text textRenderObject = new Text("", font, fontSize)
+            {
+                Scale = new Vector2f(fontScale / fontSize, fontScale / fontSize),
+                FillColor = Color.Blue
+            };
+            FpsTextWidget fpsTextWidget = new FpsTextWidget(5, textRenderObject);
+            fpsTextWidget.SetPosition(textPosition);
+
+            IRenderCoreTarget overlay = RenderCoreWindow.GetOverlay();
+            overlay.AddDrawable(fpsTextWidget);
+
+            AddWidget(fpsTextWidget);
         }
     }
 }

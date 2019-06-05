@@ -30,6 +30,11 @@ namespace RenderBox
 
             AddWidget(gridWidget);
 
+            AddFpsWidget(renderCoreWindow);
+        }
+
+        private void AddFpsWidget(RenderCoreWindow _renderCoreWindow)
+        {
             const float fontScale = 0.025f;
             const uint fontSize = 32;
             Vector2 textPosition = new Vector2(fontScale, 1.0f - 1.5f * fontScale);
@@ -45,7 +50,7 @@ namespace RenderBox
             FpsTextWidget fpsTextWidget = new FpsTextWidget(5, textRenderObject);
             fpsTextWidget.SetPosition(textPosition);
 
-            IRenderCoreTarget overlay = renderCoreWindow.GetOverlay();
+            IRenderCoreTarget overlay = _renderCoreWindow.GetOverlay();
             overlay.AddDrawable(fpsTextWidget);
 
             AddWidget(fpsTextWidget);
