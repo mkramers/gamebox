@@ -18,7 +18,7 @@ namespace GameBox
             Color fillColor = Color.Red;
 
             Vector2 floorSize = new Vector2(10, 0.5f);
-            Vector2 floorPosition = Vector2.Zero;
+            Vector2 floorPosition = -floorSize / 2;
 
             IEntityCreator floorCreator = BuildFloorCreator(mass, bodyType, fillColor, outlineColor, outlineThickness, floorSize, floorPosition);
 
@@ -32,9 +32,7 @@ namespace GameBox
         {
             IVertexObject floor = ShapeFactory.CreateRectangle(_size / 2);
 
-            floor = Polygon.Translate(floor, _position + _size / 2);
-
-            VertexObjectBodyCreationArgs bodyCreationArgs = new VertexObjectBodyCreationArgs(floor, _mass, _bodyType, _position);
+            VertexObjectBodyCreationArgs bodyCreationArgs = new VertexObjectBodyCreationArgs(floor, _mass, _bodyType, _position + _size / 2);
 
             VertexObjectShapeCreationArgs shapeCreationArgs =
                 new VertexObjectShapeCreationArgs(floor, _fillColor, _outlineColor, _outlineThickness);
