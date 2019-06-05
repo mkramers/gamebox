@@ -13,12 +13,14 @@ namespace GameBox
         {
             const float mass = 1.0f;
             const BodyType bodyType = BodyType.Static;
-            const float outlineThickness = 0.05f;
+            const float outlineThickness = 0.0f;
             Color outlineColor = Color.Black;
             Color fillColor = Color.Red;
 
             Vector2 floorSize = new Vector2(10, 0.5f);
-            IEntityCreator floorCreator = BuildFloorCreator(mass, bodyType, fillColor, outlineColor, outlineThickness, floorSize);
+            Vector2 floorPosition = Vector2.Zero;
+
+            IEntityCreator floorCreator = BuildFloorCreator(mass, bodyType, fillColor, outlineColor, outlineThickness, floorSize, floorPosition);
 
             IEntityCreator[] entityCreators = { floorCreator };
 
@@ -26,11 +28,13 @@ namespace GameBox
         }
 
         private static IEntityCreator BuildFloorCreator(float _mass, BodyType _bodyType, Color _fillColor, Color _outlineColor,
-            float _outlineThickness, Vector2 _size)
+            float _outlineThickness, Vector2 _size, Vector2 _position)
         {
-            Polygon floor = ShapeFactory.CreateRectangle(_size / 2);
+            IVertexObject floor = ShapeFactory.CreateRectangle(_size / 2);
 
-            VertexObjectBodyCreationArgs bodyCreationArgs = new VertexObjectBodyCreationArgs(floor, _mass, _bodyType);
+            floor = Polygon.Translate(floor, _position + _size / 2);
+
+            VertexObjectBodyCreationArgs bodyCreationArgs = new VertexObjectBodyCreationArgs(floor, _mass, _bodyType, _position);
 
             VertexObjectShapeCreationArgs shapeCreationArgs =
                 new VertexObjectShapeCreationArgs(floor, _fillColor, _outlineColor, _outlineThickness);
@@ -98,19 +102,21 @@ namespace GameBox
 
     public class VertexObjectBodyCreationArgs : VertexObjectCreationArgsBase, IBodyCreator
     {
-        public VertexObjectBodyCreationArgs(IVertexObject _vertexObject, float _mass, BodyType _bodyType) : base(_vertexObject)
+        public VertexObjectBodyCreationArgs(IVertexObject _vertexObject, float _mass, BodyType _bodyType, Vector2 _position) : base(_vertexObject)
         {
             Mass = _mass;
             BodyType = _bodyType;
+            Position = _position;
         }
         public IBody CreateBody(IPhysics _physics)
         {
-            IBody body = _physics.CreateVertexBody(VertexObject, Vector2.Zero, Mass, BodyType);
+            IBody body = _physics.CreateVertexBody(VertexObject, Position, Mass, BodyType);
             return body;
         }
 
         public float Mass { get; }
         public BodyType BodyType { get; }
+        public Vector2 Position { get; }
     }
 
     public interface IEntityCreator
@@ -125,7 +131,7 @@ namespace GameBox
             BodyCreator = _bodyCreator;
             DrawableCreator = _drawableCreator;
         }
-        
+
         public IEntity CreateEntity(IPhysics _physics)
         {
             IBody body = BodyCreator.CreateBody(_physics);

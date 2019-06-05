@@ -69,10 +69,10 @@ namespace RenderCore
         {
             Polygon polygon = new Polygon(4)
             {
-                new Vector2(0,0),
-                new Vector2(_halfSize.X*2, 0),
-                new Vector2(_halfSize.X*2, _halfSize.Y*2),
-                new Vector2(0, _halfSize.Y*2)
+                new Vector2(-_halfSize.X, -_halfSize.Y),
+                new Vector2(_halfSize.X, -_halfSize.Y),
+                new Vector2(_halfSize.X, _halfSize.Y),
+                new Vector2(-_halfSize.X, _halfSize.Y)
             };
 
             return polygon;

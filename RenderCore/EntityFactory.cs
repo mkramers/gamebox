@@ -13,11 +13,11 @@ namespace RenderCore
 
             Vector2 spriteSize = spriteLocalBounds.GetSize();
 
-            Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(_sprite);
+            Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(_sprite, -spriteSize / 2);
 
             IVertexObject bodyVertexObject = ShapeFactory.CreateRectangle(spriteSize / 2);
 
-            IBody body = _physics.CreateVertexBody(bodyVertexObject, _position, _mass, _bodyType);
+            IBody body = _physics.CreateVertexBody(bodyVertexObject, _position + spriteSize / 2, _mass, _bodyType);
 
             Entity entity = new Entity(spriteDrawable, body);
             return entity;
