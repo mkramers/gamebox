@@ -2,10 +2,9 @@
 using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
-using RenderCore;
 using SFML.Graphics;
 
-namespace GameBox
+namespace RenderCore
 {
     public class SampleMap : IMap
     {
