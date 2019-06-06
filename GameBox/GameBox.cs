@@ -54,12 +54,12 @@ namespace GameBox
             AddWidget(_viewProvider);
 
             GridWidget gridWidget = new GridWidget(_viewProvider);
-            //_scene.AddDrawable(gridWidget);
+            _scene.AddDrawable(gridWidget);
 
-            //AddWidget(gridWidget);
+            AddWidget(gridWidget);
 
             MultiDrawable<RectangleShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.2f);
-            //_scene.AddDrawable(crossHairs);
+            _scene.AddDrawable(crossHairs);
 
             AddFpsWidget();
         }
