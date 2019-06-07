@@ -18,7 +18,7 @@ namespace RenderCore
             Color outlineColor = Color.Black;
             Color fillColor = Color.Red;
 
-            Vector2 floorSize = new Vector2(10, 1f);
+            Vector2 floorSize = new Vector2(100, 10f);
             Vector2 floorPosition = new Vector2(-floorSize.X / 2, 0);
 
             IEntityCreator floorCreator = BuildFloorCreator(mass, bodyType, fillColor, outlineColor, outlineThickness,

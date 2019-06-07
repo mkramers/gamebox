@@ -12,11 +12,11 @@ namespace GameBox
             _gravity, _aspectRatio)
         {
             IPhysics physics = Physics;
-            physics.SetGravity(new Vector2(0, 3));
+            physics.SetGravity(new Vector2(0, 30));
 
             IEntity manEntity = CreateMan(physics);
 
-            View view = new View(new Vector2f(0, -10), new Vector2f(30, 30));
+            View view = new View(new Vector2f(0, -100), new Vector2f(300, 300));
             EntityFollowerViewProvider
                 viewProvider = new EntityFollowerViewProvider(manEntity, view);
 
@@ -66,7 +66,7 @@ namespace GameBox
 
         private void AddManKeyHandler(IEntity _manEntity)
         {
-            const float force = 0.666f;
+            const float force = 6.66f;
 
             KeyHandler moveExecutor = KeyHandlerFactory.CreateEntityKeyHandler(_manEntity, force);
 
@@ -75,10 +75,10 @@ namespace GameBox
 
         private static IEntity CreateMan(IPhysics _physics)
         {
-            const float mass = 0.01f;
+            const float mass = 0.001f;
 
-            Vector2 manPosition = new Vector2(0, -10);
-            Vector2 manScale = new Vector2(3f, 3f);
+            Vector2 manPosition = new Vector2(0, -100);
+            Vector2 manScale = new Vector2(30f, 30f);
 
             Texture texture = ResourceFactory.GetTexture(ResourceId.MK);
 
@@ -94,8 +94,8 @@ namespace GameBox
 
         private void AddFpsWidget()
         {
-            const float fontScale = 0.025f;
-            const uint fontSize = 32;
+            const float fontScale = 0.04f;
+            const uint fontSize = 72;
             Vector2 textPosition = new Vector2(fontScale, 1.0f - 1.5f * fontScale);
 
             FontFactory fontFactory = new FontFactory();

@@ -8,7 +8,7 @@ namespace RenderCore
     {
         private readonly Color m_clearColor;
         private readonly RenderObjectContainer m_renderObjectContainer;
-        private RenderTexture m_renderTexture;
+        private readonly RenderTexture m_renderTexture;
         private IViewProvider m_viewProvider;
 
         public void SetViewProvider(IViewProvider _viewProvider)
@@ -16,14 +16,9 @@ namespace RenderCore
             m_viewProvider = _viewProvider;
         }
 
-        public void SetTextureSize(Vector2u _textureSize)
-        {
-            m_renderTexture = new RenderTexture(_textureSize.X, _textureSize.Y);
-        }
-
         public RenderCoreTarget(Vector2u _textureSize, Color _clearColor)
         {
-            SetTextureSize(_textureSize);
+            m_renderTexture = new RenderTexture(_textureSize.X, _textureSize.Y);
 
             m_clearColor = _clearColor;
 

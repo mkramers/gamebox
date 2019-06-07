@@ -29,13 +29,21 @@ namespace RenderCore
             ViewProviderBase viewProviderBase = new ViewProviderBase(view);
 
             m_overlayTarget.SetViewProvider(viewProviderBase);
+
+            Resize(m_renderWindow.Size);
         }
 
         private void OnRenderWindowResized(object _sender, SizeEventArgs _e)
         {
             uint width = _e.Width;
             uint height = _e.Height;
-            float windowAspectRatio = (float)width / height;
+
+            Resize(new Vector2u(width, height));
+        }
+
+        private void Resize(Vector2u _windowSize)
+        {
+            float windowAspectRatio = (float)_windowSize.X / _windowSize.Y;
 
             if (windowAspectRatio <= 0)
             {
@@ -63,11 +71,6 @@ namespace RenderCore
             renderWindowView.Viewport = viewPort;
 
             m_renderWindow.SetView(renderWindowView);
-
-            Vector2u textureSize = new Vector2u(width, height);
-
-            //m_sceneTarget.SetTextureSize(textureSize);
-            //m_overlayTarget.SetTextureSize(textureSize);
         }
 
         public bool IsOpen => m_renderWindow.IsOpen;
