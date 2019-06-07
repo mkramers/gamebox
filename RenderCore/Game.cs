@@ -8,9 +8,9 @@ namespace RenderCore
 {
     public abstract class Game : IDisposable
     {
-        protected Game(string _windowTitle, Vector2u _windowSize, Vector2 _gravity)
+        protected Game(string _windowTitle, Vector2u _windowSize, Vector2 _gravity, float _aspectRatio)
         {
-            RenderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize);
+            RenderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize, _aspectRatio);
 
             KeyHandlers = new TickableContainer<IKeyHandler>();
 

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Numerics;
 using SFML.Graphics;
 using SFML.System;
+using SFML.Window;
 
 namespace RenderCore
 {
@@ -8,20 +10,64 @@ namespace RenderCore
     {
         private readonly IRenderCoreTarget m_overlayTarget;
         private readonly RenderWindow m_renderWindow;
+        private readonly float m_aspectRatio;
         private readonly IRenderCoreTarget m_sceneTarget;
 
-        public RenderCoreWindow(RenderWindow _renderWindow)
+        public RenderCoreWindow(RenderWindow _renderWindow, float _aspectRatio)
         {
             m_renderWindow = _renderWindow;
+            m_aspectRatio = _aspectRatio;
+            m_renderWindow.Resized += OnRenderWindowResized;
             m_renderWindow.Closed += (_sender, _e) => m_renderWindow.Close();
 
             Vector2u windowSize = m_renderWindow.Size;
 
-            m_sceneTarget = new RenderCoreTarget(windowSize, Color.Black);
+            m_sceneTarget = new RenderCoreTarget(windowSize, new Color(40, 40, 40));
             m_overlayTarget = new RenderCoreTarget(windowSize, Color.Transparent);
+
             View view = new View(new FloatRect(0f, 0, 1, 1));
             ViewProviderBase viewProviderBase = new ViewProviderBase(view);
+
             m_overlayTarget.SetViewProvider(viewProviderBase);
+        }
+
+        private void OnRenderWindowResized(object _sender, SizeEventArgs _e)
+        {
+            uint width = _e.Width;
+            uint height = _e.Height;
+            float windowAspectRatio = (float)width / height;
+
+            if (windowAspectRatio <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(windowAspectRatio), "negative aspect ratio not supported");
+            }
+
+            FloatRect viewPort = new FloatRect(0, 0, 1, 1);
+
+            if (windowAspectRatio > m_aspectRatio)
+            {
+                float xPadding = (windowAspectRatio - m_aspectRatio) / 2.0f;
+                viewPort = new FloatRect(xPadding / 2.0f, 0, 1 - xPadding, 1);
+            }
+            else if (windowAspectRatio < m_aspectRatio)
+            {
+                float yPadding = (m_aspectRatio - windowAspectRatio) / 2.0f;
+                viewPort = new FloatRect(0, yPadding / 2.0f, 0, 1 - yPadding);
+            }
+            else if (Math.Abs(windowAspectRatio - m_aspectRatio) < 0.0001f)
+            {
+                viewPort = new FloatRect(0, 0, 1, 1);
+            }
+
+            View renderWindowView = m_renderWindow.GetView();
+            renderWindowView.Viewport = viewPort;
+
+            m_renderWindow.SetView(renderWindowView);
+
+            Vector2u textureSize = new Vector2u(width, height);
+
+            //m_sceneTarget.SetTextureSize(textureSize);
+            //m_overlayTarget.SetTextureSize(textureSize);
         }
 
         public bool IsOpen => m_renderWindow.IsOpen;

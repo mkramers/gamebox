@@ -8,8 +8,8 @@ namespace GameBox
 {
     public class GameBox : Game
     {
-        public GameBox(string _windowTitle, Vector2u _windowSize, Vector2 _gravity) : base(_windowTitle, _windowSize,
-            _gravity)
+        public GameBox(string _windowTitle, Vector2u _windowSize, Vector2 _gravity, float _aspectRatio) : base(_windowTitle, _windowSize,
+            _gravity, _aspectRatio)
         {
             IPhysics physics = Physics;
             physics.SetGravity(new Vector2(0, 3));
@@ -38,7 +38,7 @@ namespace GameBox
             AddEntity(_manEntity);
         }
 
-        private static void SetSceneViewerProvider(IRenderCoreTarget _scene, EntityFollowerViewProvider _viewProvider)
+        private static void SetSceneViewerProvider(IRenderCoreTarget _scene, IViewProvider _viewProvider)
         {
             _scene.SetViewProvider(_viewProvider);
         }
