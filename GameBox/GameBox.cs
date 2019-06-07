@@ -53,20 +53,20 @@ namespace GameBox
         {
             AddWidget(_viewProvider);
 
-            GridWidget gridWidget = new GridWidget(_viewProvider);
+            GridWidget gridWidget = new GridWidget(_viewProvider, 0.5f, new Vector2(10, 10));
             _scene.AddDrawable(gridWidget);
 
-            //AddWidget(gridWidget);
+            AddWidget(gridWidget);
 
-            MultiDrawable<RectangleShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.2f);
-            //_scene.AddDrawable(crossHairs);
+            MultiDrawable<RectangleShape> crossHairs = DrawableFactory.GetCrossHair(50 * Vector2.One, 2f);
+            _scene.AddDrawable(crossHairs);
 
             AddFpsWidget();
         }
 
         private void AddManKeyHandler(IEntity _manEntity)
         {
-            const float force = 6.66f;
+            const float force = 66.6f;
 
             KeyHandler moveExecutor = KeyHandlerFactory.CreateEntityKeyHandler(_manEntity, force);
 

@@ -25,7 +25,7 @@ namespace RenderBox
 
             scene.AddDrawable(box);
 
-            GridWidget gridWidget = new GridWidget(viewProvider);
+            GridWidget gridWidget = new GridWidget(viewProvider, 0.05f, new Vector2(1, 1));
             scene.AddDrawable(gridWidget);
 
             AddWidget(gridWidget);
