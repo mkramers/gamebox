@@ -6,7 +6,7 @@ namespace RenderCore
 {
     public static class SpriteEntityFactory
     {
-        public static IEntity CreateSpriteEntity(float _mass, Vector2 _position, IPhysics _physics, BodyType _bodyType,
+        public static IEntity CreateSpriteEntity(float _mass, Vector2 _position, Vector2 _scale, IPhysics _physics, BodyType _bodyType,
             Sprite _sprite)
         {
             FloatRect spriteLocalBounds = _sprite.GetGlobalBounds();

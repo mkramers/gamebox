@@ -39,5 +39,10 @@ namespace RenderCore
             Vector2 position = _position + m_origin;
             m_renderObject.Position = position.GetVector2F();
         }
+
+        public void SetScale(Vector2 _scale)
+        {
+            m_renderObject.Scale = _scale.GetVector2F();
+        }
     }
 }

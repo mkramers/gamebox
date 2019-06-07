@@ -56,10 +56,10 @@ namespace GameBox
             GridWidget gridWidget = new GridWidget(_viewProvider);
             _scene.AddDrawable(gridWidget);
 
-            AddWidget(gridWidget);
+            //AddWidget(gridWidget);
 
             MultiDrawable<RectangleShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.2f);
-            _scene.AddDrawable(crossHairs);
+            //_scene.AddDrawable(crossHairs);
 
             AddFpsWidget();
         }
@@ -75,13 +75,20 @@ namespace GameBox
 
         private static IEntity CreateMan(IPhysics _physics)
         {
-            const float mass = 0.1f;
+            const float mass = 0.01f;
 
-            Vector2 manPosition = new Vector2(0, -3);
+            Vector2 manPosition = new Vector2(0, -10);
+            Vector2 manScale = new Vector2(3f, 3f);
 
-            Sprite sprite = SpriteFactory.GetSprite(ResourceId.MAN);
+            Texture texture = ResourceFactory.GetTexture(ResourceId.MK);
+
+            Sprite sprite = new Sprite(texture)
+            {
+                Scale = new Vector2f(manScale.X / texture.Size.X, manScale.Y / texture.Size.Y)
+            };
+
             IEntity manEntity =
-                SpriteEntityFactory.CreateSpriteEntity(mass, manPosition, _physics, BodyType.Dynamic, sprite);
+                SpriteEntityFactory.CreateSpriteEntity(mass, manPosition, manScale, _physics, BodyType.Dynamic, sprite);
             return manEntity;
         }
 

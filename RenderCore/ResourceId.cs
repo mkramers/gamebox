@@ -2,6 +2,7 @@
 {
     public enum ResourceId
     {
+        MK,
         MAN,
         WOOD
     }

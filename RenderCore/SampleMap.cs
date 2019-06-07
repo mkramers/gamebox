@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
+using Newtonsoft.Json;
 using SFML.Graphics;
 
 namespace RenderCore
@@ -16,13 +18,17 @@ namespace RenderCore
             Color outlineColor = Color.Black;
             Color fillColor = Color.Red;
 
-            Vector2 floorSize = new Vector2(10, 0.5f);
-            Vector2 floorPosition = -floorSize / 2;
+            Vector2 floorSize = new Vector2(10, 1f);
+            Vector2 floorPosition = new Vector2(-floorSize.X / 2, 0);
 
             IEntityCreator floorCreator = BuildFloorCreator(mass, bodyType, fillColor, outlineColor, outlineThickness,
                 floorSize, floorPosition);
 
-            IEntityCreator[] entityCreators = {floorCreator};
+            IEntityCreator[] entityCreators = { floorCreator };
+
+            JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
+            var serializedMap = JsonConvert.SerializeObject(entityCreators, settings);
+            File.WriteAllText("sample-map.json", serializedMap);
 
             return entityCreators.Select(_entityCreationArgs => _entityCreationArgs.CreateEntity(_physics)).ToList();
         }
