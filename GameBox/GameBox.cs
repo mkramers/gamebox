@@ -12,11 +12,11 @@ namespace GameBox
             _gravity, _aspectRatio)
         {
             IPhysics physics = Physics;
-            physics.SetGravity(new Vector2(0, 30));
+            physics.SetGravity(new Vector2(0, 3));
 
             IEntity manEntity = CreateMan(physics);
 
-            View view = new View(new Vector2f(0, -100), new Vector2f(300, 300));
+            View view = new View(new Vector2f(0, -6.5f), new Vector2f(20, 20));
             EntityFollowerViewProvider
                 viewProvider = new EntityFollowerViewProvider(manEntity, view);
 
@@ -53,12 +53,12 @@ namespace GameBox
         {
             AddWidget(_viewProvider);
 
-            GridWidget gridWidget = new GridWidget(_viewProvider, 0.5f, new Vector2(10, 10));
+            GridWidget gridWidget = new GridWidget(_viewProvider, 0.1f, new Vector2(1, 1));
             _scene.AddDrawable(gridWidget);
 
             AddWidget(gridWidget);
 
-            MultiDrawable<RectangleShape> crossHairs = DrawableFactory.GetCrossHair(50 * Vector2.One, 2f);
+            MultiDrawable<RectangleShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.05f);
             _scene.AddDrawable(crossHairs);
 
             AddFpsWidget();
@@ -75,10 +75,10 @@ namespace GameBox
 
         private static IEntity CreateMan(IPhysics _physics)
         {
-            const float mass = 0.001f;
+            const float mass = 0.1f;
 
-            Vector2 manPosition = new Vector2(0, -100);
-            Vector2 manScale = new Vector2(30f, 30f);
+            Vector2 manPosition = new Vector2(0, -10);
+            Vector2 manScale = new Vector2(3f, 3f);
 
             Texture texture = ResourceFactory.GetTexture(ResourceId.MK);
 
