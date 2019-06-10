@@ -12,9 +12,9 @@ namespace RenderCore
             OutlineThickness = _outlineThickness;
         }
 
-        public Color FillColor { get; }
-        public Color OutlineColor { get; }
-        public float OutlineThickness { get; }
+        private Color FillColor { get; }
+        private Color OutlineColor { get; }
+        private float OutlineThickness { get; }
 
         public override IPositionDrawable CreateDrawable()
         {

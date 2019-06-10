@@ -7,6 +7,6 @@
             VertexObject = _vertexObject;
         }
 
-        public IVertexObject VertexObject { get; }
+        protected IVertexObject VertexObject { get; }
     }
 }

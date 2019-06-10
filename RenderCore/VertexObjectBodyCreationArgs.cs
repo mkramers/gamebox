@@ -13,9 +13,9 @@ namespace RenderCore
             Position = _position;
         }
 
-        public float Mass { get; }
-        public BodyType BodyType { get; }
-        public Vector2 Position { get; }
+        private float Mass { get; }
+        private BodyType BodyType { get; }
+        private Vector2 Position { get; }
 
         public IBody CreateBody(IPhysics _physics)
         {

@@ -8,8 +8,8 @@
             DrawableCreator = _drawableCreator;
         }
 
-        public IBodyCreator BodyCreator { get; }
-        public IDrawableCreator DrawableCreator { get; }
+        private IBodyCreator BodyCreator { get; }
+        private IDrawableCreator DrawableCreator { get; }
 
         public IEntity CreateEntity(IPhysics _physics)
         {

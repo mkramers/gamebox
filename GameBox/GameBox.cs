@@ -88,7 +88,7 @@ namespace GameBox
             };
 
             IEntity manEntity =
-                SpriteEntityFactory.CreateSpriteEntity(mass, manPosition, manScale, _physics, BodyType.Dynamic, sprite);
+                SpriteEntityFactory.CreateSpriteEntity(mass, manPosition, _physics, BodyType.Dynamic, sprite);
             return manEntity;
         }
 

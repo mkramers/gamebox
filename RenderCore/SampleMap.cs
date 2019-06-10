@@ -10,7 +10,7 @@ namespace RenderCore
 {
     public class SampleMap : IMap
     {
-        public IEnumerable<IEntity> GetEntities(IPhysics _physics, Vector2 _position)
+        public IEnumerable<IEntity> GetEntities(IPhysics _physics)
         {
             const float mass = 1.0f;
             const BodyType bodyType = BodyType.Static;
@@ -27,7 +27,7 @@ namespace RenderCore
             IEntityCreator[] entityCreators = { floorCreator };
 
             JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
-            var serializedMap = JsonConvert.SerializeObject(entityCreators, settings);
+            string serializedMap = JsonConvert.SerializeObject(entityCreators, settings);
             File.WriteAllText("sample-map.json", serializedMap);
 
             return entityCreators.Select(_entityCreationArgs => _entityCreationArgs.CreateEntity(_physics)).ToList();
