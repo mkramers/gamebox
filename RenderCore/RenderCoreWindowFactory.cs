@@ -5,7 +5,8 @@ namespace RenderCore
 {
     public static class RenderCoreWindowFactory
     {
-        public static RenderCoreWindow CreateRenderCoreWindow(string _windowTitle, Vector2u _windowSize, float _aspectRatio)
+        public static RenderCoreWindow CreateRenderCoreWindow(string _windowTitle, Vector2u _windowSize,
+            float _aspectRatio)
         {
             RenderWindow renderWindow = RenderWindowFactory.CreateRenderWindow(_windowTitle, _windowSize);
 

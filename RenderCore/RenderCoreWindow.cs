@@ -7,9 +7,9 @@ namespace RenderCore
 {
     public class RenderCoreWindow : ITickable, IDisposable
     {
+        private readonly float m_aspectRatio;
         private readonly IRenderCoreTarget m_overlayTarget;
         private readonly RenderWindow m_renderWindow;
-        private readonly float m_aspectRatio;
         private readonly IRenderCoreTarget m_sceneTarget;
 
         public RenderCoreWindow(RenderWindow _renderWindow, float _aspectRatio)
@@ -32,6 +32,31 @@ namespace RenderCore
             Resize(m_renderWindow.Size);
         }
 
+        public bool IsOpen => m_renderWindow.IsOpen;
+
+        public void Dispose()
+        {
+            m_renderWindow.Dispose();
+
+            m_sceneTarget.Dispose();
+            m_overlayTarget.Dispose();
+        }
+
+        public void Tick(TimeSpan _elapsed)
+        {
+            if (!m_renderWindow.IsOpen)
+            {
+                return;
+            }
+
+            m_renderWindow.DispatchEvents();
+
+            m_sceneTarget.Tick(_elapsed);
+            m_overlayTarget.Tick(_elapsed);
+
+            Draw(m_renderWindow);
+        }
+
         private void OnRenderWindowResized(object _sender, SizeEventArgs _e)
         {
             uint width = _e.Width;
@@ -42,7 +67,7 @@ namespace RenderCore
 
         private void Resize(Vector2u _windowSize)
         {
-            float windowAspectRatio = (float)_windowSize.X / _windowSize.Y;
+            float windowAspectRatio = (float) _windowSize.X / _windowSize.Y;
 
             if (windowAspectRatio <= 0)
             {
@@ -70,31 +95,6 @@ namespace RenderCore
             renderWindowView.Viewport = viewPort;
 
             m_renderWindow.SetView(renderWindowView);
-        }
-
-        public bool IsOpen => m_renderWindow.IsOpen;
-
-        public void Dispose()
-        {
-            m_renderWindow.Dispose();
-
-            m_sceneTarget.Dispose();
-            m_overlayTarget.Dispose();
-        }
-
-        public void Tick(TimeSpan _elapsed)
-        {
-            if (!m_renderWindow.IsOpen)
-            {
-                return;
-            }
-
-            m_renderWindow.DispatchEvents();
-
-            m_sceneTarget.Tick(_elapsed);
-            m_overlayTarget.Tick(_elapsed);
-
-            Draw(m_renderWindow);
         }
 
         public IRenderCoreTarget GetScene()

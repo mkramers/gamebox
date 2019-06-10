@@ -11,11 +11,6 @@ namespace RenderCore
         private readonly RenderTexture m_renderTexture;
         private IViewProvider m_viewProvider;
 
-        public void SetViewProvider(IViewProvider _viewProvider)
-        {
-            m_viewProvider = _viewProvider;
-        }
-
         public RenderCoreTarget(Vector2u _textureSize, Color _clearColor)
         {
             m_renderTexture = new RenderTexture(_textureSize.X, _textureSize.Y);
@@ -23,8 +18,13 @@ namespace RenderCore
             m_clearColor = _clearColor;
 
             SetViewProvider(new ViewProviderBase());
-            
+
             m_renderObjectContainer = new RenderObjectContainer();
+        }
+
+        public void SetViewProvider(IViewProvider _viewProvider)
+        {
+            m_viewProvider = _viewProvider;
         }
 
         public void Draw(RenderTarget _target, RenderStates _states)
@@ -44,7 +44,7 @@ namespace RenderCore
             m_renderTexture.Dispose();
             m_renderObjectContainer.Dispose();
         }
-        
+
         public void AddDrawable(IDrawable _drawable)
         {
             m_renderObjectContainer.AddDrawable(_drawable);

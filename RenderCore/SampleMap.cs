@@ -24,9 +24,10 @@ namespace RenderCore
             IEntityCreator floorCreator = BuildFloorCreator(mass, bodyType, fillColor, outlineColor, outlineThickness,
                 floorSize, floorPosition);
 
-            IEntityCreator[] entityCreators = { floorCreator };
+            IEntityCreator[] entityCreators = {floorCreator};
 
-            JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
+            JsonSerializerSettings settings = new JsonSerializerSettings
+                {TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented};
             string serializedMap = JsonConvert.SerializeObject(entityCreators, settings);
             File.WriteAllText("sample-map.json", serializedMap);
 

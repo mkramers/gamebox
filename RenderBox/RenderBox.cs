@@ -7,7 +7,8 @@ namespace RenderBox
 {
     public class RenderBox : Game
     {
-        public RenderBox(string _windowTitle, Vector2u _windowSize, float _aspectRatio) : base(_windowTitle, _windowSize, Vector2.Zero, _aspectRatio)
+        public RenderBox(string _windowTitle, Vector2u _windowSize, float _aspectRatio) : base(_windowTitle,
+            _windowSize, Vector2.Zero, _aspectRatio)
         {
             const float size = 10;
             Vector2 sceneSize = new Vector2(size, size);

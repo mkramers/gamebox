@@ -8,7 +8,8 @@ namespace GameBox
 {
     public class GameBox : Game
     {
-        public GameBox(string _windowTitle, Vector2u _windowSize, Vector2 _gravity, float _aspectRatio) : base(_windowTitle, _windowSize,
+        public GameBox(string _windowTitle, Vector2u _windowSize, Vector2 _gravity, float _aspectRatio) : base(
+            _windowTitle, _windowSize,
             _gravity, _aspectRatio)
         {
             IPhysics physics = Physics;
