@@ -1,0 +1,1 @@
+aseprite -b sample_tree_map.aseprite --save-as sample_tree_map-{layer}.png

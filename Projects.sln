@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RenderCore", "RenderCore\Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RenderBox", "RenderBox\RenderBox.csproj", "{EFB905DE-8888-44DB-B144-E7E11BBE274C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{61546957-2F60-48D5-BECD-97C2E7F88918}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceUtilities", "ResourceUtilities\ResourceUtilities.csproj", "{EDE8E788-1730-4E64-B42A-15E44A0C6891}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{EFB905DE-8888-44DB-B144-E7E11BBE274C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFB905DE-8888-44DB-B144-E7E11BBE274C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFB905DE-8888-44DB-B144-E7E11BBE274C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61546957-2F60-48D5-BECD-97C2E7F88918}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61546957-2F60-48D5-BECD-97C2E7F88918}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61546957-2F60-48D5-BECD-97C2E7F88918}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61546957-2F60-48D5-BECD-97C2E7F88918}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDE8E788-1730-4E64-B42A-15E44A0C6891}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDE8E788-1730-4E64-B42A-15E44A0C6891}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDE8E788-1730-4E64-B42A-15E44A0C6891}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDE8E788-1730-4E64-B42A-15E44A0C6891}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

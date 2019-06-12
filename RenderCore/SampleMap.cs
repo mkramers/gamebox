@@ -8,6 +8,19 @@ using SFML.Graphics;
 
 namespace RenderCore
 {
+    public class SampleMap2 : IMap
+    {
+        public SampleMap2(string _mapFile)
+        {
+            
+        }
+
+        public IEnumerable<IEntity> GetEntities(IPhysics _physics)
+        {
+            return null;
+        }
+    }
+
     public class SampleMap : IMap
     {
         public IEnumerable<IEntity> GetEntities(IPhysics _physics)

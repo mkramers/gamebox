@@ -29,7 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\RenderCore\RenderCore.csproj" />
+    <ProjectReference Include="..\ResourceUtilities\ResourceUtilities.csproj" />
   </ItemGroup>
 
 </Project>
