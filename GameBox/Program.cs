@@ -17,8 +17,11 @@ namespace GameBox
 
             string path = @"C:\dev\GameBox\RenderCore\Resources\art\sample_tree_map.json";
 
-            IFileLoader fileLoader = new FileLoader();
-            File file = fileLoader.LoadFromFile(path);
+            SpriteSheetFileLoader spriteSheetLoader = new SpriteSheetFileLoader();
+            SpriteSheetFile spriteSheet = spriteSheetLoader.LoadFromFile(path);
+
+            MapFileLoader loader = new MapFileLoader();
+            var map = loader.LoadMapFromFile(spriteSheet);
         }
     }
 }

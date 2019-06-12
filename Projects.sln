@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RenderBox", "RenderBox\Rend
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{61546957-2F60-48D5-BECD-97C2E7F88918}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceUtilities", "ResourceUtilities\ResourceUtilities.csproj", "{EDE8E788-1730-4E64-B42A-15E44A0C6891}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceUtilities", "ResourceUtilities\ResourceUtilities.csproj", "{EDE8E788-1730-4E64-B42A-15E44A0C6891}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameResources", "GameResources\GameResources.csproj", "{D08CCF0A-1DB5-437E-8DCC-486DAEACEB81}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{EDE8E788-1730-4E64-B42A-15E44A0C6891}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDE8E788-1730-4E64-B42A-15E44A0C6891}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDE8E788-1730-4E64-B42A-15E44A0C6891}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D08CCF0A-1DB5-437E-8DCC-486DAEACEB81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D08CCF0A-1DB5-437E-8DCC-486DAEACEB81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D08CCF0A-1DB5-437E-8DCC-486DAEACEB81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D08CCF0A-1DB5-437E-8DCC-486DAEACEB81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

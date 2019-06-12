@@ -12,7 +12,15 @@ namespace RenderCore
     {
         public SampleMap2(string _mapFile)
         {
-            
+            //get collision layer
+
+            //construct ibody from collision layer
+
+            //get scene layer
+
+            //build drawable from scene layer
+
+            //construct entity and add to game
         }
 
         public IEnumerable<IEntity> GetEntities(IPhysics _physics)
