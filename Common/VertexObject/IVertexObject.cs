@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
 
-namespace RenderCore
+namespace Common.VertexObject
 {
     public interface IVertexObject : IList<Vector2>
     {

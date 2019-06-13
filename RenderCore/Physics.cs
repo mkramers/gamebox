@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
+using Common.VertexObject;
 
 namespace RenderCore
 {

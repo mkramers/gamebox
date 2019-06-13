@@ -3,11 +3,11 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
+using Common.VertexObject;
 using GameResources;
 using Newtonsoft.Json;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;
-using SFML.System;
 
 namespace RenderCore
 {
@@ -26,6 +26,8 @@ namespace RenderCore
             Texture texture = new Texture(map.SceneLayer.FileName);
 
             Sprite sprite = new Sprite(texture);
+
+            //IVertexObject bodyVertexObject = map.GetCollisionVertexObject();
 
             IEntity entity = SpriteEntityFactory.CreateSpriteEntity(0, Vector2.Zero, _physics, BodyType.Static, sprite);
 

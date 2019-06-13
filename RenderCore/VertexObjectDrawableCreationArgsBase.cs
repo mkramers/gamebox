@@ -1,4 +1,6 @@
-﻿namespace RenderCore
+﻿using Common.VertexObject;
+
+namespace RenderCore
 {
     public abstract class VertexObjectDrawableCreationArgsBase : VertexObjectCreationArgsBase, IDrawableCreator
     {

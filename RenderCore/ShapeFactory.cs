@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Common.VertexObject;
 using SFML.Graphics;
 using SFML.System;
 

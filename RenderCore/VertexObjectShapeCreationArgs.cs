@@ -1,4 +1,5 @@
-﻿using SFML.Graphics;
+﻿using Common.VertexObject;
+using SFML.Graphics;
 
 namespace RenderCore
 {

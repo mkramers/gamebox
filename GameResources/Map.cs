@@ -1,4 +1,7 @@
-﻿namespace GameResources
+﻿using System;
+using Common.VertexObject;
+
+namespace GameResources
 {
     public class Map
     {
@@ -12,5 +15,10 @@
         public string MapName { get; }
         public MapLayer CollisionLayer { get; }
         public MapLayer SceneLayer { get; }
+
+        public IVertexObject GetCollisionVertexObject()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

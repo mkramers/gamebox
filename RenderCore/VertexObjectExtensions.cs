@@ -2,6 +2,7 @@
 using System.Linq;
 using Aether.Physics2D.Common;
 using Aether.Physics2D.Common.Maths;
+using Common.VertexObject;
 
 namespace RenderCore
 {
