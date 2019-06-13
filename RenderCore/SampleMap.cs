@@ -22,8 +22,8 @@ namespace RenderCore
 
             MapFileLoader loader = new MapFileLoader();
             Map map = loader.LoadMapFromFile(spriteSheet);
-
-            Texture texture = new Texture(map.SceneLayer.FileName);
+            
+            Texture texture = TextureCache.Instance.GetTextureFromFile(map.SceneLayer.FileName);
 
             Sprite sprite = new Sprite(texture);
 

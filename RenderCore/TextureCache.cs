@@ -4,11 +4,29 @@ using SFML.Graphics;
 
 namespace RenderCore
 {
-    public class TextureId : IEquatable<TextureId>
+    public abstract class TextureId : IEquatable<TextureId>
     {
-        public bool Equals(TextureId _other)
+        public TextureId(IntRect? _area = null)
         {
-            return string.Equals(FileName, _other.FileName) && Area.Equals(_other.Area);
+            Area = _area;
+        }
+
+        public abstract Texture GetTexture();
+
+        public IntRect? Area { get; }
+        public abstract bool Equals(TextureId other);
+    }
+
+    public class TextureFileId : TextureId
+    {
+        public override bool Equals(TextureId _other)
+        {
+            return Equals(_other as object);
+        }
+
+        private bool Equals(TextureFileId _other)
+        {
+            return Area.Equals(_other.Area) && string.Equals(FileName, _other.FileName);
         }
 
         public override bool Equals(object _obj)
@@ -28,34 +46,98 @@ namespace RenderCore
                 return false;
             }
 
-            return Equals((TextureId) _obj);
+            return Equals((TextureFileId) _obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return ((FileName != null ? FileName.GetHashCode() : 0) * 397) ^ Area.GetHashCode();
+                return (Area.GetHashCode() * 397) ^ (FileName != null ? FileName.GetHashCode() : 0);
             }
         }
 
-        public TextureId(string _fileName, IntRect? _area = null)
+        public string FileName { get; }
+
+        public TextureFileId(string _fileName, IntRect? _area = null) : base(_area)
         {
             FileName = _fileName;
-            Area = _area;
         }
 
-        public string FileName { get; }
-        public IntRect? Area { get; }
+        public override Texture GetTexture()
+        {
+            Texture texture = Area != null
+                ? new Texture(FileName, Area.Value)
+                : new Texture(FileName);
+            return texture;
+        }
+    }
+
+    public class TextureResourceId : TextureId
+    {
+        public override bool Equals(TextureId _other)
+        {
+            return Equals(_other as object);
+        }
+
+        private bool Equals(TextureResourceId _other)
+        {
+            return Area.Equals(_other.Area) && string.Equals(ResourceName, _other.ResourceName);
+        }
+
+        public override bool Equals(object _obj)
+        {
+            if (ReferenceEquals(null, _obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, _obj))
+            {
+                return true;
+            }
+
+            if (_obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+
+            return Equals((TextureResourceId)_obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (Area.GetHashCode() * 397) ^ (ResourceName != null ? ResourceName.GetHashCode() : 0);
+            }
+        }
+
+        public string ResourceName { get; }
+
+        public TextureResourceId(string _resourceName, IntRect? _area = null) : base(_area)
+        {
+            ResourceName = _resourceName;
+        }
+
+        public override Texture GetTexture()
+        {
+            byte[] resourceData = ResourceUtilities.GetResourceData(ResourceName);
+
+            Image image = new Image(resourceData);
+
+            Texture texture = Area != null
+                ? new Texture(image, Area.Value)
+                : new Texture(image);
+            return texture;
+        }
     }
 
     public class FileTextureProvider : ICacheObjectProvider<Texture, TextureId>
     {
         public Texture GetObject(TextureId _args)
         {
-            Texture texture = _args.Area != null
-                ? new Texture(_args.FileName, _args.Area.Value)
-                : new Texture(_args.FileName);
+            Texture texture = _args.GetTexture();
             return texture;
         }
     }
@@ -117,17 +199,23 @@ namespace RenderCore
 
     public class TextureCache : Cache<Texture, TextureId>
     {
-        public TextureCache(ICacheObjectProvider<Texture, TextureId> _cacheObjectProvider) : base(_cacheObjectProvider)
+        private TextureCache(ICacheObjectProvider<Texture, TextureId> _cacheObjectProvider) : base(_cacheObjectProvider)
         {
         }
 
-        public Texture GetTexture(string _fileName, IntRect? _area = null)
+        public Texture GetTextureFromFile(string _fileName, IntRect? _area = null)
         {
-            TextureId args = new TextureId(_fileName, _area);
+            TextureFileId args = new TextureFileId(_fileName, _area);
             Texture texture = GetObject(args);
             return texture;
         }
-        
+        public Texture GetTextureFromResource(string _resourceName, IntRect? _area = null)
+        {
+            TextureResourceId args = new TextureResourceId(_resourceName, _area);
+            Texture texture = GetObject(args);
+            return texture;
+        }
+
         public static TextureCache Instance { get; } = Factory.CreateTextureCache();
 
         private static class Factory
