@@ -46,7 +46,9 @@ namespace GameBox
 
         private void AddMap(IPhysics _physics)
         {
-            SampleMap map = new SampleMap();
+            string mapFilePath = @"C:\dev\GameBox\RenderCore\Resources\art\sample_tree_map.json";
+
+            SampleMap2 map = new SampleMap2(mapFilePath, _physics);
             AddMap(map, _physics);
         }
 
@@ -79,7 +81,7 @@ namespace GameBox
             const float mass = 0.1f;
 
             Vector2 manPosition = new Vector2(0, -10);
-            Vector2 manScale = new Vector2(3f, 3f);
+            Vector2 manScale = new Vector2(2f, 2f);
 
             Texture texture = ResourceFactory.GetTexture(ResourceId.MK);
 

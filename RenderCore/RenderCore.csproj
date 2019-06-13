@@ -39,6 +39,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\ResourceUtilities\ResourceUtilities.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,29 +3,41 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
+using GameResources;
 using Newtonsoft.Json;
+using ResourceUtilities.Aseprite;
 using SFML.Graphics;
+using SFML.System;
 
 namespace RenderCore
 {
     public class SampleMap2 : IMap
     {
-        public SampleMap2(string _mapFile)
+        private readonly List<IEntity> m_entities;
+
+        public SampleMap2(string _mapFilePath, IPhysics _physics)
         {
-            //get collision layer
+            SpriteSheetFileLoader spriteSheetLoader = new SpriteSheetFileLoader();
+            SpriteSheetFile spriteSheet = spriteSheetLoader.LoadFromFile(_mapFilePath);
 
-            //construct ibody from collision layer
+            MapFileLoader loader = new MapFileLoader();
+            Map map = loader.LoadMapFromFile(spriteSheet);
 
-            //get scene layer
+            Texture texture = new Texture(map.SceneLayer.FileName);
 
-            //build drawable from scene layer
+            Sprite sprite = new Sprite(texture);
 
-            //construct entity and add to game
+            IEntity entity = SpriteEntityFactory.CreateSpriteEntity(0, Vector2.Zero, _physics, BodyType.Static, sprite);
+
+            m_entities = new List<IEntity>
+            {
+                entity
+            };
         }
 
         public IEnumerable<IEntity> GetEntities(IPhysics _physics)
         {
-            return null;
+            return m_entities;
         }
     }
 
@@ -45,10 +57,10 @@ namespace RenderCore
             IEntityCreator floorCreator = BuildFloorCreator(mass, bodyType, fillColor, outlineColor, outlineThickness,
                 floorSize, floorPosition);
 
-            IEntityCreator[] entityCreators = {floorCreator};
+            IEntityCreator[] entityCreators = { floorCreator };
 
             JsonSerializerSettings settings = new JsonSerializerSettings
-                {TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented};
+            { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
             string serializedMap = JsonConvert.SerializeObject(entityCreators, settings);
             File.WriteAllText("sample-map.json", serializedMap);
 
