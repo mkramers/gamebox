@@ -1,8 +1,9 @@
-﻿using SFML.Graphics;
+﻿using Common.Cache;
+using SFML.Graphics;
 
 namespace RenderCore
 {
-    public class TextureFileCache : TextureCache
+    public class TextureFileCache : Cache<Texture, ITextureArgs>
     {
         private TextureFileCache(ICacheObjectProvider<Texture, ITextureArgs> _cacheObjectProvider) : base(_cacheObjectProvider)
         {

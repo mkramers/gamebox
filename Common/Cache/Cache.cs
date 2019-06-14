@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace RenderCore
+namespace Common.Cache
 {
     public abstract class Cache<T, TY> where T : class where TY : IEquatable<TY>
     {

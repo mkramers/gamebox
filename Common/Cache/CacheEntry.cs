@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RenderCore
+namespace Common.Cache
 {
     public class CacheEntry<T, TY> : ICacheEntry<T, TY> where T : class where TY : IEquatable<TY>
     {

@@ -1,4 +1,5 @@
-﻿using SFML.Graphics;
+﻿using Common.Cache;
+using SFML.Graphics;
 
 namespace RenderCore
 {
