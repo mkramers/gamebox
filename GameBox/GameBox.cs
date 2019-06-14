@@ -1,6 +1,16 @@
 ﻿using System.Numerics;
 using Aether.Physics2D.Dynamics;
-using RenderCore;
+using GameCore;
+using RenderCore.Drawable;
+using RenderCore.Entity;
+using RenderCore.Font;
+using RenderCore.Input.Key;
+using RenderCore.Map;
+using RenderCore.Physics;
+using RenderCore.Render;
+using RenderCore.Resource;
+using RenderCore.ViewProvider;
+using RenderCore.Widget;
 using SFML.Graphics;
 using SFML.System;
 

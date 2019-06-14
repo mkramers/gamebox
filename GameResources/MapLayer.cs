@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Common.Math;
+﻿using Common.Math;
 
 namespace GameResources
 {

@@ -1,6 +1,6 @@
 ﻿namespace ResourceUtilities.Aseprite
 {
-    public class SpriteSheetFile    
+    public class SpriteSheetFile
     {
         public SpriteSheetFile(SpriteSheet _spriteSheet, string _filePath)
         {

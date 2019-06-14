@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.IO;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace ResourceUtilities.Aseprite
@@ -22,7 +23,7 @@ namespace ResourceUtilities.Aseprite
             };
 
             string fileContents =
-                System.IO.File.ReadAllText(_path);
+                File.ReadAllText(_path);
 
             SpriteSheet dFile2 = JsonConvert.DeserializeObject<SpriteSheet>(fileContents, settings);
             return dFile2;

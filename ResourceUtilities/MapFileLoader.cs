@@ -71,7 +71,7 @@ namespace ResourceUtilities.Aseprite
 
             string layerFilePath = GetLayerFilePath(_spriteSheetFile, layerFileName);
 
-            if (!System.IO.File.Exists(layerFilePath))
+            if (!File.Exists(layerFilePath))
             {
                 throw new KeyNotFoundException($"layer spriteSheet {layerFilePath} not found");
             }

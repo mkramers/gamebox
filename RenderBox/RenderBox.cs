@@ -1,5 +1,11 @@
 ﻿using System.Numerics;
-using RenderCore;
+using GameCore;
+using RenderCore.Drawable;
+using RenderCore.Font;
+using RenderCore.Render;
+using RenderCore.Utilities;
+using RenderCore.ViewProvider;
+using RenderCore.Widget;
 using SFML.Graphics;
 using SFML.System;
 

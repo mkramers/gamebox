@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\GameCore\GameCore.csproj" />
     <ProjectReference Include="..\RenderCore\RenderCore.csproj" />
     <ProjectReference Include="..\ResourceUtilities\ResourceUtilities.csproj" />
   </ItemGroup>

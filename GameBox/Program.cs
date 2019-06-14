@@ -1,6 +1,4 @@
 ﻿using System.Numerics;
-using RenderCore;
-using ResourceUtilities.Aseprite;
 using SFML.System;
 
 namespace GameBox
