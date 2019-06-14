@@ -23,13 +23,13 @@ namespace RenderCore
             MapFileLoader loader = new MapFileLoader();
             Map map = loader.LoadMapFromFile(spriteSheet);
             
-            Texture texture = TextureCache.Instance.GetTextureFromFile(map.SceneLayer.FileName);
+            Texture texture = TextureFileCache.Instance.GetTextureFromFile(map.SceneLayer.FileName);
 
             Sprite sprite = new Sprite(texture);
 
             //IVertexObject bodyVertexObject = map.GetCollisionVertexObject();
 
-            IEntity entity = SpriteEntityFactory.CreateSpriteEntity(0, Vector2.Zero, _physics, BodyType.Static, sprite);
+            IEntity entity = SpriteEntityFactory.CreateSpriteEntity(0, -8 * Vector2.One, _physics, BodyType.Static, sprite);
 
             m_entities = new List<IEntity>
             {
