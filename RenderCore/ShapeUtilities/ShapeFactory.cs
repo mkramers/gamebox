@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Common.Extensions;
 using Common.Geometry;
-using Common.Math;
 using Common.VertexObject;
 using RenderCore.Utilities;
 using SFML.Graphics;

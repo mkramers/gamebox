@@ -1,4 +1,4 @@
-﻿using Common.Math;
+﻿using Common.Geometry;
 
 namespace GameResources
 {

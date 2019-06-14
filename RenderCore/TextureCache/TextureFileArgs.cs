@@ -11,7 +11,7 @@ namespace RenderCore.TextureCache
         }
 
         private string FileName { get; }
-        public IntRect? Area { get; }
+        private IntRect? Area { get; }
 
         public Texture GetTexture()
         {
@@ -23,8 +23,7 @@ namespace RenderCore.TextureCache
 
         public bool Equals(ITextureArgs _other)
         {
-            TextureFileArgs otherTextureArgs = _other as TextureFileArgs;
-            if (otherTextureArgs == null)
+            if (!(_other is TextureFileArgs otherTextureArgs))
             {
                 return false;
             }

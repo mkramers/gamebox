@@ -42,4 +42,8 @@
     <ProjectReference Include="..\ResourceUtilities\ResourceUtilities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="SFML.System.Extensions\" />
+  </ItemGroup>
+
 </Project>

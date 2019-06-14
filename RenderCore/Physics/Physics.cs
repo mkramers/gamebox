@@ -2,8 +2,8 @@
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using Common.VertexObject;
+using RenderCore.Geometry;
 using RenderCore.Utilities;
-using RenderCore.VertexBodyConfig;
 
 namespace RenderCore.Physics
 {

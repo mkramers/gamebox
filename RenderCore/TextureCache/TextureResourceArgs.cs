@@ -16,8 +16,7 @@ namespace RenderCore.TextureCache
 
         public bool Equals(ITextureArgs _other)
         {
-            TextureResourceArgs otherTextureArgs = _other as TextureResourceArgs;
-            if (otherTextureArgs == null)
+            if (!(_other is TextureResourceArgs otherTextureArgs))
             {
                 return false;
             }

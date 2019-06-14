@@ -1,11 +1,12 @@
 ﻿using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using GameCore;
+using GameCore.Entity;
+using GameCore.Input.Key;
+using GameCore.Map;
+using GameCore.ViewProvider;
 using RenderCore.Drawable;
-using RenderCore.Entity;
 using RenderCore.Font;
-using RenderCore.Input.Key;
-using RenderCore.Map;
 using RenderCore.Physics;
 using RenderCore.Render;
 using RenderCore.Resource;
@@ -56,7 +57,7 @@ namespace GameBox
 
         private void AddMap(IPhysics _physics)
         {
-            string mapFilePath = @"C:\dev\GameBox\RenderCore\Resources\art\sample_tree_map.json";
+            const string mapFilePath = @"C:\dev\GameBox\RenderCore\Resources\art\sample_tree_map.json";
 
             SampleMap2 map = new SampleMap2(mapFilePath, _physics);
             AddMap(map, _physics);
