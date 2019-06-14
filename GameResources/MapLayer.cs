@@ -10,7 +10,7 @@ namespace GameResources
             FileName = _fileName;
         }
 
-        public IntSize Size { get; }
+        private IntSize Size { get; }
         public string FileName { get; }
     }
 }

@@ -20,7 +20,8 @@ namespace LibExtensions
 
         public static Vertices GetVertices(this IVertexObject _polygon)
         {
-            IEnumerable<Aether.Physics2D.Common.Maths.Vector2> vectors = _polygon.Select(_vertex => _vertex.GetVector2());
+            IEnumerable<Aether.Physics2D.Common.Maths.Vector2> vectors =
+                _polygon.Select(_vertex => _vertex.GetVector2());
 
             Vertices vertices = new Vertices(vectors);
 

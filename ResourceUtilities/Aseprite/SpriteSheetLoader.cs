@@ -4,7 +4,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace ResourceUtilities.Aseprite
 {
-    public class SpriteSheetLoader
+    public static class SpriteSheetLoader
     {
         public static SpriteSheet LoadFromFile(string _path)
         {

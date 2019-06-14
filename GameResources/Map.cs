@@ -12,8 +12,8 @@ namespace GameResources
             SceneLayer = _sceneLayer;
         }
 
-        public string MapName { get; }
-        public MapLayer CollisionLayer { get; }
+        private string MapName { get; }
+        private MapLayer CollisionLayer { get; }
         public MapLayer SceneLayer { get; }
 
         public IVertexObject GetCollisionVertexObject()

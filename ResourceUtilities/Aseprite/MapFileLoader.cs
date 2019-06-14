@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Common.Geometry;
@@ -36,7 +35,7 @@ namespace ResourceUtilities.Aseprite
             return size;
         }
 
-        private string GetLayerFileName(string _layerName, SpriteSheet _spriteSheet)
+        private static string GetLayerFileName(string _layerName, SpriteSheet _spriteSheet)
         {
             if (!LayerExists(_spriteSheet, _layerName))
             {

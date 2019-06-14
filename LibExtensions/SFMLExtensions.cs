@@ -4,6 +4,7 @@ using SFML.System;
 
 namespace LibExtensions
 {
+    // ReSharper disable once InconsistentNaming
     public static class SFMLExtensions
     {
         public static Vector2f GetVector2F(this Vector2 _vector)

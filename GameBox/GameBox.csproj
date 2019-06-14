@@ -23,13 +23,6 @@
   </Target>
 
   <ItemGroup>
-    <PackageReference Include="SFML.Graphics.NetCore" Version="1.0.0" />
-    <PackageReference Include="SFML.System.NetCore" Version="1.0.0" />
-    <PackageReference Include="SFML.Window.NetCore" Version="1.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\GameCore\GameCore.csproj" />
     <ProjectReference Include="..\RenderCore\RenderCore.csproj" />
     <ProjectReference Include="..\ResourceUtilities\ResourceUtilities.csproj" />
