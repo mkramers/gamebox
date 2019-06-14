@@ -1,8 +1,8 @@
 ﻿using System.Numerics;
 using Aether.Physics2D.Dynamics;
-using RenderCore.Utilities;
+using LibExtensions;
 
-namespace RenderCore.Physics
+namespace PhysicsCore
 {
     public class Body : IBody
     {

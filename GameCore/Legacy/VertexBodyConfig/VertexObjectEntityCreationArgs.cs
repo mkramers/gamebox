@@ -1,6 +1,6 @@
 ﻿using GameCore.Entity;
+using PhysicsCore;
 using RenderCore.Drawable;
-using RenderCore.Physics;
 
 namespace GameCore.Legacy.VertexBodyConfig
 {

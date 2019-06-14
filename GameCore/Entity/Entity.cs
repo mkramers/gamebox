@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
+using PhysicsCore;
 using RenderCore.Drawable;
-using RenderCore.Physics;
 using SFML.Graphics;
 
 namespace GameCore.Entity

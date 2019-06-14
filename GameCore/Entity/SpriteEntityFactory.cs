@@ -1,10 +1,10 @@
 ﻿using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using Common.VertexObject;
+using LibExtensions;
+using PhysicsCore;
 using RenderCore.Drawable;
-using RenderCore.Physics;
 using RenderCore.ShapeUtilities;
-using RenderCore.Utilities;
 using SFML.Graphics;
 
 namespace GameCore.Entity

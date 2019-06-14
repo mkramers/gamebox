@@ -2,7 +2,7 @@
 using SFML.Graphics;
 using SFML.System;
 
-namespace RenderCore.Utilities
+namespace LibExtensions
 {
     public static class SFMLExtensions
     {

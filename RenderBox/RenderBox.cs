@@ -1,9 +1,9 @@
 ﻿using System.Numerics;
 using GameCore;
+using LibExtensions;
 using RenderCore.Drawable;
 using RenderCore.Font;
 using RenderCore.Render;
-using RenderCore.Utilities;
 using RenderCore.ViewProvider;
 using RenderCore.Widget;
 using SFML.Graphics;

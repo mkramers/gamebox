@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameResources", "GameResour
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCore", "GameCore\GameCore.csproj", "{F357E829-C418-4F8A-B2AB-B6D5EFD4C772}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhysicsCore", "PhysicsCore\PhysicsCore.csproj", "{DFADD96F-2328-46F1-AFF9-D87668A51703}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibExtensions", "LibExtensions\LibExtensions.csproj", "{2DCF143F-B8E7-488A-88E9-DF5CC807BE48}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{F357E829-C418-4F8A-B2AB-B6D5EFD4C772}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F357E829-C418-4F8A-B2AB-B6D5EFD4C772}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F357E829-C418-4F8A-B2AB-B6D5EFD4C772}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFADD96F-2328-46F1-AFF9-D87668A51703}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFADD96F-2328-46F1-AFF9-D87668A51703}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFADD96F-2328-46F1-AFF9-D87668A51703}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFADD96F-2328-46F1-AFF9-D87668A51703}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DCF143F-B8E7-488A-88E9-DF5CC807BE48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DCF143F-B8E7-488A-88E9-DF5CC807BE48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DCF143F-B8E7-488A-88E9-DF5CC807BE48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DCF143F-B8E7-488A-88E9-DF5CC807BE48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

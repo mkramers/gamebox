@@ -39,10 +39,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\LibExtensions\LibExtensions.csproj" />
     <ProjectReference Include="..\ResourceUtilities\ResourceUtilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Geometry\" />
+    <Folder Include="Physics\" />
     <Folder Include="SFML.System.Extensions\" />
   </ItemGroup>
 

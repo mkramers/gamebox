@@ -3,7 +3,7 @@ using Aether.Physics2D.Dynamics;
 using Common.Tickable;
 using Common.VertexObject;
 
-namespace RenderCore.Physics
+namespace PhysicsCore
 {
     public interface IPhysics : ITickable
     {

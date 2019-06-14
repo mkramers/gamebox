@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using LibExtensions;
 using RenderCore.Drawable;
 using RenderCore.ShapeUtilities;
-using RenderCore.Utilities;
 using RenderCore.ViewProvider;
 using SFML.Graphics;
 

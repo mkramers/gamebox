@@ -1,5 +1,5 @@
 ﻿using System.Numerics;
-using RenderCore.Utilities;
+using LibExtensions;
 using SFML.Graphics;
 
 namespace RenderCore.Drawable

@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 using GameCore.Input.Key;
-using RenderCore.Physics;
+using PhysicsCore;
 
 namespace GameCore.Input
 {

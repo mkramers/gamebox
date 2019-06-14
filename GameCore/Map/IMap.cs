@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using GameCore.Entity;
-using RenderCore.Physics;
+using PhysicsCore;
 
 namespace GameCore.Map
 {

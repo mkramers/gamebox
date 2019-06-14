@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using Common.VertexObject;
-using RenderCore.Physics;
+using PhysicsCore;
 
 namespace GameCore.Legacy.VertexBodyConfig
 {

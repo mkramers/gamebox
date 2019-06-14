@@ -7,7 +7,7 @@ using Common.Tickable;
 using GameCore.Entity;
 using GameCore.Input.Key;
 using GameCore.Map;
-using RenderCore.Physics;
+using PhysicsCore;
 using RenderCore.Render;
 using RenderCore.Widget;
 using SFML.System;

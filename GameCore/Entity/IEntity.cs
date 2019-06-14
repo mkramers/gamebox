@@ -1,6 +1,6 @@
 ﻿using Common.Tickable;
+using PhysicsCore;
 using RenderCore.Drawable;
-using RenderCore.Physics;
 
 namespace GameCore.Entity
 {

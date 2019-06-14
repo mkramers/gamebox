@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using Common.Geometry;
 
-namespace RenderCore.Physics
+namespace PhysicsCore
 {
     public interface IBody : IPosition
     {

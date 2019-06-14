@@ -7,7 +7,7 @@ using Common.VertexObject;
 using GameCore.Entity;
 using GameCore.Legacy.VertexBodyConfig;
 using Newtonsoft.Json;
-using RenderCore.Physics;
+using PhysicsCore;
 using RenderCore.ShapeUtilities;
 using RenderCore.TextureCache;
 using ResourceUtilities.Aseprite;

@@ -5,7 +5,7 @@ using System.Numerics;
 using Common.Extensions;
 using Common.Geometry;
 using Common.VertexObject;
-using RenderCore.Utilities;
+using LibExtensions;
 using SFML.Graphics;
 using SFML.System;
 

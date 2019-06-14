@@ -1,4 +1,4 @@
-﻿namespace RenderCore.Physics
+﻿namespace PhysicsCore
 {
     public interface IBodyCreator
     {

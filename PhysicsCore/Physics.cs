@@ -2,10 +2,9 @@
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using Common.VertexObject;
-using RenderCore.Geometry;
-using RenderCore.Utilities;
+using LibExtensions;
 
-namespace RenderCore.Physics
+namespace PhysicsCore
 {
     public class Physics : IPhysics, IDisposable
     {
