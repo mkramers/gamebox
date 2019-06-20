@@ -142,14 +142,9 @@ namespace RenderBox
         }
     }
 
-    public interface IBitmaskCreator<T, T0>
+    public static class BinaryMaskCreator
     {
-        Grid<T0> CreateBitmask(Grid<T> _grid, T _threshold);
-    }
-    
-    public class FloatBitmaskCreator : IBitmaskCreator<IComparable, bool>
-    {
-        public Grid<bool> CreateBitmask(Grid<IComparable> _grid, IComparable _threshold)
+        public static Grid<bool> CreateBitmask<T>(Grid<T> _grid, T _threshold) where T : IComparable
         {
             GridBounds gridBounds = GridBounds.GetGridBounds(_grid);
 
@@ -181,6 +176,8 @@ namespace RenderBox
 
         public MarchingSquaresGenerator(Grid<float> _grid)
         {
+            Grid<bool> binaryMask = BinaryMaskCreator.CreateBitmask(_grid, 0.0f);
+
             List<LineSegment> lines = new List<LineSegment>();
             foreach (GridCell<float> gridCell in _grid)
             {
@@ -194,6 +191,24 @@ namespace RenderBox
         private LineSegment ClassifyCell(GridCell<float> _gridCell, Grid<float> _grid)
         {
 
+            byte flag = 0;
+
+            if (!_grid.ColumnExists(_gridCell.X - 1))
+            {
+                flag |= 1 << 3;
+            }
+            if (!_grid.ColumnExists(_gridCell.X + 1))
+            {
+                flag |= 1 << 2;
+            }
+            if (_grid.ColumnExists(_gridCell.X - 1))
+            {
+                flag |= 1 << 3;
+            }
+            if (_grid.ColumnExists(_gridCell.X - 1))
+            {
+                flag |= 1 << 3;
+            }
             LineSegment lineSegment = null;
 
             return lineSegment;
