@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -58,25 +57,13 @@ namespace RenderBox
             }
         }
 
-        public bool CellExists(int _x, int _y)
+        private bool CellExists(int _x, int _y)
         {
             bool cellExists = this.Count(_cell => _cell.X == _x && _cell.Y == _y) == 1;
             return cellExists;
         }
 
-        public bool RowExists(int _y)
-        {
-            bool rowExists = this.Any(_cell => _cell.Y == _y);
-            return rowExists;
-        }
-
-        public bool ColumnExists(int _y)
-        {
-            bool rowExists = this.Any(_cell => _cell.Y == _y);
-            return rowExists;
-        }
-
-        public bool IsRectangle(Grid<T> _grid)
+        private static bool IsRectangle(Grid<T> _grid)
         {
             GridBounds gridBounds = GridBounds.GetGridBounds(_grid);
 
@@ -105,15 +92,6 @@ namespace RenderBox
 
     public class GridBounds
     {
-        public int MinX { get; }
-        public int MaxX { get; }
-        public int MinY { get; }
-        public int MaxY { get; }
-
-        public int SizeX => MaxX - MaxY + 1;
-        public int SizeY => MaxY - MaxX + 1;
-        public int Area => SizeX * SizeY;
-
         private GridBounds(int _minX, int _maxX, int _minY, int _maxY)
         {
             Debug.Assert(_maxX - _minX >= 0);
@@ -124,6 +102,15 @@ namespace RenderBox
             MinY = _minY;
             MaxY = _maxY;
         }
+
+        public int MinX { get; }
+        public int MaxX { get; }
+        public int MinY { get; }
+        public int MaxY { get; }
+
+        public int SizeX => MaxX - MaxY + 1;
+        public int SizeY => MaxY - MaxX + 1;
+        public int Area => SizeX * SizeY;
 
         public static GridBounds GetGridBounds<T>(Grid<T> _grid)
         {
@@ -222,6 +209,42 @@ namespace RenderBox
 
     public static class MarchingSquaresPolygonGenerator
     {
+        private static Dictionary<byte, IVertexObject> SegmentLookupTable =>
+            new Dictionary<byte, IVertexObject>
+            {
+                {0, null},
+                {1, new LineSegment(new Vector2(0, 0.5f), new Vector2(0.5f, 1.0f))},
+                {2, new LineSegment(new Vector2(0.5f, 1.0f), new Vector2(1.0f, 0.5f))},
+                {3, new LineSegment(new Vector2(0, 0.5f), new Vector2(1.0f, 0.5f))},
+
+                {4, new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(1.0f, 0.5f))},
+                {
+                    5, new LineSegmentCollection(new[]
+                    {
+                        new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 0.0f)),
+                        new LineSegment(new Vector2(0.5f, 1.0f), new Vector2(1.0f, 0.5f))
+                    })
+                },
+                {6, new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(0.5f, 1.0f))},
+                {7, new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 0.0f))},
+
+                {8, new LineSegment(new Vector2(0.0f, 0.0f), new Vector2(0.5f, 0.5f))},
+                {9, new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(0.5f, 1.0f))},
+                {
+                    10, new LineSegmentCollection(new[]
+                    {
+                        new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 1.0f)),
+                        new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(1.0f, 0.5f))
+                    })
+                },
+                {11, new LineSegment(new Vector2(0.5f, 0.5f), new Vector2(1.0f, 0.0f))},
+
+                {12, new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(1.0f, 0.5f))},
+                {13, new LineSegment(new Vector2(0.5f, 1.0f), new Vector2(1.0f, 0.5f))},
+                {14, new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 1.0f))},
+                {15, null}
+            };
+
         public static IEnumerable<IVertexObject> GeneratePolygons(Grid<byte> _classifiedCells)
         {
             Polygon polygon = new Polygon(1);
@@ -237,38 +260,6 @@ namespace RenderBox
 
             return new[] {polygon};
         }
-
-        private static Dictionary<byte, IVertexObject> SegmentLookupTable =>
-            new Dictionary<byte, IVertexObject>
-            {
-                {0, null},
-                {1,new LineSegment(new Vector2(0, 0.5f), new Vector2(0.5f, 1.0f)) },
-                {2,new LineSegment(new Vector2(0.5f, 1.0f), new Vector2(1.0f, 0.5f)) },
-                {3,new LineSegment(new Vector2(0, 0.5f), new Vector2(1.0f, 0.5f)) },
-
-                {4,new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(1.0f, 0.5f)) },
-                {5,new LineSegmentCollection(new []
-                {
-                    new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 0.0f) ),
-                    new LineSegment(new Vector2(0.5f, 1.0f), new Vector2(1.0f, 0.5f) ),
-                })},
-                {6,new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(0.5f, 1.0f)) },
-                {7,new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 0.0f)) },
-
-                {8,new LineSegment(new Vector2(0.0f, 0.0f), new Vector2(0.5f, 0.5f)) },
-                {9,new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(0.5f, 1.0f)) },
-                {10,new LineSegmentCollection(new []
-                {
-                    new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 1.0f) ),
-                    new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(1.0f, 0.5f) ),
-                })},
-                {11,new LineSegment(new Vector2(0.5f, 0.5f), new Vector2(1.0f, 0.0f)) },
-
-                {12,new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(1.0f, 0.5f)) },
-                {13,new LineSegment(new Vector2(0.5f, 1.0f), new Vector2(1.0f, 0.5f)) },
-                {14,new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 1.0f)) },
-                {15,null },
-            };
     }
 
     public class MarchingSquaresGenerator<T> where T : IComparable
@@ -281,11 +272,11 @@ namespace RenderBox
             m_grid = _grid;
             m_threshold = _threshold;
         }
-        
+
         public IEnumerable<IVertexObject> Generate()
         {
             Grid<bool> binaryMask = BinaryMaskCreator.CreateBinaryMask(m_grid, m_threshold);
-            
+
             Grid<byte> classifiedCells = MarchingSquaresClassifier.ClassifyCells(binaryMask);
 
             IEnumerable<IVertexObject> polygons = MarchingSquaresPolygonGenerator.GeneratePolygons(classifiedCells);
