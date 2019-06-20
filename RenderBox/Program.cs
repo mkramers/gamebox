@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using Common.Geometry;
 using Common.VertexObject;
 using SFML.System;
@@ -20,11 +21,6 @@ namespace RenderBox
             RenderBox renderBox = new RenderBox("RenderBox", new Vector2u(800, 800), aspectRatio);
             renderBox.StartLoop();
         }
-    }
-
-    public interface IVertexObjectGenerator
-    {
-        IVertexObject Generate();
     }
 
     public class GridCell<T>
@@ -144,17 +140,15 @@ namespace RenderBox
 
     public static class BinaryMaskCreator
     {
-        public static Grid<bool> CreateBitmask<T>(Grid<T> _grid, T _threshold) where T : IComparable
+        public static Grid<bool> CreateBinaryMask<T>(Grid<T> _grid, T _threshold) where T : IComparable
         {
             GridBounds gridBounds = GridBounds.GetGridBounds(_grid);
 
-            int gridArea = (gridBounds.SizeX - 1) * (gridBounds.SizeY - 1);
+            List<GridCell<bool>> gridCells = new List<GridCell<bool>>(gridBounds.Area);
 
-            List<GridCell<bool>> gridCells = new List<GridCell<bool>>(gridArea);
-
-            for (int y = gridBounds.MinY; y < gridBounds.MaxY - 1; y++)
+            for (int y = gridBounds.MinY; y < gridBounds.MaxY; y++)
             {
-                for (int x = gridBounds.MinX; x < gridBounds.MaxX - 1; x++)
+                for (int x = gridBounds.MinX; x < gridBounds.MaxX; x++)
                 {
                     IComparable cellValue = _grid[x, y];
 
@@ -170,53 +164,132 @@ namespace RenderBox
         }
     }
 
-    public class MarchingSquaresGenerator : IVertexObjectGenerator
+    public static class MarchingSquaresClassifier
     {
-        private readonly Polygon m_polygon;
-
-        public MarchingSquaresGenerator(Grid<float> _grid)
+        public static Grid<byte> ClassifyCells(Grid<bool> _binaryMask)
         {
-            Grid<bool> binaryMask = BinaryMaskCreator.CreateBitmask(_grid, 0.0f);
+            GridBounds gridBounds = GridBounds.GetGridBounds(_binaryMask);
 
-            List<LineSegment> lines = new List<LineSegment>();
-            foreach (GridCell<float> gridCell in _grid)
+            int area = (gridBounds.SizeX - 1) * (gridBounds.SizeY - 1);
+
+            List<GridCell<byte>> gridCells = new List<GridCell<byte>>(area);
+
+            for (int y = gridBounds.MinY; y < gridBounds.MaxY - 1; y++)
             {
-                LineSegment line = ClassifyCell(gridCell, _grid);
-                lines.Add(line);
+                for (int x = gridBounds.MinX; x < gridBounds.MaxX - 1; x++)
+                {
+                    GridCell<byte> classifiedCell = ClassifyCell(_binaryMask, x, y);
+                    gridCells.Add(classifiedCell);
+                }
             }
 
-            m_polygon = new Polygon(0);
+            Grid<byte> grid = new Grid<byte>(gridCells);
+            return grid;
         }
 
-        private LineSegment ClassifyCell(GridCell<float> _gridCell, Grid<float> _grid)
+        private static GridCell<byte> ClassifyCell(Grid<bool> _binaryMask, int _x, int _y)
         {
+            bool cellValueA = _binaryMask[_x, _y];
+            bool cellValueB = _binaryMask[_x + 1, _y];
+            bool cellValueC = _binaryMask[_x + 1, _y + 1];
+            bool cellValueD = _binaryMask[_x, _y + 1];
 
-            byte flag = 0;
+            byte byteFlag = 0;
+            if (cellValueA)
+            {
+                byteFlag |= 1 << 3;
+            }
 
-            if (!_grid.ColumnExists(_gridCell.X - 1))
+            if (cellValueB)
             {
-                flag |= 1 << 3;
+                byteFlag |= 1 << 2;
             }
-            if (!_grid.ColumnExists(_gridCell.X + 1))
-            {
-                flag |= 1 << 2;
-            }
-            if (_grid.ColumnExists(_gridCell.X - 1))
-            {
-                flag |= 1 << 3;
-            }
-            if (_grid.ColumnExists(_gridCell.X - 1))
-            {
-                flag |= 1 << 3;
-            }
-            LineSegment lineSegment = null;
 
-            return lineSegment;
+            if (cellValueC)
+            {
+                byteFlag |= 1 << 1;
+            }
+
+            if (cellValueD)
+            {
+                byteFlag |= 1 << 0;
+            }
+
+            GridCell<byte> classifiedCell = new GridCell<byte>(_x, _y, byteFlag);
+            return classifiedCell;
+        }
+    }
+
+    public static class MarchingSquaresPolygonGenerator
+    {
+        public static IEnumerable<IVertexObject> GeneratePolygons(Grid<byte> _classifiedCells)
+        {
+            Polygon polygon = new Polygon(1);
+
+            foreach (GridCell<byte> classifiedCell in _classifiedCells)
+            {
+                IVertexObject lines = SegmentLookupTable[classifiedCell.Value];
+                if (lines != null)
+                {
+                    polygon.AddRange(lines);
+                }
+            }
+
+            return new[] {polygon};
         }
 
-        public IVertexObject Generate()
+        private static Dictionary<byte, IVertexObject> SegmentLookupTable =>
+            new Dictionary<byte, IVertexObject>
+            {
+                {0, null},
+                {1,new LineSegment(new Vector2(0, 0.5f), new Vector2(0.5f, 1.0f)) },
+                {2,new LineSegment(new Vector2(0.5f, 1.0f), new Vector2(1.0f, 0.5f)) },
+                {3,new LineSegment(new Vector2(0, 0.5f), new Vector2(1.0f, 0.5f)) },
+
+                {4,new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(1.0f, 0.5f)) },
+                {5,new LineSegmentCollection(new []
+                {
+                    new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 0.0f) ),
+                    new LineSegment(new Vector2(0.5f, 1.0f), new Vector2(1.0f, 0.5f) ),
+                })},
+                {6,new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(0.5f, 1.0f)) },
+                {7,new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 0.0f)) },
+
+                {8,new LineSegment(new Vector2(0.0f, 0.0f), new Vector2(0.5f, 0.5f)) },
+                {9,new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(0.5f, 1.0f)) },
+                {10,new LineSegmentCollection(new []
+                {
+                    new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 1.0f) ),
+                    new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(1.0f, 0.5f) ),
+                })},
+                {11,new LineSegment(new Vector2(0.5f, 0.5f), new Vector2(1.0f, 0.0f)) },
+
+                {12,new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(1.0f, 0.5f)) },
+                {13,new LineSegment(new Vector2(0.5f, 1.0f), new Vector2(1.0f, 0.5f)) },
+                {14,new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 1.0f)) },
+                {15,null },
+            };
+    }
+
+    public class MarchingSquaresGenerator<T> where T : IComparable
+    {
+        private readonly Grid<T> m_grid;
+        private readonly T m_threshold;
+
+        public MarchingSquaresGenerator(Grid<T> _grid, T _threshold)
         {
-            return m_polygon;
+            m_grid = _grid;
+            m_threshold = _threshold;
+        }
+        
+        public IEnumerable<IVertexObject> Generate()
+        {
+            Grid<bool> binaryMask = BinaryMaskCreator.CreateBinaryMask(m_grid, m_threshold);
+            
+            Grid<byte> classifiedCells = MarchingSquaresClassifier.ClassifyCells(binaryMask);
+
+            IEnumerable<IVertexObject> polygons = MarchingSquaresPolygonGenerator.GeneratePolygons(classifiedCells);
+            return polygons;
         }
     }
 }
