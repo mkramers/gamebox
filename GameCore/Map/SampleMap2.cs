@@ -20,7 +20,7 @@ namespace GameCore.Map
             MapFileLoader loader = new MapFileLoader();
             GameResources.Map map = loader.LoadMapFromFile(spriteSheet);
 
-            Texture texture = TextureFileCache.Instance.GetTextureFromFile(map.SceneLayer.FileName);
+            Texture texture = TextureCache.Instance.GetTextureFromFile(map.SceneLayer.FileName);
 
             Sprite sprite = new Sprite(texture);
 

@@ -23,7 +23,7 @@ namespace RenderCore.Resource
             TextureResourceArgs resourceMeta = m_textureResources[_resourceId];
 
             Texture texture =
-                TextureFileCache.Instance.GetTextureFromResource(resourceMeta.ResourceName, resourceMeta.Area);
+                TextureCache.TextureCache.Instance.GetTextureFromResource(resourceMeta.ResourceName, resourceMeta.Area);
 
             return texture;
         }

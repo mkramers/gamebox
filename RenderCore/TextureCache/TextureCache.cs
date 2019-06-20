@@ -3,14 +3,14 @@ using SFML.Graphics;
 
 namespace RenderCore.TextureCache
 {
-    public class TextureFileCache : Cache<Texture, ITextureArgs>
+    public class TextureCache : Cache<Texture, ITextureArgs>
     {
-        private TextureFileCache(ICacheObjectProvider<Texture, ITextureArgs> _cacheObjectProvider) : base(
+        private TextureCache(ICacheObjectProvider<Texture, ITextureArgs> _cacheObjectProvider) : base(
             _cacheObjectProvider)
         {
         }
 
-        public static TextureFileCache Instance { get; } = Factory.CreateTextureCache();
+        public static TextureCache Instance { get; } = Factory.CreateTextureCache();
 
         public Texture GetTextureFromFile(string _fileName, IntRect? _area = null)
         {
@@ -28,10 +28,10 @@ namespace RenderCore.TextureCache
 
         private static class Factory
         {
-            internal static TextureFileCache CreateTextureCache()
+            internal static TextureCache CreateTextureCache()
             {
                 TextureProvider textureProvider = new TextureProvider();
-                return new TextureFileCache(textureProvider);
+                return new TextureCache(textureProvider);
             }
         }
     }
