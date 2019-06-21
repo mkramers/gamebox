@@ -3,7 +3,7 @@ using Aether.Physics2D.Dynamics;
 using GameCore;
 using GameCore.Entity;
 using GameCore.Input.Key;
-using GameCore.Map;
+using GameCore.Maps;
 using GameCore.ViewProvider;
 using PhysicsCore;
 using RenderCore.Drawable;

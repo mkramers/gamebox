@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using Common.VertexObject;
 using GameCore.Entity;
+using GameResources;
 using PhysicsCore;
 using RenderCore.TextureCache;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;
 
-namespace GameCore.Map
+namespace GameCore.Maps
 {
     public class SampleMap2 : IMap
     {
@@ -20,7 +20,7 @@ namespace GameCore.Map
             SpriteSheetFile spriteSheet = SpriteSheetFileLoader.LoadFromFile(_mapFilePath);
 
             MapFileLoader loader = new MapFileLoader();
-            GameResources.Map map = loader.LoadMapFromFile(spriteSheet);
+            Map map = loader.LoadMapFromFile(spriteSheet);
 
             Texture texture = TextureCache.Instance.GetTextureFromFile(map.SceneLayer.FileName);
 

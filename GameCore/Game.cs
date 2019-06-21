@@ -6,7 +6,7 @@ using Common.Extensions;
 using Common.Tickable;
 using GameCore.Entity;
 using GameCore.Input.Key;
-using GameCore.Map;
+using GameCore.Maps;
 using PhysicsCore;
 using RenderCore.Render;
 using RenderCore.Widget;

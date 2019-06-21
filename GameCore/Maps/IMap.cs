@@ -2,7 +2,7 @@
 using GameCore.Entity;
 using PhysicsCore;
 
-namespace GameCore.Map
+namespace GameCore.Maps
 {
     public interface IMap
     {

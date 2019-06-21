@@ -11,7 +11,7 @@ using PhysicsCore;
 using RenderCore.ShapeUtilities;
 using SFML.Graphics;
 
-namespace GameCore.Map
+namespace GameCore.Maps
 {
     public class SampleMap : IMap
     {
