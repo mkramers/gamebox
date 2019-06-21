@@ -25,7 +25,7 @@ namespace GameCore.Entity
             return entity;
         }
 
-        private static IEntity CreateSpriteEntity(float _mass, Vector2 _position, IPhysics _physics, BodyType _bodyType,
+        public static IEntity CreateSpriteEntity(float _mass, Vector2 _position, IPhysics _physics, BodyType _bodyType,
             Sprite _sprite, IVertexObject _bodyVertexObject)
         {
             FloatRect spriteLocalBounds = _sprite.GetGlobalBounds();

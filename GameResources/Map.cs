@@ -1,5 +1,10 @@
-﻿using System;
+﻿extern alias CoreCompatSystemDrawing;
+using System.Collections.Generic;
+using System.Linq;
 using Common.VertexObject;
+using GameResources.Attributes;
+using Bitmap = CoreCompatSystemDrawing::System.Drawing.Bitmap;
+using Color = CoreCompatSystemDrawing::System.Drawing.Color;
 
 namespace GameResources
 {
@@ -16,9 +21,14 @@ namespace GameResources
         private MapLayer CollisionLayer { get; }
         public MapLayer SceneLayer { get; }
 
-        public IVertexObject GetCollisionVertexObject()
+        public IEnumerable<IVertexObject> GetCollisionVertexObjects()
         {
-            throw new NotImplementedException();
+            Bitmap bitmap = new Bitmap(CollisionLayer.FileName);
+
+            ComparableColor colorThreshold = new ComparableColor(Color.FromArgb(1, 1, 1, 1));
+
+            IEnumerable<IVertexObject> polygons = BitmapToVertexObjectConverter.GetVertexObjectsFromBitmap(bitmap, colorThreshold);
+            return polygons;
         }
     }
 }

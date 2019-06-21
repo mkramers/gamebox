@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
+using Common.VertexObject;
 using GameCore.Entity;
 using PhysicsCore;
 using RenderCore.TextureCache;
@@ -24,10 +26,10 @@ namespace GameCore.Map
 
             Sprite sprite = new Sprite(texture);
 
-            //IVertexObject bodyVertexObject = map.GetCollisionVertexObject();
+            IEnumerable<IVertexObject> bodyVertexObject = map.GetCollisionVertexObjects();
 
             IEntity entity =
-                SpriteEntityFactory.CreateSpriteEntity(0, -8 * Vector2.One, _physics, BodyType.Static, sprite);
+                SpriteEntityFactory.CreateSpriteEntity(0, -8 * Vector2.One, _physics, BodyType.Static, sprite/*, bodyVertexObject.First()*/);
 
             m_entities = new List<IEntity>
             {
