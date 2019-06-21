@@ -21,8 +21,8 @@ namespace Common.Grid
         public int MinY { get; }
         public int MaxY { get; }
 
-        public int SizeX => MaxX - MaxY + 1;
-        public int SizeY => MaxY - MaxX + 1;
+        public int SizeX => MaxX - MinX + 1;
+        public int SizeY => MaxY - MinY + 1;
         public int Area => SizeX * SizeY;
 
         public static GridBounds GetGridBounds<T>(Grid<T> _grid)

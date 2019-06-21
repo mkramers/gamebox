@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using Common.Geometry;
 using Common.Grid;
@@ -50,14 +51,17 @@ namespace MarchingSquares
 
             foreach (GridCell<byte> classifiedCell in _classifiedCells)
             {
-                IVertexObject lines = SegmentLookupTable[classifiedCell.Value];
-                if (lines != null)
+                IEnumerable<Vector2> lines = SegmentLookupTable[classifiedCell.Value];
+                if (lines == null)
                 {
-                    polygon.AddRange(lines);
+                    continue;
                 }
+
+                IEnumerable<Vector2> adjustedLine = lines.Select(_vertex => _vertex += new Vector2(classifiedCell.X, classifiedCell.Y));
+                polygon.AddRange(adjustedLine);
             }
 
-            return new[] {polygon};
+            return new[] { polygon };
         }
     }
 }

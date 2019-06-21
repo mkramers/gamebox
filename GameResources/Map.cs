@@ -25,7 +25,7 @@ namespace GameResources
         {
             Bitmap bitmap = new Bitmap(CollisionLayer.FileName);
 
-            ComparableColor colorThreshold = new ComparableColor(Color.FromArgb(1, 1, 1, 1));
+            ComparableColor colorThreshold = new ComparableColor(Color.FromArgb(0, 0, 0, 0));
 
             IEnumerable<IVertexObject> polygons = BitmapToVertexObjectConverter.GetVertexObjectsFromBitmap(bitmap, colorThreshold);
             return polygons;

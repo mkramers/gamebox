@@ -13,9 +13,9 @@ namespace MarchingSquares
 
             List<GridCell<byte>> gridCells = new List<GridCell<byte>>(area);
 
-            for (int y = gridBounds.MinY; y < gridBounds.MaxY - 1; y++)
+            for (int x = gridBounds.MinX; x < gridBounds.MaxX; x++)
             {
-                for (int x = gridBounds.MinX; x < gridBounds.MaxX - 1; x++)
+                for (int y = gridBounds.MinY; y < gridBounds.MaxY; y++)
                 {
                     GridCell<byte> classifiedCell = ClassifyCell(_binaryMask, x, y);
                     gridCells.Add(classifiedCell);

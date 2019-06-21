@@ -12,19 +12,23 @@ namespace GameResources.Attributes
             Color = _color;
         }
 
-        public Color Color { get; }
-        
+        private Color Color { get; }
+
         public int CompareTo(object _other)
         {
-            if (!(_other is Color otherColor))
+            if (!(_other is ComparableColor otherColor))
             {
                 return -1;
             }
 
-            Vector4 otherColorVector = GetColorVector(otherColor);
             Vector4 colorVector = GetColorVector(Color);
+            float colorLength = colorVector.Length();
 
-            return colorVector.Length().CompareTo(otherColorVector.Length());
+            Vector4 otherColorVector = GetColorVector(otherColor.Color);
+            float otherColorLength = otherColorVector.Length();
+
+            //return colorLength.CompareTo(otherColorLength);
+            return Color.R.CompareTo(otherColor.Color.R);
         }
 
         private static Vector4 GetColorVector(Color _color)
