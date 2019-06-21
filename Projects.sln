@@ -15,11 +15,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceUtilities", "Resour
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameResources", "GameResources\GameResources.csproj", "{D08CCF0A-1DB5-437E-8DCC-486DAEACEB81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCore", "GameCore\GameCore.csproj", "{F357E829-C418-4F8A-B2AB-B6D5EFD4C772}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameCore", "GameCore\GameCore.csproj", "{F357E829-C418-4F8A-B2AB-B6D5EFD4C772}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhysicsCore", "PhysicsCore\PhysicsCore.csproj", "{DFADD96F-2328-46F1-AFF9-D87668A51703}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhysicsCore", "PhysicsCore\PhysicsCore.csproj", "{DFADD96F-2328-46F1-AFF9-D87668A51703}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibExtensions", "LibExtensions\LibExtensions.csproj", "{2DCF143F-B8E7-488A-88E9-DF5CC807BE48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibExtensions", "LibExtensions\LibExtensions.csproj", "{2DCF143F-B8E7-488A-88E9-DF5CC807BE48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitmapUtilities", "BitmapUtilities\BitmapUtilities.csproj", "{F5B6FC3B-24AB-47EB-AAD3-AF1585A29A1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarchingSquares", "MarchingSquares\MarchingSquares.csproj", "{3F40F3DA-9EBC-4E27-BBC9-03591909D61D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +67,14 @@ Global
 		{2DCF143F-B8E7-488A-88E9-DF5CC807BE48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DCF143F-B8E7-488A-88E9-DF5CC807BE48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DCF143F-B8E7-488A-88E9-DF5CC807BE48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5B6FC3B-24AB-47EB-AAD3-AF1585A29A1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5B6FC3B-24AB-47EB-AAD3-AF1585A29A1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5B6FC3B-24AB-47EB-AAD3-AF1585A29A1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5B6FC3B-24AB-47EB-AAD3-AF1585A29A1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F40F3DA-9EBC-4E27-BBC9-03591909D61D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F40F3DA-9EBC-4E27-BBC9-03591909D61D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F40F3DA-9EBC-4E27-BBC9-03591909D61D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F40F3DA-9EBC-4E27-BBC9-03591909D61D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
