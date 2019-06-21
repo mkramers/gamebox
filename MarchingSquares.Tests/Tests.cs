@@ -21,7 +21,6 @@ namespace MarchingSquares.Tests
         public void Test1()
         {
             const int halfSize = 2;
-            const int threshold = 0;
 
             IList<GridCell<int>> gridCells = new List<GridCell<int>>();
             for (int x = 0; x < halfSize * 2; x++)

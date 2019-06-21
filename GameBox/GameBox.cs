@@ -28,7 +28,7 @@ namespace GameBox
 
             IEntity manEntity = CreateMan(physics);
 
-            View view = new View(new Vector2f(0, -6.5f), new Vector2f(20, 20));
+            View view = new View(new Vector2f(0, -6.5f), new Vector2f(50, 50));
             EntityFollowerViewProvider
                 viewProvider = new EntityFollowerViewProvider(manEntity, view);
 
@@ -61,6 +61,9 @@ namespace GameBox
 
             SampleMap2 map = new SampleMap2(mapFilePath, _physics);
             AddMap(map, _physics);
+
+            IRenderCoreTarget scene = RenderCoreWindow.GetScene();
+            scene.AddDrawable(map.LineDrawable);
         }
 
         private void AddWidgets(IRenderObjectContainer _scene, EntityFollowerViewProvider _viewProvider)
