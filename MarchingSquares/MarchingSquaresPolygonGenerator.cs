@@ -57,7 +57,7 @@ namespace MarchingSquares
                     continue;
                 }
 
-                IEnumerable<Vector2> adjustedLine = lines.Select(_vertex => _vertex += new Vector2(classifiedCell.X, classifiedCell.Y));
+                IEnumerable<Vector2> adjustedLine = lines.Select(_vertex => _vertex + new Vector2(classifiedCell.X, classifiedCell.Y));
                 polygon.AddRange(adjustedLine);
             }
 
