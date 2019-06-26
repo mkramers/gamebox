@@ -27,7 +27,7 @@ namespace Common.Grid
             }
         }
 
-        private bool CellExists(int _x, int _y)
+        public bool CellExists(int _x, int _y)
         {
             bool cellExists = this.Count(_cell => _cell.X == _x && _cell.Y == _y) == 1;
             return cellExists;

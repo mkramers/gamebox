@@ -13,9 +13,9 @@ namespace MarchingSquares
 
             List<GridCell<byte>> gridCells = new List<GridCell<byte>>(area);
 
-            for (int y = gridBounds.MinY; y < gridBounds.MaxY; y++)
+            for (int y = gridBounds.MinY - 1; y < gridBounds.MaxY + 1; y++)
             {
-                for (int x = gridBounds.MinX; x < gridBounds.MaxX; x++)
+                for (int x = gridBounds.MinX - 1; x < gridBounds.MaxX + 1; x++)
                 {
                     GridCell<byte> classifiedCell = ClassifyCell(_binaryMask, x, y);
                     gridCells.Add(classifiedCell);
@@ -28,10 +28,15 @@ namespace MarchingSquares
 
         private static GridCell<byte> ClassifyCell(Grid<bool> _binaryMask, int _x, int _y)
         {
-            bool cellValueA = _binaryMask[_x, _y];
-            bool cellValueB = _binaryMask[_x + 1, _y];
-            bool cellValueC = _binaryMask[_x + 1, _y + 1];
-            bool cellValueD = _binaryMask[_x, _y + 1];
+            bool GetCellValue(int _xPos, int _yPos)
+            {
+                return _binaryMask.CellExists(_xPos, _yPos) && _binaryMask[_xPos, _yPos];
+            }
+
+            bool cellValueA = GetCellValue(_x, _y);
+            bool cellValueB = GetCellValue(_x + 1, _y);
+            bool cellValueC = GetCellValue(_x + 1, _y + 1);
+            bool cellValueD = GetCellValue(_x, _y + 1);
 
             byte byteFlag = 0;
             if (cellValueA)

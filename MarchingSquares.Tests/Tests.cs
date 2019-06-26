@@ -59,7 +59,7 @@ namespace MarchingSquares.Tests
                         false, true, true, false,
                         false, false, false, false,
                     };
-                    byte[] classifiedValues = { 2, 3, 1, 6, 15, 9, 4, 12, 8 };
+                    byte[] classifiedValues = { 0, 0, 0, 0, 0, 0, 2, 3, 1, 0, 0, 6, 15, 9, 0, 0, 4, 12, 8, 0, 0, 0, 0, 0, 0 };
                     yield return GetTestCaseData(gridValues, classifiedValues).Returns(true);
                 }
                 {
@@ -70,7 +70,7 @@ namespace MarchingSquares.Tests
                         false, true, false, true,
                         false, false, false, false,
                     };
-                    byte[] classifiedValues = { 2, 3, 1, 6, 13, 10, 4, 8, 4 };
+                    byte[] classifiedValues = { 0, 0, 0, 0, 0, 0, 2, 3, 1, 0, 0, 6, 13, 10, 1, 0, 4, 8, 4, 8, 0, 0, 0, 0, 0 };
                     yield return GetTestCaseData(gridValues, classifiedValues).Returns(true);
                 }
                 {
@@ -81,7 +81,7 @@ namespace MarchingSquares.Tests
                         true, false, false, true,
                         true, true, true, true,
                     };
-                    byte[] classifiedValues = { 13, 12, 14, 9, 0, 6, 11, 3, 7 };
+                    byte[] classifiedValues = { 2, 3, 3, 3, 1, 6, 13, 12, 14, 9, 6, 9, 0, 6, 9, 6, 11, 3, 7, 9, 4, 12, 12, 12, 8 };
                     yield return GetTestCaseData(gridValues, classifiedValues).Returns(true);
                 }
                 {
@@ -92,7 +92,7 @@ namespace MarchingSquares.Tests
                         false, false, false, false,
                         false, false, false, false,
                     };
-                    byte[] classifiedValues = { 2, 3, 1, 4, 12, 8, 0, 0, 0 };
+                    byte[] classifiedValues = { 0, 0, 0, 0, 0, 0, 2, 3, 1, 0, 0, 4, 12, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
                     yield return GetTestCaseData(gridValues, classifiedValues).Returns(true);
                 }
             }
@@ -103,11 +103,11 @@ namespace MarchingSquares.Tests
         {
             Grid<byte> classifiedGrid = MarchingSquaresClassifier.ClassifyCells(_binaryMask);
 
-            Debug.WriteLine($"Classification result {string.Join(", ", classifiedGrid.Select(_cell => _cell.Value))}");
-            Debug.WriteLine($"Classification expected {string.Join(", ", _expectedClassifiedGrid.Select(_cell => _cell.Value))}");
+            Debug.WriteLine($"Classification result\t\t{string.Join(", ", classifiedGrid.Select(_cell => _cell.Value))}");
+            Debug.WriteLine($"Classification expected\t\t{string.Join(", ", _expectedClassifiedGrid.Select(_cell => _cell.Value))}");
 
-            bool isEqual = classifiedGrid.SequenceEqual(_expectedClassifiedGrid);
-
+            bool isEqual = classifiedGrid.Select(_cell => _cell.Value).SequenceEqual(_expectedClassifiedGrid.Select(_cell => _cell.Value));
+            
             return isEqual;
         }
 
