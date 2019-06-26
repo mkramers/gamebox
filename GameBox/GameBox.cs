@@ -64,6 +64,7 @@ namespace GameBox
 
             IRenderCoreTarget scene = RenderCoreWindow.GetScene();
             scene.AddDrawable(map.LineDrawable);
+            scene.AddDrawable(map.PointDrawable);
         }
 
         private void AddWidgets(IRenderObjectContainer _scene, EntityFollowerViewProvider _viewProvider)

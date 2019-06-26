@@ -6,6 +6,7 @@ using Common.Geometry;
 using Common.VertexObject;
 using GameCore.Entity;
 using GameResources;
+using LibExtensions;
 using PhysicsCore;
 using RenderCore.Drawable;
 using RenderCore.ShapeUtilities;
@@ -19,6 +20,7 @@ namespace GameCore.Maps
     {
         private readonly List<IEntity> m_entities;
         public MultiDrawable<Shape> LineDrawable { get; }
+        public MultiDrawable<Shape> PointDrawable { get; }
 
         public SampleMap2(string _mapFilePath, IPhysics _physics)
         {
@@ -36,16 +38,31 @@ namespace GameCore.Maps
             Vector2 mapPosition = -8 * Vector2.One;
 
             List<Shape> lineShapes = new List<Shape>();
+            List<Shape> pointShapes = new List<Shape>();
             foreach (IVertexObject bodyVertexObject in bodyVertexObjects)
             {
                 for (int i = 0; i < bodyVertexObject.Count; i++)
                 {
-                    //    LineSegment lineSegment = new LineSegment(bodyVertexObject[i], bodyVertexObject[(i + 1) % bodyVertexObject.Count]);
-                    //    RectangleShape lineShape = ShapeFactory.GetLineShape(
-                    //        lineSegment, 0.1f);
-                    const float thickness = 0.5f;
-                    Vector2 pos = bodyVertexObject[i] + mapPosition + new Vector2(0.5f, 0.5f);
-                    LineSegment lineSegment = new LineSegment(pos, pos + new Vector2(0, -thickness/2.0f));
+                    const float thickness = 0.33f;
+
+                    Vector2 offset = mapPosition + new Vector2(0.5f, 0.5f);
+                    Vector2 start = bodyVertexObject[i] + offset;
+
+                    RectangleShape pointShape = new RectangleShape((1.5f * thickness * Vector2.One).GetVector2F())
+                    {
+                        FillColor = Color.Red,
+                        Position = start.GetVector2F(),
+                    };
+                    pointShapes.Add(pointShape);
+
+                    if (i + 1 >= bodyVertexObject.Count)
+                    {
+                        continue;
+                    }
+
+                    Vector2 end = bodyVertexObject[(i + 1) % bodyVertexObject.Count] + offset;
+
+                    LineSegment lineSegment = new LineSegment(start, end);
                     RectangleShape lineShape = ShapeFactory.GetLineShape(
                         lineSegment, thickness);
 
@@ -54,6 +71,7 @@ namespace GameCore.Maps
             }
 
             LineDrawable = new MultiDrawable<Shape>(lineShapes);
+            PointDrawable = new MultiDrawable<Shape>(pointShapes);
 
             IEntity entity =
                 SpriteEntityFactory.CreateSpriteEntity(0, mapPosition, _physics, BodyType.Static, sprite/*, bodyVertexObject.First()*/);

@@ -9,5 +9,9 @@ namespace Common.Geometry
         public Polygon(int _capacity) : base(_capacity)
         {
         }
+
+        public Polygon()
+        {
+        }
     }
 }
