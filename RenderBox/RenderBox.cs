@@ -53,7 +53,7 @@ namespace RenderBox
 
             AddFpsWidget(renderCoreWindow);
 
-            IEnumerable<LineSegment> lines = Map.Do(@"C:\dev\GameBox\RenderCore\Resources\art\square-collision.png");
+            IEnumerable<LineSegment> lines = Temp.Do(@"C:\dev\GameBox\RenderCore\Resources\art\square-collision.png");
             MultiDrawable<LineShape> shapes = CreateLineSegmentsDrawable(lines, Vector2.Zero);
             scene.AddDrawable(shapes);
         }
