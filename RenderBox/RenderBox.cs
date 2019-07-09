@@ -46,7 +46,7 @@ namespace RenderBox
             GridWidget gridWidget = new GridWidget(viewProvider, 0.05f, new Vector2(1, 1));
             scene.AddDrawable(gridWidget);
 
-            MultiDrawable<LineShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.1f);
+            MultiDrawable<VertexArrayShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.1f);
             scene.AddDrawable(crossHairs);
 
             AddWidget(gridWidget);
@@ -54,23 +54,23 @@ namespace RenderBox
             AddFpsWidget(renderCoreWindow);
 
             IEnumerable<LineSegment> lines = Temp.Do(@"C:\dev\GameBox\RenderCore\Resources\art\square-collision.png");
-            MultiDrawable<LineShape> shapes = CreateLineSegmentsDrawable(lines, Vector2.Zero);
+            MultiDrawable<VertexArrayShape> shapes = CreateLineSegmentsDrawable(lines, Vector2.Zero);
             scene.AddDrawable(shapes);
         }
 
-        private static MultiDrawable<LineShape> CreateLineSegmentsDrawable(IEnumerable<LineSegment> _lineSegments, Vector2 _position)
+        private static MultiDrawable<VertexArrayShape> CreateLineSegmentsDrawable(IEnumerable<LineSegment> _lineSegments, Vector2 _position)
         {
-            List<LineShape> shapes = new List<LineShape>();
+            List<VertexArrayShape> shapes = new List<VertexArrayShape>();
 
             LineSegment[] lineSegments = _lineSegments as LineSegment[] ?? _lineSegments.ToArray();
             foreach (LineSegment lineSegment in lineSegments)
             {
-                LineShape lineShape = LineShape.Factory.CreateLineShape(lineSegment, Color.Yellow);
-                lineShape.Position = _position.GetVector2F();
-                shapes.Add(lineShape);
+                VertexArrayShape vertexArrayShape = VertexArrayShape.Factory.CreateLineShape(lineSegment, Color.Yellow);
+                vertexArrayShape.Position = _position.GetVector2F();
+                shapes.Add(vertexArrayShape);
             }
 
-            MultiDrawable<LineShape> drawable = new MultiDrawable<LineShape>(shapes);
+            MultiDrawable<VertexArrayShape> drawable = new MultiDrawable<VertexArrayShape>(shapes);
             return drawable;
         }
 

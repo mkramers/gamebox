@@ -19,7 +19,7 @@ namespace GameCore.Maps
     public class SampleMap2 : IMap
     {
         private readonly List<IEntity> m_entities;
-        public MultiDrawable<LineShape> LineDrawable { get; }
+        public MultiDrawable<VertexArrayShape> LineDrawable { get; }
 
         public SampleMap2(string _mapFilePath, IPhysics _physics)
         {
@@ -36,7 +36,7 @@ namespace GameCore.Maps
 
             Vector2 mapPosition = -8 * Vector2.One;
 
-            List<LineShape> lineShapes = new List<LineShape>();
+            List<VertexArrayShape> lineShapes = new List<VertexArrayShape>();
             foreach (IVertexObject bodyVertexObject in bodyVertexObjects)
             {
                 for (int i = 0; i < bodyVertexObject.Count; i++)
@@ -51,13 +51,13 @@ namespace GameCore.Maps
 
                     Vector2 end = bodyVertexObject[(i + 1) % bodyVertexObject.Count] + offset;
 
-                    LineShape lineShape = LineShape.Factory.CreateLineShape(new LineSegment(start, end), Color.Cyan);
+                    VertexArrayShape vertexArrayShape = VertexArrayShape.Factory.CreateLineShape(new LineSegment(start, end), Color.Cyan);
 
-                    lineShapes.Add(lineShape);
+                    lineShapes.Add(vertexArrayShape);
                 }
             }
 
-            LineDrawable = new MultiDrawable<LineShape>(lineShapes);
+            LineDrawable = new MultiDrawable<VertexArrayShape>(lineShapes);
 
             IEntity entity =
                 SpriteEntityFactory.CreateSpriteEntity(0, mapPosition, _physics, BodyType.Static, sprite/*, bodyVertexObject.First()*/);

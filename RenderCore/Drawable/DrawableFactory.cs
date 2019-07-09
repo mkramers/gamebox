@@ -9,17 +9,17 @@ namespace RenderCore.Drawable
 {
     public static class DrawableFactory
     {
-        public static MultiDrawable<LineShape> GetCrossHair(Vector2 _size, float _thickness)
+        public static MultiDrawable<VertexArrayShape> GetCrossHair(Vector2 _size, float _thickness)
         {
             LineSegment[] lines = GetCrossHairLineSegments(_size).ToArray();
 
-            List<LineShape> shapes = new List<LineShape>
+            List<VertexArrayShape> shapes = new List<VertexArrayShape>
             {
-                LineShape.Factory.CreateLineShape(lines[0], Color.Red),
-                LineShape.Factory.CreateLineShape(lines[1], Color.Green)
+                VertexArrayShape.Factory.CreateLineShape(lines[0], Color.Red),
+                VertexArrayShape.Factory.CreateLineShape(lines[1], Color.Green)
             };
 
-            return new MultiDrawable<LineShape>(shapes);
+            return new MultiDrawable<VertexArrayShape>(shapes);
         }
 
         private static IEnumerable<LineSegment> GetCrossHairLineSegments(Vector2 _size)
@@ -36,11 +36,11 @@ namespace RenderCore.Drawable
             yield return new LineSegment(new Vector2(0, _boxSize.Y), new Vector2(_boxSize.X, _boxSize.Y));
         }
 
-        public static MultiDrawable<LineShape> GetBox(Vector2 _size, Color _color)
+        public static MultiDrawable<VertexArrayShape> GetBox(Vector2 _size, Color _color)
         {
-            IEnumerable<LineShape> shapes = GetBoxLineSegments(_size)
-                .Select(_segment => LineShape.Factory.CreateLineShape(_segment, _color));
-            return new MultiDrawable<LineShape>(shapes.ToList());
+            IEnumerable<VertexArrayShape> shapes = GetBoxLineSegments(_size)
+                .Select(_segment => VertexArrayShape.Factory.CreateLineShape(_segment, _color));
+            return new MultiDrawable<VertexArrayShape>(shapes.ToList());
         }
     }
 }

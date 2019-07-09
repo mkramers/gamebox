@@ -14,7 +14,7 @@ namespace RenderCore.ShapeUtilities
 {
     public static class ShapeFactory
     {
-        public static IEnumerable<LineShape> GetGridShapes(int _rows, int _columns, Vector2 _size, float _lineThickness,
+        public static IEnumerable<VertexArrayShape> GetGridShapes(int _rows, int _columns, Vector2 _size, float _lineThickness,
             Vector2 _position)
         {
             Vector2 cellSize = new Vector2(_size.X / _columns, _size.Y / _rows);
@@ -37,7 +37,7 @@ namespace RenderCore.ShapeUtilities
                 segments.Add(new LineSegment(start, end));
             }
 
-            IEnumerable<LineShape> shapes = segments.Select(_segment => LineShape.Factory.CreateLineShape(_segment, Color.White));
+            IEnumerable<VertexArrayShape> shapes = segments.Select(_segment => VertexArrayShape.Factory.CreateLineShape(_segment, Color.White));
             return shapes;
         }
 

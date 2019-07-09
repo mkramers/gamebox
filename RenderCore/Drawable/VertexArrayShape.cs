@@ -4,11 +4,11 @@ using SFML.Graphics;
 
 namespace RenderCore.Drawable
 {
-    public class LineShape : Transformable, SFML.Graphics.Drawable
+    public class VertexArrayShape : Transformable, SFML.Graphics.Drawable
     {
         private readonly VertexArray m_vertexArray;
 
-        private LineShape(IVertexArrayCreator _creator)
+        private VertexArrayShape(IVertexArrayCreator _creator)
         {
             m_vertexArray = _creator.CreateVertexArray();
         }
@@ -21,10 +21,10 @@ namespace RenderCore.Drawable
 
         public static class Factory
         {
-            public static LineShape CreateLineShape(IEnumerable<Vector2> _vertices, Color _color)
+            public static VertexArrayShape CreateLineShape(IEnumerable<Vector2> _vertices, Color _color)
             {
                 VertexArrayCreator creator = new VertexArrayCreator(_vertices, _color);
-                return new LineShape(creator);
+                return new VertexArrayShape(creator);
 
             }
         }

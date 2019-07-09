@@ -75,7 +75,7 @@ namespace GameBox
 
             AddWidget(gridWidget);
 
-            MultiDrawable<LineShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.05f);
+            MultiDrawable<VertexArrayShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.05f);
             _scene.AddDrawable(crossHairs);
 
             AddFpsWidget();
