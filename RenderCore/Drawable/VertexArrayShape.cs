@@ -23,7 +23,7 @@ namespace RenderCore.Drawable
         {
             public static VertexArrayShape CreateLineShape(IEnumerable<Vector2> _vertices, Color _color)
             {
-                VertexArrayCreator creator = new VertexArrayCreator(_vertices, _color);
+                LineVertexArrayCreator creator = new LineVertexArrayCreator(_vertices, _color);
                 return new VertexArrayShape(creator);
 
             }

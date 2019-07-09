@@ -6,12 +6,12 @@ using SFML.Graphics;
 
 namespace RenderCore.Drawable
 {
-    public class VertexArrayCreator : IVertexArrayCreator
+    public class LineVertexArrayCreator : IVertexArrayCreator
     {
         private readonly IEnumerable<Vector2> m_vertices;
         private readonly Color m_color;
 
-        public VertexArrayCreator(IEnumerable<Vector2> _vertices, Color _color)
+        public LineVertexArrayCreator(IEnumerable<Vector2> _vertices, Color _color)
         {
             m_vertices = _vertices;
             m_color = _color;
