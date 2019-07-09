@@ -51,7 +51,7 @@ namespace GameCore.Maps
 
                     Vector2 end = bodyVertexObject[(i + 1) % bodyVertexObject.Count] + offset;
 
-                    LineShape lineShape = new LineShape(new LineSegment(start, end), Color.Cyan);
+                    LineShape lineShape = LineShape.Factory.CreateLineShape(new LineSegment(start, end), Color.Cyan);
 
                     lineShapes.Add(lineShape);
                 }

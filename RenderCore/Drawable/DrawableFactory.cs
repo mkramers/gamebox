@@ -15,8 +15,8 @@ namespace RenderCore.Drawable
 
             List<LineShape> shapes = new List<LineShape>
             {
-                new LineShape(lines[0], Color.Red),
-                new LineShape(lines[1], Color.Green)
+                LineShape.Factory.CreateLineShape(lines[0], Color.Red),
+                LineShape.Factory.CreateLineShape(lines[1], Color.Green)
             };
 
             return new MultiDrawable<LineShape>(shapes);
@@ -39,7 +39,7 @@ namespace RenderCore.Drawable
         public static MultiDrawable<LineShape> GetBox(Vector2 _size, Color _color)
         {
             IEnumerable<LineShape> shapes = GetBoxLineSegments(_size)
-                .Select(_segment => new LineShape(_segment, _color));
+                .Select(_segment => LineShape.Factory.CreateLineShape(_segment, _color));
             return new MultiDrawable<LineShape>(shapes.ToList());
         }
     }

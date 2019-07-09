@@ -63,20 +63,10 @@ namespace RenderBox
             List<LineShape> shapes = new List<LineShape>();
 
             LineSegment[] lineSegments = _lineSegments as LineSegment[] ?? _lineSegments.ToArray();
-
-            List<LineSegment> positionedLineSegments = new List<LineSegment>(lineSegments.Length);
             foreach (LineSegment lineSegment in lineSegments)
             {
-                Vector2 start = lineSegment.Start + _position;
-                Vector2 end = lineSegment.End + _position;
-
-                LineSegment positionedLineSegment = new LineSegment(start, end);
-                positionedLineSegments.Add(positionedLineSegment);
-            }
-
-            foreach (LineSegment lineSegment in positionedLineSegments)
-            {
-                LineShape lineShape = new LineShape(lineSegment, Color.Yellow);
+                LineShape lineShape = LineShape.Factory.CreateLineShape(lineSegment, Color.Yellow);
+                lineShape.Position = _position.GetVector2F();
                 shapes.Add(lineShape);
             }
 

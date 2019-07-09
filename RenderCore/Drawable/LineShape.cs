@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using LibExtensions;
 using SFML.Graphics;
 
 namespace RenderCore.Drawable
@@ -10,21 +8,25 @@ namespace RenderCore.Drawable
     {
         private readonly VertexArray m_vertexArray;
 
-        public LineShape(IEnumerable<Vector2> _vertices, Color _color)
+        private LineShape(IVertexArrayCreator _creator)
         {
-            Vector2[] vertices = _vertices as Vector2[] ?? _vertices.ToArray();
-
-            m_vertexArray = new VertexArray(PrimitiveType.Lines, (uint)vertices.Count());
-
-            foreach (Vector2 vertex in vertices)
-            {
-                m_vertexArray.Append(new Vertex(vertex.GetVector2F(), _color));
-            }
+            m_vertexArray = _creator.CreateVertexArray();
         }
 
         public void Draw(RenderTarget _target, RenderStates _states)
         {
+            _states.Transform *= Transform;
             _target.Draw(m_vertexArray, _states);
+        }
+
+        public static class Factory
+        {
+            public static LineShape CreateLineShape(IEnumerable<Vector2> _vertices, Color _color)
+            {
+                VertexArrayCreator creator = new VertexArrayCreator(_vertices, _color);
+                return new LineShape(creator);
+
+            }
         }
     }
 }

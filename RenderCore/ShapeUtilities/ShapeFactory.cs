@@ -37,7 +37,7 @@ namespace RenderCore.ShapeUtilities
                 segments.Add(new LineSegment(start, end));
             }
 
-            IEnumerable<LineShape> shapes = segments.Select(_segment => new LineShape(_segment, Color.White));
+            IEnumerable<LineShape> shapes = segments.Select(_segment => LineShape.Factory.CreateLineShape(_segment, Color.White));
             return shapes;
         }
 
