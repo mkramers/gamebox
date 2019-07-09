@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Common.Geometry;
 using Common.Grid;
 using Common.VertexObject;
 
@@ -16,13 +17,15 @@ namespace MarchingSquares
             m_threshold = _threshold;
         }
 
-        public IEnumerable<IVertexObject> Generate()
+        public IEnumerable<IVertexObject> Generate(IVertexObjectsGenerator _generator)
         {
             Grid<bool> binaryMask = BinaryMaskCreator.CreateBinaryMask(m_grid, m_threshold);
 
             Grid<byte> classifiedCells = MarchingSquaresClassifier.ClassifyCells(binaryMask);
 
-            IEnumerable<IVertexObject> polygons = MarchingSquaresPolygonGenerator.GeneratePolygons(classifiedCells);
+            IEnumerable<LineSegment> lineSegments = MarchingSquaresPolygonGenerator.GetLineSegments(classifiedCells);
+
+            IEnumerable<IVertexObject> polygons = _generator.GetVertexObjects(lineSegments);
             return polygons;
         }
     }

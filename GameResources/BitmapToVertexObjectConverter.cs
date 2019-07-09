@@ -18,7 +18,8 @@ namespace GameResources
             MarchingSquaresGenerator<ComparableColor> marchingSquares =
                 new MarchingSquaresGenerator<ComparableColor>(grid, _threshold);
 
-            IEnumerable<IVertexObject> polygons = marchingSquares.Generate();
+            IVertexObjectsGenerator generator = new HeadToTailGenerator();
+            IEnumerable<IVertexObject> polygons = marchingSquares.Generate(generator);
             return polygons;
         }
     }

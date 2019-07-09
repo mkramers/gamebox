@@ -12,7 +12,7 @@
  "meta": {
   "app": "http://www.aseprite.org/",
   "version": "1.2.11-x64",
-  "image": "sample_tree_map.png",
+  "image": "square.png",
   "format": "RGBA8888",
   "size": { "w": 16, "h": 16 },
   "scale": "1",

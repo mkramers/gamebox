@@ -112,7 +112,8 @@ namespace MarchingSquares.Tests
                 }
             };
 
-            IVertexObject[] polygons = VertexObjectHeadTailBuilder.GetVertexObjects(linesSegments).ToArray();
+            IVertexObjectsGenerator generator = new HeadToTailGenerator();
+            IVertexObject[] polygons = generator.GetVertexObjects(linesSegments).ToArray();
 
             bool polygonsMatch = polygons.Length == expectedPolygons.Count;
 

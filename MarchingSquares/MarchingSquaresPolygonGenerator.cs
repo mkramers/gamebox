@@ -40,7 +40,7 @@ namespace MarchingSquares
                 {15, null}
             };
 
-        public static IEnumerable<IVertexObject> GeneratePolygons(Grid<byte> _classifiedCells)
+        public static IEnumerable<LineSegment> GetLineSegments(Grid<byte> _classifiedCells)
         {
             List<LineSegment> lineSegments = new List<LineSegment>();
 
@@ -57,14 +57,18 @@ namespace MarchingSquares
                 lineSegments.AddRange(adjustedLines);
             }
 
-            IEnumerable<IVertexObject> polygons = VertexObjectHeadTailBuilder.GetVertexObjects(lineSegments);
-            return polygons;
+            return lineSegments;
         }
     }
 
-    public static class VertexObjectHeadTailBuilder
+    public interface IVertexObjectsGenerator
     {
-        public static IEnumerable<IVertexObject> GetVertexObjects(IEnumerable<LineSegment> _lineSegments)
+        IEnumerable<IVertexObject> GetVertexObjects(IEnumerable<LineSegment> _lineSegments);
+    }
+
+    public class HeadToTailGenerator : IVertexObjectsGenerator
+    {
+        public IEnumerable<IVertexObject> GetVertexObjects(IEnumerable<LineSegment> _lineSegments)
         {
             LineSegment[] lineSegments = _lineSegments as LineSegment[] ?? _lineSegments.ToArray();
 
@@ -99,14 +103,17 @@ namespace MarchingSquares
 
             return vertexObjects;
         }
+    }
 
-        private static bool IsConnectedEndToStart(this LineSegment _lineSegment, LineSegment _otherLineSegment)
+    public static class LineSegmentExtensions
+    {
+        public static bool IsConnectedEndToStart(this LineSegment _lineSegment, LineSegment _otherLineSegment)
         {
             bool isConnected = _lineSegment.End == _otherLineSegment.Start;
             return isConnected;
         }
 
-        private static bool ContainsLineSegment(this IVertexObject _vertexObject, LineSegment _lineSegment)
+        public static bool ContainsLineSegment(this IVertexObject _vertexObject, LineSegment _lineSegment)
         {
             bool belongs = _vertexObject.Contains(_lineSegment.Start) && _vertexObject.Contains(_lineSegment.End);
             return belongs;

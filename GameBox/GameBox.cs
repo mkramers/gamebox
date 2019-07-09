@@ -57,7 +57,7 @@ namespace GameBox
 
         private void AddMap(IPhysics _physics)
         {
-            const string mapFilePath = @"C:\dev\GameBox\RenderCore\Resources\art\sample_tree_map.json";
+            const string mapFilePath = @"C:\dev\GameBox\RenderCore\Resources\art\square.json";
 
             SampleMap2 map = new SampleMap2(mapFilePath, _physics);
             AddMap(map, _physics);
