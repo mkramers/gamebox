@@ -57,14 +57,13 @@ namespace GameBox
 
         private void AddMap(IPhysics _physics)
         {
-            const string mapFilePath = @"C:\dev\GameBox\RenderCore\Resources\art\square.json";
+            const string mapFilePath = @"C:\dev\GameBox\RenderCore\Resources\art\sample_tree_map.json";
 
             SampleMap2 map = new SampleMap2(mapFilePath, _physics);
             AddMap(map, _physics);
 
             IRenderCoreTarget scene = RenderCoreWindow.GetScene();
             scene.AddDrawable(map.LineDrawable);
-            scene.AddDrawable(map.PointDrawable);
         }
 
         private void AddWidgets(IRenderObjectContainer _scene, EntityFollowerViewProvider _viewProvider)
@@ -76,7 +75,7 @@ namespace GameBox
 
             AddWidget(gridWidget);
 
-            MultiDrawable<RectangleShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.05f);
+            MultiDrawable<LineShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.05f);
             _scene.AddDrawable(crossHairs);
 
             AddFpsWidget();

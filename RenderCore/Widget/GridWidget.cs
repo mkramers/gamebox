@@ -9,7 +9,7 @@ using SFML.Graphics;
 
 namespace RenderCore.Widget
 {
-    public class GridWidget : MultiDrawable<Shape>, IWidget
+    public class GridWidget : MultiDrawable<LineShape>, IWidget
     {
         private readonly Vector2 m_cellSize;
         private readonly float m_lineThickness;
@@ -30,7 +30,7 @@ namespace RenderCore.Widget
                 new Vector2((float) Math.Round(view.Center.X), (float) Math.Round(view.Center.Y));
             View snappedView = new View(snappedCenter.GetVector2F(), view.Size);
 
-            IEnumerable<Shape> gridDrawables =
+            IEnumerable<LineShape> gridDrawables =
                 GridDrawingUtilities.GetGridDrawableFromView(snappedView, m_lineThickness, m_cellSize);
 
             DisposeItemsAndClear();

@@ -3,24 +3,23 @@ using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using Common.Geometry;
-using RenderCore.ShapeUtilities;
 using SFML.Graphics;
 
 namespace RenderCore.Drawable
 {
     public static class DrawableFactory
     {
-        public static MultiDrawable<RectangleShape> GetCrossHair(Vector2 _size, float _thickness)
+        public static MultiDrawable<LineShape> GetCrossHair(Vector2 _size, float _thickness)
         {
-            IEnumerable<LineSegment> lines = GetCrossHairLineSegments(_size);
+            LineSegment[] lines = GetCrossHairLineSegments(_size).ToArray();
 
-            RectangleShape[] shapes = lines.Select(_line => ShapeFactory.GetLineShape(_line, _thickness)).ToArray();
-            Debug.Assert(shapes.Length == 2);
+            List<LineShape> shapes = new List<LineShape>
+            {
+                new LineShape(lines[0], Color.Red),
+                new LineShape(lines[1], Color.Green)
+            };
 
-            shapes[0].FillColor = Color.Red;
-            shapes[1].FillColor = Color.Green;
-
-            return new MultiDrawable<RectangleShape>(shapes);
+            return new MultiDrawable<LineShape>(shapes);
         }
 
         private static IEnumerable<LineSegment> GetCrossHairLineSegments(Vector2 _size)
@@ -37,11 +36,11 @@ namespace RenderCore.Drawable
             yield return new LineSegment(new Vector2(0, _boxSize.Y), new Vector2(_boxSize.X, _boxSize.Y));
         }
 
-        public static MultiDrawable<RectangleShape> GetBox(Vector2 _size, float _thickness)
+        public static MultiDrawable<LineShape> GetBox(Vector2 _size, Color _color)
         {
-            IEnumerable<RectangleShape> shapes = GetBoxLineSegments(_size)
-                .Select(_segment => ShapeFactory.GetLineShape(_segment, _thickness));
-            return new MultiDrawable<RectangleShape>(shapes.ToList());
+            IEnumerable<LineShape> shapes = GetBoxLineSegments(_size)
+                .Select(_segment => new LineShape(_segment, _color));
+            return new MultiDrawable<LineShape>(shapes.ToList());
         }
     }
 }

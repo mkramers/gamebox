@@ -6,6 +6,7 @@ using Common.Extensions;
 using Common.Geometry;
 using Common.VertexObject;
 using LibExtensions;
+using RenderCore.Drawable;
 using SFML.Graphics;
 using SFML.System;
 
@@ -13,7 +14,7 @@ namespace RenderCore.ShapeUtilities
 {
     public static class ShapeFactory
     {
-        public static IEnumerable<Shape> GetGridShapes(int _rows, int _columns, Vector2 _size, float _lineThickness,
+        public static IEnumerable<LineShape> GetGridShapes(int _rows, int _columns, Vector2 _size, float _lineThickness,
             Vector2 _position)
         {
             Vector2 cellSize = new Vector2(_size.X / _columns, _size.Y / _rows);
@@ -36,23 +37,8 @@ namespace RenderCore.ShapeUtilities
                 segments.Add(new LineSegment(start, end));
             }
 
-            IEnumerable<Shape> shapes = segments.Select(_segment => GetLineShape(_segment, _lineThickness));
+            IEnumerable<LineShape> shapes = segments.Select(_segment => new LineShape(_segment, Color.White));
             return shapes;
-        }
-
-        public static RectangleShape GetLineShape(LineSegment _line, float _thickness)
-        {
-            Vector2f size = new Vector2f(_thickness, _line.Length);
-            float dotProduct = Vector2.Dot(_line.Direction, Vector2.UnitY);
-            float angle = -((float) Math.Acos(dotProduct)).ToDegrees();
-
-            RectangleShape rectangleShape = new RectangleShape(size)
-            {
-                Origin = new Vector2f(_thickness / 2.0f, 0.0f),
-                Position = _line.Start.GetVector2F(),
-                Rotation = angle
-            };
-            return rectangleShape;
         }
 
         public static ConvexShape GetConvexShape(IVertexObject _vertices)

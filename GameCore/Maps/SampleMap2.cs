@@ -19,8 +19,7 @@ namespace GameCore.Maps
     public class SampleMap2 : IMap
     {
         private readonly List<IEntity> m_entities;
-        public MultiDrawable<Shape> LineDrawable { get; }
-        public MultiDrawable<Shape> PointDrawable { get; }
+        public MultiDrawable<LineShape> LineDrawable { get; }
 
         public SampleMap2(string _mapFilePath, IPhysics _physics)
         {
@@ -37,23 +36,13 @@ namespace GameCore.Maps
 
             Vector2 mapPosition = -8 * Vector2.One;
 
-            List<Shape> lineShapes = new List<Shape>();
-            List<Shape> pointShapes = new List<Shape>();
+            List<LineShape> lineShapes = new List<LineShape>();
             foreach (IVertexObject bodyVertexObject in bodyVertexObjects)
             {
                 for (int i = 0; i < bodyVertexObject.Count; i++)
                 {
-                    const float thickness = 0.33f;
-
                     Vector2 offset = mapPosition + new Vector2(0.5f, 0.5f);
                     Vector2 start = bodyVertexObject[i] + offset;
-
-                    RectangleShape pointShape = new RectangleShape((1.5f * thickness * Vector2.One).GetVector2F())
-                    {
-                        FillColor = Color.Red,
-                        Position = start.GetVector2F(),
-                    };
-                    pointShapes.Add(pointShape);
 
                     if (i + 1 >= bodyVertexObject.Count)
                     {
@@ -62,16 +51,13 @@ namespace GameCore.Maps
 
                     Vector2 end = bodyVertexObject[(i + 1) % bodyVertexObject.Count] + offset;
 
-                    LineSegment lineSegment = new LineSegment(start, end);
-                    RectangleShape lineShape = ShapeFactory.GetLineShape(
-                        lineSegment, thickness);
+                    LineShape lineShape = new LineShape(new LineSegment(start, end), Color.Cyan);
 
                     lineShapes.Add(lineShape);
                 }
             }
 
-            LineDrawable = new MultiDrawable<Shape>(lineShapes);
-            PointDrawable = new MultiDrawable<Shape>(pointShapes);
+            LineDrawable = new MultiDrawable<LineShape>(lineShapes);
 
             IEntity entity =
                 SpriteEntityFactory.CreateSpriteEntity(0, mapPosition, _physics, BodyType.Static, sprite/*, bodyVertexObject.First()*/);
