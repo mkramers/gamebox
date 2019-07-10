@@ -44,9 +44,9 @@ namespace MarchingSquares
         {
             List<LineSegment> lineSegments = new List<LineSegment>();
 
-            for (int y = 0; y < _classifiedCells.Columns; y++)
+            for (int y = 0; y < _classifiedCells.Rows; y++)
             {
-                for (int x = 0; x < _classifiedCells.Rows; x++)
+                for (int x = 0; x < _classifiedCells.Columns; x++)
                 {
                     byte cell = _classifiedCells[x, y];
                     IEnumerable<LineSegment> lines = SegmentLookupTable[cell];

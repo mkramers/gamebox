@@ -13,9 +13,9 @@ namespace GameResources.Converters
         {
             List<ComparableColor> cells = new List<ComparableColor>();
 
-            for (int x = 0; x < _bitmap.Width; x++)
+            for (int y = 0; y < _bitmap.Height; y++)
             {
-                for (int y = 0; y < _bitmap.Height; y++)
+                for (int x = 0; x < _bitmap.Width; x++)
                 {
                     Color color = _bitmap.GetPixel(x, y);
 

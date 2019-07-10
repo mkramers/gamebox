@@ -9,9 +9,9 @@ namespace Common.Grid
         {
             List<bool> gridCells = new List<bool>();
 
-            for (int y = 0; y < _grid.Columns; y++)
+            for (int y = 0; y < _grid.Rows; y++)
             {
-                for (int x = 0; x < _grid.Rows; x++)
+                for (int x = 0; x < _grid.Columns; x++)
                 {
                     IComparable cellValue = _grid[x, y];
 
