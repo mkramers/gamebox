@@ -35,7 +35,7 @@ namespace Common.Grid
 
         private static bool IsRectangle(Grid<T> _grid)
         {
-            GridBounds gridBounds = GridBounds.GetGridBounds(_grid);
+            GridBounds gridBounds = _grid.GetGridBounds();
 
             bool isValid = gridBounds.SizeX > 0 && gridBounds.SizeY > 0;
 

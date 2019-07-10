@@ -43,9 +43,7 @@ namespace MarchingSquares
         public static IEnumerable<LineSegment> GetLineSegments(Grid<byte> _classifiedCells)
         {
             List<LineSegment> lineSegments = new List<LineSegment>();
-
-            GridBounds gridBounds = GridBounds.GetGridBounds(_classifiedCells);
-
+            
             foreach (GridCell<byte> classifiedCell in _classifiedCells)
             {
                 IEnumerable<LineSegment> lines = SegmentLookupTable[classifiedCell.Value];

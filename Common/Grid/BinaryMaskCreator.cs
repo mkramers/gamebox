@@ -7,7 +7,7 @@ namespace Common.Grid
     {
         public static Grid<bool> CreateBinaryMask<T>(Grid<T> _grid, T _threshold) where T : IComparable
         {
-            GridBounds gridBounds = GridBounds.GetGridBounds(_grid);
+            GridBounds gridBounds = _grid.GetGridBounds();
 
             List<GridCell<bool>> gridCells = new List<GridCell<bool>>(gridBounds.Area);
 

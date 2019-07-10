@@ -7,7 +7,7 @@ namespace MarchingSquares
     {
         public static Grid<byte> ClassifyCells(Grid<bool> _binaryMask)
         {
-            GridBounds gridBounds = GridBounds.GetGridBounds(_binaryMask);
+            GridBounds gridBounds = _binaryMask.GetGridBounds();
 
             int area = (gridBounds.SizeX - 1) * (gridBounds.SizeY - 1);
 

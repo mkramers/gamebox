@@ -5,7 +5,7 @@ namespace Common.Grid
 {
     public class GridBounds
     {
-        private GridBounds(int _minX, int _maxX, int _minY, int _maxY)
+        public GridBounds(int _minX, int _maxX, int _minY, int _maxY)
         {
             Debug.Assert(_maxX - _minX >= 0);
             Debug.Assert(_maxY - _minY >= 0);
@@ -24,8 +24,11 @@ namespace Common.Grid
         public int SizeX => MaxX - MinX + 1;
         public int SizeY => MaxY - MinY + 1;
         public int Area => SizeX * SizeY;
+    }
 
-        public static GridBounds GetGridBounds<T>(Grid<T> _grid)
+    public static class GridExtensions
+    {
+        public static GridBounds GetGridBounds<T>(this Grid<T> _grid)
         {
             int minX = _grid.Min(_cell => _cell.X);
             int maxX = _grid.Max(_cell => _cell.X);
