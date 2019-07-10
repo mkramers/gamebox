@@ -29,7 +29,7 @@ namespace RenderBox
         public RenderBox(string _windowTitle, Vector2u _windowSize, float _aspectRatio) : base(_windowTitle,
             _windowSize, Vector2.Zero, _aspectRatio)
         {
-            const float size = 8;
+            const float size = 25;
             Vector2 sceneSize = new Vector2(size, size);
             Vector2 scenePosition = /*-sceneSize / 2.0f +*/ -Vector2.One;
             FloatRect viewRect = new FloatRect(scenePosition.GetVector2F(), sceneSize.GetVector2F());
@@ -54,11 +54,14 @@ namespace RenderBox
 
             AddFpsWidget(renderCoreWindow);
 
-            Texture texture = TextureCache.Instance.GetTextureFromFile(@"C:\dev\GameBox\RenderCore\Resources\art\square-scene.png");
+            string mapName = "sample_tree_map";
+            string mapScenePath = $@"C:\dev\GameBox\RenderCore\Resources\art\{mapName}-scene.png";
+            string mapCollisionPath = $@"C:\dev\GameBox\RenderCore\Resources\art\{mapName}-collision.png";
+            Texture texture = TextureCache.Instance.GetTextureFromFile(mapScenePath);
             Sprite sprite = new Sprite(texture);
             scene.AddDrawable(new Drawable<Sprite>(sprite));
 
-            IEnumerable<LineSegment> lines = Temp.Do(@"C:\dev\GameBox\RenderCore\Resources\art\square-collision.png");
+            IEnumerable<LineSegment> lines = Temp.Do(mapCollisionPath);
             MultiDrawable<VertexArrayShape> shapes = CreateLineSegmentsDrawable(lines, Vector2.Zero);
             scene.AddDrawable(shapes);
         }
