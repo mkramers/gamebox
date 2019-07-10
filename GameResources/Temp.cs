@@ -1,4 +1,5 @@
 ﻿extern alias CoreCompatSystemDrawing;
+using System;
 using System.Collections.Generic;
 using Common.Geometry;
 using Common.Grid;
@@ -19,9 +20,15 @@ namespace GameResources
 
             Grid<ComparableColor> grid = BitmapToGridConverter.GetColorGridFromBitmap(bitmap);
 
+            grid.PrintGrid(nameof(grid));
+
             Grid<bool> binaryMask = BinaryMaskCreator.CreateBinaryMask(grid, colorThreshold);
 
+            binaryMask.PrintGrid(nameof(binaryMask));
+
             Grid<byte> classifiedCells = MarchingSquaresClassifier.ClassifyCells(binaryMask);
+
+            classifiedCells.PrintGrid(nameof(classifiedCells));
 
             IEnumerable<LineSegment> lineSegments = MarchingSquaresPolygonGenerator.GetLineSegments(classifiedCells);
             return lineSegments;
