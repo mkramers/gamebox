@@ -6,57 +6,45 @@ using System.Linq;
 
 namespace Common.Grid
 {
-    public class Grid<T> : ReadOnlyCollection<GridCell<T>>
+    public class Grid<T> : ReadOnlyCollection<T>
     {
-        public Grid(IList<GridCell<T>> _cells) : base(_cells)
+        public int Rows { get; }
+        public int Columns { get; }
+
+        public Grid(IList<T> _cells, int _rows, int _columns) : base(_cells)
         {
-            if (!IsRectangle(this))
+            if (_cells.Count != _rows * _columns)
             {
-                throw new InvalidDataException("Grid is not a rectangle!");
+                throw new InvalidDataException($"Grid is incomplete. Expected a {_columns} x {_rows} grid input");
             }
+
+            Rows = _rows;
+            Columns = _columns;
         }
 
         public T this[int _x, int _y]
         {
             get
             {
-                Debug.Assert(CellExists(_x, _y));
+                int index = GetIndex(_x, _y);
+                Debug.Assert(IsIndexValid(index));
 
-                GridCell<T> item = this.First(_cell => _cell.X == _x && _cell.Y == _y);
-                return item.Value;
+                T item = this[index];
+                return item;
             }
         }
 
-        public bool CellExists(int _x, int _y)
+        private bool IsIndexValid(int _index)
         {
-            bool cellExists = this.Count(_cell => _cell.X == _x && _cell.Y == _y) == 1;
-            return cellExists;
+            return _index >= 0 && _index < Count;
         }
 
-        private static bool IsRectangle(Grid<T> _grid)
+        private int GetIndex(int _x, int _y)
         {
-            GridBounds gridBounds = _grid.GetGridBounds();
+            int index = _x + _y * Rows;
+            Debug.Assert(IsIndexValid(index));
 
-            bool isValid = gridBounds.Rows > 0 && gridBounds.Columns > 0;
-
-            for (int y = gridBounds.MinY; y <= gridBounds.MaxY; y++)
-            {
-                for (int x = gridBounds.MinX; x <= gridBounds.MaxX; x++)
-                {
-                    if (!_grid.CellExists(x, y))
-                    {
-                        isValid = false;
-                        break;
-                    }
-                }
-
-                if (!isValid)
-                {
-                    break;
-                }
-            }
-
-            return isValid;
+            return index;
         }
     }
 }

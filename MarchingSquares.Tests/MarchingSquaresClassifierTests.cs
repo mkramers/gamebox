@@ -78,10 +78,10 @@ namespace MarchingSquares.Tests
         {
             Grid<byte> classifiedGrid = MarchingSquaresClassifier.ClassifyCells(_binaryMask);
 
-            Debug.WriteLine($"Classification result\t\t{string.Join(", ", classifiedGrid.Select(_cell => _cell.Value))}");
-            Debug.WriteLine($"Classification expected\t\t{string.Join(", ", _expectedClassifiedGrid.Select(_cell => _cell.Value))}");
+            Debug.WriteLine($"Classification result\t\t{string.Join(", ", classifiedGrid)}");
+            Debug.WriteLine($"Classification expected\t\t{string.Join(", ", _expectedClassifiedGrid)}");
 
-            bool isEqual = classifiedGrid.Select(_cell => _cell.Value).SequenceEqual(_expectedClassifiedGrid.Select(_cell => _cell.Value));
+            bool isEqual = classifiedGrid.SequenceEqual(_expectedClassifiedGrid);
 
             return isEqual;
         }

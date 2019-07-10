@@ -43,25 +43,29 @@ namespace MarchingSquares
         public static IEnumerable<LineSegment> GetLineSegments(Grid<byte> _classifiedCells)
         {
             List<LineSegment> lineSegments = new List<LineSegment>();
-            
-            foreach (GridCell<byte> classifiedCell in _classifiedCells)
+
+            for (int y = 0; y < _classifiedCells.Columns; y++)
             {
-                IEnumerable<LineSegment> lines = SegmentLookupTable[classifiedCell.Value];
-                if (lines == null)
+                for (int x = 0; x < _classifiedCells.Rows; x++)
                 {
-                    continue;
+                    byte cell = _classifiedCells[x, y];
+                    IEnumerable<LineSegment> lines = SegmentLookupTable[cell];
+                    if (lines == null)
+                    {
+                        continue;
+                    }
+
+                    Vector2 positionOffset = new Vector2(x, y) + 0.5f * Vector2.One;
+
+                    IEnumerable<LineSegment> adjustedLines = lines.Select(_lineSegment =>
+                    {
+                        Vector2 lineSegmentStart = _lineSegment.Start + positionOffset;
+                        Vector2 lineSegmentEnd = _lineSegment.End + positionOffset;
+                        LineSegment lineSegment = new LineSegment(lineSegmentStart, lineSegmentEnd);
+                        return lineSegment;
+                    });
+                    lineSegments.AddRange(adjustedLines);
                 }
-
-                Vector2 positionOffset = new Vector2(classifiedCell.X, classifiedCell.Y) + 0.5f * Vector2.One;
-
-                IEnumerable<LineSegment> adjustedLines = lines.Select(_lineSegment =>
-                {
-                    Vector2 lineSegmentStart = _lineSegment.Start + positionOffset;
-                    Vector2 lineSegmentEnd = _lineSegment.End + positionOffset;
-                    LineSegment lineSegment = new LineSegment(lineSegmentStart, lineSegmentEnd);
-                    return lineSegment;
-                });
-                lineSegments.AddRange(adjustedLines);
             }
 
             return lineSegments;

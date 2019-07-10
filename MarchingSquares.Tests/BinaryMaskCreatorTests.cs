@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Common.Grid;
 using NUnit.Framework;
 
@@ -20,9 +21,12 @@ namespace MarchingSquares.Tests
 
             Assert.Multiple(() =>
             {
-                foreach (GridCell<bool> gridCell in binaryMask)
+                for (int y = 0; y < binaryMask.Columns; y++)
                 {
-                    Assert.That(gridCell.Value == ValueGenerator(gridCell.X, gridCell.Y) <= threshold);
+                    for (int x = 0; x < binaryMask.Rows; x++)
+                    {   
+                        Assert.That(binaryMask[x,y] == ValueGenerator(x, y) <= threshold);
+                    }
                 }
             });
         }

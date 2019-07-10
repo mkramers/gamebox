@@ -7,30 +7,28 @@ namespace MarchingSquares
     {
         public static Grid<byte> ClassifyCells(Grid<bool> _binaryMask)
         {
-            GridBounds gridBounds = _binaryMask.GetGridBounds();
+            int rows = _binaryMask.Rows - 1;
+            int columns = _binaryMask.Columns - 1;
 
-            int area = (gridBounds.Rows - 1) * (gridBounds.Columns - 1);
-
-            List<GridCell<byte>> gridCells = new List<GridCell<byte>>(area);
-
-            for (int y = gridBounds.MinY; y < gridBounds.MaxY; y++)
+            List<byte> cells = new List<byte>(rows * columns);
+            for (int y = 0; y < rows; y++)
             {
-                for (int x = gridBounds.MinX; x < gridBounds.MaxX; x++)
+                for (int x = 0; x < columns; x++)
                 {
-                    GridCell<byte> classifiedCell = ClassifyCell(_binaryMask, x, y);
-                    gridCells.Add(classifiedCell);
+                    byte classifiedCell = ClassifyCell(_binaryMask, x, y);
+                    cells.Add(classifiedCell);
                 }
             }
 
-            Grid<byte> grid = new Grid<byte>(gridCells);
+            Grid<byte> grid = new Grid<byte>(cells, rows, columns);
             return grid;
         }
 
-        private static GridCell<byte> ClassifyCell(Grid<bool> _binaryMask, int _x, int _y)
+        private static byte ClassifyCell(Grid<bool> _binaryMask, int _x, int _y)
         {
             bool GetCellValue(int _xPos, int _yPos)
             {
-                return _binaryMask.CellExists(_xPos, _yPos) && _binaryMask[_xPos, _yPos];
+                return _binaryMask[_xPos, _yPos];
             }
 
             bool cellValueA = GetCellValue(_x, _y);
@@ -59,8 +57,7 @@ namespace MarchingSquares
                 byteFlag |= 1 << 0;
             }
 
-            GridCell<byte> classifiedCell = new GridCell<byte>(_x, _y, byteFlag);
-            return classifiedCell;
+            return byteFlag;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace GameResources.Converters
     {
         public static Grid<ComparableColor> GetColorGridFromBitmap(Bitmap _bitmap)
         {
-            List<GridCell<ComparableColor>> gridCells = new List<GridCell<ComparableColor>>();
+            List<ComparableColor> cells = new List<ComparableColor>();
 
             for (int x = 0; x < _bitmap.Width; x++)
             {
@@ -19,12 +19,11 @@ namespace GameResources.Converters
                 {
                     Color color = _bitmap.GetPixel(x, y);
 
-                    GridCell<ComparableColor> gridCell = new GridCell<ComparableColor>(x, y, new ComparableColor(color));
-                    gridCells.Add(gridCell);
+                    cells.Add(new ComparableColor(color));
                 }
             }
 
-            Grid<ComparableColor> grid = new Grid<ComparableColor>(gridCells);
+            Grid<ComparableColor> grid = new Grid<ComparableColor>(cells, _bitmap.Height, _bitmap.Width);
             return grid;
         }
     }

@@ -8,17 +8,19 @@ namespace MarchingSquares.Tests
     {
         public static Grid<T> CreateGrid<T>(int _halfSize, Func<int, int, T> _valueGenerator) where T : IComparable
         {
-            IList<GridCell<T>> gridCells = new List<GridCell<T>>();
-            for (int x = 0; x < _halfSize * 2; x++)
+            int size = _halfSize * 2;
+
+            IList<T> cells = new List<T>();
+            for (int y = 0; y < size; y++)
             {
-                for (int y = 0; y < _halfSize * 2; y++)
+                for (int x = 0; x < size; x++)
                 {
                     T value = _valueGenerator(x, y);
-                    gridCells.Add(new GridCell<T>(x, y, value));
+                    cells.Add(value);
                 }
             }
 
-            Grid<T> grid = new Grid<T>(gridCells);
+            Grid<T> grid = new Grid<T>(cells, size, size);
             return grid;
         }
 
@@ -31,17 +33,17 @@ namespace MarchingSquares.Tests
 
             int sideLength = (int)Math.Sqrt(_values.Count);
 
-            IList<GridCell<T>> gridCells = new List<GridCell<T>>();
+            IList<T> gridCells = new List<T>();
             for (int y = 0; y < sideLength; y++)
             {
                 for (int x = 0; x < sideLength; x++)
                 {
                     T value = _values[y * sideLength + x];
-                    gridCells.Add(new GridCell<T>(x, y, value));
+                    gridCells.Add(value);
                 }
             }
 
-            Grid<T> grid = new Grid<T>(gridCells);
+            Grid<T> grid = new Grid<T>(gridCells, sideLength, sideLength);
             return grid;
         }
     }
