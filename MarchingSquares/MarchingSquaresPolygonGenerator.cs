@@ -44,6 +44,8 @@ namespace MarchingSquares
         {
             List<LineSegment> lineSegments = new List<LineSegment>();
 
+            GridBounds gridBounds = GridBounds.GetGridBounds(_classifiedCells);
+
             foreach (GridCell<byte> classifiedCell in _classifiedCells)
             {
                 IEnumerable<LineSegment> lines = SegmentLookupTable[classifiedCell.Value];
@@ -52,8 +54,15 @@ namespace MarchingSquares
                     continue;
                 }
 
-                Vector2 positionOffset = new Vector2(classifiedCell.X, classifiedCell.Y);
-                IEnumerable<LineSegment> adjustedLines = lines.Select(_lineSegment => new LineSegment(_lineSegment.Start + positionOffset, _lineSegment.End + positionOffset));
+                Vector2 positionOffset = new Vector2(classifiedCell.X, classifiedCell.Y) + 0.5f * Vector2.One;
+
+                IEnumerable<LineSegment> adjustedLines = lines.Select(_lineSegment =>
+                {
+                    Vector2 lineSegmentStart = _lineSegment.Start + positionOffset;
+                    Vector2 lineSegmentEnd = _lineSegment.End + positionOffset;
+                    LineSegment lineSegment = new LineSegment(lineSegmentStart, lineSegmentEnd);
+                    return lineSegment;
+                });
                 lineSegments.AddRange(adjustedLines);
             }
 

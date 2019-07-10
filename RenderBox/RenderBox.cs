@@ -14,6 +14,7 @@ using RenderCore.Drawable;
 using RenderCore.Font;
 using RenderCore.Render;
 using RenderCore.ShapeUtilities;
+using RenderCore.TextureCache;
 using RenderCore.ViewProvider;
 using RenderCore.Widget;
 using SFML.Graphics;
@@ -28,9 +29,9 @@ namespace RenderBox
         public RenderBox(string _windowTitle, Vector2u _windowSize, float _aspectRatio) : base(_windowTitle,
             _windowSize, Vector2.Zero, _aspectRatio)
         {
-            const float size = 40;
+            const float size = 8;
             Vector2 sceneSize = new Vector2(size, size);
-            Vector2 scenePosition = -sceneSize / 2.0f;
+            Vector2 scenePosition = /*-sceneSize / 2.0f +*/ -Vector2.One;
             FloatRect viewRect = new FloatRect(scenePosition.GetVector2F(), sceneSize.GetVector2F());
             View view = new View(viewRect);
 
@@ -43,7 +44,7 @@ namespace RenderBox
             //MultiDrawable<RectangleShape> box = DrawableFactory.GetBox(sceneSize, 1);
             //scene.AddDrawable(box);
 
-            GridWidget gridWidget = new GridWidget(viewProvider, 0.05f, new Vector2(1, 1));
+            GridWidget gridWidget = new GridWidget(viewProvider, 0.05f, 0.5f * Vector2.One);
             scene.AddDrawable(gridWidget);
 
             MultiDrawable<VertexArrayShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.1f);
@@ -52,6 +53,10 @@ namespace RenderBox
             AddWidget(gridWidget);
 
             AddFpsWidget(renderCoreWindow);
+
+            Texture texture = TextureCache.Instance.GetTextureFromFile(@"C:\dev\GameBox\RenderCore\Resources\art\square-scene.png");
+            Sprite sprite = new Sprite(texture);
+            scene.AddDrawable(new Drawable<Sprite>(sprite));
 
             IEnumerable<LineSegment> lines = Temp.Do(@"C:\dev\GameBox\RenderCore\Resources\art\square-collision.png");
             MultiDrawable<VertexArrayShape> shapes = CreateLineSegmentsDrawable(lines, Vector2.Zero);
