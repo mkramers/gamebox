@@ -1,7 +1,11 @@
 @echo off
 
- call :exportmap sample_tree_map
- call :exportmap square
+rem call :exportmap sample_tree_map
+rem call :exportmap square
+
+for /r %%v in (*.aseprite) do (
+	call :exportmap "%%~nv"
+)
 
 goto :eof
 
@@ -9,6 +13,7 @@ goto :eof
 
 set map=%1
 
-aseprite -b %map%.aseprite --save-as %map%-{layer}.png
+echo Processing %map%
+aseprite -b %map%.aseprite --save-as %map%-{layer}.png --data %map%.json --list-layers --format json-array --sheet %map%.png
 
 goto :eof
