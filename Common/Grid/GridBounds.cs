@@ -21,9 +21,9 @@ namespace Common.Grid
         public int MinY { get; }
         public int MaxY { get; }
 
-        public int SizeX => MaxX - MinX + 1;
-        public int SizeY => MaxY - MinY + 1;
-        public int Area => SizeX * SizeY;
+        public int Rows => MaxX - MinX + 1;
+        public int Columns => MaxY - MinY + 1;
+        public int Area => Rows * Columns;
     }
 
     public static class GridExtensions

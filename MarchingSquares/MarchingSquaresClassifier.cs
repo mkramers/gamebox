@@ -9,7 +9,7 @@ namespace MarchingSquares
         {
             GridBounds gridBounds = _binaryMask.GetGridBounds();
 
-            int area = (gridBounds.SizeX - 1) * (gridBounds.SizeY - 1);
+            int area = (gridBounds.Rows - 1) * (gridBounds.Columns - 1);
 
             List<GridCell<byte>> gridCells = new List<GridCell<byte>>(area);
 

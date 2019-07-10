@@ -37,7 +37,7 @@ namespace Common.Grid
         {
             GridBounds gridBounds = _grid.GetGridBounds();
 
-            bool isValid = gridBounds.SizeX > 0 && gridBounds.SizeY > 0;
+            bool isValid = gridBounds.Rows > 0 && gridBounds.Columns > 0;
 
             for (int y = gridBounds.MinY; y <= gridBounds.MaxY; y++)
             {
