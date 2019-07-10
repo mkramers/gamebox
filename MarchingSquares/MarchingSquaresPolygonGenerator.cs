@@ -26,13 +26,13 @@ namespace MarchingSquares
                 {6, new []{new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(0.5f, 1.0f))}},
                 {7, new []{new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 0.0f))}},
 
-                {8, new []{new LineSegment(new Vector2(0.0f, 0.0f), new Vector2(0.5f, 0.5f))}},
+                {8, new []{new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 0.0f))}},
                 {9, new []{new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(0.5f, 1.0f))}},
                 {10, new []{
                         new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 1.0f)),
                         new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(1.0f, 0.5f))
                 }},
-                {11, new []{new LineSegment(new Vector2(0.5f, 0.5f), new Vector2(1.0f, 0.0f))}},
+                {11, new []{new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(1.0f, 0.5f))}},
 
                 {12, new []{new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(1.0f, 0.5f))}},
                 {13, new []{new LineSegment(new Vector2(0.5f, 1.0f), new Vector2(1.0f, 0.5f))}},
