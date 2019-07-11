@@ -25,7 +25,6 @@ namespace RenderCore.Drawable
             {
                 LineVertexArrayCreator creator = new LineVertexArrayCreator(_vertices, _color);
                 return new VertexArrayShape(creator);
-
             }
         }
     }
