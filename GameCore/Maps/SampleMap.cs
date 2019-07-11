@@ -8,6 +8,7 @@ using GameCore.Entity;
 using GameCore.Legacy.VertexBodyConfig;
 using Newtonsoft.Json;
 using PhysicsCore;
+using RenderCore.Drawable;
 using RenderCore.ShapeUtilities;
 using SFML.Graphics;
 
@@ -37,6 +38,11 @@ namespace GameCore.Maps
             File.WriteAllText("sample-map.json", serializedMap);
 
             return entityCreators.Select(_entityCreationArgs => _entityCreationArgs.CreateEntity(_physics)).ToList();
+        }
+
+        public IEnumerable<IDrawable> GetDrawables()
+        {
+            throw new System.NotImplementedException();
         }
 
         private static IEntityCreator BuildFloorCreator(float _mass, BodyType _bodyType, Color _fillColor,

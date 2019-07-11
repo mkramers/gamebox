@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Collections.Generic;
+using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using GameCore;
 using GameCore.Entity;
@@ -63,7 +64,12 @@ namespace GameBox
             AddMap(map, _physics);
 
             IRenderCoreTarget scene = RenderCoreWindow.GetScene();
-            scene.AddDrawable(map.LineDrawable);
+
+            IEnumerable<IDrawable> mapDrawables = map.GetDrawables();
+            foreach (IDrawable mapDrawable in mapDrawables)
+            {
+                scene.AddDrawable(mapDrawable);
+            }
         }
 
         private void AddWidgets(IRenderObjectContainer _scene, EntityFollowerViewProvider _viewProvider)

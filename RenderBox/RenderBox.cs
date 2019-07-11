@@ -61,8 +61,11 @@ namespace RenderBox
 
             SampleMap2 map = new SampleMap2(mapFilePath, Physics);
 
-            MultiDrawable<VertexArrayShape> lineDrawables = map.LineDrawable;
-            scene.AddDrawable(lineDrawables);
+            IEnumerable<IDrawable> mapDrawables = map.GetDrawables();
+            foreach (IDrawable mapDrawable in mapDrawables)
+            {
+                scene.AddDrawable(mapDrawable);
+            }
         }
 
         private void AddFpsWidget(RenderCoreWindow _renderCoreWindow)

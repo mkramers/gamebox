@@ -24,11 +24,13 @@ namespace GameCore.Maps
     public class SampleMap2 : IMap
     {
         private readonly List<IEntity> m_entities;
-        public MultiDrawable<VertexArrayShape> LineDrawable { get; }
+        private readonly List<IDrawable> m_drawables;
 
         public SampleMap2(string _mapFilePath, IPhysics _physics)
         {
             Vector2 mapPosition = -0 * Vector2.One;
+
+            m_drawables = new List<IDrawable>();
 
             SpriteSheetFile spriteSheet = SpriteSheetFileLoader.LoadFromFile(_mapFilePath);
 
@@ -47,12 +49,12 @@ namespace GameCore.Maps
 
             MultiDrawable<VertexArrayShape> lineDrawables = CreateLineSegmentsDrawable(lineSegments, mapPosition);
 
+            m_drawables.Add(lineDrawables);
+
             IEnumerable<IVertexObject> polygons = GetVertexObjects(collisionGrid);
             
             IEnumerable<VertexArrayShape> lineShapes = CreateShapesFromVertexObjects(polygons, mapPosition);
-
-            LineDrawable = lineDrawables; //new MultiDrawable<VertexArrayShape>(lineShapes);
-
+            
             IEntity entity =
                 SpriteEntityFactory.CreateSpriteEntity(0, mapPosition, _physics, BodyType.Static, sprite/*, bodyVertexObject.First()*/);
 
@@ -123,6 +125,11 @@ namespace GameCore.Maps
         public IEnumerable<IEntity> GetEntities(IPhysics _physics)
         {
             return m_entities;
+        }
+
+        public IEnumerable<IDrawable> GetDrawables()
+        {
+            return m_drawables;
         }
     }
 }
