@@ -44,17 +44,20 @@ namespace GameCore.Maps
             Grid<ComparableColor> collisionGrid = map.GetCollisionGrid();
 
             ComparableColor colorThreshold = new ComparableColor(0, 0, 0, 0);
-            MarchingSquaresGenerator<ComparableColor> m = new MarchingSquaresGenerator<ComparableColor>(collisionGrid, colorThreshold);
-            IEnumerable<LineSegment> lineSegments = m.GetLineSegments();
+            MarchingSquaresGenerator<ComparableColor> marchingSquares = new MarchingSquaresGenerator<ComparableColor>(collisionGrid, colorThreshold);
+            IEnumerable<LineSegment> lineSegments = marchingSquares.GetLineSegments();
 
             MultiDrawable<VertexArrayShape> lineDrawables = CreateLineSegmentsDrawable(lineSegments, mapPosition);
 
             m_drawables.Add(lineDrawables);
 
-            IEnumerable<IVertexObject> polygons = GetVertexObjects(collisionGrid);
-            
-            IEnumerable<VertexArrayShape> lineShapes = CreateShapesFromVertexObjects(polygons, mapPosition);
-            
+            IVertexObjectsGenerator generator = new HeadToTailGenerator();
+            IEnumerable<IVertexObject> polygons = marchingSquares.Generate(generator);
+
+            MultiDrawable<VertexArrayShape> lineShapes = CreateShapesFromVertexObjects(polygons, mapPosition);
+
+            m_drawables.Add(lineShapes);
+
             IEntity entity =
                 SpriteEntityFactory.CreateSpriteEntity(0, mapPosition, _physics, BodyType.Static, sprite/*, bodyVertexObject.First()*/);
 
@@ -63,20 +66,8 @@ namespace GameCore.Maps
                 entity
             };
         }
-
-        private static IEnumerable<IVertexObject> GetVertexObjects(Grid<ComparableColor> _grid)
-        {
-            ComparableColor colorThreshold = new ComparableColor(0, 0, 0, 0);
-            
-            MarchingSquaresGenerator<ComparableColor> marchingSquares =
-                new MarchingSquaresGenerator<ComparableColor>(_grid, colorThreshold);
-
-            IVertexObjectsGenerator generator = new HeadToTailGenerator();
-            IEnumerable<IVertexObject> polygons = marchingSquares.Generate(generator);
-            return polygons;
-        }
         
-        private static IEnumerable<VertexArrayShape> CreateShapesFromVertexObjects(IEnumerable<IVertexObject> _vertexObjects, Vector2 _position)
+        private static MultiDrawable<VertexArrayShape> CreateShapesFromVertexObjects(IEnumerable<IVertexObject> _vertexObjects, Vector2 _position)
         {
             List<VertexArrayShape> lineShapes = new List<VertexArrayShape>();
             foreach (IVertexObject bodyVertexObject in _vertexObjects)
@@ -103,7 +94,8 @@ namespace GameCore.Maps
                 lineShapes.Add(vertexArrayShape);
             }
 
-            return lineShapes;
+            MultiDrawable<VertexArrayShape> drawable = new MultiDrawable<VertexArrayShape>(lineShapes);
+            return drawable;
         }
 
         private static MultiDrawable<VertexArrayShape> CreateLineSegmentsDrawable(IEnumerable<LineSegment> _lineSegments, Vector2 _position)
