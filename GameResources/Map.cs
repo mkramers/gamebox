@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Common.Grid;
 using Common.VertexObject;
 using GameResources.Attributes;
+using GameResources.Converters;
+using MarchingSquares;
 using Bitmap = CoreCompatSystemDrawing::System.Drawing.Bitmap;
 using Color = CoreCompatSystemDrawing::System.Drawing.Color;
 
@@ -22,14 +25,12 @@ namespace GameResources
         private MapLayer CollisionLayer { get; }
         public MapLayer SceneLayer { get; }
 
-        public IEnumerable<IVertexObject> GetCollisionVertexObjects()
+        public Grid<ComparableColor> GetCollisionGrid()
         {
             Bitmap bitmap = new Bitmap(CollisionLayer.FileName);
 
-            ComparableColor colorThreshold = new ComparableColor(Color.FromArgb(0, 0, 0, 0));
-
-            IEnumerable<IVertexObject> polygons = BitmapToVertexObjectConverter.GetVertexObjectsFromBitmap(bitmap, colorThreshold);
-            return polygons;
+            Grid<ComparableColor> grid = BitmapToGridConverter.GetColorGridFromBitmap(bitmap);
+            return grid;
         }
     }
 }

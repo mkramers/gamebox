@@ -19,14 +19,20 @@ namespace MarchingSquares
 
         public IEnumerable<IVertexObject> Generate(IVertexObjectsGenerator _generator)
         {
+            IEnumerable<LineSegment> lineSegments = GetLineSegments();
+
+            IEnumerable<IVertexObject> polygons = _generator.GetVertexObjects(lineSegments);
+            return polygons;
+        }
+
+        public IEnumerable<LineSegment> GetLineSegments()
+        {
             Grid<bool> binaryMask = BinaryMaskCreator.CreateBinaryMask(m_grid, m_threshold);
 
             Grid<byte> classifiedCells = MarchingSquaresClassifier.ClassifyCells(binaryMask);
 
             IEnumerable<LineSegment> lineSegments = MarchingSquaresPolygonGenerator.GetLineSegments(classifiedCells);
-
-            IEnumerable<IVertexObject> polygons = _generator.GetVertexObjects(lineSegments);
-            return polygons;
+            return lineSegments;
         }
     }
 }

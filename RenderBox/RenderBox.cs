@@ -7,9 +7,11 @@ using Common.Extensions;
 using Common.Geometry;
 using Common.VertexObject;
 using GameCore;
+using GameCore.Maps;
 using GameResources;
 using GameResources.Attributes;
 using LibExtensions;
+using MarchingSquares;
 using RenderCore.Drawable;
 using RenderCore.Font;
 using RenderCore.Render;
@@ -54,32 +56,13 @@ namespace RenderBox
 
             AddFpsWidget(renderCoreWindow);
 
-            string mapName = "sample_tree_map";
-            string mapScenePath = $@"C:\dev\GameBox\RenderCore\Resources\art\{mapName}-scene.png";
-            string mapCollisionPath = $@"C:\dev\GameBox\RenderCore\Resources\art\{mapName}-collision.png";
-            Texture texture = TextureCache.Instance.GetTextureFromFile(mapScenePath);
-            Sprite sprite = new Sprite(texture);
-            scene.AddDrawable(new Drawable<Sprite>(sprite));
+            const string mapName = "sample_tree_map";
+            string mapFilePath = $@"C:\dev\GameBox\RenderCore\Resources\art\{mapName}.json";
 
-            IEnumerable<LineSegment> lines = Temp.Do(mapCollisionPath);
-            MultiDrawable<VertexArrayShape> shapes = CreateLineSegmentsDrawable(lines, Vector2.Zero);
-            scene.AddDrawable(shapes);
-        }
+            SampleMap2 map = new SampleMap2(mapFilePath, Physics);
 
-        private static MultiDrawable<VertexArrayShape> CreateLineSegmentsDrawable(IEnumerable<LineSegment> _lineSegments, Vector2 _position)
-        {
-            List<VertexArrayShape> shapes = new List<VertexArrayShape>();
-
-            LineSegment[] lineSegments = _lineSegments as LineSegment[] ?? _lineSegments.ToArray();
-            foreach (LineSegment lineSegment in lineSegments)
-            {
-                VertexArrayShape vertexArrayShape = VertexArrayShape.Factory.CreateLineShape(lineSegment, Color.Yellow);
-                vertexArrayShape.Position = _position.GetVector2F();
-                shapes.Add(vertexArrayShape);
-            }
-
-            MultiDrawable<VertexArrayShape> drawable = new MultiDrawable<VertexArrayShape>(shapes);
-            return drawable;
+            MultiDrawable<VertexArrayShape> lineDrawables = map.LineDrawable;
+            scene.AddDrawable(lineDrawables);
         }
 
         private void AddFpsWidget(RenderCoreWindow _renderCoreWindow)

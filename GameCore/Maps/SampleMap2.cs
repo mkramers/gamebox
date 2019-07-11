@@ -1,18 +1,23 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using Common.Geometry;
+using Common.Grid;
 using Common.VertexObject;
 using GameCore.Entity;
 using GameResources;
+using GameResources.Attributes;
+using GameResources.Converters;
 using LibExtensions;
+using MarchingSquares;
 using PhysicsCore;
 using RenderCore.Drawable;
-using RenderCore.ShapeUtilities;
 using RenderCore.TextureCache;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;
+using Color = SFML.Graphics.Color;
 
 namespace GameCore.Maps
 {
@@ -23,6 +28,8 @@ namespace GameCore.Maps
 
         public SampleMap2(string _mapFilePath, IPhysics _physics)
         {
+            Vector2 mapPosition = -0 * Vector2.One;
+
             SpriteSheetFile spriteSheet = SpriteSheetFileLoader.LoadFromFile(_mapFilePath);
 
             MapFileLoader loader = new MapFileLoader();
@@ -32,16 +39,49 @@ namespace GameCore.Maps
 
             Sprite sprite = new Sprite(texture);
 
-            IVertexObject[] bodyVertexObjects = map.GetCollisionVertexObjects().ToArray();
+            Grid<ComparableColor> collisionGrid = map.GetCollisionGrid();
 
-            Vector2 mapPosition = -8 * Vector2.One;
+            ComparableColor colorThreshold = new ComparableColor(0, 0, 0, 0);
+            MarchingSquaresGenerator<ComparableColor> m = new MarchingSquaresGenerator<ComparableColor>(collisionGrid, colorThreshold);
+            IEnumerable<LineSegment> lineSegments = m.GetLineSegments();
 
+            MultiDrawable<VertexArrayShape> lineDrawables = CreateLineSegmentsDrawable(lineSegments, mapPosition);
+
+            IEnumerable<IVertexObject> polygons = GetVertexObjects(collisionGrid);
+            
+            IEnumerable<VertexArrayShape> lineShapes = CreateShapesFromVertexObjects(polygons, mapPosition);
+
+            LineDrawable = lineDrawables; //new MultiDrawable<VertexArrayShape>(lineShapes);
+
+            IEntity entity =
+                SpriteEntityFactory.CreateSpriteEntity(0, mapPosition, _physics, BodyType.Static, sprite/*, bodyVertexObject.First()*/);
+
+            m_entities = new List<IEntity>
+            {
+                entity
+            };
+        }
+
+        private static IEnumerable<IVertexObject> GetVertexObjects(Grid<ComparableColor> _grid)
+        {
+            ComparableColor colorThreshold = new ComparableColor(0, 0, 0, 0);
+            
+            MarchingSquaresGenerator<ComparableColor> marchingSquares =
+                new MarchingSquaresGenerator<ComparableColor>(_grid, colorThreshold);
+
+            IVertexObjectsGenerator generator = new HeadToTailGenerator();
+            IEnumerable<IVertexObject> polygons = marchingSquares.Generate(generator);
+            return polygons;
+        }
+        
+        private static IEnumerable<VertexArrayShape> CreateShapesFromVertexObjects(IEnumerable<IVertexObject> _vertexObjects, Vector2 _position)
+        {
             List<VertexArrayShape> lineShapes = new List<VertexArrayShape>();
-            foreach (IVertexObject bodyVertexObject in bodyVertexObjects)
+            foreach (IVertexObject bodyVertexObject in _vertexObjects)
             {
                 for (int i = 0; i < bodyVertexObject.Count; i++)
                 {
-                    Vector2 offset = mapPosition + new Vector2(0.5f, 0.5f);
+                    Vector2 offset = _position;
                     Vector2 start = bodyVertexObject[i] + offset;
 
                     if (i + 1 >= bodyVertexObject.Count)
@@ -51,21 +91,33 @@ namespace GameCore.Maps
 
                     Vector2 end = bodyVertexObject[(i + 1) % bodyVertexObject.Count] + offset;
 
-                    VertexArrayShape vertexArrayShape = VertexArrayShape.Factory.CreateLineShape(new LineSegment(start, end), Color.Cyan);
-
-                    lineShapes.Add(vertexArrayShape);
+                    //VertexArrayShape vertexArrayShape =
+                    //    VertexArrayShape.Factory.CreateLineShape(new LineSegment(start, end), Color.Cyan);
                 }
+
+                VertexArrayShape vertexArrayShape =
+                    VertexArrayShape.Factory.CreateLineShape(bodyVertexObject, Color.Cyan);
+
+                lineShapes.Add(vertexArrayShape);
             }
 
-            LineDrawable = new MultiDrawable<VertexArrayShape>(lineShapes);
+            return lineShapes;
+        }
 
-            IEntity entity =
-                SpriteEntityFactory.CreateSpriteEntity(0, mapPosition, _physics, BodyType.Static, sprite/*, bodyVertexObject.First()*/);
+        private static MultiDrawable<VertexArrayShape> CreateLineSegmentsDrawable(IEnumerable<LineSegment> _lineSegments, Vector2 _position)
+        {
+            List<VertexArrayShape> shapes = new List<VertexArrayShape>();
 
-            m_entities = new List<IEntity>
+            LineSegment[] lineSegments = _lineSegments as LineSegment[] ?? _lineSegments.ToArray();
+            foreach (LineSegment lineSegment in lineSegments)
             {
-                entity
-            };
+                VertexArrayShape vertexArrayShape = VertexArrayShape.Factory.CreateLineShape(lineSegment, Color.Yellow);
+                vertexArrayShape.Position = _position.GetVector2F();
+                shapes.Add(vertexArrayShape);
+            }
+
+            MultiDrawable<VertexArrayShape> drawable = new MultiDrawable<VertexArrayShape>(shapes);
+            return drawable;
         }
 
         public IEnumerable<IEntity> GetEntities(IPhysics _physics)
