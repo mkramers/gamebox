@@ -11,6 +11,11 @@ namespace Common.Geometry
         {
         }
 
+        public LineSegment(float _startX, float _startY, float _endX, float _endY) : this(new Vector2(_startX, _startY),
+            new Vector2(_endX, _endY))
+        {
+        }
+
         public Vector2 End => this[1];
 
         public float Length => Vector.Length();
