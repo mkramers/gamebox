@@ -31,9 +31,9 @@ namespace RenderBox
         public RenderBox(string _windowTitle, Vector2u _windowSize, float _aspectRatio) : base(_windowTitle,
             _windowSize, Vector2.Zero, _aspectRatio)
         {
-            const float size = 25;
+            const float size = 14;
             Vector2 sceneSize = new Vector2(size, size);
-            Vector2 scenePosition = -Vector2.One;
+            Vector2 scenePosition = -6*Vector2.One;
             FloatRect viewRect = new FloatRect(scenePosition.GetVector2F(), sceneSize.GetVector2F());
             View view = new View(viewRect);
 
