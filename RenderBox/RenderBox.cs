@@ -1,28 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Numerics;
-using Common.Extensions;
-using Common.Geometry;
-using Common.VertexObject;
 using GameCore;
 using GameCore.Maps;
-using GameResources;
-using GameResources.Attributes;
 using LibExtensions;
-using MarchingSquares;
 using RenderCore.Drawable;
 using RenderCore.Font;
 using RenderCore.Render;
-using RenderCore.ShapeUtilities;
-using RenderCore.TextureCache;
 using RenderCore.ViewProvider;
 using RenderCore.Widget;
 using SFML.Graphics;
 using SFML.System;
-using Color = SFML.Graphics.Color;
-using Font = SFML.Graphics.Font;
 
 namespace RenderBox
 {
@@ -31,9 +18,9 @@ namespace RenderBox
         public RenderBox(string _windowTitle, Vector2u _windowSize, float _aspectRatio) : base(_windowTitle,
             _windowSize, Vector2.Zero, _aspectRatio)
         {
-            const float size = 14;
+            const float size = 25;
             Vector2 sceneSize = new Vector2(size, size);
-            Vector2 scenePosition = -6*Vector2.One;
+            Vector2 scenePosition = -Vector2.One;
             FloatRect viewRect = new FloatRect(scenePosition.GetVector2F(), sceneSize.GetVector2F());
             View view = new View(viewRect);
 
