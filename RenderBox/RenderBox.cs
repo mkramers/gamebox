@@ -33,7 +33,7 @@ namespace RenderBox
         {
             const float size = 25;
             Vector2 sceneSize = new Vector2(size, size);
-            Vector2 scenePosition = /*-sceneSize / 2.0f +*/ -Vector2.One;
+            Vector2 scenePosition = -Vector2.One;
             FloatRect viewRect = new FloatRect(scenePosition.GetVector2F(), sceneSize.GetVector2F());
             View view = new View(viewRect);
 
@@ -46,7 +46,7 @@ namespace RenderBox
             //MultiDrawable<RectangleShape> box = DrawableFactory.GetBox(sceneSize, 1);
             //scene.AddDrawable(box);
 
-            GridWidget gridWidget = new GridWidget(viewProvider, 0.05f, 0.5f * Vector2.One);
+            LabeledGridWidget gridWidget = new LabeledGridWidget(viewProvider, 0.05f, 0.5f * Vector2.One);
             scene.AddDrawable(gridWidget);
 
             MultiDrawable<VertexArrayShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.1f);
@@ -71,20 +71,15 @@ namespace RenderBox
 
         private void AddFpsWidget(RenderCoreWindow _renderCoreWindow)
         {
-            const float fontScale = 0.025f;
-            const uint fontSize = 32;
-            Vector2 textPosition = new Vector2(fontScale, 1.0f - 1.5f * fontScale);
+            WidgetFontSettings widgetFontSettingsFactory = new WidgetFontSettings();
+            FontSettings fpsFontSettings = widgetFontSettingsFactory.GetSettings(WidgetFontSettingsType.FPS_COUNTER);
 
-            FontFactory fontFactory = new FontFactory();
-            Font font = fontFactory.GetFont(FontId.ROBOTO);
+            Vector2 textPosition = new Vector2(fpsFontSettings.Scale, 1.0f - 1.5f * fpsFontSettings.Scale);
 
-            Text textRenderObject = new Text("", font, fontSize)
-            {
-                Scale = new Vector2f(fontScale / fontSize, fontScale / fontSize),
-                FillColor = Color.Blue
-            };
-            FpsTextWidget fpsTextWidget = new FpsTextWidget(5, textRenderObject);
-            fpsTextWidget.SetPosition(textPosition);
+            Text text = TextFactory.GenerateText(fpsFontSettings);
+            text.Position = textPosition.GetVector2F();
+
+            FpsTextWidget fpsTextWidget = new FpsTextWidget(5, text);
 
             IRenderCoreTarget overlay = _renderCoreWindow.GetOverlay();
             overlay.AddDrawable(fpsTextWidget);

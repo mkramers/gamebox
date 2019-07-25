@@ -6,6 +6,7 @@ using GameCore.Entity;
 using GameCore.Input.Key;
 using GameCore.Maps;
 using GameCore.ViewProvider;
+using LibExtensions;
 using PhysicsCore;
 using RenderCore.Drawable;
 using RenderCore.Font;
@@ -117,20 +118,15 @@ namespace GameBox
 
         private void AddFpsWidget()
         {
-            const float fontScale = 0.04f;
-            const uint fontSize = 72;
-            Vector2 textPosition = new Vector2(fontScale, 1.0f - 1.5f * fontScale);
+            WidgetFontSettings widgetFontSettingsFactory = new WidgetFontSettings();
+            FontSettings fpsFontSettings = widgetFontSettingsFactory.GetSettings(WidgetFontSettingsType.FPS_COUNTER);
 
-            FontFactory fontFactory = new FontFactory();
-            Font font = fontFactory.GetFont(FontId.ROBOTO);
+            Vector2 textPosition = new Vector2(fpsFontSettings.Scale, 1.0f - 1.5f * fpsFontSettings.Scale);
 
-            Text textRenderObject = new Text("", font, fontSize)
-            {
-                Scale = new Vector2f(fontScale / fontSize, fontScale / fontSize),
-                FillColor = Color.Blue
-            };
-            FpsTextWidget fpsTextWidget = new FpsTextWidget(5, textRenderObject);
-            fpsTextWidget.SetPosition(textPosition);
+            Text text = TextFactory.GenerateText(fpsFontSettings);
+            text.Position = textPosition.GetVector2F();
+
+            FpsTextWidget fpsTextWidget = new FpsTextWidget(5, text);
 
             IRenderCoreTarget overlay = RenderCoreWindow.GetOverlay();
             overlay.AddDrawable(fpsTextWidget);
