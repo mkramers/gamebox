@@ -72,24 +72,8 @@ namespace GameCore.Maps
             List<VertexArrayShape> lineShapes = new List<VertexArrayShape>();
             foreach (IVertexObject bodyVertexObject in _vertexObjects)
             {
-                for (int i = 0; i < bodyVertexObject.Count; i++)
-                {
-                    Vector2 offset = _position;
-                    Vector2 start = bodyVertexObject[i] + offset;
-
-                    if (i + 1 >= bodyVertexObject.Count)
-                    {
-                        continue;
-                    }
-
-                    Vector2 end = bodyVertexObject[(i + 1) % bodyVertexObject.Count] + offset;
-
-                    //VertexArrayShape vertexArrayShape =
-                    //    VertexArrayShape.Factory.CreateLineShape(new LineSegment(start, end), Color.Cyan);
-                }
-
                 VertexArrayShape vertexArrayShape =
-                    VertexArrayShape.Factory.CreateLineShape(bodyVertexObject, Color.Cyan);
+                    VertexArrayShape.Factory.CreateLineStripShape(bodyVertexObject, Color.Cyan);
 
                 lineShapes.Add(vertexArrayShape);
             }
@@ -103,9 +87,11 @@ namespace GameCore.Maps
             List<VertexArrayShape> shapes = new List<VertexArrayShape>();
 
             LineSegment[] lineSegments = _lineSegments as LineSegment[] ?? _lineSegments.ToArray();
-            foreach (LineSegment lineSegment in lineSegments)
+            for (int i = 0; i < lineSegments.Length; i++)
             {
-                VertexArrayShape vertexArrayShape = VertexArrayShape.Factory.CreateLineShape(lineSegment, Color.Yellow);
+                LineSegment lineSegment = lineSegments[i];
+                VertexArrayShape vertexArrayShape =
+                    VertexArrayShape.Factory.CreateLinesShape(lineSegment, Color.Yellow);
                 vertexArrayShape.Position = _position.GetVector2F();
                 shapes.Add(vertexArrayShape);
             }

@@ -47,7 +47,7 @@ namespace RenderBox
             //scene.AddDrawable(box);
 
             GridWidget gridWidget = new GridWidget(viewProvider, 0.05f, 0.5f * Vector2.One);
-            //scene.AddDrawable(gridWidget);
+            scene.AddDrawable(gridWidget);
 
             MultiDrawable<VertexArrayShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.1f);
             scene.AddDrawable(crossHairs);
@@ -56,7 +56,8 @@ namespace RenderBox
 
             AddFpsWidget(renderCoreWindow);
 
-            const string mapName = "sample_tree_map";
+            const string mapName = "square";
+            //const string mapName = "sample_tree_map";
             string mapFilePath = $@"C:\dev\GameBox\RenderCore\Resources\art\{mapName}.json";
 
             SampleMap2 map = new SampleMap2(mapFilePath, Physics);

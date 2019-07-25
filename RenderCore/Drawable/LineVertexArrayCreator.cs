@@ -10,17 +10,19 @@ namespace RenderCore.Drawable
     {
         private readonly IEnumerable<Vector2> m_vertices;
         private readonly Color m_color;
+        private readonly PrimitiveType m_primitiveType;
 
-        public LineVertexArrayCreator(IEnumerable<Vector2> _vertices, Color _color)
+        public LineVertexArrayCreator(IEnumerable<Vector2> _vertices, PrimitiveType _primitiveType, Color _color)
         {
             m_vertices = _vertices;
             m_color = _color;
+            m_primitiveType = _primitiveType;
         }
         public VertexArray CreateVertexArray()
         {
             Vector2[] vertices = m_vertices as Vector2[] ?? m_vertices.ToArray();
 
-            VertexArray vertexArray = new VertexArray(PrimitiveType.Lines, (uint)vertices.Length);
+            VertexArray vertexArray = new VertexArray(m_primitiveType, (uint)vertices.Length);
 
             foreach (Vector2 vertex in vertices)
             {

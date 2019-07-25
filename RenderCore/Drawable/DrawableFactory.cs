@@ -15,8 +15,8 @@ namespace RenderCore.Drawable
 
             List<VertexArrayShape> shapes = new List<VertexArrayShape>
             {
-                VertexArrayShape.Factory.CreateLineShape(lines[0], Color.Red),
-                VertexArrayShape.Factory.CreateLineShape(lines[1], Color.Green)
+                VertexArrayShape.Factory.CreateLinesShape(lines[0], Color.Red),
+                VertexArrayShape.Factory.CreateLinesShape(lines[1], Color.Green)
             };
 
             return new MultiDrawable<VertexArrayShape>(shapes);
@@ -39,7 +39,7 @@ namespace RenderCore.Drawable
         public static MultiDrawable<VertexArrayShape> GetBox(Vector2 _size, Color _color)
         {
             IEnumerable<VertexArrayShape> shapes = GetBoxLineSegments(_size)
-                .Select(_segment => VertexArrayShape.Factory.CreateLineShape(_segment, _color));
+                .Select(_segment => VertexArrayShape.Factory.CreateLinesShape(_segment, _color));
             return new MultiDrawable<VertexArrayShape>(shapes.ToList());
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Text;
 using Common.Geometry;
 using Common.Grid;
 using Common.VertexObject;
@@ -93,24 +94,124 @@ namespace MarchingSquares
 
         public Polygon GetVertexObject(IEnumerable<LineSegment> _lineSegments)
         {
+            bool IsNextConnectedSegment(LineSegment _currentLineSegment, LineSegment _otherLineSegment)
+            {
+                if (_currentLineSegment.ApproximatelyEqualTo(_otherLineSegment))
+                {
+                    //return false;
+                }
+
+                bool isEndConnected = _currentLineSegment.End.ApproximatelyEqualTo(_otherLineSegment.Start) || _currentLineSegment.End.ApproximatelyEqualTo(_otherLineSegment.End);
+                bool isStartConnected = _currentLineSegment.Start.ApproximatelyEqualTo(_otherLineSegment.Start) || _currentLineSegment.Start.ApproximatelyEqualTo(_otherLineSegment.End);
+                return isEndConnected;// || isStartConnected;
+            }
+            
             Polygon polygon = new Polygon();
 
-            IEnumerable<LineSegment> lineSegments = _lineSegments as LineSegment[] ?? _lineSegments.ToArray();
-            foreach (LineSegment lineSegment in lineSegments)
+            List<LineSegment> lineSegments = _lineSegments.OrderBy(_lineSegment => _lineSegment.Start.X).ToList();
+
+            Console.WriteLine($"GetVertexObject called with {lineSegments.Count} LineSegments");
+
+            LineSegment firstLineSegment = lineSegments[0];
+            polygon.Add(firstLineSegment.Start);
+
+            int count = lineSegments.Count;
+            LineSegment currentLine = firstLineSegment;
+            while (count > 0)
             {
-                LineSegment nextSegment =
-                    lineSegments.FirstOrDefault(_lineSegment => lineSegment.IsConnectedEndToStart(_lineSegment));
-                if (nextSegment != null)
+                Console.WriteLine($"Looking for match of {currentLine.GetDisplayString()}\n\tin\n{lineSegments.Where(_lineSegment => _lineSegment != null).GetDisplayString()}");
+
+                int nextSegmentIndex =
+                    lineSegments.FindIndex(_lineSegment => _lineSegment != null && IsNextConnectedSegment(currentLine, _lineSegment));
+
+                if (nextSegmentIndex == -1)
                 {
+                    break;
                 }
+
+                LineSegment nextSegment = lineSegments[nextSegmentIndex];
+                lineSegments[nextSegmentIndex] = null;
+                polygon.Add(nextSegment.End);
+
+                currentLine = nextSegment;
+
+                count--;
+
+                Console.WriteLine($"Found match!\nline = {nextSegment.GetDisplayString()}\ncurrentLineEnd = {currentLine.GetDisplayString()}\ncount = {count}\n");
             }
+
+            Console.WriteLine($"Final polygon =>\n{polygon.GetDisplayString()}");
 
             return polygon;
         }
     }
 
-    public static class LineSegmentExtensions
+    public static class Vector2Extensions
     {
+        public static IList<double[]> GetDoubleArrays(this IEnumerable<Vector2> _vectors)
+        {
+            List<double[]> doubleArrays = _vectors.Select(_vector => new double[] {_vector.X, _vector.Y}).ToList();
+            return doubleArrays;
+        }
+        public static IEnumerable<Vector2> FromDoubleArrays(this IEnumerable<double[]> _doubleArrays)
+        {
+            IEnumerable<Vector2> vectors = _doubleArrays.Select(_doubleArray =>
+                new Vector2((float) _doubleArray[0], (float) _doubleArray[1]));
+            return vectors;
+        }
+
+        public static string GetDisplayString(this IEnumerable<Vector2> _vectors)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            foreach (Vector2 vector in _vectors)
+            {
+                string displayString = vector.GetDisplayString();
+                stringBuilder.AppendLine(displayString);
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        public static string GetDisplayString(this Vector2 _vector)
+        {
+            return $"{{{_vector.X}, {_vector.Y}}}";
+        }
+
+        public static bool ApproximatelyEqualTo(this Vector2 _vectorA, Vector2 _vectorB)
+        {
+            const float tolerance = 0.0001f;
+            return (_vectorA - _vectorB).Length() < tolerance;
+        }
+    }
+
+    public static class LineSegmentExtensions
+    {public static bool ApproximatelyEqualTo(this LineSegment _lineSegmentA, LineSegment _lineSegmentB)
+        {
+            bool equalsAligned = _lineSegmentA.Start.ApproximatelyEqualTo(_lineSegmentB.Start) && _lineSegmentA.End.ApproximatelyEqualTo(_lineSegmentB.End);
+            bool equalsAntiAligned = _lineSegmentA.Start.ApproximatelyEqualTo(_lineSegmentB.End) && _lineSegmentA.End.ApproximatelyEqualTo(_lineSegmentB.Start);
+            return equalsAligned || equalsAntiAligned;
+        }
+        public static string GetDisplayString(this IEnumerable<LineSegment> _lineSegments)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            foreach (LineSegment lineSegment in _lineSegments)
+            {
+                string displayString = lineSegment.GetDisplayString();
+                stringBuilder.AppendLine(
+                    displayString);
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        public static string GetDisplayString(this LineSegment _lineSegment)
+        {
+            string displayString = $"{_lineSegment.Start.GetDisplayString()} => {_lineSegment.End.GetDisplayString()}";
+            return displayString;
+        }
+
         public static bool IsConnectedEndToStart(this LineSegment _lineSegment, LineSegment _otherLineSegment)
         {
             bool isConnected = _lineSegment.End == _otherLineSegment.Start;
