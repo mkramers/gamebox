@@ -14,6 +14,19 @@ using SFML.System;
 
 namespace RenderCore.Widget
 {
+    public static class TextExtensions
+    {
+        public static void SetTextCenter(this Text _text, Vector2f _center)
+        {
+            FloatRect globalBounds = _text.GetGlobalBounds();
+
+            Vector2f textPosition = new Vector2f(globalBounds.Left, globalBounds.Top);
+            Vector2f offset = new Vector2f(globalBounds.Width / 2.0f, globalBounds.Height / 2.0f);
+            Vector2f position = _center - textPosition - offset;
+            _text.Position = position;
+        }
+    }
+
     public class LabeledGridWidget : GridWidget
     {
         private readonly MultiDrawable<Text> m_labels;
@@ -32,33 +45,41 @@ namespace RenderCore.Widget
             m_labels.DisposeItemsAndClear();
 
             View view = m_viewProvider.GetView();
-            Vector2f size = view.Size + new Vector2f(2, 2);
+
+            Vector2f snappedOffset = new Vector2f(1, 1);
+            Vector2f size = view.Size + snappedOffset;
+
+            Vector2 snappedCenter =
+                new Vector2((float)Math.Round(view.Center.X), (float)Math.Round(view.Center.Y));
+            View snappedView = new View(snappedCenter.GetVector2F(), size);
 
             const float labelIncrement = 1.0f;
-            Vector2f topLeft = view.Center - size / 2;
+            Vector2f topLeft = snappedView.Center - snappedView.Size / 2 + snappedOffset;
 
-            int numVerticalLabels = (int)Math.Ceiling(size.Y / labelIncrement);
-            for (int i = 0; i < numVerticalLabels; i++)
+            int numVerticalLabels = (int)Math.Ceiling(snappedView.Size.Y / labelIncrement);
+            for (int i = -1; i < numVerticalLabels; i++)
             {
                 float labelValue = topLeft.Y + labelIncrement * i;
-                Vector2f labelPosition = topLeft + new Vector2f(1, labelValue + 1.5f);
+                Vector2f labelPosition = topLeft + new Vector2f(0, labelValue);
 
                 Text text = TextFactory.GenerateText(m_fontSettings);
                 text.DisplayedString = labelValue.ToString(CultureInfo.InvariantCulture);
-                text.Position = labelPosition;
+
+                text.SetTextCenter(labelPosition);
 
                 m_labels.Add(text);
             }
 
-            int numHorizontalLabels = (int)Math.Ceiling(size.X / labelIncrement);
-            for (int i = 0; i < numHorizontalLabels; i++)
+            int numHorizontalLabels = (int)Math.Ceiling(snappedView.Size.X / labelIncrement);
+            for (int i = -1; i < numHorizontalLabels; i++)
             {
                 float labelValue = topLeft.X + labelIncrement * i;
-                Vector2f labelPosition = topLeft + new Vector2f(labelValue + 1.5f, 1);
+                Vector2f labelPosition = topLeft + new Vector2f(labelValue, 0);
 
                 Text text = TextFactory.GenerateText(m_fontSettings);
                 text.DisplayedString = labelValue.ToString(CultureInfo.InvariantCulture);
-                text.Position = labelPosition;
+
+                text.SetTextCenter(labelPosition);
 
                 m_labels.Add(text);
             }
@@ -135,7 +156,7 @@ namespace RenderCore.Widget
         private IEnumerable<VertexArrayShape> GetGridShapes(View _view)
         {
             View view = _view;
-            Vector2f size = view.Size + new Vector2f(2, 2);
+            Vector2f size = view.Size + new Vector2f(1, 1);
 
             Vector2 snappedCenter =
                 new Vector2((float)Math.Round(view.Center.X), (float)Math.Round(view.Center.Y));

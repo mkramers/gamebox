@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-using LibExtensions;
-using RenderCore.Font;
+﻿using RenderCore.Font;
 using SFML.Graphics;
 using SFML.System;
 

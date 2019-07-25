@@ -77,7 +77,9 @@ namespace GameBox
         {
             AddWidget(_viewProvider);
 
-            GridWidget gridWidget = new GridWidget(_viewProvider, 0.1f, new Vector2(1, 1));
+            WidgetFontSettings widgetFontSettings = new WidgetFontSettings();
+            FontSettings gridLabelFontSettings = widgetFontSettings.GetSettings(WidgetFontSettingsType.LABELED_GRID);
+            LabeledGridWidget gridWidget = new LabeledGridWidget(_viewProvider, 0.1f, new Vector2(1, 1), gridLabelFontSettings);
             _scene.AddDrawable(gridWidget);
 
             AddWidget(gridWidget);
