@@ -12,18 +12,16 @@ namespace RenderCore.Widget
 {
     public class LabeledGridWidget : GridWidget
     {
-        private readonly GridWidget m_gridWidget;
         //private List<TickableDrawable<Text>> m_labels;
 
         public LabeledGridWidget(IViewProvider _viewProvider, float _lineThickness, Vector2 _cellSize) : base(_viewProvider, _lineThickness, _cellSize)
         {
-            m_gridWidget = new GridWidget(_viewProvider, _lineThickness, _cellSize);
         }
 
         public override void Tick(TimeSpan _elapsed)
         {
-            m_gridWidget.Tick(_elapsed);
-            
+            base.Tick(_elapsed);
+
             View view = m_viewProvider.GetView();
             Vector2f size = view.Size + new Vector2f(2, 2);
 
@@ -56,7 +54,15 @@ namespace RenderCore.Widget
 
         public override void Tick(TimeSpan _elapsed)
         {
-            View view = m_viewProvider.GetView();
+            IEnumerable<VertexArrayShape> gridDrawables = GetGridShapes(m_viewProvider.GetView());
+
+            DisposeItemsAndClear();
+            AddRange(gridDrawables);
+        }
+
+        protected IEnumerable<VertexArrayShape> GetGridShapes(View _view)
+        {
+            View view = _view;
             Vector2f size = view.Size + new Vector2f(2, 2);
 
             Vector2 snappedCenter =
@@ -65,9 +71,7 @@ namespace RenderCore.Widget
 
             IEnumerable<VertexArrayShape> gridDrawables =
                 GridDrawingUtilities.GetGridDrawableFromView(snappedView, m_lineThickness, m_cellSize);
-
-            DisposeItemsAndClear();
-            AddRange(gridDrawables);
+            return gridDrawables;
         }
     }
 }
