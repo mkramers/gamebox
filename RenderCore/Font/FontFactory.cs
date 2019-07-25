@@ -1,29 +1,32 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using SFML.Graphics;
 
 namespace RenderCore.Font
 {
     public class FontSettings
     {
-        public FontSettings(float _scale, uint _size, SFML.Graphics.Font _font)
+        public FontSettings(SFML.Graphics.Font _font, float _scale, uint _size, Color _fillColor)
         {
             Scale = _scale;
             Size = _size;
             Font = _font;
+            FillColor = _fillColor;
         }
 
         public float Scale { get; }
         public uint Size { get; }
         public SFML.Graphics.Font Font { get; }
+        public Color FillColor { get; }
     }
 
     public static class FontSettingsExtensions
     {
-        public static FontSettings GetFontSettings(FontId _fontId, float _scale, uint _size)
+        public static FontSettings GetFontSettings(FontId _fontId, float _scale, uint _size, Color _fillColor)
         {
             FontFactory fontFactory = new FontFactory();
             SFML.Graphics.Font font = fontFactory.GetFont(FontId.ROBOTO);
-            return new FontSettings(_scale, _size, font);
+            return new FontSettings(font, _scale, _size, _fillColor);
         }
     }
 
@@ -37,7 +40,7 @@ namespace RenderCore.Font
         public WidgetFontSettings() : base(new Dictionary<WidgetFontSettingsType, FontSettings>())
         {
             {
-                FontSettings settings = FontSettingsExtensions.GetFontSettings(FontId.ROBOTO, 0.02f, 72);
+                FontSettings settings = FontSettingsExtensions.GetFontSettings(FontId.ROBOTO, 0.02f, 72, Color.Red);
                 AddSettings(WidgetFontSettingsType.FPS_COUNTER, settings);
             }
         }
