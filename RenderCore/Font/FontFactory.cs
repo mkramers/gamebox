@@ -33,6 +33,7 @@ namespace RenderCore.Font
     public enum WidgetFontSettingsType
     {
         FPS_COUNTER,
+        LABELED_GRID,
     }
 
     public class WidgetFontSettings : FontSettingsFactory<WidgetFontSettingsType>
@@ -42,6 +43,10 @@ namespace RenderCore.Font
             {
                 FontSettings settings = FontSettingsExtensions.GetFontSettings(FontId.ROBOTO, 0.02f, 72, Color.Red);
                 AddSettings(WidgetFontSettingsType.FPS_COUNTER, settings);
+            }
+            {
+                FontSettings settings = FontSettingsExtensions.GetFontSettings(FontId.ROBOTO, 0.5f, 72, Color.Green);
+                AddSettings(WidgetFontSettingsType.LABELED_GRID, settings);
             }
         }
     }

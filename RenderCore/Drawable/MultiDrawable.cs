@@ -13,7 +13,7 @@ namespace RenderCore.Drawable
         {
         }
 
-        protected MultiDrawable()
+        public MultiDrawable()
         {
         }
 
@@ -48,7 +48,7 @@ namespace RenderCore.Drawable
             DisposeItemsAndClear();
         }
 
-        protected void DisposeItemsAndClear()
+        public void DisposeItemsAndClear()
         {
             foreach (T drawable in this)
             {
