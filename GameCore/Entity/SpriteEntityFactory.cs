@@ -43,14 +43,11 @@ namespace GameCore.Entity
             return entity;
         }
 
-        public static IEntity CreateSpriteEdgeEntity(float _mass, Vector2 _position, IPhysics _physics, BodyType _bodyType,
-            Sprite _sprite, IVertexObject _bodyVertexObject)
+        public static IEntity CreateSpriteEdgeEntity(Vector2 _position, IPhysics _physics, Sprite _sprite, IEnumerable<LineSegment> _lineSegments)
         {
-            Sprite sprite = FixSprite(_sprite);
+            Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(_sprite);
 
-            Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(sprite);
-
-            IBody body = _physics.CreateEdges(_bodyVertexObject, _position);
+            IBody body = _physics.CreateEdges(_lineSegments, _position);
 
             Entity entity = new Entity(spriteDrawable, body);
             return entity;

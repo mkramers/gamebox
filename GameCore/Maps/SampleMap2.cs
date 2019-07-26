@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
-using Aether.Physics2D.Dynamics;
 using Common.Geometry;
 using Common.Grid;
 using Common.VertexObject;
@@ -50,14 +49,16 @@ namespace GameCore.Maps
             MarchingSquaresGenerator<ComparableColor> marchingSquares = new MarchingSquaresGenerator<ComparableColor>(collisionGrid, colorThreshold);
 
             IVertexObjectsGenerator generator = new HeadToTailGenerator();
-            IVertexObject[] polygons = marchingSquares.Generate(generator).Select(_polygon => _polygon.Translate(-offset.GetVector2())).ToArray();
 
-            MultiDrawable<VertexArrayShape> lineShapes = CreateShapesFromVertexObjects(polygons, mapPosition);
-            lineShapes.SetPosition(mapPosition);
+            IEnumerable<LineSegment> lines = marchingSquares.GetLineSegments();
+            //IVertexObject[] polygons = marchingSquares.GenerateVertexObjects(generator).Select(_polygon => _polygon.Translate(-offset.GetVector2())).ToArray();
 
-            m_drawables.Add(lineShapes);
+            //MultiDrawable<VertexArrayShape> lineShapes = CreateShapesFromVertexObjects(polygons, mapPosition);
+            //lineShapes.SetPosition(mapPosition);
 
-            IEntity entity = SpriteEntityFactory.CreateSpriteEdgeEntity(0, mapPosition, _physics, BodyType.Static, sprite, polygons.First());
+            //m_drawables.Add(lineShapes);
+
+            IEntity entity = SpriteEntityFactory.CreateSpriteEdgeEntity(mapPosition, _physics, sprite, lines);
             
             m_entities = new List<IEntity>
             {

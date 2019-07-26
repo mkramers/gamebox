@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
+using Common.Geometry;
 using Common.VertexObject;
 using LibExtensions;
 
@@ -36,16 +37,15 @@ namespace PhysicsCore
             Body body = new Body(physicsBody);
             return body;
         }
-        public IBody CreateEdges(IVertexObject _vertexObject, Vector2 _position)
+        public IBody CreateEdges(IEnumerable<LineSegment> _lineSegments, Vector2 _position)
         {
             Aether.Physics2D.Dynamics.Body body = World.CreateBody(_position.GetVector2());
 
-            for (int i = 0; i < _vertexObject.Count; i++)
+            foreach (LineSegment lineSegment in _lineSegments)
             {
-                Vector2 point = _vertexObject[i];
-                Vector2 nextPoint = _vertexObject[(i + 1) % _vertexObject.Count];
+                LineSegment translatedLineSegment = lineSegment.GetTranslated(_position);
 
-                body.CreateEdge(point.GetVector2(), nextPoint.GetVector2());
+                body.CreateEdge(translatedLineSegment.Start.GetVector2(), translatedLineSegment.End.GetVector2());
             }
 
             World.Add(body);
