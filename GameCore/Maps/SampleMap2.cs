@@ -59,7 +59,7 @@ namespace GameCore.Maps
             m_drawables.Add(lineShapes);
 
             IEntity entity =
-                SpriteEntityFactory.CreateSpriteEntity(0, mapPosition, _physics, BodyType.Static, sprite/*, bodyVertexObject.First()*/);
+                SpriteEntityFactory.CreateSpriteEntity(0, mapPosition, _physics, BodyType.Static, sprite, polygons.First());
 
             m_entities = new List<IEntity>
             {

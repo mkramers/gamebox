@@ -34,7 +34,7 @@ namespace GameCore.Entity
 
             Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(_sprite, -spriteSize / 2);
 
-            IBody body = _physics.CreateVertexBody(_bodyVertexObject, _position + spriteSize / 2, _mass, _bodyType);
+            IBody body = _physics.CreateVertexBody(_bodyVertexObject, _position, _mass, _bodyType);
 
             Entity entity = new Entity(spriteDrawable, body);
             return entity;

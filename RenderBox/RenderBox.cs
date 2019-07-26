@@ -45,8 +45,8 @@ namespace RenderBox
 
             AddFpsWidget(renderCoreWindow);
 
-            const string mapName = "square";
-            //const string mapName = "sample_tree_map";
+            //const string mapName = "square";
+            const string mapName = "sample_tree_map";
             string mapFilePath = $@"C:\dev\GameBox\RenderCore\Resources\art\{mapName}.json";
 
             SampleMap2 map = new SampleMap2(mapFilePath, Physics);
