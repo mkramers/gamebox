@@ -29,7 +29,7 @@ namespace GameCore.Maps
 
         public SampleMap2(string _mapFilePath, IPhysics _physics)
         {
-            Vector2 mapPosition = -10 * Vector2.One;
+            Vector2 mapPosition = -0 * Vector2.One;
 
             m_drawables = new List<IDrawable>();
 
@@ -40,7 +40,11 @@ namespace GameCore.Maps
 
             Texture texture = TextureCache.Instance.GetTextureFromFile(map.SceneLayer.FileName);
 
-            Sprite sprite = new Sprite(texture);
+            Vector2f offset = texture.Size.GetVector2F() / 2.0f;
+            Sprite sprite = new Sprite(texture)
+            {
+                Origin = offset,
+            };
 
             Grid<ComparableColor> collisionGrid = map.GetCollisionGrid();
 
@@ -48,7 +52,7 @@ namespace GameCore.Maps
             MarchingSquaresGenerator<ComparableColor> marchingSquares = new MarchingSquaresGenerator<ComparableColor>(collisionGrid, colorThreshold);
 
             IVertexObjectsGenerator generator = new HeadToTailGenerator();
-            IVertexObject[] polygons = marchingSquares.Generate(generator).ToArray();
+            IVertexObject[] polygons = marchingSquares.Generate(generator).Select(_polygon => _polygon.Translate(-offset.GetVector2())).ToArray();
 
             MultiDrawable<VertexArrayShape> lineShapes = CreateShapesFromVertexObjects(polygons, mapPosition);
             lineShapes.SetPosition(mapPosition);
@@ -56,7 +60,6 @@ namespace GameCore.Maps
             m_drawables.Add(lineShapes);
 
             IEntity entity = SpriteEntityFactory.CreateSpriteEntity(0, mapPosition, _physics, BodyType.Static, sprite, polygons.First());
-
             //IEntity entity = SpriteEntityFactory.CreateSpriteEntity(0, mapPosition, _physics, BodyType.Static, sprite);
 
             m_entities = new List<IEntity>
