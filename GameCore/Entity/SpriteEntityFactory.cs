@@ -35,11 +35,10 @@ namespace GameCore.Entity
             //the following sprite origin adjustment is required because for some reason, a rectangle dynamic body with only positive values causes weird behavior in the physics
             Debug.Assert(_sprite.Origin == new Vector2f(), $"Sprite origin should be {Vector2.Zero.GetDisplayString()}");
 
-            Vector2f spriteOrigin = _sprite.Texture.Size.GetVector2F() / 2.0f;
+            Sprite sprite = new Sprite(_sprite);
+            sprite.Origin = sprite.Texture.Size.GetVector2F() / 2.0f;
 
-            _sprite.Origin = spriteOrigin;
-
-            Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(_sprite);
+            Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(sprite);
 
             IBody body = _physics.CreateVertexBody(_bodyVertexObject, _position, _mass, _bodyType);
 
