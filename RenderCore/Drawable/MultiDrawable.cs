@@ -32,7 +32,7 @@ namespace RenderCore.Drawable
 
         public void SetPosition(Vector2 _position)
         {
-            Vector2 offset = m_position - _position;
+            Vector2 offset = _position - m_position;
 
             foreach (T drawable in this)
             {

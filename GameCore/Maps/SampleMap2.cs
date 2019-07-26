@@ -17,6 +17,7 @@ using RenderCore.Drawable;
 using RenderCore.TextureCache;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;
+using SFML.System;
 using Color = SFML.Graphics.Color;
 
 namespace GameCore.Maps
@@ -28,7 +29,7 @@ namespace GameCore.Maps
 
         public SampleMap2(string _mapFilePath, IPhysics _physics)
         {
-            Vector2 mapPosition = -0 * Vector2.One;
+            Vector2 mapPosition = -10 * Vector2.One;
 
             m_drawables = new List<IDrawable>();
 
@@ -45,28 +46,25 @@ namespace GameCore.Maps
 
             ComparableColor colorThreshold = new ComparableColor(0, 0, 0, 0);
             MarchingSquaresGenerator<ComparableColor> marchingSquares = new MarchingSquaresGenerator<ComparableColor>(collisionGrid, colorThreshold);
-            IEnumerable<LineSegment> lineSegments = marchingSquares.GetLineSegments();
-
-            MultiDrawable<VertexArrayShape> lineDrawables = CreateLineSegmentsDrawable(lineSegments, mapPosition);
-
-            m_drawables.Add(lineDrawables);
 
             IVertexObjectsGenerator generator = new HeadToTailGenerator();
-            IEnumerable<IVertexObject> polygons = marchingSquares.Generate(generator);
+            IVertexObject[] polygons = marchingSquares.Generate(generator).ToArray();
 
             MultiDrawable<VertexArrayShape> lineShapes = CreateShapesFromVertexObjects(polygons, mapPosition);
+            lineShapes.SetPosition(mapPosition + sprite.Scale.GetVector2());
 
             m_drawables.Add(lineShapes);
 
-            IEntity entity =
-                SpriteEntityFactory.CreateSpriteEntity(0, mapPosition, _physics, BodyType.Static, sprite, polygons.First());
+            IEntity entity = SpriteEntityFactory.CreateSpriteEntity(0, mapPosition, _physics, BodyType.Static, sprite, polygons.First());
+
+            //IEntity entity = SpriteEntityFactory.CreateSpriteEntity(0, mapPosition, _physics, BodyType.Static, sprite);
 
             m_entities = new List<IEntity>
             {
                 entity
             };
         }
-        
+
         private static MultiDrawable<VertexArrayShape> CreateShapesFromVertexObjects(IEnumerable<IVertexObject> _vertexObjects, Vector2 _position)
         {
             List<VertexArrayShape> lineShapes = new List<VertexArrayShape>();

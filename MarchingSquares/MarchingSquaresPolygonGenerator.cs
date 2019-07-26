@@ -99,7 +99,7 @@ namespace MarchingSquares
 
             List<LineSegment> lineSegments = _lineSegments.ToList();
 
-            Console.WriteLine($"GetVertexObject called with {lineSegments.Count} LineSegments");
+            //Console.WriteLine($"GetVertexObject called with {lineSegments.Count} LineSegments");
 
             LineSegment currentLine = lineSegments.First();
             lineSegments.Remove(currentLine);
@@ -110,7 +110,7 @@ namespace MarchingSquares
             int max = lineSegments.Count;
             while (lineSegments.Any() && count < max)
             {
-                Console.WriteLine($"Looking for match of {currentLine.GetDisplayString()}\n\tin\n{lineSegments.Where(_lineSegment => _lineSegment != null).GetDisplayString()}");
+                //Console.WriteLine($"Looking for match of {currentLine.GetDisplayString()}\n\tin\n{lineSegments.Where(_lineSegment => _lineSegment != null).GetDisplayString()}");
 
                 List<LineSegment> remainingLineSegments = new List<LineSegment>(lineSegments);
 
@@ -130,7 +130,7 @@ namespace MarchingSquares
                         nextLine = lineSegment.GetFlipped();
                     }
 
-                    Console.WriteLine($"Found match!\nline = {nextLine.GetDisplayString()}\ncurrentLineEnd = {currentLine.GetDisplayString()}\ncount = {count}\n");
+                    //Console.WriteLine($"Found match!\nline = {nextLine.GetDisplayString()}\ncurrentLineEnd = {currentLine.GetDisplayString()}\ncount = {count}\n");
 
                     currentLine = nextLine;
 

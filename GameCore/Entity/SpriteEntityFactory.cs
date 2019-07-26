@@ -28,11 +28,7 @@ namespace GameCore.Entity
         public static IEntity CreateSpriteEntity(float _mass, Vector2 _position, IPhysics _physics, BodyType _bodyType,
             Sprite _sprite, IVertexObject _bodyVertexObject)
         {
-            FloatRect spriteLocalBounds = _sprite.GetGlobalBounds();
-
-            Vector2 spriteSize = spriteLocalBounds.GetSize();
-
-            Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(_sprite, -spriteSize / 2);
+            Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(_sprite, _sprite.Scale.GetVector2());
 
             IBody body = _physics.CreateVertexBody(_bodyVertexObject, _position, _mass, _bodyType);
 
