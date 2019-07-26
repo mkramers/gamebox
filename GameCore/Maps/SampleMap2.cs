@@ -51,7 +51,7 @@ namespace GameCore.Maps
             IVertexObject[] polygons = marchingSquares.Generate(generator).ToArray();
 
             MultiDrawable<VertexArrayShape> lineShapes = CreateShapesFromVertexObjects(polygons, mapPosition);
-            lineShapes.SetPosition(mapPosition + sprite.Scale.GetVector2());
+            lineShapes.SetPosition(mapPosition);
 
             m_drawables.Add(lineShapes);
 

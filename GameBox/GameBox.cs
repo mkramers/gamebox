@@ -108,9 +108,11 @@ namespace GameBox
 
             Texture texture = ResourceFactory.GetTexture(ResourceId.MK);
 
+            Vector2f spriteScale = new Vector2f(manScale.X / texture.Size.X, manScale.Y / texture.Size.Y);
             Sprite sprite = new Sprite(texture)
             {
-                Scale = new Vector2f(manScale.X / texture.Size.X, manScale.Y / texture.Size.Y)
+                Scale = spriteScale,
+                Origin = texture.Size.GetVector2F() / 2.0f,
             };
 
             IEntity manEntity =

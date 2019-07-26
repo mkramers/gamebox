@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using Aether.Physics2D.Dynamics;
+using Common.Geometry;
 using Common.VertexObject;
 using LibExtensions;
 using PhysicsCore;
@@ -28,7 +29,7 @@ namespace GameCore.Entity
         public static IEntity CreateSpriteEntity(float _mass, Vector2 _position, IPhysics _physics, BodyType _bodyType,
             Sprite _sprite, IVertexObject _bodyVertexObject)
         {
-            Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(_sprite, _sprite.Scale.GetVector2());
+            Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(_sprite);
 
             IBody body = _physics.CreateVertexBody(_bodyVertexObject, _position, _mass, _bodyType);
 
