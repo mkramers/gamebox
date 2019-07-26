@@ -43,9 +43,7 @@ namespace PhysicsCore
 
             foreach (LineSegment lineSegment in _lineSegments)
             {
-                LineSegment translatedLineSegment = lineSegment.GetTranslated(_position);
-
-                body.CreateEdge(translatedLineSegment.Start.GetVector2(), translatedLineSegment.End.GetVector2());
+                body.CreateEdge(lineSegment.Start.GetVector2(), lineSegment.End.GetVector2());
             }
 
             World.Add(body);

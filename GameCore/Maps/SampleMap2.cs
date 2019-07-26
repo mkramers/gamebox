@@ -48,17 +48,17 @@ namespace GameCore.Maps
             MarchingSquaresGenerator<ComparableColor> marchingSquares = new MarchingSquaresGenerator<ComparableColor>(collisionGrid, colorThreshold);
             
             IEnumerable<LineSegment> lines = marchingSquares.GetLineSegments();
-
-            MultiDrawable<VertexArrayShape> lineShapes = CreateLineSegmentsDrawable(lines, mapPosition);
-
-            m_drawables.Add(lineShapes);
-
+            
             IEntity entity = SpriteEntityFactory.CreateSpriteEdgeEntity(mapPosition, _physics, sprite, lines);
             
             m_entities = new List<IEntity>
             {
                 entity
             };
+
+            //debug
+            MultiDrawable<VertexArrayShape> lineShapes = CreateLineSegmentsDrawable(lines, mapPosition);
+            m_drawables.Add(lineShapes);
         }
 
         private static MultiDrawable<VertexArrayShape> CreateShapesFromVertexObjects(IEnumerable<IVertexObject> _vertexObjects, Vector2 _position)
@@ -80,11 +80,11 @@ namespace GameCore.Maps
             {
                 VertexArrayShape vertexArrayShape =
                     VertexArrayShape.Factory.CreateLinesShape(lineSegment, Color.Yellow);
-                vertexArrayShape.Position = _position.GetVector2F();
                 shapes.Add(vertexArrayShape);
             }
 
             MultiDrawable<VertexArrayShape> drawable = new MultiDrawable<VertexArrayShape>(shapes);
+            drawable.SetPosition(_position);
             return drawable;
         }
 
