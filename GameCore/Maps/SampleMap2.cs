@@ -41,10 +41,7 @@ namespace GameCore.Maps
             Texture texture = TextureCache.Instance.GetTextureFromFile(map.SceneLayer.FileName);
 
             Vector2f offset = texture.Size.GetVector2F() / 2.0f;
-            Sprite sprite = new Sprite(texture)
-            {
-                Origin = offset,
-            };
+            Sprite sprite = new Sprite(texture);
 
             Grid<ComparableColor> collisionGrid = map.GetCollisionGrid();
 

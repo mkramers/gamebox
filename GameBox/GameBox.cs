@@ -112,7 +112,6 @@ namespace GameBox
             Sprite sprite = new Sprite(texture)
             {
                 Scale = spriteScale,
-                Origin = texture.Size.GetVector2F() / 2.0f,
             };
 
             IEntity manEntity =
