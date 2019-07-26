@@ -40,23 +40,18 @@ namespace GameCore.Maps
 
             Texture texture = TextureCache.Instance.GetTextureFromFile(map.SceneLayer.FileName);
 
-            Vector2f offset = texture.Size.GetVector2F() / 2.0f;
             Sprite sprite = new Sprite(texture);
 
             Grid<ComparableColor> collisionGrid = map.GetCollisionGrid();
 
             ComparableColor colorThreshold = new ComparableColor(0, 0, 0, 0);
             MarchingSquaresGenerator<ComparableColor> marchingSquares = new MarchingSquaresGenerator<ComparableColor>(collisionGrid, colorThreshold);
-
-            IVertexObjectsGenerator generator = new HeadToTailGenerator();
-
+            
             IEnumerable<LineSegment> lines = marchingSquares.GetLineSegments();
-            //IVertexObject[] polygons = marchingSquares.GenerateVertexObjects(generator).Select(_polygon => _polygon.Translate(-offset.GetVector2())).ToArray();
 
-            //MultiDrawable<VertexArrayShape> lineShapes = CreateShapesFromVertexObjects(polygons, mapPosition);
-            //lineShapes.SetPosition(mapPosition);
+            MultiDrawable<VertexArrayShape> lineShapes = CreateLineSegmentsDrawable(lines, mapPosition);
 
-            //m_drawables.Add(lineShapes);
+            m_drawables.Add(lineShapes);
 
             IEntity entity = SpriteEntityFactory.CreateSpriteEdgeEntity(mapPosition, _physics, sprite, lines);
             
@@ -68,16 +63,11 @@ namespace GameCore.Maps
 
         private static MultiDrawable<VertexArrayShape> CreateShapesFromVertexObjects(IEnumerable<IVertexObject> _vertexObjects, Vector2 _position)
         {
-            List<VertexArrayShape> lineShapes = new List<VertexArrayShape>();
-            foreach (IVertexObject bodyVertexObject in _vertexObjects)
-            {
-                VertexArrayShape vertexArrayShape =
-                    VertexArrayShape.Factory.CreateLineStripShape(bodyVertexObject, Color.Cyan);
-
-                lineShapes.Add(vertexArrayShape);
-            }
+            IEnumerable<VertexArrayShape> lineShapes = _vertexObjects.Select(_vertexObject => VertexArrayShape.Factory.CreateLineStripShape(_vertexObject, Color.Cyan));
 
             MultiDrawable<VertexArrayShape> drawable = new MultiDrawable<VertexArrayShape>(lineShapes);
+            drawable.SetPosition(_position);
+
             return drawable;
         }
 
@@ -86,9 +76,8 @@ namespace GameCore.Maps
             List<VertexArrayShape> shapes = new List<VertexArrayShape>();
 
             LineSegment[] lineSegments = _lineSegments as LineSegment[] ?? _lineSegments.ToArray();
-            for (int i = 0; i < lineSegments.Length; i++)
+            foreach (LineSegment lineSegment in lineSegments)
             {
-                LineSegment lineSegment = lineSegments[i];
                 VertexArrayShape vertexArrayShape =
                     VertexArrayShape.Factory.CreateLinesShape(lineSegment, Color.Yellow);
                 vertexArrayShape.Position = _position.GetVector2F();
