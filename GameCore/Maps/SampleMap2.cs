@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
@@ -56,9 +57,8 @@ namespace GameCore.Maps
 
             m_drawables.Add(lineShapes);
 
-            IEntity entity = SpriteEntityFactory.CreateSpriteEntity(0, mapPosition, _physics, BodyType.Static, sprite, polygons.First());
-            //IEntity entity = SpriteEntityFactory.CreateSpriteEntity(0, mapPosition, _physics, BodyType.Static, sprite);
-
+            IEntity entity = SpriteEntityFactory.CreateSpriteEdgeEntity(0, mapPosition, _physics, BodyType.Static, sprite, polygons.First());
+            
             m_entities = new List<IEntity>
             {
                 entity

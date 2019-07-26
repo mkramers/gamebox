@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using Common.VertexObject;
@@ -34,6 +35,22 @@ namespace PhysicsCore
 
             Body body = new Body(physicsBody);
             return body;
+        }
+        public IBody CreateEdges(IVertexObject _vertexObject, Vector2 _position)
+        {
+            Aether.Physics2D.Dynamics.Body body = World.CreateBody(_position.GetVector2());
+
+            for (int i = 0; i < _vertexObject.Count; i++)
+            {
+                Vector2 point = _vertexObject[i];
+                Vector2 nextPoint = _vertexObject[(i + 1) % _vertexObject.Count];
+
+                body.CreateEdge(point.GetVector2(), nextPoint.GetVector2());
+            }
+
+            World.Add(body);
+
+            return new Body(body);
         }
 
         public void SetGravity(Vector2 _gravity)

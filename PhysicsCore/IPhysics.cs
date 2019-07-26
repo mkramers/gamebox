@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Collections.Generic;
+using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using Common.Tickable;
 using Common.VertexObject;
@@ -9,5 +10,6 @@ namespace PhysicsCore
     {
         void SetGravity(Vector2 _gravity);
         IBody CreateVertexBody(IVertexObject _vertexObject, Vector2 _position, float _mass, BodyType _bodyType);
+        IBody CreateEdges(IVertexObject _vertexObject, Vector2 _position);
     }
 }
