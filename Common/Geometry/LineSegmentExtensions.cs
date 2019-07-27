@@ -34,7 +34,7 @@ namespace Common.Geometry
             return stringBuilder.ToString();
         }
 
-        public static string GetDisplayString(this LineSegment _lineSegment)
+        private static string GetDisplayString(this LineSegment _lineSegment)
         {
             string displayString = $"{_lineSegment.Start.GetDisplayString()} => {_lineSegment.End.GetDisplayString()}";
             return displayString;

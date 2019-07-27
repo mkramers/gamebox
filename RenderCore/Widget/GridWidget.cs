@@ -17,7 +17,7 @@ namespace RenderCore.Widget
         private readonly MultiDrawable<VertexArrayShape> m_drawable;
         private readonly float m_lineThickness;
 
-        public GridWidget(IViewProvider _viewProvider, float _lineThickness, Vector2 _cellSize) : base(_viewProvider)
+        protected GridWidget(IViewProvider _viewProvider, float _lineThickness, Vector2 _cellSize) : base(_viewProvider)
         {
             m_lineThickness = _lineThickness;
             m_cellSize = _cellSize;

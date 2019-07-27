@@ -29,7 +29,7 @@ namespace GameCore.Entity
             return entity;
         }
 
-        public static IEntity CreateSpriteEntity(float _mass, Vector2 _position, IPhysics _physics, BodyType _bodyType,
+        private static IEntity CreateSpriteEntity(float _mass, Vector2 _position, IPhysics _physics, BodyType _bodyType,
             Sprite _sprite, IVertexObject _bodyVertexObject)
         {
             Sprite sprite = FixSprite(_sprite);

@@ -17,7 +17,7 @@ namespace MarchingSquares
             return vertexObjects;
         }
 
-        public Polygon GetVertexObject(IEnumerable<LineSegment> _lineSegments)
+        public static Polygon GetVertexObject(IEnumerable<LineSegment> _lineSegments)
         {
             Polygon polygon = new Polygon();
 

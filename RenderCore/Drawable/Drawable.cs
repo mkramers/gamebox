@@ -6,16 +6,10 @@ namespace RenderCore.Drawable
 {
     public class Drawable<T> : IPositionDrawable where T : Transformable, SFML.Graphics.Drawable
     {
-        private readonly Vector2 m_origin;
         protected readonly T m_renderObject;
 
-        public Drawable(T _renderObject) : this(_renderObject, Vector2.Zero)
+        public Drawable(T _renderObject)
         {
-        }
-
-        public Drawable(T _renderObject, Vector2 _origin)
-        {
-            m_origin = _origin;
             m_renderObject = _renderObject;
         }
 
@@ -31,14 +25,13 @@ namespace RenderCore.Drawable
 
         public Vector2 GetPosition()
         {
-            Vector2 position = m_renderObject.Position.GetVector2() - m_origin;
+            Vector2 position = m_renderObject.Position.GetVector2();
             return position;
         }
 
         public void SetPosition(Vector2 _position)
         {
-            Vector2 position = _position + m_origin;
-            m_renderObject.Position = position.GetVector2F();
+            m_renderObject.Position = _position.GetVector2F();
         }
     }
 }

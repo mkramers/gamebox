@@ -42,7 +42,7 @@ namespace MarchingSquares.Tests
         {
             HeadToTailGenerator generator = new HeadToTailGenerator();
 
-            Polygon polygons = generator.GetVertexObject(_lineSegments);
+            Polygon polygons = HeadToTailGenerator.GetVertexObject(_lineSegments);
 
             CollectionAssert.AreEqual(polygons, _expectedPolygon);
         }

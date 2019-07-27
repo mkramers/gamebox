@@ -47,11 +47,13 @@ namespace MarchingSquares.Tests
                     Vector2 actualVertex = actualVertexObject[j];
                     Vector2 expectedVertex = expectedVertexObject[j];
 
-                    if (!actualVertex.Equals(expectedVertex))
+                    if (actualVertex.Equals(expectedVertex))
                     {
-                        polygonsMatch = false;
-                        break;
+                        continue;
                     }
+
+                    polygonsMatch = false;
+                    break;
                 }
 
                 if (!polygonsMatch)
