@@ -26,11 +26,11 @@ namespace GameBox
             _gravity, _aspectRatio)
         {
             IPhysics physics = Physics;
-            physics.SetGravity(new Vector2(0, 3));
+            physics.SetGravity(new Vector2(0, 5.5f));
 
             IEntity manEntity = CreateMan(physics);
 
-            View view = new View(new Vector2f(0, -6.5f), new Vector2f(50, 50));
+            View view = new View(new Vector2f(0, -6.5f), new Vector2f(35, 35));
             EntityFollowerViewProvider
                 viewProvider = new EntityFollowerViewProvider(manEntity, view);
 
@@ -80,9 +80,9 @@ namespace GameBox
             WidgetFontSettings widgetFontSettings = new WidgetFontSettings();
             FontSettings gridLabelFontSettings = widgetFontSettings.GetSettings(WidgetFontSettingsType.LABELED_GRID);
             LabeledGridWidget gridWidget = new LabeledGridWidget(_viewProvider, 0.1f, new Vector2(1, 1), gridLabelFontSettings);
-            _scene.AddDrawable(gridWidget);
-
-            AddWidget(gridWidget);
+            //_scene.AddDrawable(gridWidget);
+            
+            //AddWidget(gridWidget);
 
             MultiDrawable<VertexArrayShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.05f);
             _scene.AddDrawable(crossHairs);
@@ -92,7 +92,7 @@ namespace GameBox
 
         private void AddManKeyHandler(IEntity _manEntity)
         {
-            const float force = 66.6f;
+            const float force = 26.6f;
 
             KeyHandler moveExecutor = KeyHandlerFactory.CreateEntityKeyHandler(_manEntity, force);
 
