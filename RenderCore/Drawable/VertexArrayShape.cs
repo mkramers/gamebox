@@ -26,6 +26,7 @@ namespace RenderCore.Drawable
                 LineVertexArrayCreator creator = new LineVertexArrayCreator(_vertices, PrimitiveType.Lines, _color);
                 return new VertexArrayShape(creator);
             }
+
             public static VertexArrayShape CreateLineStripShape(IEnumerable<Vector2> _vertices, Color _color)
             {
                 LineVertexArrayCreator creator = new LineVertexArrayCreator(_vertices, PrimitiveType.LineStrip, _color);

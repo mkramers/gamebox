@@ -7,18 +7,18 @@ using Common.VertexObject;
 
 namespace Common.Geometry
 {
-
     public static class Vector2Extensions
     {
         public static IList<double[]> GetDoubleArrays(this IEnumerable<Vector2> _vectors)
         {
-            List<double[]> doubleArrays = _vectors.Select(_vector => new double[] { _vector.X, _vector.Y }).ToList();
+            List<double[]> doubleArrays = _vectors.Select(_vector => new double[] {_vector.X, _vector.Y}).ToList();
             return doubleArrays;
         }
+
         public static IEnumerable<Vector2> FromDoubleArrays(this IEnumerable<double[]> _doubleArrays)
         {
             IEnumerable<Vector2> vectors = _doubleArrays.Select(_doubleArray =>
-                new Vector2((float)_doubleArray[0], (float)_doubleArray[1]));
+                new Vector2((float) _doubleArray[0], (float) _doubleArray[1]));
             return vectors;
         }
 
@@ -56,8 +56,10 @@ namespace Common.Geometry
 
         public static bool ApproximatelyEqualTo(this LineSegment _lineSegmentA, LineSegment _lineSegmentB)
         {
-            bool equalsAligned = _lineSegmentA.Start.ApproximatelyEqualTo(_lineSegmentB.Start) && _lineSegmentA.End.ApproximatelyEqualTo(_lineSegmentB.End);
-            bool equalsAntiAligned = _lineSegmentA.Start.ApproximatelyEqualTo(_lineSegmentB.End) && _lineSegmentA.End.ApproximatelyEqualTo(_lineSegmentB.Start);
+            bool equalsAligned = _lineSegmentA.Start.ApproximatelyEqualTo(_lineSegmentB.Start) &&
+                                 _lineSegmentA.End.ApproximatelyEqualTo(_lineSegmentB.End);
+            bool equalsAntiAligned = _lineSegmentA.Start.ApproximatelyEqualTo(_lineSegmentB.End) &&
+                                     _lineSegmentA.End.ApproximatelyEqualTo(_lineSegmentB.Start);
             return equalsAligned || equalsAntiAligned;
         }
 
@@ -86,9 +88,10 @@ namespace Common.Geometry
             return new LineSegment(_lineSegment.End, _lineSegment.Start);
         }
     }
+
     public class LineSegment : ReadOnlyCollection<Vector2>, IVertexObject
     {
-        public LineSegment(Vector2 _start, Vector2 _end) : base(new List<Vector2>(new[] { _start, _end }))
+        public LineSegment(Vector2 _start, Vector2 _end) : base(new List<Vector2>(new[] {_start, _end}))
         {
         }
 

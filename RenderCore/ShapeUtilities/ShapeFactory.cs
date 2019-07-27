@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using Common.Extensions;
 using Common.Geometry;
 using Common.VertexObject;
 using LibExtensions;
 using RenderCore.Drawable;
 using SFML.Graphics;
-using SFML.System;
 
 namespace RenderCore.ShapeUtilities
 {
     public static class ShapeFactory
     {
-        public static IEnumerable<VertexArrayShape> GetGridShapes(int _rows, int _columns, Vector2 _size, float _lineThickness,
+        public static IEnumerable<VertexArrayShape> GetGridShapes(int _rows, int _columns, Vector2 _size,
+            float _lineThickness,
             Vector2 _position)
         {
             Vector2 cellSize = new Vector2(_size.X / _columns, _size.Y / _rows);
@@ -37,7 +35,8 @@ namespace RenderCore.ShapeUtilities
                 segments.Add(new LineSegment(start, end));
             }
 
-            IEnumerable<VertexArrayShape> shapes = segments.Select(_segment => VertexArrayShape.Factory.CreateLinesShape(_segment, Color.White));
+            IEnumerable<VertexArrayShape> shapes = segments.Select(_segment =>
+                VertexArrayShape.Factory.CreateLinesShape(_segment, Color.White));
             return shapes;
         }
 

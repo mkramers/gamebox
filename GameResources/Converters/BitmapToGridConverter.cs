@@ -1,5 +1,4 @@
 ﻿extern alias CoreCompatSystemDrawing;
-using System;
 using System.Collections.Generic;
 using Common.Grid;
 using CoreCompatSystemDrawing::System.Drawing;

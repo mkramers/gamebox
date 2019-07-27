@@ -29,10 +29,11 @@ namespace RenderCore.Widget
 
     public class LabeledGridWidget : GridWidget
     {
-        private readonly MultiDrawable<Text> m_labels;
         private readonly FontSettings m_fontSettings;
+        private readonly MultiDrawable<Text> m_labels;
 
-        public LabeledGridWidget(IViewProvider _viewProvider, float _lineThickness, Vector2 _cellSize, FontSettings _fontSettings) : base(_viewProvider, _lineThickness, _cellSize)
+        public LabeledGridWidget(IViewProvider _viewProvider, float _lineThickness, Vector2 _cellSize,
+            FontSettings _fontSettings) : base(_viewProvider, _lineThickness, _cellSize)
         {
             m_fontSettings = _fontSettings;
             m_labels = new MultiDrawable<Text>();
@@ -50,17 +51,17 @@ namespace RenderCore.Widget
             Vector2f size = view.Size + snappedOffset;
 
             Vector2 snappedCenter =
-                new Vector2((float)Math.Round(view.Center.X), (float)Math.Round(view.Center.Y));
+                new Vector2((float) Math.Round(view.Center.X), (float) Math.Round(view.Center.Y));
             View snappedView = new View(snappedCenter.GetVector2F(), size);
 
             const float labelIncrement = 1.0f;
             Vector2f topLeft = snappedView.Center - snappedView.Size / 2 + snappedOffset;
 
-            int numVerticalLabels = (int)Math.Ceiling(snappedView.Size.Y / labelIncrement);
+            int numVerticalLabels = (int) Math.Ceiling(snappedView.Size.Y / labelIncrement);
             for (int i = -1; i < numVerticalLabels; i++)
             {
-                float labelValue = (float)Math.Floor(topLeft.Y + labelIncrement * i);
-                Vector2f labelPosition = new Vector2f((float)Math.Ceiling(topLeft.X), labelValue);
+                float labelValue = (float) Math.Floor(topLeft.Y + labelIncrement * i);
+                Vector2f labelPosition = new Vector2f((float) Math.Ceiling(topLeft.X), labelValue);
 
                 Text text = TextFactory.GenerateText(m_fontSettings);
                 text.DisplayedString = labelValue.ToString(CultureInfo.InvariantCulture);
@@ -70,11 +71,11 @@ namespace RenderCore.Widget
                 m_labels.Add(text);
             }
 
-            int numHorizontalLabels = (int)Math.Ceiling(snappedView.Size.X / labelIncrement);
+            int numHorizontalLabels = (int) Math.Ceiling(snappedView.Size.X / labelIncrement);
             for (int i = -1; i < numHorizontalLabels; i++)
             {
-                float labelValue = (float)Math.Floor(topLeft.X + labelIncrement * i);
-                Vector2f labelPosition = new Vector2f(labelValue, (float)Math.Ceiling(topLeft.Y));
+                float labelValue = (float) Math.Floor(topLeft.X + labelIncrement * i);
+                Vector2f labelPosition = new Vector2f(labelValue, (float) Math.Ceiling(topLeft.Y));
 
                 Text text = TextFactory.GenerateText(m_fontSettings);
                 text.DisplayedString = labelValue.ToString(CultureInfo.InvariantCulture);
@@ -84,6 +85,7 @@ namespace RenderCore.Widget
                 m_labels.Add(text);
             }
         }
+
         public override void Draw(RenderTarget _target, RenderStates _states)
         {
             base.Draw(_target, _states);
@@ -108,16 +110,17 @@ namespace RenderCore.Widget
             m_viewProvider = _viewProvider;
         }
 
-        public abstract void Tick(TimeSpan _elapsed);
         public abstract void Draw(RenderTarget _target, RenderStates _states);
         public abstract void Dispose();
+
+        public abstract void Tick(TimeSpan _elapsed);
     }
 
     public class GridWidget : ViewWidgetBase
     {
         private readonly Vector2 m_cellSize;
-        private readonly float m_lineThickness;
         private readonly MultiDrawable<VertexArrayShape> m_drawable;
+        private readonly float m_lineThickness;
 
         public GridWidget(IViewProvider _viewProvider, float _lineThickness, Vector2 _cellSize) : base(_viewProvider)
         {
@@ -137,7 +140,8 @@ namespace RenderCore.Widget
         {
             IEnumerable<VertexArrayShape> gridDrawables = GetGridShapes(m_viewProvider.GetView());
 
-            IEnumerable<VertexArrayShape> vertexArrayShapes = gridDrawables as VertexArrayShape[] ?? gridDrawables.ToArray();
+            IEnumerable<VertexArrayShape> vertexArrayShapes =
+                gridDrawables as VertexArrayShape[] ?? gridDrawables.ToArray();
 
             m_drawable.DisposeItemsAndClear();
             m_drawable.AddRange(vertexArrayShapes);
@@ -159,7 +163,7 @@ namespace RenderCore.Widget
             Vector2f size = view.Size + new Vector2f(1, 1);
 
             Vector2 snappedCenter =
-                new Vector2((float)Math.Round(view.Center.X), (float)Math.Round(view.Center.Y));
+                new Vector2((float) Math.Round(view.Center.X), (float) Math.Round(view.Center.Y));
             View snappedView = new View(snappedCenter.GetVector2F(), size);
 
             IEnumerable<VertexArrayShape> gridDrawables =

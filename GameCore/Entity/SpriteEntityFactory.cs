@@ -5,7 +5,6 @@ using Aether.Physics2D.Dynamics;
 using Common.Geometry;
 using Common.VertexObject;
 using LibExtensions;
-using MarchingSquares;
 using PhysicsCore;
 using RenderCore.Drawable;
 using RenderCore.ShapeUtilities;
@@ -43,7 +42,8 @@ namespace GameCore.Entity
             return entity;
         }
 
-        public static IEntity CreateSpriteEdgeEntity(Vector2 _position, IPhysics _physics, Sprite _sprite, IEnumerable<LineSegment> _lineSegments)
+        public static IEntity CreateSpriteEdgeEntity(Vector2 _position, IPhysics _physics, Sprite _sprite,
+            IEnumerable<LineSegment> _lineSegments)
         {
             Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(_sprite);
 
@@ -56,7 +56,8 @@ namespace GameCore.Entity
         private static Sprite FixSprite(Sprite _sprite)
         {
             //the following sprite origin adjustment is required because for some reason, a rectangle dynamic body with only positive values causes weird behavior in the physics
-            Debug.Assert(_sprite.Origin == new Vector2f(), $"Sprite origin should be {Vector2.Zero.GetDisplayString()}");
+            Debug.Assert(_sprite.Origin == new Vector2f(),
+                $"Sprite origin should be {Vector2.Zero.GetDisplayString()}");
 
             Sprite sprite = new Sprite(_sprite);
             sprite.Origin = sprite.Texture.Size.GetVector2F() / 2.0f;

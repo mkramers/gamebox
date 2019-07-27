@@ -37,6 +37,7 @@ namespace PhysicsCore
             Body body = new Body(physicsBody);
             return body;
         }
+
         public IBody CreateEdges(IEnumerable<LineSegment> _lineSegments, Vector2 _position)
         {
             Aether.Physics2D.Dynamics.Body body = World.CreateBody(_position.GetVector2());

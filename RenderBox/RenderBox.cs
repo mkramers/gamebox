@@ -35,7 +35,8 @@ namespace RenderBox
 
             WidgetFontSettings widgetFontSettings = new WidgetFontSettings();
             FontSettings gridLabelFontSettings = widgetFontSettings.GetSettings(WidgetFontSettingsType.LABELED_GRID);
-            LabeledGridWidget gridWidget = new LabeledGridWidget(viewProvider, 0.05f, 0.5f * Vector2.One, gridLabelFontSettings);
+            LabeledGridWidget gridWidget =
+                new LabeledGridWidget(viewProvider, 0.05f, 0.5f * Vector2.One, gridLabelFontSettings);
             scene.AddDrawable(gridWidget);
 
             MultiDrawable<VertexArrayShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.1f);

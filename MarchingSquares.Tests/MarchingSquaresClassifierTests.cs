@@ -32,9 +32,10 @@ namespace MarchingSquares.Tests
                         false, false, false, false,
                         false, true, true, false,
                         false, true, true, false,
-                        false, false, false, false,
+                        false, false, false, false
                     };
-                    byte[] classifiedValues = { 0, 0, 0, 0, 0, 0, 2, 3, 1, 0, 0, 6, 15, 9, 0, 0, 4, 12, 8, 0, 0, 0, 0, 0, 0 };
+                    byte[] classifiedValues =
+                        {0, 0, 0, 0, 0, 0, 2, 3, 1, 0, 0, 6, 15, 9, 0, 0, 4, 12, 8, 0, 0, 0, 0, 0, 0};
                     yield return GetTestCaseData(gridValues, classifiedValues).Returns(true);
                 }
                 {
@@ -43,9 +44,10 @@ namespace MarchingSquares.Tests
                         false, false, false, false,
                         false, true, true, false,
                         false, true, false, true,
-                        false, false, false, false,
+                        false, false, false, false
                     };
-                    byte[] classifiedValues = { 0, 0, 0, 0, 0, 0, 2, 3, 1, 0, 0, 6, 13, 10, 1, 0, 4, 8, 4, 8, 0, 0, 0, 0, 0 };
+                    byte[] classifiedValues =
+                        {0, 0, 0, 0, 0, 0, 2, 3, 1, 0, 0, 6, 13, 10, 1, 0, 4, 8, 4, 8, 0, 0, 0, 0, 0};
                     yield return GetTestCaseData(gridValues, classifiedValues).Returns(true);
                 }
                 {
@@ -54,9 +56,10 @@ namespace MarchingSquares.Tests
                         true, true, true, true,
                         true, false, false, true,
                         true, false, false, true,
-                        true, true, true, true,
+                        true, true, true, true
                     };
-                    byte[] classifiedValues = { 2, 3, 3, 3, 1, 6, 13, 12, 14, 9, 6, 9, 0, 6, 9, 6, 11, 3, 7, 9, 4, 12, 12, 12, 8 };
+                    byte[] classifiedValues =
+                        {2, 3, 3, 3, 1, 6, 13, 12, 14, 9, 6, 9, 0, 6, 9, 6, 11, 3, 7, 9, 4, 12, 12, 12, 8};
                     yield return GetTestCaseData(gridValues, classifiedValues).Returns(true);
                 }
                 {
@@ -65,15 +68,17 @@ namespace MarchingSquares.Tests
                         false, false, false, false,
                         false, true, true, false,
                         false, false, false, false,
-                        false, false, false, false,
+                        false, false, false, false
                     };
-                    byte[] classifiedValues = { 0, 0, 0, 0, 0, 0, 2, 3, 1, 0, 0, 4, 12, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+                    byte[] classifiedValues =
+                        {0, 0, 0, 0, 0, 0, 2, 3, 1, 0, 0, 4, 12, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
                     yield return GetTestCaseData(gridValues, classifiedValues).Returns(true);
                 }
             }
         }
 
-        [Test, TestCaseSource(nameof(TestCases))]
+        [Test]
+        [TestCaseSource(nameof(TestCases))]
         public bool ClassifiesCorrectly(Grid<bool> _binaryMask, Grid<byte> _expectedClassifiedGrid)
         {
             Grid<byte> classifiedGrid = MarchingSquaresClassifier.ClassifyCells(_binaryMask);
@@ -95,10 +100,10 @@ namespace MarchingSquares.Tests
         {
             List<LineSegment> linesSegments = new List<LineSegment>
             {
-                new LineSegment(new Vector2(0,0), new Vector2(1,0)),
-                new LineSegment(new Vector2(1,0), new Vector2(1,1)),
-                new LineSegment(new Vector2(1,1), new Vector2(0,1)),
-                new LineSegment(new Vector2(0, 1), new Vector2(0,0))
+                new LineSegment(new Vector2(0, 0), new Vector2(1, 0)),
+                new LineSegment(new Vector2(1, 0), new Vector2(1, 1)),
+                new LineSegment(new Vector2(1, 1), new Vector2(0, 1)),
+                new LineSegment(new Vector2(0, 1), new Vector2(0, 0))
             };
 
             IList<Polygon> expectedPolygons = new List<Polygon>
@@ -139,7 +144,7 @@ namespace MarchingSquares.Tests
                     break;
                 }
             }
-            
+
             Assert.That(polygonsMatch, Is.True);
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
@@ -42,7 +43,7 @@ namespace GameCore.Maps
 
         public IEnumerable<IDrawable> GetDrawables()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         private static IEntityCreator BuildFloorCreator(float _mass, BodyType _bodyType, Color _fillColor,

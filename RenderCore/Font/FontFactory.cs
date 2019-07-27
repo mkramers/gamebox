@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using SFML.Graphics;
 
@@ -33,7 +34,7 @@ namespace RenderCore.Font
     public enum WidgetFontSettingsType
     {
         FPS_COUNTER,
-        LABELED_GRID,
+        LABELED_GRID
     }
 
     public class WidgetFontSettings : FontSettingsFactory<WidgetFontSettingsType>
@@ -51,7 +52,7 @@ namespace RenderCore.Font
         }
     }
 
-    public class FontSettingsFactory<T> where T : System.Enum
+    public class FontSettingsFactory<T> where T : Enum
     {
         private readonly Dictionary<T, FontSettings> m_fontSettings;
 

@@ -2,15 +2,11 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 
 namespace Common.Grid
 {
     public class Grid<T> : ReadOnlyCollection<T>
     {
-        public int Rows { get; }
-        public int Columns { get; }
-
         public Grid(IList<T> _cells, int _rows, int _columns) : base(_cells)
         {
             if (_cells.Count != _rows * _columns)
@@ -21,6 +17,9 @@ namespace Common.Grid
             Rows = _rows;
             Columns = _columns;
         }
+
+        public int Rows { get; }
+        public int Columns { get; }
 
         public T this[int _x, int _y]
         {

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Numerics;
 using Common.Geometry;
 using Common.Grid;
-using Common.VertexObject;
 
 namespace MarchingSquares
 {
@@ -23,29 +22,35 @@ namespace MarchingSquares
             new Dictionary<byte, IEnumerable<LineSegment>>
             {
                 {0, null},
-                {1, new []{new LineSegment(new Vector2(0, 0.5f), new Vector2(0.5f, 1.0f))}},
-                {2, new []{new LineSegment(new Vector2(0.5f, 1.0f), new Vector2(1.0f, 0.5f))}},
-                {3, new []{new LineSegment(new Vector2(0, 0.5f), new Vector2(1.0f, 0.5f))}},
+                {1, new[] {new LineSegment(new Vector2(0, 0.5f), new Vector2(0.5f, 1.0f))}},
+                {2, new[] {new LineSegment(new Vector2(0.5f, 1.0f), new Vector2(1.0f, 0.5f))}},
+                {3, new[] {new LineSegment(new Vector2(0, 0.5f), new Vector2(1.0f, 0.5f))}},
 
-                {4, new []{new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(1.0f, 0.5f))}},
-                {5, new []{
-                    new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 0.0f)),
-                    new LineSegment(new Vector2(0.5f, 1.0f), new Vector2(1.0f, 0.5f))
-                }},
-                {6, new []{new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(0.5f, 1.0f))}},
-                {7, new []{new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 0.0f))}},
+                {4, new[] {new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(1.0f, 0.5f))}},
+                {
+                    5, new[]
+                    {
+                        new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 0.0f)),
+                        new LineSegment(new Vector2(0.5f, 1.0f), new Vector2(1.0f, 0.5f))
+                    }
+                },
+                {6, new[] {new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(0.5f, 1.0f))}},
+                {7, new[] {new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 0.0f))}},
 
-                {8, new []{new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 0.0f))}},
-                {9, new []{new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(0.5f, 1.0f))}},
-                {10, new []{
+                {8, new[] {new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 0.0f))}},
+                {9, new[] {new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(0.5f, 1.0f))}},
+                {
+                    10, new[]
+                    {
                         new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 1.0f)),
                         new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(1.0f, 0.5f))
-                }},
-                {11, new []{new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(1.0f, 0.5f))}},
+                    }
+                },
+                {11, new[] {new LineSegment(new Vector2(0.5f, 0.0f), new Vector2(1.0f, 0.5f))}},
 
-                {12, new []{new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(1.0f, 0.5f))}},
-                {13, new []{new LineSegment(new Vector2(0.5f, 1.0f), new Vector2(1.0f, 0.5f))}},
-                {14, new []{new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 1.0f))}},
+                {12, new[] {new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(1.0f, 0.5f))}},
+                {13, new[] {new LineSegment(new Vector2(0.5f, 1.0f), new Vector2(1.0f, 0.5f))}},
+                {14, new[] {new LineSegment(new Vector2(0.0f, 0.5f), new Vector2(0.5f, 1.0f))}},
                 {15, null}
             };
 

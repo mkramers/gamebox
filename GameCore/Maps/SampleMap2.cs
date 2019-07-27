@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Common.Geometry;
@@ -9,23 +7,19 @@ using Common.VertexObject;
 using GameCore.Entity;
 using GameResources;
 using GameResources.Attributes;
-using GameResources.Converters;
-using LibExtensions;
 using MarchingSquares;
 using PhysicsCore;
 using RenderCore.Drawable;
 using RenderCore.TextureCache;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;
-using SFML.System;
-using Color = SFML.Graphics.Color;
 
 namespace GameCore.Maps
 {
     public class SampleMap2 : IMap
     {
-        private readonly List<IEntity> m_entities;
         private readonly List<IDrawable> m_drawables;
+        private readonly List<IEntity> m_entities;
 
         public SampleMap2(string _mapFilePath, IPhysics _physics)
         {
@@ -45,12 +39,13 @@ namespace GameCore.Maps
             Grid<ComparableColor> collisionGrid = map.GetCollisionGrid();
 
             ComparableColor colorThreshold = new ComparableColor(0, 0, 0, 0);
-            MarchingSquaresGenerator<ComparableColor> marchingSquares = new MarchingSquaresGenerator<ComparableColor>(collisionGrid, colorThreshold);
-            
+            MarchingSquaresGenerator<ComparableColor> marchingSquares =
+                new MarchingSquaresGenerator<ComparableColor>(collisionGrid, colorThreshold);
+
             IEnumerable<LineSegment> lines = marchingSquares.GetLineSegments();
-            
+
             IEntity entity = SpriteEntityFactory.CreateSpriteEdgeEntity(mapPosition, _physics, sprite, lines);
-            
+
             m_entities = new List<IEntity>
             {
                 entity
@@ -61,9 +56,21 @@ namespace GameCore.Maps
             m_drawables.Add(lineShapes);
         }
 
-        private static MultiDrawable<VertexArrayShape> CreateShapesFromVertexObjects(IEnumerable<IVertexObject> _vertexObjects, Vector2 _position)
+        public IEnumerable<IEntity> GetEntities(IPhysics _physics)
         {
-            IEnumerable<VertexArrayShape> lineShapes = _vertexObjects.Select(_vertexObject => VertexArrayShape.Factory.CreateLineStripShape(_vertexObject, Color.Cyan));
+            return m_entities;
+        }
+
+        public IEnumerable<IDrawable> GetDrawables()
+        {
+            return m_drawables;
+        }
+
+        private static MultiDrawable<VertexArrayShape> CreateShapesFromVertexObjects(
+            IEnumerable<IVertexObject> _vertexObjects, Vector2 _position)
+        {
+            IEnumerable<VertexArrayShape> lineShapes = _vertexObjects.Select(_vertexObject =>
+                VertexArrayShape.Factory.CreateLineStripShape(_vertexObject, Color.Cyan));
 
             MultiDrawable<VertexArrayShape> drawable = new MultiDrawable<VertexArrayShape>(lineShapes);
             drawable.SetPosition(_position);
@@ -71,7 +78,8 @@ namespace GameCore.Maps
             return drawable;
         }
 
-        private static MultiDrawable<VertexArrayShape> CreateLineSegmentsDrawable(IEnumerable<LineSegment> _lineSegments, Vector2 _position)
+        private static MultiDrawable<VertexArrayShape> CreateLineSegmentsDrawable(
+            IEnumerable<LineSegment> _lineSegments, Vector2 _position)
         {
             List<VertexArrayShape> shapes = new List<VertexArrayShape>();
 
@@ -86,16 +94,6 @@ namespace GameCore.Maps
             MultiDrawable<VertexArrayShape> drawable = new MultiDrawable<VertexArrayShape>(shapes);
             drawable.SetPosition(_position);
             return drawable;
-        }
-
-        public IEnumerable<IEntity> GetEntities(IPhysics _physics)
-        {
-            return m_entities;
-        }
-
-        public IEnumerable<IDrawable> GetDrawables()
-        {
-            return m_drawables;
         }
     }
 }

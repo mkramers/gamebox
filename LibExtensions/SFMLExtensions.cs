@@ -11,6 +11,7 @@ namespace LibExtensions
         {
             return new Vector2f(_vector.X, _vector.Y);
         }
+
         public static Vector2f GetVector2F(this Vector2u _vector)
         {
             return new Vector2f(_vector.X, _vector.Y);

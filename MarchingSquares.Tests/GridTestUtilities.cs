@@ -31,7 +31,7 @@ namespace MarchingSquares.Tests
                 throw new Exception("incorrect size of array");
             }
 
-            int sideLength = (int)Math.Sqrt(_values.Count);
+            int sideLength = (int) Math.Sqrt(_values.Count);
 
             IList<T> gridCells = new List<T>();
             for (int y = 0; y < sideLength; y++)

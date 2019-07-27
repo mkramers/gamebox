@@ -79,9 +79,10 @@ namespace GameBox
 
             WidgetFontSettings widgetFontSettings = new WidgetFontSettings();
             FontSettings gridLabelFontSettings = widgetFontSettings.GetSettings(WidgetFontSettingsType.LABELED_GRID);
-            LabeledGridWidget gridWidget = new LabeledGridWidget(_viewProvider, 0.1f, new Vector2(1, 1), gridLabelFontSettings);
+            LabeledGridWidget gridWidget =
+                new LabeledGridWidget(_viewProvider, 0.1f, new Vector2(1, 1), gridLabelFontSettings);
             //_scene.AddDrawable(gridWidget);
-            
+
             //AddWidget(gridWidget);
 
             MultiDrawable<VertexArrayShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.05f);
@@ -111,7 +112,7 @@ namespace GameBox
             Vector2f spriteScale = new Vector2f(manScale.X / texture.Size.X, manScale.Y / texture.Size.Y);
             Sprite sprite = new Sprite(texture)
             {
-                Scale = spriteScale,
+                Scale = spriteScale
             };
 
             IEntity manEntity =

@@ -1,14 +1,8 @@
 ﻿extern alias CoreCompatSystemDrawing;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
 using Common.Grid;
-using Common.VertexObject;
+using CoreCompatSystemDrawing::System.Drawing;
 using GameResources.Attributes;
 using GameResources.Converters;
-using MarchingSquares;
-using Bitmap = CoreCompatSystemDrawing::System.Drawing.Bitmap;
-using Color = CoreCompatSystemDrawing::System.Drawing.Color;
 
 namespace GameResources
 {
