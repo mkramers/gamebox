@@ -14,9 +14,9 @@ using SFML.System;
 
 namespace GameCore
 {
-    public abstract class Game : IDisposable
+    public abstract class GameRunner : IDisposable
     {
-        protected Game(string _windowTitle, Vector2u _windowSize, Vector2 _gravity, float _aspectRatio)
+        protected GameRunner(string _windowTitle, Vector2u _windowSize, Vector2 _gravity, float _aspectRatio)
         {
             RenderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize, _aspectRatio);
 

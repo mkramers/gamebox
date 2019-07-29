@@ -13,7 +13,7 @@ using SFML.System;
 
 namespace RenderBox
 {
-    public class RenderBox : Game
+    public class RenderBox : GameRunner
     {
         public RenderBox(string _windowTitle, Vector2u _windowSize, float _aspectRatio) : base(_windowTitle,
             _windowSize, Vector2.Zero, _aspectRatio)

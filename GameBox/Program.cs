@@ -12,9 +12,9 @@ namespace GameBox
             const float aspectRatio = 1.0f;
 
             Vector2 gravity = new Vector2(0, 9);
-            GameBox gameBox = new GameBox(windowTitle, windowSize, gravity, aspectRatio);
-            gameBox.StartLoop();
-            gameBox.Dispose();
+            GameRunnerBox gameRunnerBox = new GameRunnerBox(windowTitle, windowSize, gravity, aspectRatio);
+            gameRunnerBox.StartLoop();
+            gameRunnerBox.Dispose();
         }
     }
 }

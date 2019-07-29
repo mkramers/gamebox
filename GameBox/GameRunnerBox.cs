@@ -19,9 +19,9 @@ using SFML.System;
 
 namespace GameBox
 {
-    public class GameBox : Game
+    public class GameRunnerBox : GameRunner
     {
-        public GameBox(string _windowTitle, Vector2u _windowSize, Vector2 _gravity, float _aspectRatio) : base(
+        public GameRunnerBox(string _windowTitle, Vector2u _windowSize, Vector2 _gravity, float _aspectRatio) : base(
             _windowTitle, _windowSize,
             _gravity, _aspectRatio)
         {
