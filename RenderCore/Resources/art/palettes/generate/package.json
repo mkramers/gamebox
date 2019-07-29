@@ -1,0 +1,17 @@
+{
+  "name": "mkramers-palettes",
+  "displayName": "mkramers Palettes",
+  "description": "mkramers custom palettes",
+  "version": "1.0",
+  "author": { "name": "mkramers", "url": "https://mkramers.io" },
+  "publisher": "mkramers",
+  "categories": [
+    "Palettes"
+  ],
+  "contributes": {
+    "palettes": [
+      { "id": "grey16",               "path": "./grey16.gpl" },
+      { "id": "grey8",               "path": "./grey8.gpl" },
+    ]
+  }
+}
