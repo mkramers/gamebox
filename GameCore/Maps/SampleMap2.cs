@@ -54,6 +54,9 @@ namespace GameCore.Maps
             //debug
             MultiDrawable<VertexArrayShape> lineShapes = CreateLineSegmentsDrawable(lines, mapPosition);
             m_drawables.Add(lineShapes);
+
+            LineSegment floorLineSegment = new LineSegment(-100, 0, 100, 0);
+            IBody edges = _physics.CreateEdges(new[] { floorLineSegment }, mapPosition - -20 * Vector2.UnitY);
         }
 
         public IEnumerable<IEntity> GetEntities(IPhysics _physics)
