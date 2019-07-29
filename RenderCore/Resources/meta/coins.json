@@ -1,0 +1,17 @@
+{
+  "objgen": "http://www.objgen.com/json/models/1FtP",
+  "coins": [
+    {
+      "id": "yellow",
+      "value": "10"
+    },
+    {
+      "id": "orange",
+      "value": "40"
+    },
+    {
+      "id": "red",
+      "value": "100"
+    }
+  ]
+}
