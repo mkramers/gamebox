@@ -21,28 +21,28 @@ namespace GameCore
 
         protected GameRunner(string _windowTitle, Vector2u _windowSize, Vector2 _gravity, float _aspectRatio)
         {
-            RenderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize, _aspectRatio);
+            m_renderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize, _aspectRatio);
 
-            KeyHandlers = new TickableContainer<IKeyHandler>();
+            m_keyHandlers = new TickableContainer<IKeyHandler>();
 
             m_physics = new Physics(_gravity);
 
-            EntityContainer = new DisposableTickableContainer<IEntity>();
+            m_entityContainer = new DisposableTickableContainer<IEntity>();
 
-            Widgets = new TickableContainer<IWidget>();
+            m_widgets = new TickableContainer<IWidget>();
         }
 
-        private DisposableTickableContainer<IEntity> EntityContainer { get; }
-        private TickableContainer<IKeyHandler> KeyHandlers { get; }
-        private RenderCoreWindow RenderCoreWindow { get; }
-        private TickableContainer<IWidget> Widgets { get; }
+        private readonly DisposableTickableContainer<IEntity> m_entityContainer;
+        private readonly TickableContainer<IKeyHandler> m_keyHandlers;
+        private readonly RenderCoreWindow m_renderCoreWindow;
+        private readonly TickableContainer<IWidget> m_widgets;
 
         public void Dispose()
         {
-            RenderCoreWindow.Dispose();
+            m_renderCoreWindow.Dispose();
             m_physics.Dispose();
 
-            EntityContainer.Dispose();
+            m_entityContainer.Dispose();
         }
 
         protected Physics GetPhysics()
@@ -52,31 +52,31 @@ namespace GameCore
 
         protected void AddEntity(IEntity _entity)
         {
-            EntityContainer.Add(_entity);
+            m_entityContainer.Add(_entity);
 
             AddDrawableToScene(_entity);
         }
 
         protected void AddDrawableToScene(IDrawable _entity)
         {
-            IRenderCoreTarget scene = RenderCoreWindow.GetScene();
+            IRenderCoreTarget scene = m_renderCoreWindow.GetScene();
             scene.AddDrawable(_entity);
         }
 
         protected void AddDrawableToOverlay(IDrawable _entity)
         {
-            IRenderCoreTarget scene = RenderCoreWindow.GetOverlay();
+            IRenderCoreTarget scene = m_renderCoreWindow.GetOverlay();
             scene.AddDrawable(_entity);
         }
 
         protected void AddWidget(IWidget _widget)
         {
-            Widgets.Add(_widget);
+            m_widgets.Add(_widget);
         }
 
         protected void SetSceneViewProvider(ViewProviderBase _viewProvider)
         {
-            RenderCoreWindow renderCoreWindow = RenderCoreWindow;
+            RenderCoreWindow renderCoreWindow = m_renderCoreWindow;
             IRenderCoreTarget scene = renderCoreWindow.GetScene();
 
             scene.SetViewProvider(_viewProvider);
@@ -84,26 +84,26 @@ namespace GameCore
 
         protected void AddKeyHandler(KeyHandler _keyHandler)
         {
-            KeyHandlers.Add(_keyHandler);
+            m_keyHandlers.Add(_keyHandler);
         }
 
         public void StartLoop()
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
 
-            while (RenderCoreWindow.IsOpen)
+            while (m_renderCoreWindow.IsOpen)
             {
                 TimeSpan elapsed = stopwatch.GetElapsedAndRestart();
 
-                KeyHandlers.Tick(elapsed);
+                m_keyHandlers.Tick(elapsed);
 
                 m_physics.Tick(elapsed);
 
-                EntityContainer.Tick(elapsed);
+                m_entityContainer.Tick(elapsed);
 
-                Widgets.Tick(elapsed);
+                m_widgets.Tick(elapsed);
 
-                RenderCoreWindow.Tick(elapsed);
+                m_renderCoreWindow.Tick(elapsed);
 
                 DelayLoop();
             }
