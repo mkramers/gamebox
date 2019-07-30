@@ -2,6 +2,7 @@
 
 call :writeFile grey16.gpl 16
 call :writeFile grey8.gpl 8
+call :writeFile grey4.gpl 4
 
 :goto eof
 

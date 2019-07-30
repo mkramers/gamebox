@@ -1,16 +1,19 @@
 {
-  "objgen": "http://www.objgen.com/json/models/1FtP",
+  "objgenlink": "http://www.objgen.com/json/models/1FtP",
   "coins": [
     {
-      "id": "yellow",
+      "grey": "191",
+      "sprite": "yellow",
       "value": "10"
     },
     {
-      "id": "orange",
+      "grey": "127",
+      "sprite": "orange",
       "value": "40"
     },
     {
-      "id": "red",
+      "grey": "63",
+      "sprite": "red",
       "value": "100"
     }
   ]
