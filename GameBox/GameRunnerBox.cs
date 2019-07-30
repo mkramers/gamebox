@@ -104,11 +104,8 @@ namespace GameBox
 
             //temp
             List<IEntity> coinEntities = CoinEntitiesFactory.GetCoinEntities(physics).ToList();
-            CoinThing c = new CoinThing(manEntity, coinEntities);
-            foreach (IEntity coinEntity in c.CoinEntities)
-            {
-                m_gameRunner.AddEntity(coinEntity);
-            }
+            CoinThing c = new CoinThing(manEntity, coinEntities, m_gameRunner.GetScene());
+            m_gameRunner.AddGameModule(c);
         }
 
         public void Dispose()

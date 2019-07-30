@@ -16,6 +16,7 @@ using LibExtensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PhysicsCore;
+using RenderCore.Render;
 using SFML.Graphics;
 using SFML.System;
 
@@ -68,7 +69,7 @@ namespace GameBox
 
                     List<CoinLookupEntry> coins = coinDefinitions.FindAll(_coin =>
                     {
-                        int greyValue = (int) _coin.Grey;
+                        int greyValue = (int)_coin.Grey;
 
                         ComparableColor gray = new ComparableColor(greyValue, greyValue, greyValue, 255);
                         return gray.CompareTo(comparableColor) == 0;
@@ -102,13 +103,15 @@ namespace GameBox
     public class CoinThing : IGameModule
     {
         private readonly IEntity m_captureEntity;
-        public List<IEntity> CoinEntities { get; }
+        private readonly IRenderCoreTarget m_target;
+        private readonly List<IEntity> m_coinEntities;
 
-        public CoinThing(IEntity _captureEntity, IEnumerable<IEntity> _entities)
+        public CoinThing(IEntity _captureEntity, IEnumerable<IEntity> _entities, IRenderCoreTarget _target)
         {
             m_captureEntity = _captureEntity;
+            m_target = _target;
 
-            CoinEntities = new List<IEntity>();
+            m_coinEntities = new List<IEntity>();
 
             IEnumerable<IEntity> entities = _entities as IEntity[] ?? _entities.ToArray();
             foreach (IEntity entity in entities)
@@ -116,7 +119,30 @@ namespace GameBox
                 entity.Collided += EntityOnCollided;
                 entity.Separated += EntityOnSeparated;
 
-                CoinEntities.Add(entity);
+                m_coinEntities.Add(entity);
+            }
+
+            foreach (IEntity entity in entities)
+            {
+                _target.AddDrawable(entity);
+            }
+        }
+
+        private void EntityOnCollided(object _sender, CollisionEventArgs _e)
+        {
+            Fixture coin = _e.Sender;
+
+            IEntity coinEntity = m_coinEntities.FirstOrDefault(_coinEntity => _coinEntity.ContainsFixture(coin));
+            if (coinEntity == null)
+            {
+                return;
+            }
+
+            bool collidedWithCaptureEntity = m_captureEntity.ContainsFixture(_e.Other);
+            if (collidedWithCaptureEntity)
+            {
+                m_coinEntities.Remove(coinEntity);
+                m_target.RemoveDrawable(coinEntity);
             }
         }
 
@@ -124,12 +150,12 @@ namespace GameBox
         {
         }
 
-        private void EntityOnCollided(object _sender, CollisionEventArgs _e)
-        {
-        }
-
         public void Tick(TimeSpan _elapsed)
         {
+            foreach (IEntity coinEntity in m_coinEntities)
+            {
+                coinEntity.Tick(_elapsed);
+            }
         }
     }
 

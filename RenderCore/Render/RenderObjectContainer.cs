@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using Common.Containers;
 using RenderCore.Drawable;
 using SFML.Graphics;
@@ -7,11 +8,11 @@ namespace RenderCore.Render
 {
     public class RenderObjectContainer : IRenderObjectContainer
     {
-        private readonly BlockingCollection<IDrawable> m_drawables;
+        private readonly List<IDrawable> m_drawables;
 
         public RenderObjectContainer()
         {
-            m_drawables = new BlockingCollection<IDrawable>();
+            m_drawables = new List<IDrawable>();
         }
 
         public void AddDrawable(IDrawable _drawable)
@@ -35,6 +36,11 @@ namespace RenderCore.Render
             }
 
             m_drawables.Clear();
+        }
+
+        public void RemoveDrawable(IDrawable _drawable)
+        {
+            m_drawables.Remove(_drawable);
         }
     }
 }

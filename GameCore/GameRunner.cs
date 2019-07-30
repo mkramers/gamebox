@@ -105,12 +105,12 @@ namespace GameCore
             while (m_renderCoreWindow.IsOpen)
             {
                 TimeSpan elapsed = stopwatch.GetElapsedAndRestart();
-
-                m_gameModules.Tick(elapsed);
-
+                
                 m_keyHandlers.Tick(elapsed);
 
                 m_physics.Tick(elapsed);
+
+                m_gameModules.Tick(elapsed);
 
                 m_entityContainer.Tick(elapsed);
 
@@ -142,6 +142,11 @@ namespace GameCore
             AddDrawableToOverlay(fpsTextWidget);
 
             AddWidget(fpsTextWidget);
+        }
+
+        public IRenderCoreTarget GetScene()
+        {
+            return m_renderCoreWindow.GetScene();
         }
     }
 }

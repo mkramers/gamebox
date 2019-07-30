@@ -52,6 +52,11 @@ namespace RenderCore.Render
             m_renderObjectContainer.AddDrawable(_drawable);
         }
 
+        public void RemoveDrawable(IDrawable _drawable)
+        {
+            m_renderObjectContainer.RemoveDrawable(_drawable);
+        }
+
         public void Tick(TimeSpan _elapsed)
         {
             View view = m_viewProvider.GetView();
