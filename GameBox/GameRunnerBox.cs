@@ -63,9 +63,9 @@ namespace GameBox
                 FontSettings gridLabelFontSettings = widgetFontSettings.GetSettings(WidgetFontSettingsType.LABELED_GRID);
                 LabeledGridWidget gridWidget =
                     new LabeledGridWidget(viewProvider, 0.1f, new Vector2(1, 1), gridLabelFontSettings);
-                //_scene.AddDrawable(gridWidget);
-
-                //AddWidget(gridWidget);
+                
+                //m_gameRunner.AddDrawableToScene(gridWidget);
+                //m_gameRunner.AddWidget(gridWidget);
 
                 MultiDrawable<VertexArrayShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.05f);
                 m_gameRunner.AddDrawableToScene(crossHairs);
