@@ -24,7 +24,7 @@ namespace GameBox
 {
     public class CoinEntitiesFactory
     {
-        public static IEnumerable<IEntity> GetCoinEntities(IPhysics _physics)
+        public static IEnumerable<Coin> GetCoins(IPhysics _physics)
         {
             const string coinsMetaFilePath = @"C:\dev\GameBox\RenderCore\Resources\meta\coins.json";
             string coinsMetaText = File.ReadAllText(coinsMetaFilePath);
@@ -60,14 +60,15 @@ namespace GameBox
 
             const float coinSize = 2.0f;
 
-            List<IEntity> coinEntities = new List<IEntity>();
+            List<Coin> coins = new List<Coin>();
+
             for (int x = 0; x < grid.Columns; x++)
             {
                 for (int y = 0; y < grid.Rows; y++)
                 {
                     ComparableColor comparableColor = grid[x, y];
 
-                    List<CoinLookupEntry> coins = coinDefinitions.FindAll(_coin =>
+                    List<CoinLookupEntry> coinEntries = coinDefinitions.FindAll(_coin =>
                     {
                         int greyValue = (int)_coin.Grey;
 
@@ -75,11 +76,11 @@ namespace GameBox
                         return gray.CompareTo(comparableColor) == 0;
                     });
 
-                    foreach (CoinLookupEntry coin in coins)
+                    foreach (CoinLookupEntry coinEntry in coinEntries)
                     {
-                        Debug.Assert(coinTextures.ContainsKey(coin.Sprite));
+                        Debug.Assert(coinTextures.ContainsKey(coinEntry.Sprite));
 
-                        Texture coinTexture = coinTextures[coin.Sprite];
+                        Texture coinTexture = coinTextures[coinEntry.Sprite];
 
                         Vector2 coinPosition = new Vector2(x, y);
                         Sprite coinSprite = new Sprite(coinTexture)
@@ -91,70 +92,92 @@ namespace GameBox
                         IEntity coinEntity =
                             SpriteEntityFactory.CreateSpriteEntity(0.01f, coinPosition, _physics, BodyType.Dynamic, coinSprite);
 
-                        coinEntities.Add(coinEntity);
+                        Coin coin = new Coin(coinEntity, coinEntry.Value);
+                        coins.Add(coin);
                     }
                 }
             }
 
-            return coinEntities;
+            return coins;
         }
+    }
+
+    public class Coin
+    {
+        public Coin(IEntity _entity, float _value)
+        {
+            Entity = _entity;
+            Value = _value;
+        }
+
+        public IEntity Entity { get; }
+        public float Value { get; }
     }
 
     public class CoinThing : IGameModule
     {
         private readonly IEntity m_captureEntity;
         private readonly IRenderCoreTarget m_target;
-        private readonly List<IEntity> m_coinEntities;
+        private readonly List<Coin> m_coins;
+        private float m_score;
 
-        public CoinThing(IEntity _captureEntity, IEnumerable<IEntity> _entities, IRenderCoreTarget _target)
+        public CoinThing(IEntity _captureEntity, IEnumerable<Coin> _coins, IRenderCoreTarget _target)
         {
             m_captureEntity = _captureEntity;
             m_target = _target;
 
-            m_coinEntities = new List<IEntity>();
+            m_coins = new List<Coin>();
 
-            IEnumerable<IEntity> entities = _entities as IEntity[] ?? _entities.ToArray();
-            foreach (IEntity entity in entities)
+            IEnumerable<Coin> coins = _coins as Coin[] ?? _coins.ToArray();
+            foreach (Coin coin in coins)
             {
+                IEntity entity = coin.Entity;
+                
                 entity.Collided += EntityOnCollided;
                 entity.Separated += EntityOnSeparated;
-
-                m_coinEntities.Add(entity);
-            }
-
-            foreach (IEntity entity in entities)
-            {
+                
                 _target.AddDrawable(entity);
+
+                m_coins.Add(coin);
             }
         }
 
         private void EntityOnCollided(object _sender, CollisionEventArgs _e)
         {
-            Fixture coin = _e.Sender;
+            Fixture coinFixture = _e.Sender;
 
-            IEntity coinEntity = m_coinEntities.FirstOrDefault(_coinEntity => _coinEntity.ContainsFixture(coin));
-            if (coinEntity == null)
+            Coin coin = m_coins.FirstOrDefault(_coin => _coin.Entity.ContainsFixture(coinFixture));
+            if (coin == null)
             {
                 return;
             }
 
             bool collidedWithCaptureEntity = m_captureEntity.ContainsFixture(_e.Other);
-            if (collidedWithCaptureEntity)
+            if (!collidedWithCaptureEntity)
             {
-                m_coinEntities.Remove(coinEntity);
-                m_target.RemoveDrawable(coinEntity);
+                return;
             }
+
+            m_score += coin.Value;
+
+            m_coins.Remove(coin);
+            m_target.RemoveDrawable(coin.Entity);
         }
 
         private void EntityOnSeparated(object _sender, SeparationEventArgs _e)
         {
         }
 
+        public float GetScore()
+        {
+            return m_score;
+        }
+
         public void Tick(TimeSpan _elapsed)
         {
-            foreach (IEntity coinEntity in m_coinEntities)
+            foreach (Coin coin in m_coins)
             {
-                coinEntity.Tick(_elapsed);
+                coin.Entity.Tick(_elapsed);
             }
         }
     }

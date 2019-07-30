@@ -22,6 +22,7 @@ namespace GameBox
     public class GameRunnerBox : IDisposable
     {
         private readonly GameRunner m_gameRunner;
+        private readonly CoinThing m_coinThing;
 
         public GameRunnerBox(string _windowTitle, Vector2u _windowSize, Vector2 _gravity, float _aspectRatio)
         {
@@ -103,9 +104,10 @@ namespace GameBox
             m_gameRunner.AddEntity(manEntity);
 
             //temp
-            List<IEntity> coinEntities = CoinEntitiesFactory.GetCoinEntities(physics).ToList();
-            CoinThing c = new CoinThing(manEntity, coinEntities, m_gameRunner.GetScene());
-            m_gameRunner.AddGameModule(c);
+            List<Coin> coins = CoinEntitiesFactory.GetCoins(physics).ToList();
+
+            m_coinThing = new CoinThing(manEntity, coins, m_gameRunner.GetScene());
+            m_gameRunner.AddGameModule(m_coinThing);
         }
 
         public void Dispose()
@@ -113,7 +115,6 @@ namespace GameBox
             m_gameRunner?.Dispose();
         }
         
-
         public void StartLoop()
         {
             m_gameRunner.StartLoop();

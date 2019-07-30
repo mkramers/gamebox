@@ -17,8 +17,8 @@ Coins
 		[done] create coin value+color LUT in json
 		[done] write coin parser to read from sprite+LUT and load into object
 		[done] render coins from object with correct colors
-		detect coin collision with man
-		create coin tracking object which tracks score and controls display of coins
+		[done] detect coin collision with man
+		[done] create coin tracking object which tracks score and controls display of coins
 		display score in tgui widget
 		create ui popup in tgui
 		notify user when score is reached via popup
