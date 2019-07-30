@@ -24,11 +24,8 @@ namespace RenderBox
             FloatRect viewRect = new FloatRect(scenePosition.GetVector2F(), sceneSize.GetVector2F());
             View view = new View(viewRect);
 
-            RenderCoreWindow renderCoreWindow = RenderCoreWindow;
-            IRenderCoreTarget scene = renderCoreWindow.GetScene();
-
             ViewProviderBase viewProvider = new ViewProviderBase(view);
-            scene.SetViewProvider(viewProvider);
+            SetSceneViewProvider(viewProvider);
 
             //MultiDrawable<RectangleShape> box = DrawableFactory.GetBox(sceneSize, 1);
             //scene.AddDrawable(box);
@@ -37,29 +34,29 @@ namespace RenderBox
             FontSettings gridLabelFontSettings = widgetFontSettings.GetSettings(WidgetFontSettingsType.LABELED_GRID);
             LabeledGridWidget gridWidget =
                 new LabeledGridWidget(viewProvider, 0.05f, 0.5f * Vector2.One, gridLabelFontSettings);
-            scene.AddDrawable(gridWidget);
+            AddDrawableToScene(gridWidget);
 
             MultiDrawable<VertexArrayShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.1f);
-            scene.AddDrawable(crossHairs);
+            AddDrawableToScene(crossHairs);
 
             AddWidget(gridWidget);
 
-            AddFpsWidget(renderCoreWindow);
+            AddFpsWidget();
 
             //const string mapName = "square";
             const string mapName = "sample_tree_map";
             string mapFilePath = $@"C:\dev\GameBox\RenderCore\Resources\art\{mapName}.json";
 
-            SampleMap2 map = new SampleMap2(mapFilePath, Physics);
+            SampleMap2 map = new SampleMap2(mapFilePath, GetPhysics());
 
             IEnumerable<IDrawable> mapDrawables = map.GetDrawables();
             foreach (IDrawable mapDrawable in mapDrawables)
             {
-                scene.AddDrawable(mapDrawable);
+                AddDrawableToScene(mapDrawable);
             }
         }
 
-        private void AddFpsWidget(RenderCoreWindow _renderCoreWindow)
+        private void AddFpsWidget()
         {
             WidgetFontSettings widgetFontSettingsFactory = new WidgetFontSettings();
             FontSettings fpsFontSettings = widgetFontSettingsFactory.GetSettings(WidgetFontSettingsType.FPS_COUNTER);
@@ -71,8 +68,7 @@ namespace RenderBox
 
             FpsTextWidget fpsTextWidget = new FpsTextWidget(5, text);
 
-            IRenderCoreTarget overlay = _renderCoreWindow.GetOverlay();
-            overlay.AddDrawable(fpsTextWidget);
+            AddDrawableToOverlay(fpsTextWidget);
 
             AddWidget(fpsTextWidget);
         }

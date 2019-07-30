@@ -28,7 +28,7 @@ namespace GameBox
             _windowTitle, _windowSize,
             _gravity, _aspectRatio)
         {
-            IPhysics physics = Physics;
+            IPhysics physics = GetPhysics();
             physics.SetGravity(new Vector2(0, 5.5f));
 
             IEntity manEntity = CreateMan(physics);
@@ -36,12 +36,10 @@ namespace GameBox
             View view = new View(new Vector2f(0, -6.5f), new Vector2f(35, 35));
             EntityFollowerViewProvider
                 viewProvider = new EntityFollowerViewProvider(manEntity, view);
+            
+            SetSceneViewProvider(viewProvider);
 
-            IRenderCoreTarget scene = RenderCoreWindow.GetScene();
-
-            SetSceneViewerProvider(scene, viewProvider);
-
-            AddWidgets(scene, viewProvider);
+            AddWidgets(viewProvider);
 
             AddMap(physics);
 
@@ -62,11 +60,6 @@ namespace GameBox
             AddEntity(_manEntity);
         }
 
-        private static void SetSceneViewerProvider(IRenderCoreTarget _scene, IViewProvider _viewProvider)
-        {
-            _scene.SetViewProvider(_viewProvider);
-        }
-
         private void AddMap(IPhysics _physics)
         {
             const string mapFilePath = @"C:\dev\GameBox\RenderCore\Resources\art\sample_tree_map.json";
@@ -78,16 +71,14 @@ namespace GameBox
                 AddEntity(woodEntity);
             }
 
-            IRenderCoreTarget scene = RenderCoreWindow.GetScene();
-
             IEnumerable<IDrawable> mapDrawables = map.GetDrawables();
             foreach (IDrawable mapDrawable in mapDrawables)
             {
-                scene.AddDrawable(mapDrawable);
+                AddDrawableToScene(mapDrawable);
             }
         }
 
-        private void AddWidgets(IRenderObjectContainer _scene, EntityFollowerViewProvider _viewProvider)
+        private void AddWidgets(EntityFollowerViewProvider _viewProvider)
         {
             AddWidget(_viewProvider);
 
@@ -100,7 +91,7 @@ namespace GameBox
             //AddWidget(gridWidget);
 
             MultiDrawable<VertexArrayShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.05f);
-            _scene.AddDrawable(crossHairs);
+            AddDrawableToScene(crossHairs);
 
             AddFpsWidget();
         }
@@ -111,7 +102,7 @@ namespace GameBox
 
             KeyHandler moveExecutor = KeyHandlerFactory.CreateEntityKeyHandler(_manEntity, force);
 
-            KeyHandlers.Add(moveExecutor);
+            AddKeyHandler(moveExecutor);
         }
 
         private static IEntity CreateMan(IPhysics _physics)
@@ -152,8 +143,7 @@ namespace GameBox
 
             FpsTextWidget fpsTextWidget = new FpsTextWidget(5, text);
 
-            IRenderCoreTarget overlay = RenderCoreWindow.GetOverlay();
-            overlay.AddDrawable(fpsTextWidget);
+            AddDrawableToOverlay(fpsTextWidget);
 
             AddWidget(fpsTextWidget);
         }
