@@ -1,14 +1,47 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using Aether.Physics2D.Dynamics.Contacts;
 using LibExtensions;
 
 namespace PhysicsCore
 {
+    public class CollisionEventArgs : EventArgs
+    {
+        public CollisionEventArgs(Fixture _sender, Fixture _other, Contact _contact)
+        {
+            Sender = _sender;
+            Other = _other;
+            Contact = _contact;
+        }
+
+        public Fixture Sender { get; }
+        public Fixture Other { get; }
+        public Contact Contact { get; }
+
+        public bool AllowCollision { get; set; } = true;
+    }
+
+    public class SeparationEventArgs : EventArgs
+    {
+        public SeparationEventArgs(Fixture _sender, Fixture _other, Contact _contact)
+        {
+            Sender = _sender;
+            Other = _other;
+            Contact = _contact;
+        }
+
+        public Fixture Sender { get; }
+        public Fixture Other { get; }
+        public Contact Contact { get; }
+    }
+
     public interface ICollidable
     {
-        event OnCollisionEventHandler Collided;
-        event OnSeparationEventHandler Separated;
+        event EventHandler<CollisionEventArgs> Collided;
+        event EventHandler<SeparationEventArgs> Separated;
+
+        bool ContainsFixture(Fixture _fixture);
     }
 
     public class Body : IBody
@@ -18,8 +51,24 @@ namespace PhysicsCore
         public Body(Aether.Physics2D.Dynamics.Body _body)
         {
             m_body = _body;
+            m_body.OnSeparation += OnSeparation;
+            m_body.OnCollision += OnCollision;
         }
-        
+
+        private void OnSeparation(Fixture _sender, Fixture _other, Contact _contact)
+        {
+            Separated?.Invoke(this, new SeparationEventArgs(_sender, _other, _contact));
+        }
+
+        private bool OnCollision(Fixture _sender, Fixture _other, Contact _contact)
+        {
+            CollisionEventArgs collisionEventArgs = new CollisionEventArgs(_sender, _other, _contact);
+
+            Collided?.Invoke(this, collisionEventArgs);
+
+            return collisionEventArgs.AllowCollision;
+        }
+
         public Vector2 GetPosition()
         {
             return m_body.Position.GetVector2();
@@ -46,15 +95,12 @@ namespace PhysicsCore
             m_body.Position = _position.GetVector2();
         }
 
-        public event OnCollisionEventHandler Collided
+        public event EventHandler<CollisionEventArgs> Collided;
+        public event EventHandler<SeparationEventArgs> Separated;
+
+        public bool ContainsFixture(Fixture _fixture)
         {
-            add => m_body.OnCollision += value;
-            remove => m_body.OnCollision -= value;
-        }
-        public event OnSeparationEventHandler Separated
-        {
-            add => m_body.OnSeparation += value;
-            remove => m_body.OnSeparation -= value;
+            return m_body.FixtureList.Contains(_fixture);
         }
     }
 }

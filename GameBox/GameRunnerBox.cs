@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using Aether.Physics2D.Dynamics.Contacts;
@@ -46,7 +47,6 @@ namespace GameBox
                 };
 
                 manEntity = SpriteEntityFactory.CreateSpriteEntity(mass, manPosition, physics, BodyType.Dynamic, sprite);
-                manEntity.Collided += ManEntity_Collided;
             }
 
             View view = new View(new Vector2f(0, -6.5f), new Vector2f(35, 35));
@@ -103,7 +103,8 @@ namespace GameBox
             m_gameRunner.AddEntity(manEntity);
 
             //temp
-            CoinThing c = new CoinThing(physics);
+            List<IEntity> coinEntities = CoinEntitiesFactory.GetCoinEntities(physics).ToList();
+            CoinThing c = new CoinThing(manEntity, coinEntities);
             foreach (IEntity coinEntity in c.CoinEntities)
             {
                 m_gameRunner.AddEntity(coinEntity);
@@ -115,10 +116,6 @@ namespace GameBox
             m_gameRunner?.Dispose();
         }
         
-        private static bool ManEntity_Collided(Fixture _sender, Fixture _other, Contact _contact)
-        {
-            return true;
-        }
 
         public void StartLoop()
         {

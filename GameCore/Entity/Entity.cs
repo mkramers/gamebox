@@ -61,16 +61,21 @@ namespace GameCore.Entity
             m_drawable.Draw(_target, _states);
         }
 
-        public event OnCollisionEventHandler Collided
+        public event EventHandler<CollisionEventArgs> Collided
         {
             add => m_body.Collided += value;
             remove => m_body.Collided -= value;
         }
 
-        public event OnSeparationEventHandler Separated
+        public event EventHandler<SeparationEventArgs> Separated
         {
             add => m_body.Separated += value;
             remove => m_body.Separated -= value;
+        }
+
+        public bool ContainsFixture(Fixture _fixture)
+        {
+            return m_body.ContainsFixture(_fixture);
         }
     }
 }

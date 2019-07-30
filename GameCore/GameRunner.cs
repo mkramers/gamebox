@@ -18,11 +18,6 @@ using SFML.System;
 
 namespace GameCore
 {
-    public interface IGameModule : ITickable
-    {
-
-    }
-
     public class GameRunner : IDisposable
     {
         private readonly Physics m_physics;
