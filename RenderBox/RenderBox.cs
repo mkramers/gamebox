@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
+using GameBox;
 using GameCore;
 using GameCore.Maps;
 using LibExtensions;
@@ -13,11 +15,19 @@ using SFML.System;
 
 namespace RenderBox
 {
-    public class RenderBox : GameRunner
+    public class RenderBox : IDisposable
     {
-        public RenderBox(string _windowTitle, Vector2u _windowSize, float _aspectRatio) : base(_windowTitle,
-            _windowSize, Vector2.Zero, _aspectRatio)
+        public void Dispose()
         {
+            m_gameRunner?.Dispose();
+        }
+
+        private readonly GameRunner m_gameRunner;
+
+        public RenderBox(string _windowTitle, Vector2u _windowSize, float _aspectRatio)
+        {
+            m_gameRunner = new GameRunner(_windowTitle, _windowSize, Vector2.Zero, _aspectRatio);
+
             const float size = 25;
             Vector2 sceneSize = new Vector2(size, size);
             Vector2 scenePosition = -Vector2.One;
@@ -25,7 +35,7 @@ namespace RenderBox
             View view = new View(viewRect);
 
             ViewProviderBase viewProvider = new ViewProviderBase(view);
-            SetSceneViewProvider(viewProvider);
+            m_gameRunner.SetSceneViewProvider(viewProvider);
 
             //MultiDrawable<RectangleShape> box = DrawableFactory.GetBox(sceneSize, 1);
             //scene.AddDrawable(box);
@@ -34,43 +44,31 @@ namespace RenderBox
             FontSettings gridLabelFontSettings = widgetFontSettings.GetSettings(WidgetFontSettingsType.LABELED_GRID);
             LabeledGridWidget gridWidget =
                 new LabeledGridWidget(viewProvider, 0.05f, 0.5f * Vector2.One, gridLabelFontSettings);
-            AddDrawableToScene(gridWidget);
+            m_gameRunner.AddDrawableToScene(gridWidget);
 
             MultiDrawable<VertexArrayShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.1f);
-            AddDrawableToScene(crossHairs);
+            m_gameRunner.AddDrawableToScene(crossHairs);
 
-            AddWidget(gridWidget);
+            m_gameRunner.AddWidget(gridWidget);
 
-            AddFpsWidget();
+            m_gameRunner.AddFpsWidget();
 
             //const string mapName = "square";
             const string mapName = "sample_tree_map";
             string mapFilePath = $@"C:\dev\GameBox\RenderCore\Resources\art\{mapName}.json";
 
-            SampleMap2 map = new SampleMap2(mapFilePath, GetPhysics());
+            SampleMap2 map = new SampleMap2(mapFilePath, m_gameRunner.GetPhysics());
 
             IEnumerable<IDrawable> mapDrawables = map.GetDrawables();
             foreach (IDrawable mapDrawable in mapDrawables)
             {
-                AddDrawableToScene(mapDrawable);
+                m_gameRunner.AddDrawableToScene(mapDrawable);
             }
         }
-
-        private void AddFpsWidget()
+        
+        public void StartLoop()
         {
-            WidgetFontSettings widgetFontSettingsFactory = new WidgetFontSettings();
-            FontSettings fpsFontSettings = widgetFontSettingsFactory.GetSettings(WidgetFontSettingsType.FPS_COUNTER);
-
-            Vector2 textPosition = new Vector2(fpsFontSettings.Scale, 1.0f - 1.5f * fpsFontSettings.Scale);
-
-            Text text = TextFactory.GenerateText(fpsFontSettings);
-            text.Position = textPosition.GetVector2F();
-
-            FpsTextWidget fpsTextWidget = new FpsTextWidget(5, text);
-
-            AddDrawableToOverlay(fpsTextWidget);
-
-            AddWidget(fpsTextWidget);
+            m_gameRunner.StartLoop();
         }
     }
 }

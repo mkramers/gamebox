@@ -12,6 +12,7 @@
   </Target>
 
   <ItemGroup>
+    <ProjectReference Include="..\GameBox\GameBox.csproj" />
     <ProjectReference Include="..\GameCore\GameCore.csproj" />
     <ProjectReference Include="..\RenderCore\RenderCore.csproj" />
   </ItemGroup>

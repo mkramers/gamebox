@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using GameCore;
@@ -7,28 +7,32 @@ using GameCore.Entity;
 using GameCore.Input.Key;
 using GameCore.Maps;
 using GameCore.ViewProvider;
-using GameResources;
 using LibExtensions;
 using PhysicsCore;
-using RenderCore;
 using RenderCore.Drawable;
 using RenderCore.Font;
 using RenderCore.Render;
 using RenderCore.Resource;
-using RenderCore.ViewProvider;
 using RenderCore.Widget;
 using SFML.Graphics;
 using SFML.System;
 
 namespace GameBox
 {
-    public class GameRunnerBox : GameRunner
+    public class GameRunnerBox : IDisposable
     {
-        public GameRunnerBox(string _windowTitle, Vector2u _windowSize, Vector2 _gravity, float _aspectRatio) : base(
-            _windowTitle, _windowSize,
-            _gravity, _aspectRatio)
+        public void Dispose()
         {
-            IPhysics physics = GetPhysics();
+            m_gameRunner?.Dispose();
+        }
+
+        private readonly GameRunner m_gameRunner;
+
+        public GameRunnerBox(string _windowTitle, Vector2u _windowSize, Vector2 _gravity, float _aspectRatio)
+        {
+            m_gameRunner = new GameRunner(_windowTitle, _windowSize, Vector2.Zero, _aspectRatio);
+
+            IPhysics physics = m_gameRunner.GetPhysics();
             physics.SetGravity(new Vector2(0, 5.5f));
 
             IEntity manEntity = CreateMan(physics);
@@ -36,8 +40,8 @@ namespace GameBox
             View view = new View(new Vector2f(0, -6.5f), new Vector2f(35, 35));
             EntityFollowerViewProvider
                 viewProvider = new EntityFollowerViewProvider(manEntity, view);
-            
-            SetSceneViewProvider(viewProvider);
+
+            m_gameRunner.SetSceneViewProvider(viewProvider);
 
             AddWidgets(viewProvider);
 
@@ -49,15 +53,16 @@ namespace GameBox
             CoinThing c = new CoinThing(physics);
             foreach (IEntity coinEntity in c.CoinEntities)
             {
-                AddEntity(coinEntity);
+                m_gameRunner.AddEntity(coinEntity);
             }
         }
+
 
         private void AddMan(IEntity _manEntity)
         {
             AddManKeyHandler(_manEntity);
 
-            AddEntity(_manEntity);
+            m_gameRunner.AddEntity(_manEntity);
         }
 
         private void AddMap(IPhysics _physics)
@@ -68,19 +73,19 @@ namespace GameBox
 
             foreach (IEntity woodEntity in map.GetEntities(_physics))
             {
-                AddEntity(woodEntity);
+                m_gameRunner.AddEntity(woodEntity);
             }
 
             IEnumerable<IDrawable> mapDrawables = map.GetDrawables();
             foreach (IDrawable mapDrawable in mapDrawables)
             {
-                AddDrawableToScene(mapDrawable);
+                m_gameRunner.AddDrawableToScene(mapDrawable);
             }
         }
 
         private void AddWidgets(EntityFollowerViewProvider _viewProvider)
         {
-            AddWidget(_viewProvider);
+            m_gameRunner.AddWidget(_viewProvider);
 
             WidgetFontSettings widgetFontSettings = new WidgetFontSettings();
             FontSettings gridLabelFontSettings = widgetFontSettings.GetSettings(WidgetFontSettingsType.LABELED_GRID);
@@ -91,9 +96,9 @@ namespace GameBox
             //AddWidget(gridWidget);
 
             MultiDrawable<VertexArrayShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.05f);
-            AddDrawableToScene(crossHairs);
+            m_gameRunner.AddDrawableToScene(crossHairs);
 
-            AddFpsWidget();
+            m_gameRunner.AddFpsWidget();
         }
 
         private void AddManKeyHandler(IEntity _manEntity)
@@ -102,7 +107,7 @@ namespace GameBox
 
             KeyHandler moveExecutor = KeyHandlerFactory.CreateEntityKeyHandler(_manEntity, force);
 
-            AddKeyHandler(moveExecutor);
+            m_gameRunner.AddKeyHandler(moveExecutor);
         }
 
         private static IEntity CreateMan(IPhysics _physics)
@@ -130,22 +135,10 @@ namespace GameBox
         {
             return true;
         }
-
-        private void AddFpsWidget()
+        
+        public void StartLoop()
         {
-            WidgetFontSettings widgetFontSettingsFactory = new WidgetFontSettings();
-            FontSettings fpsFontSettings = widgetFontSettingsFactory.GetSettings(WidgetFontSettingsType.FPS_COUNTER);
-
-            Vector2 textPosition = new Vector2(fpsFontSettings.Scale, 1.0f - 1.5f * fpsFontSettings.Scale);
-
-            Text text = TextFactory.GenerateText(fpsFontSettings);
-            text.Position = textPosition.GetVector2F();
-
-            FpsTextWidget fpsTextWidget = new FpsTextWidget(5, text);
-
-            AddDrawableToOverlay(fpsTextWidget);
-
-            AddWidget(fpsTextWidget);
+            m_gameRunner.StartLoop();
         }
     }
 }

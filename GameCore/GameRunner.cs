@@ -6,20 +6,28 @@ using Common.Extensions;
 using Common.Tickable;
 using GameCore.Entity;
 using GameCore.Input.Key;
+using LibExtensions;
 using PhysicsCore;
 using RenderCore.Drawable;
+using RenderCore.Font;
 using RenderCore.Render;
 using RenderCore.ViewProvider;
 using RenderCore.Widget;
+using SFML.Graphics;
 using SFML.System;
 
 namespace GameCore
 {
-    public abstract class GameRunner : IDisposable
+    public interface IGameModule : ITickable
+    {
+
+    }
+
+    public class GameRunner : IDisposable
     {
         private readonly Physics m_physics;
 
-        protected GameRunner(string _windowTitle, Vector2u _windowSize, Vector2 _gravity, float _aspectRatio)
+        public GameRunner(string _windowTitle, Vector2u _windowSize, Vector2 _gravity, float _aspectRatio)
         {
             m_renderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize, _aspectRatio);
 
@@ -30,12 +38,15 @@ namespace GameCore
             m_entityContainer = new DisposableTickableContainer<IEntity>();
 
             m_widgets = new TickableContainer<IWidget>();
+
+            m_gameModules = new TickableContainer<IGameModule>();
         }
 
         private readonly DisposableTickableContainer<IEntity> m_entityContainer;
         private readonly TickableContainer<IKeyHandler> m_keyHandlers;
         private readonly RenderCoreWindow m_renderCoreWindow;
         private readonly TickableContainer<IWidget> m_widgets;
+        private readonly TickableContainer<IGameModule> m_gameModules;
 
         public void Dispose()
         {
@@ -45,36 +56,36 @@ namespace GameCore
             m_entityContainer.Dispose();
         }
 
-        protected Physics GetPhysics()
+        public Physics GetPhysics()
         {
             return m_physics;
         }
 
-        protected void AddEntity(IEntity _entity)
+        public void AddEntity(IEntity _entity)
         {
             m_entityContainer.Add(_entity);
 
             AddDrawableToScene(_entity);
         }
 
-        protected void AddDrawableToScene(IDrawable _entity)
+        public void AddDrawableToScene(IDrawable _entity)
         {
             IRenderCoreTarget scene = m_renderCoreWindow.GetScene();
             scene.AddDrawable(_entity);
         }
 
-        protected void AddDrawableToOverlay(IDrawable _entity)
+        public void AddDrawableToOverlay(IDrawable _entity)
         {
             IRenderCoreTarget scene = m_renderCoreWindow.GetOverlay();
             scene.AddDrawable(_entity);
         }
 
-        protected void AddWidget(IWidget _widget)
+        public void AddWidget(IWidget _widget)
         {
             m_widgets.Add(_widget);
         }
 
-        protected void SetSceneViewProvider(ViewProviderBase _viewProvider)
+        public void SetSceneViewProvider(ViewProviderBase _viewProvider)
         {
             RenderCoreWindow renderCoreWindow = m_renderCoreWindow;
             IRenderCoreTarget scene = renderCoreWindow.GetScene();
@@ -82,9 +93,14 @@ namespace GameCore
             scene.SetViewProvider(_viewProvider);
         }
 
-        protected void AddKeyHandler(KeyHandler _keyHandler)
+        public void AddKeyHandler(KeyHandler _keyHandler)
         {
             m_keyHandlers.Add(_keyHandler);
+        }
+
+        public void AddGameModule(IGameModule _gameModule)
+        {
+            m_gameModules.Add(_gameModule);
         }
 
         public void StartLoop()
@@ -94,6 +110,8 @@ namespace GameCore
             while (m_renderCoreWindow.IsOpen)
             {
                 TimeSpan elapsed = stopwatch.GetElapsedAndRestart();
+
+                m_gameModules.Tick(elapsed);
 
                 m_keyHandlers.Tick(elapsed);
 
@@ -112,6 +130,23 @@ namespace GameCore
         private static void DelayLoop()
         {
             Thread.Sleep(30);
+        }
+
+        public void AddFpsWidget()
+        {
+            WidgetFontSettings widgetFontSettingsFactory = new WidgetFontSettings();
+            FontSettings fpsFontSettings = widgetFontSettingsFactory.GetSettings(WidgetFontSettingsType.FPS_COUNTER);
+
+            Vector2 textPosition = new Vector2(fpsFontSettings.Scale, 1.0f - 1.5f * fpsFontSettings.Scale);
+
+            Text text = TextFactory.GenerateText(fpsFontSettings);
+            text.Position = textPosition.GetVector2F();
+
+            FpsTextWidget fpsTextWidget = new FpsTextWidget(5, text);
+
+            AddDrawableToOverlay(fpsTextWidget);
+
+            AddWidget(fpsTextWidget);
         }
     }
 }
