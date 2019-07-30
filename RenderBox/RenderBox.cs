@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
-using GameBox;
 using GameCore;
 using GameCore.Maps;
 using LibExtensions;
 using RenderCore.Drawable;
 using RenderCore.Font;
-using RenderCore.Render;
 using RenderCore.ViewProvider;
 using RenderCore.Widget;
 using SFML.Graphics;
@@ -17,11 +15,6 @@ namespace RenderBox
 {
     public class RenderBox : IDisposable
     {
-        public void Dispose()
-        {
-            m_gameRunner?.Dispose();
-        }
-
         private readonly GameRunner m_gameRunner;
 
         public RenderBox(string _windowTitle, Vector2u _windowSize, float _aspectRatio)
@@ -65,7 +58,12 @@ namespace RenderBox
                 m_gameRunner.AddDrawableToScene(mapDrawable);
             }
         }
-        
+
+        public void Dispose()
+        {
+            m_gameRunner?.Dispose();
+        }
+
         public void StartLoop()
         {
             m_gameRunner.StartLoop();
