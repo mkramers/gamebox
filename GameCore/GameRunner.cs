@@ -44,14 +44,6 @@ namespace GameCore
             EntityContainer.Dispose();
         }
 
-        protected void AddMap(IMap _map, IPhysics _physics)
-        {
-            foreach (IEntity woodEntity in _map.GetEntities(_physics))
-            {
-                AddEntity(woodEntity);
-            }
-        }
-
         protected void AddEntity(IEntity _entity)
         {
             EntityContainer.Add(_entity);

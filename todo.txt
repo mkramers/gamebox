@@ -11,12 +11,12 @@ Coins
 		once a score is obtained the user is notified
 
 	Todo:
-		create coin sprite
-		figure out how to draw sprites with different colors
-		create coins map in a new sprite
-		create coin value+color LUT in json
-		write coin parser to read from sprite+LUT and load into object
-		render coins from object with correct colors
+		[done] create coin sprite
+		[done] figure out how to draw sprites with different colors
+		[done] create coins map in a new sprite
+		[done] create coin value+color LUT in json
+		[done] write coin parser to read from sprite+LUT and load into object
+		[done] render coins from object with correct colors
 		detect coin collision with man
 		create coin tracking object which tracks score and controls display of coins
 		display score in tgui widget

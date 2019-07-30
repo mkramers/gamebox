@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using Aether.Physics2D.Dynamics;
 using PhysicsCore;
 using RenderCore.Drawable;
 using SFML.Graphics;
@@ -58,6 +59,18 @@ namespace GameCore.Entity
         public void Draw(RenderTarget _target, RenderStates _states)
         {
             m_drawable.Draw(_target, _states);
+        }
+
+        public event OnCollisionEventHandler Collided
+        {
+            add => m_body.Collided += value;
+            remove => m_body.Collided -= value;
+        }
+
+        public event OnSeparationEventHandler Separated
+        {
+            add => m_body.Separated += value;
+            remove => m_body.Separated -= value;
         }
     }
 }

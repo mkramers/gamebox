@@ -3,7 +3,7 @@ using Common.Geometry;
 
 namespace PhysicsCore
 {
-    public interface IBody : IPosition
+    public interface IBody : IPosition, ICollidable
     {
         void ApplyForce(Vector2 _force);
 

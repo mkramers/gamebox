@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using GameCore;
@@ -6,8 +7,10 @@ using GameCore.Entity;
 using GameCore.Input.Key;
 using GameCore.Maps;
 using GameCore.ViewProvider;
+using GameResources;
 using LibExtensions;
 using PhysicsCore;
+using RenderCore;
 using RenderCore.Drawable;
 using RenderCore.Font;
 using RenderCore.Render;
@@ -43,6 +46,13 @@ namespace GameBox
             AddMap(physics);
 
             AddMan(manEntity);
+
+            //temp
+            CoinThing c = new CoinThing(physics);
+            foreach (IEntity coinEntity in c.CoinEntities)
+            {
+                AddEntity(coinEntity);
+            }
         }
 
         private void AddMan(IEntity _manEntity)
@@ -62,7 +72,11 @@ namespace GameBox
             const string mapFilePath = @"C:\dev\GameBox\RenderCore\Resources\art\sample_tree_map.json";
 
             SampleMap2 map = new SampleMap2(mapFilePath, _physics);
-            AddMap(map, _physics);
+
+            foreach (IEntity woodEntity in map.GetEntities(_physics))
+            {
+                AddEntity(woodEntity);
+            }
 
             IRenderCoreTarget scene = RenderCoreWindow.GetScene();
 
@@ -117,7 +131,13 @@ namespace GameBox
 
             IEntity manEntity =
                 SpriteEntityFactory.CreateSpriteEntity(mass, manPosition, _physics, BodyType.Dynamic, sprite);
+            manEntity.Collided += ManEntity_Collided;
             return manEntity;
+        }
+
+        private static bool ManEntity_Collided(Fixture _sender, Fixture _other, Aether.Physics2D.Dynamics.Contacts.Contact _contact)
+        {
+            return true;
         }
 
         private void AddFpsWidget()

@@ -1,9 +1,16 @@
 ﻿using System.Numerics;
 using Aether.Physics2D.Dynamics;
+using Aether.Physics2D.Dynamics.Contacts;
 using LibExtensions;
 
 namespace PhysicsCore
 {
+    public interface ICollidable
+    {
+        event OnCollisionEventHandler Collided;
+        event OnSeparationEventHandler Separated;
+    }
+
     public class Body : IBody
     {
         private readonly Aether.Physics2D.Dynamics.Body m_body;
@@ -12,7 +19,7 @@ namespace PhysicsCore
         {
             m_body = _body;
         }
-
+        
         public Vector2 GetPosition()
         {
             return m_body.Position.GetVector2();
@@ -37,6 +44,17 @@ namespace PhysicsCore
         public void SetPosition(Vector2 _position)
         {
             m_body.Position = _position.GetVector2();
+        }
+
+        public event OnCollisionEventHandler Collided
+        {
+            add => m_body.OnCollision += value;
+            remove => m_body.OnCollision -= value;
+        }
+        public event OnSeparationEventHandler Separated
+        {
+            add => m_body.OnSeparation += value;
+            remove => m_body.OnSeparation -= value;
         }
     }
 }
