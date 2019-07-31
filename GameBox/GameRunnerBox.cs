@@ -16,6 +16,7 @@ using RenderCore.Resource;
 using RenderCore.Widget;
 using SFML.Graphics;
 using SFML.System;
+using TGUI;
 
 namespace GameBox
 {
@@ -106,7 +107,7 @@ namespace GameBox
             //temp
             List<Coin> coins = CoinEntitiesFactory.GetCoins(physics).ToList();
 
-            m_coinThing = new CoinThing(manEntity, coins, m_gameRunner.GetScene());
+            m_coinThing = new CoinThing(manEntity, coins, m_gameRunner.GetScene(), m_gameRunner.GetGui());
             m_gameRunner.AddGameModule(m_coinThing);
         }
 

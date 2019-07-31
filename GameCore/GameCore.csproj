@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="TGUI.Net.win-x64" Version="0.8.3.10" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\PhysicsCore\PhysicsCore.csproj" />
     <ProjectReference Include="..\RenderCore\RenderCore.csproj" />

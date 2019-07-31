@@ -4,6 +4,7 @@ using RenderCore.ViewProvider;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
+using TGUI;
 
 namespace RenderCore.Render
 {
@@ -13,6 +14,7 @@ namespace RenderCore.Render
         private readonly IRenderCoreTarget m_overlayTarget;
         private readonly RenderWindow m_renderWindow;
         private readonly IRenderCoreTarget m_sceneTarget;
+        private readonly Gui m_gui;
 
         public RenderCoreWindow(RenderWindow _renderWindow, float _aspectRatio)
         {
@@ -20,6 +22,8 @@ namespace RenderCore.Render
             m_aspectRatio = _aspectRatio;
             m_renderWindow.Resized += OnRenderWindowResized;
             m_renderWindow.Closed += (_sender, _e) => m_renderWindow.Close();
+
+            m_gui = new Gui(m_renderWindow);
 
             Vector2u windowSize = m_renderWindow.Size;
 
@@ -57,6 +61,16 @@ namespace RenderCore.Render
             m_overlayTarget.Tick(_elapsed);
 
             Draw(m_renderWindow);
+        }
+
+        public RenderWindow GetRenderWindow()
+        {
+            return m_renderWindow;
+        }
+
+        public Gui GetGui()
+        {
+            return m_gui;
         }
 
         private void OnRenderWindowResized(object _sender, SizeEventArgs _e)
@@ -97,6 +111,7 @@ namespace RenderCore.Render
             renderWindowView.Viewport = viewPort;
 
             m_renderWindow.SetView(renderWindowView);
+            m_gui.View = renderWindowView;
         }
 
         public IRenderCoreTarget GetScene()
@@ -115,6 +130,8 @@ namespace RenderCore.Render
 
             _renderWindow.Draw(m_sceneTarget);
             _renderWindow.Draw(m_overlayTarget);
+
+            m_gui.Draw();
 
             _renderWindow.Display();
         }

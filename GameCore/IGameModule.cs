@@ -1,9 +1,11 @@
-﻿using Common.Tickable;
+﻿using System.Collections.Generic;
+using Common.Tickable;
+using TGUI;
 
 namespace GameCore
 {
     public interface IGameModule : ITickable
     {
-
+        IEnumerable<Widget> GetGuiWidgets();
     }
 }

@@ -19,6 +19,8 @@ using PhysicsCore;
 using RenderCore.Render;
 using SFML.Graphics;
 using SFML.System;
+using TGUI;
+using Color = SFML.Graphics.Color;
 
 namespace GameBox
 {
@@ -118,13 +120,16 @@ namespace GameBox
     {
         private readonly IEntity m_captureEntity;
         private readonly IRenderCoreTarget m_target;
+        private readonly Gui m_gui;
         private readonly List<Coin> m_coins;
         private float m_score;
+        private readonly Label m_scoreLabel;
 
-        public CoinThing(IEntity _captureEntity, IEnumerable<Coin> _coins, IRenderCoreTarget _target)
+        public CoinThing(IEntity _captureEntity, IEnumerable<Coin> _coins, IRenderCoreTarget _target, Gui _gui)
         {
             m_captureEntity = _captureEntity;
             m_target = _target;
+            m_gui = _gui;
 
             m_coins = new List<Coin>();
 
@@ -132,14 +137,21 @@ namespace GameBox
             foreach (Coin coin in coins)
             {
                 IEntity entity = coin.Entity;
-                
+
                 entity.Collided += EntityOnCollided;
                 entity.Separated += EntityOnSeparated;
-                
+
                 _target.AddDrawable(entity);
 
                 m_coins.Add(coin);
             }
+
+            m_scoreLabel = new Label();
+            m_scoreLabel.SetPosition(new Layout2d(10, 10));
+            m_scoreLabel.Renderer.TextColor = Color.White;
+            m_gui.Add(m_scoreLabel);
+
+            UpdateScoreLabel();
         }
 
         private void EntityOnCollided(object _sender, CollisionEventArgs _e)
@@ -160,17 +172,19 @@ namespace GameBox
 
             m_score += coin.Value;
 
+            UpdateScoreLabel();
+
             m_coins.Remove(coin);
             m_target.RemoveDrawable(coin.Entity);
         }
 
-        private void EntityOnSeparated(object _sender, SeparationEventArgs _e)
+        private void UpdateScoreLabel()
         {
+            m_scoreLabel.Text = $"Score: {m_score}";
         }
 
-        public float GetScore()
+        private void EntityOnSeparated(object _sender, SeparationEventArgs _e)
         {
-            return m_score;
         }
 
         public void Tick(TimeSpan _elapsed)
@@ -179,6 +193,11 @@ namespace GameBox
             {
                 coin.Entity.Tick(_elapsed);
             }
+        }
+
+        public IEnumerable<Widget> GetGuiWidgets()
+        {
+            return new[] { m_scoreLabel };
         }
     }
 

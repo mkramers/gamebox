@@ -23,6 +23,10 @@
   </Target>
 
   <ItemGroup>
+    <PackageReference Include="TGUI.Net.win-x64" Version="0.8.3.10" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\GameCore\GameCore.csproj" />
     <ProjectReference Include="..\RenderCore\RenderCore.csproj" />
     <ProjectReference Include="..\ResourceUtilities\ResourceUtilities.csproj" />

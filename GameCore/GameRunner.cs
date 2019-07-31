@@ -15,6 +15,7 @@ using RenderCore.ViewProvider;
 using RenderCore.Widget;
 using SFML.Graphics;
 using SFML.System;
+using TGUI;
 
 namespace GameCore
 {
@@ -96,6 +97,11 @@ namespace GameCore
         public void AddGameModule(IGameModule _gameModule)
         {
             m_gameModules.Add(_gameModule);
+        }
+
+        public Gui GetGui()
+        {
+            return m_renderCoreWindow.GetGui();
         }
 
         public void StartLoop()
