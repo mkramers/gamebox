@@ -180,7 +180,32 @@ namespace GameBox
 
         private void UpdateScoreLabel()
         {
-            m_scoreLabel.Text = $"Score: {m_score}";
+            float score = m_score;
+
+            m_scoreLabel.Text = $"Score: {score}";
+
+            if (score > 0)
+            {
+                ChildWindow childWindow = new ChildWindow("Winner!");
+                childWindow.SetSize(new Layout2d(300, 100));
+                childWindow.SetPosition(new Layout2d(50, 50));
+
+                childWindow.Closed += ChildWindowOnClosed;
+                
+                PauseGame?.Invoke(this, EventArgs.Empty);
+
+                m_gui.Add(childWindow);
+            }
+        }
+
+        private void ChildWindowOnClosed(object _sender, EventArgs _e)
+        {
+            ChildWindow childWindow = _sender as ChildWindow;
+            Debug.Assert(childWindow != null);
+
+            m_gui.Remove(childWindow);
+
+            ResumeGame?.Invoke(this, EventArgs.Empty);
         }
 
         private void EntityOnSeparated(object _sender, SeparationEventArgs _e)
@@ -199,6 +224,9 @@ namespace GameBox
         {
             return new[] { m_scoreLabel };
         }
+
+        public event EventHandler PauseGame;
+        public event EventHandler ResumeGame;
     }
 
     public class CoinLookupTable

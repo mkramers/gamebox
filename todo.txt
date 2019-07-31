@@ -19,6 +19,6 @@ Coins
 		[done] render coins from object with correct colors
 		[done] detect coin collision with man
 		[done] create coin tracking object which tracks score and controls display of coins
-		display score in tgui widget
-		create ui popup in tgui
-		notify user when score is reached via popup
+		[done] display score in tgui widget
+		[done] create ui popup in tgui
+		[done] notify user when score is reached via popup

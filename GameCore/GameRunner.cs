@@ -43,6 +43,7 @@ namespace GameCore
         private readonly RenderCoreWindow m_renderCoreWindow;
         private readonly TickableContainer<IWidget> m_widgets;
         private readonly TickableContainer<IGameModule> m_gameModules;
+        private bool m_pauseGame;
 
         public void Dispose()
         {
@@ -96,6 +97,9 @@ namespace GameCore
 
         public void AddGameModule(IGameModule _gameModule)
         {
+            _gameModule.PauseGame += (_sender, _e) => m_pauseGame = true;
+            _gameModule.ResumeGame += (_sender, _e) => m_pauseGame = false;
+
             m_gameModules.Add(_gameModule);
         }
 
@@ -112,15 +116,18 @@ namespace GameCore
             {
                 TimeSpan elapsed = stopwatch.GetElapsedAndRestart();
                 
-                m_keyHandlers.Tick(elapsed);
+                if (!m_pauseGame)
+                {
+                    m_keyHandlers.Tick(elapsed);
 
-                m_physics.Tick(elapsed);
+                    m_physics.Tick(elapsed);
+
+                    m_entityContainer.Tick(elapsed);
+
+                    m_widgets.Tick(elapsed);
+                }
 
                 m_gameModules.Tick(elapsed);
-
-                m_entityContainer.Tick(elapsed);
-
-                m_widgets.Tick(elapsed);
 
                 m_renderCoreWindow.Tick(elapsed);
 
