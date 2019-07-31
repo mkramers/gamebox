@@ -115,7 +115,7 @@ namespace GameCore
             while (m_renderCoreWindow.IsOpen)
             {
                 TimeSpan elapsed = stopwatch.GetElapsedAndRestart();
-                
+
                 if (!m_pauseGame)
                 {
                     m_keyHandlers.Tick(elapsed);
@@ -145,16 +145,19 @@ namespace GameCore
             WidgetFontSettings widgetFontSettingsFactory = new WidgetFontSettings();
             FontSettings fpsFontSettings = widgetFontSettingsFactory.GetSettings(WidgetFontSettingsType.FPS_COUNTER);
 
-            Vector2 textPosition = new Vector2(fpsFontSettings.Scale, 1.0f - 1.5f * fpsFontSettings.Scale);
+            Vector2u windowSize = m_renderCoreWindow.GetWindowSize();
 
-            Text text = TextFactory.GenerateText(fpsFontSettings);
-            text.Position = textPosition.GetVector2F();
+            Vector2 textPosition = new Vector2(windowSize.X / 2.0f, windowSize.Y - fpsFontSettings.Size);
 
-            FpsTextWidget fpsTextWidget = new FpsTextWidget(5, text);
+            FpsLabel fpsWidget = new FpsLabel(5, fpsFontSettings)
+            {
+                Position = textPosition.GetVector2F(),
+            };
 
-            AddDrawableToOverlay(fpsTextWidget);
+            Gui gui = m_renderCoreWindow.GetGui();
+            gui.Add(fpsWidget);
 
-            AddWidget(fpsTextWidget);
+            AddWidget(fpsWidget);
         }
 
         public IRenderCoreTarget GetScene()

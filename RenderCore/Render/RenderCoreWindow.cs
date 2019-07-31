@@ -1,10 +1,12 @@
 ﻿using System;
+using Aether.Physics2D.Common.Maths;
 using Common.Tickable;
 using RenderCore.ViewProvider;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
 using TGUI;
+using Color = SFML.Graphics.Color;
 
 namespace RenderCore.Render
 {
@@ -117,6 +119,11 @@ namespace RenderCore.Render
         public IRenderCoreTarget GetScene()
         {
             return m_sceneTarget;
+        }
+
+        public Vector2u GetWindowSize()
+        {
+            return m_renderWindow.Size;
         }
 
         public IRenderCoreTarget GetOverlay()
