@@ -152,7 +152,7 @@ namespace GameBox
             m_scoreLabel.Renderer.TextColor = Color.White;
             m_gui.Add(m_scoreLabel);
 
-            UpdateScoreLabel();
+            UpdateScoreLabel(m_score);
         }
 
         private void EntityOnCollided(object _sender, CollisionEventArgs _e)
@@ -173,33 +173,35 @@ namespace GameBox
 
             m_score += coin.Value;
 
-            UpdateScoreLabel();
-
+            UpdateScoreLabel(m_score);
+            
             m_coins.Remove(coin);
             m_target.RemoveDrawable(coin.Entity);
-        }
 
-        private void UpdateScoreLabel()
-        {
-            float score = m_score;
-
-            m_scoreLabel.Text = $"Score: {score}";
-
-            if (score > 0)
+            if (m_score > 0)
             {
-                ChildWindow childWindow = new ChildWindow("Winner!");
-                childWindow.SetSize(new Layout2d(300, 100));
-                childWindow.SetPosition(new Layout2d(50, 50));
-
-                childWindow.Closed += ChildWindowOnClosed;
-                
-                PauseGame?.Invoke(this, EventArgs.Empty);
-
-                m_gui.Add(childWindow);
+                ShowWinScreen();
             }
         }
 
-        private void ChildWindowOnClosed(object _sender, EventArgs _e)
+        private void UpdateScoreLabel(float _score)
+        {
+            m_scoreLabel.Text = $"Score: {_score}";
+        }
+
+        private void ShowWinScreen()
+        {
+            PauseGame?.Invoke(this, EventArgs.Empty);
+
+            ChildWindow childWindow = new ChildWindow("Winner!");
+            childWindow.SetSize(new Layout2d(300, 100));
+            childWindow.SetPosition(new Layout2d(50, 50));
+            childWindow.Closed += WinScreenOnClosed;
+
+            m_gui.Add(childWindow);
+        }
+        
+        private void WinScreenOnClosed(object _sender, EventArgs _e)
         {
             ChildWindow childWindow = _sender as ChildWindow;
             Debug.Assert(childWindow != null);
@@ -219,11 +221,6 @@ namespace GameBox
             {
                 coin.Entity.Tick(_elapsed);
             }
-        }
-
-        public IEnumerable<Widget> GetGuiWidgets()
-        {
-            return new[] { m_scoreLabel };
         }
 
         public event EventHandler PauseGame;
