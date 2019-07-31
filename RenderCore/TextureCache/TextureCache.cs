@@ -19,13 +19,6 @@ namespace RenderCore.TextureCache
             return texture;
         }
 
-        public Texture GetTextureFromResource(string _resourceName, IntRect? _area = null)
-        {
-            TextureResourceArgs args = new TextureResourceArgs(_resourceName, _area);
-            Texture texture = GetObject(args);
-            return texture;
-        }
-
         private static class Factory
         {
             internal static TextureCache CreateTextureCache()
