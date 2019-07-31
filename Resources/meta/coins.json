@@ -1,0 +1,20 @@
+{
+  "objgenlink": "http://www.objgen.com/json/models/1FtP",
+  "coins": [
+    {
+      "grey": "191",
+      "sprite": "yellow",
+      "value": "10"
+    },
+    {
+      "grey": "127",
+      "sprite": "orange",
+      "value": "40"
+    },
+    {
+      "grey": "63",
+      "sprite": "red",
+      "value": "100"
+    }
+  ]
+}
