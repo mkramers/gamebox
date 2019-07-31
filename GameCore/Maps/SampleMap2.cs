@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Common.Cache;
 using Common.Geometry;
 using Common.Grid;
 using Common.VertexObject;
@@ -10,7 +11,6 @@ using GameResources.Attributes;
 using MarchingSquares;
 using PhysicsCore;
 using RenderCore.Drawable;
-using RenderCore.TextureCache;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;
 
@@ -32,7 +32,7 @@ namespace GameCore.Maps
             MapFileLoader loader = new MapFileLoader();
             Map map = loader.LoadMapFromFile(spriteSheet);
 
-            Texture texture = TextureCache.Instance.GetTextureFromFile(map.SceneLayer.FileName);
+            Texture texture = new Texture(map.SceneLayer.FileName);
 
             Sprite sprite = new Sprite(texture);
 

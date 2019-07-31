@@ -38,4 +38,8 @@
     <ProjectReference Include="..\ResourceUtilities\ResourceUtilities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TextureCache\" />
+  </ItemGroup>
+
 </Project>

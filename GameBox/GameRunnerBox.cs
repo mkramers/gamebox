@@ -4,6 +4,8 @@ using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using Aether.Physics2D.Dynamics.Contacts;
+using Common.Cache;
+using Common.Caches;
 using GameCore;
 using GameCore.Entity;
 using GameCore.Input.Key;
@@ -12,7 +14,6 @@ using GameCore.ViewProvider;
 using PhysicsCore;
 using RenderCore.Drawable;
 using RenderCore.Font;
-using RenderCore.TextureCache;
 using RenderCore.Widget;
 using SFML.Graphics;
 using SFML.System;
@@ -41,7 +42,7 @@ namespace GameBox
                 Vector2 manScale = new Vector2(2f, 2f);
 
                 const string mkFilePath = @"C:\dev\GameBox\RenderCore\Resources\art\mk.png";
-                Texture texture = TextureCache.Instance.GetTextureFromFile(mkFilePath);
+                Texture texture = new Texture(mkFilePath);
 
                 Vector2f spriteScale = new Vector2f(manScale.X / texture.Size.X, manScale.Y / texture.Size.Y);
                 Sprite sprite = new Sprite(texture)

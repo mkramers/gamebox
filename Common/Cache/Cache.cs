@@ -1,37 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace Common.Cache
 {
-    public abstract class Cache<T, TY> where T : class where TY : IEquatable<TY>
+    public class Cache<T, TY> where T : class
     {
-        private readonly ICacheObjectProvider<T, TY> m_cacheObjectProvider;
         private readonly List<ICacheEntry<T, TY>> m_entries;
 
-        protected Cache(ICacheObjectProvider<T, TY> _cacheObjectProvider)
+        protected Cache()
         {
-            m_cacheObjectProvider = _cacheObjectProvider;
             m_entries = new List<ICacheEntry<T, TY>>();
         }
+        
+        public static Cache<T, TY> Instance { get; } = new Cache<T, TY>();
 
-        protected T GetObject(TY _id)
+        public T GetObject(TY _id)
         {
-            T cachedObject;
-
-            ICacheEntry<T, TY> existingEntry = m_entries.Find(_entry => _entry.Id.Equals(_id));
+            ICacheEntry<T, TY> existingEntry = FindCacheEntry(_id);
             if (existingEntry == null)
             {
-                cachedObject = m_cacheObjectProvider.GetObject(_id);
-
-                ICacheEntry<T, TY> entry = new CacheEntry<T, TY>(_id, cachedObject);
-                m_entries.Add(entry);
-            }
-            else
-            {
-                cachedObject = existingEntry.CachedObject;
+                throw new Exception("Item does not exist in cache!");
             }
 
+            T cachedObject = existingEntry.CachedObject;
             return cachedObject;
+        }
+
+        private ICacheEntry<T, TY> FindCacheEntry(TY _id)
+        {
+            ICacheEntry<T, TY> existingEntry = m_entries.Find(_entry => _entry.Id.Equals(_id));
+            return existingEntry;
+        }
+
+        public void AddObject(TY _id, T _value)
+        {
+            ICacheEntry<T, TY> existingEntry = FindCacheEntry(_id);
+            if (existingEntry != null)
+            {
+                throw new Exception("Item already exists in cache!");
+            }
+
+            ICacheEntry<T, TY> entry = new CacheEntry<T, TY>(_id, _value);
+            m_entries.Add(entry);
         }
     }
 }

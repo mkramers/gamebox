@@ -7,6 +7,7 @@ using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using Aether.Physics2D.Dynamics.Contacts;
+using Common.Cache;
 using Common.Grid;
 using GameCore;
 using GameCore.Entity;
@@ -45,17 +46,17 @@ namespace GameBox
             {
                 {
                     "yellow",
-                    RenderCore.TextureCache.TextureCache.Instance.GetTextureFromFile(
+                    new Texture(
                         @"C:\dev\GameBox\RenderCore\Resources\art\coin-yellow.png")
                 },
                 {
                     "orange",
-                    RenderCore.TextureCache.TextureCache.Instance.GetTextureFromFile(
+                    new Texture(
                         @"C:\dev\GameBox\RenderCore\Resources\art\coin-orange.png")
                 },
                 {
                     "red",
-                    RenderCore.TextureCache.TextureCache.Instance.GetTextureFromFile(
+                    new Texture(
                         @"C:\dev\GameBox\RenderCore\Resources\art\coin-red.png")
                 },
             };

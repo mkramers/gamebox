@@ -2,7 +2,7 @@
 
 namespace Common.Cache
 {
-    public class CacheEntry<T, TY> : ICacheEntry<T, TY> where T : class where TY : IEquatable<TY>
+    public class CacheEntry<T, TY> : ICacheEntry<T, TY> where T : class
     {
         public CacheEntry(TY _id, T _cachedObject)
         {
