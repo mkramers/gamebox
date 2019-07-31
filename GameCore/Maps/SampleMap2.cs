@@ -57,13 +57,6 @@ namespace GameCore.Maps
 
             LineSegment floorLineSegment = new LineSegment(-100, 0, 100, 0);
             IBody edges = _physics.CreateEdges(new[] { floorLineSegment }, mapPosition - -20 * Vector2.UnitY);
-
-            //temp
-            //const string coinSpriteFile = @"C:\dev\GameBox\RenderCore\Resources\art\coin-scene.png";
-            //Texture coinTexture = TextureCache.Instance.GetTextureFromFile(coinSpriteFile);
-            //Sprite coinSprite = new Sprite(coinTexture);
-
-            //m_drawables.Add(new Drawable<Sprite>(coinSprite));
         }
 
         public IEnumerable<IEntity> GetEntities(IPhysics _physics)
