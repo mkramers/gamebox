@@ -17,11 +17,15 @@ namespace GameResources
                 Add(mapLayer.Name, mapLayer);
             }
         }
-        public Grid<ComparableColor> GetCollisionGrid()
-        {
-            Debug.Assert(ContainsKey("collision"));
+    }
 
-            MapLayer collisionLayer = this["collision"];
+    public static class MapExtensions
+    {
+        public static Grid<ComparableColor> GetCollisionGrid(this Map _map)
+        {
+            Debug.Assert(_map.ContainsKey("collision"));
+
+            MapLayer collisionLayer = _map["collision"];
 
             Bitmap bitmap = new Bitmap(collisionLayer.FilePath);
 

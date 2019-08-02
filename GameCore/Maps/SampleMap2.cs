@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using Common.Cache;
 using Common.Geometry;
 using Common.Grid;
 using Common.VertexObject;
@@ -58,7 +57,7 @@ namespace GameCore.Maps
             m_drawables.Add(lineShapes);
 
             LineSegment floorLineSegment = new LineSegment(-100, 0, 100, 0);
-            IBody edges = _physics.CreateEdges(new[] { floorLineSegment }, mapPosition - -20 * Vector2.UnitY);
+            _physics.CreateEdges(new[] { floorLineSegment }, mapPosition - -20 * Vector2.UnitY);
         }
 
         public IEnumerable<IEntity> GetEntities(IPhysics _physics)
