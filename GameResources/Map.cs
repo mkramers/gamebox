@@ -1,4 +1,6 @@
 ﻿extern alias CoreCompatSystemDrawing;
+using System.Collections.Generic;
+using System.Diagnostics;
 using Common.Grid;
 using CoreCompatSystemDrawing::System.Drawing;
 using GameResources.Attributes;
@@ -6,22 +8,22 @@ using GameResources.Converters;
 
 namespace GameResources
 {
-    public class Map
+    public class Map : Dictionary<string, MapLayer>
     {
-        public Map(string _mapName, MapLayer _collisionLayer, MapLayer _sceneLayer)
+        public Map(IEnumerable<MapLayer> _layers)
         {
-            MapName = _mapName;
-            CollisionLayer = _collisionLayer;
-            SceneLayer = _sceneLayer;
+            foreach (MapLayer mapLayer in _layers)
+            {
+                Add(mapLayer.Name, mapLayer);
+            }
         }
-
-        private string MapName { get; }
-        private MapLayer CollisionLayer { get; }
-        public MapLayer SceneLayer { get; }
-
         public Grid<ComparableColor> GetCollisionGrid()
         {
-            Bitmap bitmap = new Bitmap(CollisionLayer.FileName);
+            Debug.Assert(ContainsKey("collision"));
+
+            MapLayer collisionLayer = this["collision"];
+
+            Bitmap bitmap = new Bitmap(collisionLayer.FilePath);
 
             Grid<ComparableColor> grid = BitmapToGridConverter.GetColorGridFromBitmap(bitmap);
             return grid;

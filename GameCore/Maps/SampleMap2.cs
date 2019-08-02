@@ -32,7 +32,9 @@ namespace GameCore.Maps
             MapFileLoader loader = new MapFileLoader();
             Map map = loader.LoadMapFromFile(spriteSheet);
 
-            Texture texture = new Texture(map.SceneLayer.FileName);
+            MapLayer sceneLayer = map["scene"];
+
+            Texture texture = new Texture(sceneLayer.FilePath);
 
             Sprite sprite = new Sprite(texture);
 

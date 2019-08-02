@@ -4,13 +4,15 @@ namespace GameResources
 {
     public class MapLayer
     {
-        public MapLayer(IntSize _size, string _fileName)
+        public MapLayer(string _name, IntSize _size, string _filePath)
         {
+            Name = _name;
             Size = _size;
-            FileName = _fileName;
+            FilePath = _filePath;
         }
 
         private IntSize Size { get; }
-        public string FileName { get; }
+        public string FilePath { get; }
+        public string Name { get; }
     }
 }

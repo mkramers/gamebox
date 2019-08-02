@@ -13,12 +13,16 @@ namespace ResourceUtilities.Aseprite
         {
             SpriteSheet spriteSheet = _spriteSheetFile.SpriteSheet;
 
-            string mapName = GetMapName(spriteSheet);
+            List<MapLayer> mapLayers = new List<MapLayer>();
+            foreach (Layer layer in spriteSheet.Meta.Layers)
+            {
+                IntSize size = GetLayerSize(spriteSheet);
+                MapLayer mapLayer = LoadMapLayer(_spriteSheetFile, layer.Name);
 
-            MapLayer collisionMapLayer = LoadMapLayer(_spriteSheetFile, "collision");
-            MapLayer sceneMapLayer = LoadMapLayer(_spriteSheetFile, "scene");
+                mapLayers.Add(mapLayer);
+            }
 
-            return new Map(mapName, collisionMapLayer, sceneMapLayer);
+            return new Map(mapLayers);
         }
 
         private static string GetMapName(SpriteSheet _spriteSheet)
@@ -79,10 +83,10 @@ namespace ResourceUtilities.Aseprite
 
             if (!File.Exists(layerFilePath))
             {
-                throw new KeyNotFoundException($"layer spriteSheet {layerFilePath} not found");
+                throw new FileNotFoundException($"layer spriteSheet {layerFilePath} not found");
             }
 
-            MapLayer mapLayer = new MapLayer(size, layerFilePath);
+            MapLayer mapLayer = new MapLayer(_layerName, size, layerFilePath);
             return mapLayer;
         }
     }
