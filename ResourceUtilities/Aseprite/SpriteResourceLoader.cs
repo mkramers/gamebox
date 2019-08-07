@@ -26,23 +26,27 @@ namespace ResourceUtilities.Aseprite
 
             paths = paths.Select(GetAsepriteFileName);
 
+            List<SpriteLayers> spriteLayers = new List<SpriteLayers>();
+
             foreach (string path in paths)
             {
                 SpriteSheetFile spriteSheet = SpriteSheetFileLoader.LoadFromFile(path);
 
                 MapFileLoader loader = new MapFileLoader();
-                SpriteLayers spriteLayers = loader.LoadSpriteLayersFromFile(spriteSheet);
+                SpriteLayers layers = loader.LoadSpriteLayersFromFile(spriteSheet);
+
+                spriteLayers.Add(layers);
             }
         }
 
         private string GetAsepriteFileName(string _path)
         {
             const string genDirectoryName = "gen";
-            const string asespriteExtension = ".json";
+            const string asepriteExtension = ".json";
 
-            string spriteName = new DirectoryInfo(_path).Name;
+            string spriteName = m_fileSystem.DirectoryInfo.FromDirectoryName(_path).Name;
 
-            string filePath = Path.Combine(_path, genDirectoryName, Path.ChangeExtension(spriteName, asespriteExtension));
+            string filePath = m_fileSystem.Path.Combine(_path, genDirectoryName, m_fileSystem.Path.ChangeExtension(spriteName, asepriteExtension));
 
             return filePath;
         }
