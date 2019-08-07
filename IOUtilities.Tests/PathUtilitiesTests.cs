@@ -1,13 +1,13 @@
 using System;
 using NUnit.Framework;
 
-namespace Common.Tests
+namespace IOUtilities.Tests
 {
     [TestFixture]
     public class PathUtilitiesTests
     {
         [Test]
-        public void TestDifferencesInCapitolizationDontMatter()
+        public void TestDifferencesInCapitalizationDoesNotMatter()
         {
             string format1 = PathUtilities.NormalizeFilepath("c:\\windows\\system32");
             string format2 = PathUtilities.NormalizeFilepath("c:\\WindowS\\System32");
@@ -16,7 +16,7 @@ namespace Common.Tests
         }
 
         [Test]
-        public void TestDifferencesDueToBackstepsDontMatter()
+        public void TestDifferencesDueToBackstepsDoesNotMatter()
         {
             string format1 = PathUtilities.NormalizeFilepath("c:\\windows\\system32");
             string format2 = PathUtilities.NormalizeFilepath("c:\\Program Files\\..\\Windows\\System32");
@@ -25,7 +25,7 @@ namespace Common.Tests
         }
 
         [Test]
-        public void TestDifferencesInFinalSlashDontMatter()
+        public void TestDifferencesInFinalSlashDoesNotMatter()
         {
             string format1 = PathUtilities.NormalizeFilepath("c:\\windows\\system32");
             string format2 = PathUtilities.NormalizeFilepath("c:\\windows\\system32\\");
@@ -49,7 +49,7 @@ namespace Common.Tests
         }
 
         [Test]
-        public void TestThrowsExceptionIfRootDoesntMatchFullPath()
+        public void TestThrowsExceptionIfRootDoesNotMatchFullPath()
         {
             string rootPath = "c:\\windows";
             string fullPath = "c:\\program files\\Internet Explorer\\iexplore.exe";

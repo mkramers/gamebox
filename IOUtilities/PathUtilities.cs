@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Common
+namespace IOUtilities
 {
     public static class PathUtilities
     {
@@ -9,7 +9,7 @@ namespace Common
         {
             string result = Path.GetFullPath(_filepath).ToLowerInvariant();
 
-            result = result.TrimEnd('\\');
+            result = result.TrimEnd(new[] {'\\'});
 
             return result;
         }
