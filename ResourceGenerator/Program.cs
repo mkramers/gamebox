@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Text;
 using Common;
@@ -13,27 +14,60 @@ namespace ResourceGenerator
         private static int Main(string[] _args)
         {
             const string resourceDirectory = @"C:\dev\GameBox\Resources\sprite";
+            const string outputFilePath = @"C:\dev\GameBox\Resource\out\SpriteResources.cs";
 
-            string[] asepriteFiles = Directory.GetFiles(resourceDirectory, "*.aseprite", SearchOption.AllDirectories);
-            foreach (string asepriteFile in asepriteFiles)
+            IEnumerable<string> asepriteFiles;
+            try
             {
-                int exitCode = AsepriteExporter.Export(asepriteFile);
-                if (exitCode != 0)
-                {
-                    return exitCode;
-                }
+                asepriteFiles = SpriteResourceEnumGenerator.Export(resourceDirectory);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return 1;
             }
 
-            List<string> enumNames = new List<string>();
-            foreach (string asepriteFile in asepriteFiles)
+            try
             {
-                string enumName = SpriteResourceEnumGenerator.GenerateEnumNames(asepriteFile, resourceDirectory);
-                enumNames.Add(enumName);
+                FindAndWriteEnumsToCs(asepriteFiles, resourceDirectory, outputFilePath);
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return 2;
+            }
+            
+            return 0;
+        }
+
+        private static void FindAndWriteEnumsToCs(IEnumerable<string> _asepriteFiles, string _resourceDirectory, string _outputFilePath)
+        {
+            IEnumerable<string> enumNames = _asepriteFiles.Select(_asepriteFile =>
+                SpriteResourceEnumGenerator.GenerateEnumNames(_asepriteFile, _resourceDirectory));
 
             string enumCs = EnumCsGenerator.GenerateEnumCs(enumNames, "SpriteResources", "Resources");
 
-            return 0;
+            FileWriter writer = new FileWriter();
+            writer.WriteFile(_outputFilePath, enumCs);
+        }
+    }
+
+    public class FileWriter
+    {
+        private readonly FileSystem m_fileSystem;
+
+        protected FileWriter(FileSystem _fileSystem)
+        {
+            m_fileSystem = _fileSystem;
+        }
+
+        public FileWriter() : this(new FileSystem())
+        {
+        }
+
+        public void WriteFile(string _filePath, string _contents)
+        {
+            m_fileSystem.File.WriteAllText(_filePath, _contents);
         }
     }
 
@@ -46,9 +80,27 @@ namespace ResourceGenerator
 
             string[] names = subDirectory.TrimStart('.').Split("\\", StringSplitOptions.RemoveEmptyEntries);
 
-            string enumName = string.Join("_", names.Select(_name => _name.ToUpper()));
+            string enumName = String.Join("_", names.Select(_name => _name.ToUpper()));
 
             return enumName;
+        }
+
+        public static IEnumerable<string> GetAsepriteFiles(string _resourceDirectory)
+        {
+            string[] asepriteFiles = Directory.GetFiles(_resourceDirectory, "*.aseprite", SearchOption.AllDirectories);
+            return asepriteFiles;
+        }
+
+        public static IEnumerable<string> Export(string _resourceDirectory)
+        {
+            string[] asepriteFiles = SpriteResourceEnumGenerator.GetAsepriteFiles(_resourceDirectory).ToArray();
+
+            foreach (string asepriteFile in asepriteFiles)
+            {
+                AsepriteExporter.Export(asepriteFile);
+            }
+
+            return asepriteFiles;
         }
     }
 
@@ -74,7 +126,7 @@ namespace ResourceGenerator
 
     public static class AsepriteExporter
     {
-        public static int Export(string _asepriteFilePath)
+        public static void Export(string _asepriteFilePath)
         {
             string fileName = Path.GetFileNameWithoutExtension(_asepriteFilePath);
             string workingDirectory = Path.GetDirectoryName(_asepriteFilePath);
@@ -100,7 +152,10 @@ namespace ResourceGenerator
 
             process.WaitForExit();
 
-            return process.ExitCode;
+            if (process.ExitCode != 0)
+            {
+                throw new Exception($"Failed to export Asesprite. Exited with error code = {process.ExitCode}");
+            }
         }
     }
 }
