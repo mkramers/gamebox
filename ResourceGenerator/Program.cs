@@ -14,7 +14,7 @@ namespace ResourceGenerator
         private static int Main(string[] _args)
         {
             const string resourceDirectory = @"C:\dev\GameBox\Resources\sprite";
-            const string outputFilePath = @"C:\dev\GameBox\Resource\out\SpriteResources.cs";
+            const string outputFilePath = @"C:\dev\GameBox\Resources\out\SpriteResources.cs";
 
             IEnumerable<string> asepriteFiles;
             try
@@ -80,7 +80,7 @@ namespace ResourceGenerator
 
             string[] names = subDirectory.TrimStart('.').Split("\\", StringSplitOptions.RemoveEmptyEntries);
 
-            string enumName = String.Join("_", names.Select(_name => _name.ToUpper()));
+            string enumName = string.Join("_", names.Select(_name => _name.ToUpper()));
 
             return enumName;
         }
@@ -93,7 +93,7 @@ namespace ResourceGenerator
 
         public static IEnumerable<string> Export(string _resourceDirectory)
         {
-            string[] asepriteFiles = SpriteResourceEnumGenerator.GetAsepriteFiles(_resourceDirectory).ToArray();
+            string[] asepriteFiles = GetAsepriteFiles(_resourceDirectory).ToArray();
 
             foreach (string asepriteFile in asepriteFiles)
             {
@@ -138,7 +138,7 @@ namespace ResourceGenerator
             string outputJsonFormat = Path.Combine(outputDirectory, $"{fileName}.json");
 
             string arguments =
-                $@"aseprite -b {fileName}.aseprite --save-as {outputPngFormat} --data {outputJsonFormat} --list-layers --format json-array";
+                $@"-b {fileName}.aseprite --save-as {outputPngFormat} --data {outputJsonFormat} --list-layers --format json-array";
 
             ProcessStartInfo processStartInfo = new ProcessStartInfo
             {
