@@ -36,7 +36,6 @@ namespace ResourceGenerator
 
             try
             {
-                Console.WriteLine($"Generating enum cs file: {outputFilePath}...");
                 FindAndWriteEnumsToCs(asepriteFiles, resourceDirectory, outputFilePath);
             }
             catch (Exception e)
@@ -56,10 +55,14 @@ namespace ResourceGenerator
 
         private static void FindAndWriteEnumsToCs(IEnumerable<string> _asepriteFiles, string _resourceDirectory, string _outputFilePath)
         {
+            Console.WriteLine($"Generating enum cs file...");
+
             IEnumerable<string> enumNames = _asepriteFiles.Select(_asepriteFile =>
                 SpriteResourceEnumGenerator.GenerateEnumNames(_asepriteFile, _resourceDirectory));
 
             string enumCs = EnumCsGenerator.GenerateEnumCs(enumNames, "SpriteResources", "Resources");
+
+            Console.WriteLine($"\n<{_outputFilePath}>:\n{enumCs}");
 
             FileWriter writer = new FileWriter();
             writer.WriteFile(_outputFilePath, enumCs);

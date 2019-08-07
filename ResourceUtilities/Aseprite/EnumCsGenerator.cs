@@ -20,7 +20,7 @@ namespace ResourceUtilities.Aseprite
             stringBuilder.AppendLine("\t}");
             stringBuilder.AppendLine("}");
 
-            return stringBuilder.ToString();
+            return stringBuilder.ToString().TrimEnd();
         }
     }
 }
