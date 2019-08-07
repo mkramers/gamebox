@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace IOUtilities
 {
@@ -19,8 +20,10 @@ namespace IOUtilities
 
             stringBuilder.AppendLine("\t}");
             stringBuilder.AppendLine("}");
+            
+            string normalizedPath = Regex.Replace(stringBuilder.ToString().TrimEnd(), @"\r\n|\n\r|\n|\r", "\r\n");
 
-            return stringBuilder.ToString().TrimEnd();
+            return normalizedPath;
         }
     }
 }

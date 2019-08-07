@@ -15,6 +15,7 @@ using PhysicsCore;
 using RenderCore.Drawable;
 using RenderCore.Font;
 using RenderCore.Widget;
+using ResourceUtilities.Aseprite;
 using SFML.Graphics;
 using SFML.System;
 using TGUI;
@@ -32,6 +33,9 @@ namespace GameBox
 
             IPhysics physics = m_gameRunner.GetPhysics();
             physics.SetGravity(new Vector2(0, 5.5f));
+
+            SpriteResourceLoader loader = new SpriteResourceLoader();
+            loader.LoadResources(@".\");
 
             //create man
             IEntity manEntity;

@@ -1,0 +1,1 @@
+dotnet "ResourceGenerator.dll" "..\..\..\..\Resources\sprite" "..\..\..\..\ResourceUtilities\Aseprite"
