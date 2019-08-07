@@ -2,9 +2,9 @@
 
 namespace GameResources
 {
-    public class MapLayer
+    public class SpriteLayer
     {
-        public MapLayer(string _name, IntSize _size, string _filePath)
+        public SpriteLayer(string _name, IntSize _size, string _filePath)
         {
             Name = _name;
             Size = _size;

@@ -9,8 +9,6 @@ namespace ResourceUtilities.Aseprite
 
         [JsonProperty] public string Version { get; private set; }
 
-        [JsonProperty] public string Image { get; private set; }
-
         [JsonProperty] public string Format { get; private set; }
 
         [JsonProperty] public IntSize Size { get; private set; }

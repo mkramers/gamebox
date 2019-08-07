@@ -9,28 +9,20 @@ namespace ResourceUtilities.Aseprite
 {
     public class MapFileLoader
     {
-        public Map LoadMapFromFile(SpriteSheetFile _spriteSheetFile)
+        public SpriteLayers LoadSpriteLayersFromFile(SpriteSheetFile _spriteSheetFile)
         {
             SpriteSheet spriteSheet = _spriteSheetFile.SpriteSheet;
 
-            List<MapLayer> mapLayers = new List<MapLayer>();
+            List<SpriteLayer> spriteLayers = new List<SpriteLayer>();
             foreach (Layer layer in spriteSheet.Meta.Layers)
             {
                 IntSize size = GetLayerSize(spriteSheet);
-                MapLayer mapLayer = LoadMapLayer(_spriteSheetFile, layer.Name);
+                SpriteLayer spriteLayer = LoadSpriteLayer(_spriteSheetFile, layer.Name);
 
-                mapLayers.Add(mapLayer);
+                spriteLayers.Add(spriteLayer);
             }
 
-            return new Map(mapLayers);
-        }
-
-        private static string GetMapName(SpriteSheet _spriteSheet)
-        {
-            Meta meta = _spriteSheet.Meta;
-
-            string mapName = Path.GetFileNameWithoutExtension(meta.Image);
-            return mapName;
+            return new SpriteLayers(spriteLayers);
         }
 
         private static IntSize GetLayerSize(SpriteSheet _spriteSheet)
@@ -46,8 +38,8 @@ namespace ResourceUtilities.Aseprite
                 throw new KeyNotFoundException($"layer {_layerName} not found");
             }
 
-            string mapName = GetMapName(_spriteSheet);
-            string extension = Path.GetExtension(_spriteSheet.Meta.Image);
+            string mapName = _spriteSheet.SpriteName;
+            const string extension = ".png";
             string layerFileName = Path.ChangeExtension($"{mapName}-{_layerName}", extension);
             return layerFileName;
         }
@@ -71,7 +63,7 @@ namespace ResourceUtilities.Aseprite
             return meta.Layers.Any(_layer => _layer.Name == _layerName);
         }
 
-        private MapLayer LoadMapLayer(SpriteSheetFile _spriteSheetFile, string _layerName)
+        private SpriteLayer LoadSpriteLayer(SpriteSheetFile _spriteSheetFile, string _layerName)
         {
             SpriteSheet spriteSheet = _spriteSheetFile.SpriteSheet;
 
@@ -86,8 +78,8 @@ namespace ResourceUtilities.Aseprite
                 throw new FileNotFoundException($"layer spriteSheet {layerFilePath} not found");
             }
 
-            MapLayer mapLayer = new MapLayer(_layerName, size, layerFilePath);
-            return mapLayer;
+            SpriteLayer spriteLayer = new SpriteLayer(_layerName, size, layerFilePath);
+            return spriteLayer;
         }
     }
 }

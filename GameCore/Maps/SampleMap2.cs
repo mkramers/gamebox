@@ -29,15 +29,15 @@ namespace GameCore.Maps
             SpriteSheetFile spriteSheet = SpriteSheetFileLoader.LoadFromFile(_mapFilePath);
 
             MapFileLoader loader = new MapFileLoader();
-            Map map = loader.LoadMapFromFile(spriteSheet);
+            SpriteLayers spriteLayers = loader.LoadSpriteLayersFromFile(spriteSheet);
 
-            MapLayer sceneLayer = map["scene"];
+            SpriteLayer sceneLayer = spriteLayers["scene"];
 
             Texture texture = new Texture(sceneLayer.FilePath);
 
             Sprite sprite = new Sprite(texture);
 
-            Grid<ComparableColor> collisionGrid = map.GetCollisionGrid();
+            Grid<ComparableColor> collisionGrid = spriteLayers.GetCollisionGrid();
 
             ComparableColor colorThreshold = new ComparableColor(0, 0, 0, 0);
             MarchingSquaresGenerator<ComparableColor> marchingSquares =

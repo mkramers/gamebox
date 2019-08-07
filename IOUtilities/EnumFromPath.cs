@@ -39,7 +39,7 @@ namespace IOUtilities
 
         private static string GetPathFromEnum(T _enumValue, string _rootDirectory)
         {
-            string[] segments = _enumValue.ToString().Split(new[] {"_"}, StringSplitOptions.RemoveEmptyEntries);
+            string[] segments = _enumValue.ToString().ToLower().Split(new[] {"_"}, StringSplitOptions.RemoveEmptyEntries);
 
             return segments.Aggregate(_rootDirectory, Path.Combine);
         }

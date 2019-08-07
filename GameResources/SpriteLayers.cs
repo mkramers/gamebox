@@ -8,24 +8,24 @@ using GameResources.Converters;
 
 namespace GameResources
 {
-    public class Map : Dictionary<string, MapLayer>
+    public class SpriteLayers : Dictionary<string, SpriteLayer>
     {
-        public Map(IEnumerable<MapLayer> _layers)
+        public SpriteLayers(IEnumerable<SpriteLayer> _layers)
         {
-            foreach (MapLayer mapLayer in _layers)
+            foreach (SpriteLayer mapLayer in _layers)
             {
                 Add(mapLayer.Name, mapLayer);
             }
         }
     }
 
-    public static class MapExtensions
+    public static class SpriteLayersExtensions
     {
-        public static Grid<ComparableColor> GetCollisionGrid(this Map _map)
+        public static Grid<ComparableColor> GetCollisionGrid(this SpriteLayers _spriteLayers)
         {
-            Debug.Assert(_map.ContainsKey("collision"));
+            Debug.Assert(_spriteLayers.ContainsKey("collision"));
 
-            MapLayer collisionLayer = _map["collision"];
+            SpriteLayer collisionLayer = _spriteLayers["collision"];
 
             Bitmap bitmap = new Bitmap(collisionLayer.FilePath);
 

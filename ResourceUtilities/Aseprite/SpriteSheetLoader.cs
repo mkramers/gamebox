@@ -25,8 +25,9 @@ namespace ResourceUtilities.Aseprite
             string fileContents =
                 File.ReadAllText(_path);
 
-            SpriteSheet dFile2 = JsonConvert.DeserializeObject<SpriteSheet>(fileContents, settings);
-            return dFile2;
+            SpriteSheet spriteSheet = JsonConvert.DeserializeObject<SpriteSheet>(fileContents, settings);
+            spriteSheet.SpriteName = Path.GetFileNameWithoutExtension(_path);
+            return spriteSheet;
         }
     }
 }

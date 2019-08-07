@@ -10,7 +10,7 @@ namespace ResourceUtilities.Aseprite
         {
             string fileName = Path.GetFileNameWithoutExtension(_asepriteFilePath);
             string workingDirectory = Path.GetDirectoryName(_asepriteFilePath);
-            string outputDirectory = Path.Combine(workingDirectory, "gen");
+            string outputDirectory = "gen";
 
             Directory.CreateDirectory(outputDirectory);
 

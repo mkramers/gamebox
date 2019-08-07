@@ -1,6 +1,6 @@
 { "frames": [
    {
-    "filename": "sample_tree_map.aseprite",
+    "filename": "tree.aseprite",
     "frame": { "x": 0, "y": 0, "w": 24, "h": 24 },
     "rotated": false,
     "trimmed": false,

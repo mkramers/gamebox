@@ -35,7 +35,7 @@ namespace GameBox
             physics.SetGravity(new Vector2(0, 5.5f));
 
             SpriteResourceLoader loader = new SpriteResourceLoader();
-            loader.LoadResources(@".\");
+            loader.LoadResources(@"C:\dev\GameBox\Resources\sprite");
 
             //create man
             IEntity manEntity;
