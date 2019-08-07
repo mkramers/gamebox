@@ -58,7 +58,7 @@ namespace ResourceGenerator
             Console.WriteLine($"Generating enum cs file...");
 
             IEnumerable<string> enumNames = _asepriteFiles.Select(_asepriteFile =>
-                SpriteResourceEnumGenerator.GenerateEnumNames(_asepriteFile, _resourceDirectory));
+                EnumFromPath.GetEnumFromPath(_asepriteFile, _resourceDirectory));
 
             string enumCs = EnumCsGenerator.GenerateEnumCs(enumNames, "SpriteResources", "Resources");
 
