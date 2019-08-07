@@ -21,21 +21,9 @@ namespace ResourceUtilities.Aseprite
             return enumName;
         }
 
-        private static IEnumerable<string> GetAsepriteFiles(string _resourceDirectory)
+        public static IEnumerable<string> GetAsepriteFiles(string _resourceDirectory)
         {
             string[] asepriteFiles = Directory.GetFiles(_resourceDirectory, "*.aseprite", SearchOption.AllDirectories);
-            return asepriteFiles;
-        }
-
-        public static IEnumerable<string> Export(string _resourceDirectory)
-        {
-            string[] asepriteFiles = GetAsepriteFiles(_resourceDirectory).ToArray();
-
-            foreach (string asepriteFile in asepriteFiles)
-            {
-                AsepriteExporter.Export(asepriteFile);
-            }
-
             return asepriteFiles;
         }
     }
