@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO.Abstractions;
 using System.Linq;
+using IOUtilities;
 using ResourceUtilities.Aseprite;
 
 namespace ResourceGenerator
@@ -46,25 +46,6 @@ namespace ResourceGenerator
 
             FileWriter writer = new FileWriter();
             writer.WriteFile(_outputFilePath, enumCs);
-        }
-    }
-
-    public class FileWriter
-    {
-        private readonly FileSystem m_fileSystem;
-
-        protected FileWriter(FileSystem _fileSystem)
-        {
-            m_fileSystem = _fileSystem;
-        }
-
-        public FileWriter() : this(new FileSystem())
-        {
-        }
-
-        public void WriteFile(string _filePath, string _contents)
-        {
-            m_fileSystem.File.WriteAllText(_filePath, _contents);
         }
     }
 }

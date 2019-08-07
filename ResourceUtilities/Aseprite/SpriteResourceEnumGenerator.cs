@@ -29,7 +29,7 @@ namespace ResourceUtilities.Aseprite
 
         public static IEnumerable<string> Export(string _resourceDirectory)
         {
-            string[] asepriteFiles = Enumerable.ToArray<string>(GetAsepriteFiles(_resourceDirectory));
+            string[] asepriteFiles = GetAsepriteFiles(_resourceDirectory).ToArray();
 
             foreach (string asepriteFile in asepriteFiles)
             {
