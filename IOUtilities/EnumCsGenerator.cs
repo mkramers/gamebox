@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace ResourceUtilities.Aseprite
+namespace IOUtilities
 {
     public static class EnumCsGenerator
     {
