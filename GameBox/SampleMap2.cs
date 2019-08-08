@@ -6,12 +6,10 @@ using Common.Grid;
 using Common.VertexObject;
 using GameCore.Entity;
 using GameCore.Maps;
-using GameResources;
 using GameResources.Attributes;
 using MarchingSquares;
 using PhysicsCore;
 using RenderCore.Drawable;
-using ResourceUtilities.Aseprite;
 using SFML.Graphics;
 
 namespace GameBox
@@ -47,7 +45,7 @@ namespace GameBox
             m_drawables.Add(lineShapes);
 
             LineSegment floorLineSegment = new LineSegment(-100, 0, 100, 0);
-            _physics.CreateEdges(new[] { floorLineSegment }, mapPosition - -20 * Vector2.UnitY);
+            _physics.CreateEdges(new[] {floorLineSegment}, mapPosition - -20 * Vector2.UnitY);
         }
 
         public IEnumerable<IEntity> GetEntities(IPhysics _physics)
@@ -76,7 +74,8 @@ namespace GameBox
             IEnumerable<LineSegment> _lineSegments, Vector2 _position)
         {
             LineSegment[] lineSegments = _lineSegments as LineSegment[] ?? _lineSegments.ToArray();
-            IEnumerable<VertexArrayShape> shapes = lineSegments.Select(_lineSegment => VertexArrayShape.Factory.CreateLinesShape(_lineSegment, Color.Yellow));
+            IEnumerable<VertexArrayShape> shapes = lineSegments.Select(_lineSegment =>
+                VertexArrayShape.Factory.CreateLinesShape(_lineSegment, Color.Yellow));
 
             MultiDrawable<VertexArrayShape> drawable = new MultiDrawable<VertexArrayShape>(shapes);
             drawable.SetPosition(_position);

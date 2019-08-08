@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Common.Cache
@@ -13,7 +12,7 @@ namespace Common.Cache
         {
             m_entries = new List<ICacheEntry<T, TY>>();
         }
-        
+
         public static Cache<T, TY> Instance { get; } = new Cache<T, TY>();
 
         public T GetObject(TY _id)

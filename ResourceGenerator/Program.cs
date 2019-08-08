@@ -20,7 +20,8 @@ namespace ResourceGenerator
             string resourceDirectory = _args[0];
             string outputFilePath = _args[1];
 
-            Console.WriteLine($"Starting ResourceGenerator with args:\n\tResource Directory: {resourceDirectory, -30}\n\tOutput File Path: {outputFilePath, -30}");
+            Console.WriteLine(
+                $"Starting ResourceGenerator with args:\n\tResource Directory: {resourceDirectory,-30}\n\tOutput File Path: {outputFilePath,-30}");
 
             IEnumerable<string> asepriteFiles;
             try
@@ -69,9 +70,10 @@ namespace ResourceGenerator
             return "Usage:\n\tResourceGenerator.exe <resourcedir> <outputdir>";
         }
 
-        private static void FindAndWriteEnumsToCs(IEnumerable<string> _asepriteFiles, string _resourceDirectory, string _outputDirectory)
+        private static void FindAndWriteEnumsToCs(IEnumerable<string> _asepriteFiles, string _resourceDirectory,
+            string _outputDirectory)
         {
-            Console.WriteLine($"Generating enum cs file...");
+            Console.WriteLine("Generating enum cs file...");
 
             IEnumerable<string> enumNames = _asepriteFiles.Select(_asepriteFile =>
                 EnumFromPath.GetEnumFromPath(_asepriteFile, _resourceDirectory));

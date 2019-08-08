@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Common.Cache
+﻿namespace Common.Cache
 {
     public class CacheEntry<T, TY> : ICacheEntry<T, TY> where T : class
     {

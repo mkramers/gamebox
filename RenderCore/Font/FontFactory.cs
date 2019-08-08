@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using RenderCore.Resource;
 
 namespace RenderCore.Font
 {
@@ -18,7 +19,7 @@ namespace RenderCore.Font
         {
             string fontPath = m_fontResourceMappings[_fontId];
 
-            byte[] resourceData = Resource.ResourceUtilities.GetResourceData(fontPath);
+            byte[] resourceData = ResourceUtilities.GetResourceData(fontPath);
 
             return new SFML.Graphics.Font(resourceData);
         }

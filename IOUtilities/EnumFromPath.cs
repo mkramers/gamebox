@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace IOUtilities
 {
@@ -13,7 +12,8 @@ namespace IOUtilities
             string filePathNoExtension = Path.ChangeExtension(_filePath, "").TrimEnd('.');
             string relativeDirectory = PathUtilities.GetRelativePath(_rootDirectory, filePathNoExtension);
 
-            string[] names = relativeDirectory.TrimStart('.').Split(new[] { "\\", "-" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] names = relativeDirectory.TrimStart('.')
+                .Split(new[] {"\\", "-"}, StringSplitOptions.RemoveEmptyEntries);
 
             string enumName = string.Join("_", names.Select(_name => _name.ToUpper()));
 
@@ -39,13 +39,15 @@ namespace IOUtilities
 
         public static string GetPathFromEnum(T _enumValue, string _rootDirectory, string _extension)
         {
-            string[] segments = _enumValue.ToString().ToLower().Split(new[] {"_"}, StringSplitOptions.RemoveEmptyEntries);
+            string[] segments = _enumValue.ToString().ToLower()
+                .Split(new[] {"_"}, StringSplitOptions.RemoveEmptyEntries);
 
             string className = segments.Take(segments.Length - 2).Aggregate(_rootDirectory, Path.Combine);
             string spriteName = segments.ElementAt(segments.Length - 2);
             string layerName = segments.Last();
 
-            string path = Path.Combine(className, spriteName, Path.ChangeExtension($"{spriteName}-{layerName}", _extension));
+            string path = Path.Combine(className, spriteName,
+                Path.ChangeExtension($"{spriteName}-{layerName}", _extension));
 
             return path;
         }

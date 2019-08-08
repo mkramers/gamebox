@@ -4,14 +4,10 @@ using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
-using Aether.Physics2D.Dynamics.Contacts;
-using Common.Cache;
-using Common.Caches;
 using Common.Grid;
 using GameCore;
 using GameCore.Entity;
 using GameCore.Input.Key;
-using GameCore.Maps;
 using GameCore.ViewProvider;
 using GameResources.Attributes;
 using GameResources.Converters;
@@ -23,14 +19,13 @@ using RenderCore.Widget;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;
 using SFML.System;
-using TGUI;
 
 namespace GameBox
 {
     public class GameRunnerBox : IDisposable
     {
-        private readonly GameRunner m_gameRunner;
         private readonly CoinThing m_coinThing;
+        private readonly GameRunner m_gameRunner;
 
         public GameRunnerBox(string _windowTitle, Vector2u _windowSize, Vector2 _gravity, float _aspectRatio)
         {
@@ -41,7 +36,7 @@ namespace GameBox
 
             const string resourceRootDirectory = @"C:\dev\GameBox\Resources\sprite";
             ResourceManager<SpriteResources> manager = new ResourceManager<SpriteResources>(resourceRootDirectory);
-            
+
             //create man
             IEntity manEntity;
             {
@@ -59,7 +54,8 @@ namespace GameBox
                     Scale = spriteScale
                 };
 
-                manEntity = SpriteEntityFactory.CreateSpriteEntity(mass, manPosition, physics, BodyType.Dynamic, sprite);
+                manEntity = SpriteEntityFactory.CreateSpriteEntity(mass, manPosition, physics, BodyType.Dynamic,
+                    sprite);
             }
 
             View view = new View(new Vector2f(0, -6.5f), new Vector2f(35, 35));
@@ -73,10 +69,11 @@ namespace GameBox
                 m_gameRunner.AddWidget(viewProvider);
 
                 WidgetFontSettings widgetFontSettings = new WidgetFontSettings();
-                FontSettings gridLabelFontSettings = widgetFontSettings.GetSettings(WidgetFontSettingsType.LABELED_GRID);
+                FontSettings gridLabelFontSettings =
+                    widgetFontSettings.GetSettings(WidgetFontSettingsType.LABELED_GRID);
                 LabeledGridWidget gridWidget =
                     new LabeledGridWidget(viewProvider, 0.1f, new Vector2(1, 1), gridLabelFontSettings);
-                
+
                 //m_gameRunner.AddDrawableToScene(gridWidget);
                 //m_gameRunner.AddWidget(gridWidget);
 
@@ -94,7 +91,8 @@ namespace GameBox
                 Resource<Bitmap> mapCollisionResource = manager.GetBitmapResource(SpriteResources.MAP_TREE_COLLISION);
                 Bitmap mapCollisionBitmap = mapCollisionResource.Load();
 
-                Grid<ComparableColor> mapCollisionGrid = BitmapToGridConverter.GetColorGridFromBitmap(mapCollisionBitmap);
+                Grid<ComparableColor> mapCollisionGrid =
+                    BitmapToGridConverter.GetColorGridFromBitmap(mapCollisionBitmap);
 
                 SampleMap2 map = new SampleMap2(mapSceneTexture, mapCollisionGrid, physics);
 
@@ -132,7 +130,7 @@ namespace GameBox
         {
             m_gameRunner?.Dispose();
         }
-        
+
         public void StartLoop()
         {
             m_gameRunner.StartLoop();

@@ -5,7 +5,6 @@ using System.Numerics;
 using Common.Grid;
 using GameBox;
 using GameCore;
-using GameCore.Maps;
 using GameResources.Attributes;
 using GameResources.Converters;
 using LibExtensions;
@@ -52,8 +51,9 @@ namespace RenderBox
             m_gameRunner.AddWidget(gridWidget);
 
             m_gameRunner.AddFpsWidget();
-            
-            ResourceManager<SpriteResources> manager = new ResourceManager<SpriteResources>(@"C:\dev\GameBox\Resources\sprite");
+
+            ResourceManager<SpriteResources> manager =
+                new ResourceManager<SpriteResources>(@"C:\dev\GameBox\Resources\sprite");
 
             Resource<Texture> mapSceneResource = manager.GetTextureResource(SpriteResources.MAP_TREE_SCENE);
             Texture mapSceneTexture = mapSceneResource.Load();

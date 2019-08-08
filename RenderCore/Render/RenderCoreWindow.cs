@@ -1,22 +1,20 @@
 ﻿using System;
-using Aether.Physics2D.Common.Maths;
 using Common.Tickable;
 using RenderCore.ViewProvider;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
 using TGUI;
-using Color = SFML.Graphics.Color;
 
 namespace RenderCore.Render
 {
     public class RenderCoreWindow : ITickable, IDisposable
     {
         private readonly float m_aspectRatio;
+        private readonly Gui m_gui;
         private readonly IRenderCoreTarget m_overlayTarget;
         private readonly RenderWindow m_renderWindow;
         private readonly IRenderCoreTarget m_sceneTarget;
-        private readonly Gui m_gui;
 
         public RenderCoreWindow(RenderWindow _renderWindow, float _aspectRatio)
         {

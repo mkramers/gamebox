@@ -10,8 +10,8 @@
   ],
   "contributes": {
     "palettes": [
-      { "id": "grey16",               "path": "./grey16.gpl" },
-      { "id": "grey8",               "path": "./grey8.gpl" },
+      { "id": "grey16", "path": "./grey16.gpl" },
+      { "id": "grey8", "path": "./grey8.gpl" },
     ]
   }
 }

@@ -6,8 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
-using Aether.Physics2D.Dynamics.Contacts;
-using Common.Cache;
 using Common.Grid;
 using GameCore;
 using GameCore.Entity;
@@ -31,7 +29,8 @@ namespace GameBox
     {
         public static IEnumerable<Coin> GetCoins(string _resourceRootDirectory, IPhysics _physics)
         {
-            ResourceManager<SpriteResources> resourceManager = new ResourceManager<SpriteResources>(_resourceRootDirectory);
+            ResourceManager<SpriteResources> resourceManager =
+                new ResourceManager<SpriteResources>(_resourceRootDirectory);
 
             const string coinsMetaFilePath = @"C:\dev\GameBox\RenderCore\Resources\meta\coins.json";
             string coinsMetaText = File.ReadAllText(coinsMetaFilePath);
@@ -41,7 +40,7 @@ namespace GameBox
             List<CoinLookupEntry> coinDefinitions = coinsLookupTable.Coins;
 
             Bitmap bitmap = resourceManager.GetBitmapResource(SpriteResources.MAP_COINMAP_LAYOUT).Load();
-            
+
             Grid<ComparableColor> grid = BitmapToGridConverter.GetColorGridFromBitmap(bitmap);
 
             Dictionary<string, Texture> coinTextures = new Dictionary<string, Texture>
@@ -57,7 +56,7 @@ namespace GameBox
                 {
                     "red",
                     resourceManager.GetTextureResource(SpriteResources.OBJECT_COIN_RED).Load()
-                },
+                }
             };
 
             const float coinSize = 2.0f;
@@ -72,7 +71,7 @@ namespace GameBox
 
                     List<CoinLookupEntry> coinEntries = coinDefinitions.FindAll(_coin =>
                     {
-                        int greyValue = (int)_coin.Grey;
+                        int greyValue = (int) _coin.Grey;
 
                         ComparableColor gray = new ComparableColor(greyValue, greyValue, greyValue, 255);
                         return gray.CompareTo(comparableColor) == 0;
@@ -92,7 +91,8 @@ namespace GameBox
                         };
 
                         IEntity coinEntity =
-                            SpriteEntityFactory.CreateSpriteEntity(0.01f, coinPosition, _physics, BodyType.Dynamic, coinSprite);
+                            SpriteEntityFactory.CreateSpriteEntity(0.01f, coinPosition, _physics, BodyType.Dynamic,
+                                coinSprite);
 
                         Coin coin = new Coin(coinEntity, coinEntry.Value);
                         coins.Add(coin);
@@ -119,11 +119,11 @@ namespace GameBox
     public class CoinThing : IGameModule
     {
         private readonly IEntity m_captureEntity;
-        private readonly IRenderCoreTarget m_target;
-        private readonly Gui m_gui;
         private readonly List<Coin> m_coins;
-        private float m_score;
+        private readonly Gui m_gui;
         private readonly Label m_scoreLabel;
+        private readonly IRenderCoreTarget m_target;
+        private float m_score;
 
         public CoinThing(IEntity _captureEntity, IEnumerable<Coin> _coins, IRenderCoreTarget _target, Gui _gui)
         {
@@ -153,6 +153,17 @@ namespace GameBox
 
             UpdateScoreLabel(m_score);
         }
+
+        public void Tick(TimeSpan _elapsed)
+        {
+            foreach (Coin coin in m_coins)
+            {
+                coin.Entity.Tick(_elapsed);
+            }
+        }
+
+        public event EventHandler PauseGame;
+        public event EventHandler ResumeGame;
 
         private void EntityOnCollided(object _sender, CollisionEventArgs _e)
         {
@@ -213,17 +224,6 @@ namespace GameBox
         private void EntityOnSeparated(object _sender, SeparationEventArgs _e)
         {
         }
-
-        public void Tick(TimeSpan _elapsed)
-        {
-            foreach (Coin coin in m_coins)
-            {
-                coin.Entity.Tick(_elapsed);
-            }
-        }
-
-        public event EventHandler PauseGame;
-        public event EventHandler ResumeGame;
     }
 
     public class CoinLookupTable
@@ -247,6 +247,8 @@ namespace GameBox
 
     public class CoinMetaConverter : JsonConverter
     {
+        public override bool CanWrite => false;
+
         public override void WriteJson(JsonWriter _writer, object _value, JsonSerializer _serializer)
         {
             throw new NotImplementedException("Not implemented yet");
@@ -260,25 +262,23 @@ namespace GameBox
                 case JsonToken.Null:
                     return string.Empty;
                 case JsonToken.String:
-                    return _serializer.Deserialize(_reader, (Type)_objectType);
+                    return _serializer.Deserialize(_reader, _objectType);
                 default:
-                    {
-                        JObject obj = JObject.Load(_reader);
-                        string greyText = obj["grey"].ToString();
+                {
+                    JObject obj = JObject.Load(_reader);
+                    string greyText = obj["grey"].ToString();
 
-                        uint grey = uint.Parse(greyText);
-                        string valueText = obj["value"].ToString();
+                    uint grey = uint.Parse(greyText);
+                    string valueText = obj["value"].ToString();
 
-                        float value = float.Parse(valueText);
-                        string spriteText = obj["sprite"].ToString();
+                    float value = float.Parse(valueText);
+                    string spriteText = obj["sprite"].ToString();
 
-                        CoinLookupEntry coinEntry = new CoinLookupEntry(grey, spriteText, value);
-                        return coinEntry;
-                    }
+                    CoinLookupEntry coinEntry = new CoinLookupEntry(grey, spriteText, value);
+                    return coinEntry;
+                }
             }
         }
-
-        public override bool CanWrite => false;
 
         public override bool CanConvert(Type _objectType)
         {

@@ -1,6 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
-using Common.Containers;
+﻿using System.Collections.Generic;
 using RenderCore.Drawable;
 using SFML.Graphics;
 
@@ -20,6 +18,11 @@ namespace RenderCore.Render
             m_drawables.Add(_drawable);
         }
 
+        public void RemoveDrawable(IDrawable _drawable)
+        {
+            m_drawables.Remove(_drawable);
+        }
+
         public void Draw(RenderTarget _target, RenderStates _states)
         {
             foreach (IDrawable drawable in m_drawables)
@@ -36,11 +39,6 @@ namespace RenderCore.Render
             }
 
             m_drawables.Clear();
-        }
-
-        public void RemoveDrawable(IDrawable _drawable)
-        {
-            m_drawables.Remove(_drawable);
         }
     }
 }

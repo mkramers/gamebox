@@ -13,7 +13,6 @@ using RenderCore.Font;
 using RenderCore.Render;
 using RenderCore.ViewProvider;
 using RenderCore.Widget;
-using SFML.Graphics;
 using SFML.System;
 using TGUI;
 
@@ -21,11 +20,18 @@ namespace GameCore
 {
     public class GameRunner : IDisposable
     {
+        private readonly DisposableTickableContainer<IEntity> m_entityContainer;
+        private readonly TickableContainer<IGameModule> m_gameModules;
+        private readonly TickableContainer<IKeyHandler> m_keyHandlers;
         private readonly Physics m_physics;
+        private readonly RenderCoreWindow m_renderCoreWindow;
+        private readonly TickableContainer<IWidget> m_widgets;
+        private bool m_pauseGame;
 
         public GameRunner(string _windowTitle, Vector2u _windowSize, Vector2 _gravity, float _aspectRatio)
         {
-            m_renderCoreWindow = RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize, _aspectRatio);
+            m_renderCoreWindow =
+                RenderCoreWindowFactory.CreateRenderCoreWindow(_windowTitle, _windowSize, _aspectRatio);
 
             m_keyHandlers = new TickableContainer<IKeyHandler>();
 
@@ -37,13 +43,6 @@ namespace GameCore
 
             m_gameModules = new TickableContainer<IGameModule>();
         }
-
-        private readonly DisposableTickableContainer<IEntity> m_entityContainer;
-        private readonly TickableContainer<IKeyHandler> m_keyHandlers;
-        private readonly RenderCoreWindow m_renderCoreWindow;
-        private readonly TickableContainer<IWidget> m_widgets;
-        private readonly TickableContainer<IGameModule> m_gameModules;
-        private bool m_pauseGame;
 
         public void Dispose()
         {
@@ -151,7 +150,7 @@ namespace GameCore
 
             FpsLabel fpsWidget = new FpsLabel(5, fpsFontSettings)
             {
-                Position = textPosition.GetVector2F(),
+                Position = textPosition.GetVector2F()
             };
 
             Gui gui = m_renderCoreWindow.GetGui();

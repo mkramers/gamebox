@@ -55,20 +55,6 @@ namespace PhysicsCore
             m_body.OnCollision += OnCollision;
         }
 
-        private void OnSeparation(Fixture _sender, Fixture _other, Contact _contact)
-        {
-            Separated?.Invoke(this, new SeparationEventArgs(_sender, _other, _contact));
-        }
-
-        private bool OnCollision(Fixture _sender, Fixture _other, Contact _contact)
-        {
-            CollisionEventArgs collisionEventArgs = new CollisionEventArgs(_sender, _other, _contact);
-
-            Collided?.Invoke(this, collisionEventArgs);
-
-            return collisionEventArgs.AllowCollision;
-        }
-
         public Vector2 GetPosition()
         {
             return m_body.Position.GetVector2();
@@ -101,6 +87,20 @@ namespace PhysicsCore
         public bool ContainsFixture(Fixture _fixture)
         {
             return m_body.FixtureList.Contains(_fixture);
+        }
+
+        private void OnSeparation(Fixture _sender, Fixture _other, Contact _contact)
+        {
+            Separated?.Invoke(this, new SeparationEventArgs(_sender, _other, _contact));
+        }
+
+        private bool OnCollision(Fixture _sender, Fixture _other, Contact _contact)
+        {
+            CollisionEventArgs collisionEventArgs = new CollisionEventArgs(_sender, _other, _contact);
+
+            Collided?.Invoke(this, collisionEventArgs);
+
+            return collisionEventArgs.AllowCollision;
         }
     }
 }

@@ -7,12 +7,15 @@ namespace IOUtilities.Tests
     public class PathUtilitiesTests
     {
         [Test]
-        public void TestDifferencesInCapitalizationDoesNotMatter()
+        public void TestCanCalculateRelativePath()
         {
-            string format1 = PathUtilities.NormalizeFilepath("c:\\windows\\system32");
-            string format2 = PathUtilities.NormalizeFilepath("c:\\WindowS\\System32");
+            string rootPath = "c:\\windows";
+            string fullPath = "c:\\windows\\system32\\wininet.dll";
+            string expectedResult = ".\\system32\\wininet.dll";
 
-            Assert.AreEqual(format1, format2);
+            string result = PathUtilities.GetRelativePath(rootPath, fullPath);
+
+            Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
@@ -20,6 +23,15 @@ namespace IOUtilities.Tests
         {
             string format1 = PathUtilities.NormalizeFilepath("c:\\windows\\system32");
             string format2 = PathUtilities.NormalizeFilepath("c:\\Program Files\\..\\Windows\\System32");
+
+            Assert.AreEqual(format1, format2);
+        }
+
+        [Test]
+        public void TestDifferencesInCapitalizationDoesNotMatter()
+        {
+            string format1 = PathUtilities.NormalizeFilepath("c:\\windows\\system32");
+            string format2 = PathUtilities.NormalizeFilepath("c:\\WindowS\\System32");
 
             Assert.AreEqual(format1, format2);
         }
@@ -34,18 +46,6 @@ namespace IOUtilities.Tests
             Console.WriteLine(format2);
 
             Assert.AreEqual(format1, format2);
-        }
-
-        [Test]
-        public void TestCanCalculateRelativePath()
-        {
-            string rootPath = "c:\\windows";
-            string fullPath = "c:\\windows\\system32\\wininet.dll";
-            string expectedResult = ".\\system32\\wininet.dll";
-
-            string result = PathUtilities.GetRelativePath(rootPath, fullPath);
-
-            Assert.AreEqual(expectedResult, result);
         }
 
         [Test]

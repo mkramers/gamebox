@@ -21,7 +21,7 @@ namespace ResourceUtilities.Aseprite
             {
                 FileName = "aseprite",
                 Arguments = arguments,
-                WorkingDirectory = workingDirectory,
+                WorkingDirectory = workingDirectory
             };
 
             Process process = Process.Start(processStartInfo);

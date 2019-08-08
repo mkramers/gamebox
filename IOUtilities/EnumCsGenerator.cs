@@ -20,7 +20,7 @@ namespace IOUtilities
 
             stringBuilder.AppendLine("\t}");
             stringBuilder.AppendLine("}");
-            
+
             string normalizedPath = Regex.Replace(stringBuilder.ToString().TrimEnd(), @"\r\n|\n\r|\n|\r", "\r\n");
 
             return normalizedPath;
