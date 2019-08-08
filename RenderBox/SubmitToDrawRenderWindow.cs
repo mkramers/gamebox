@@ -9,6 +9,7 @@ using RenderCore.Drawable;
 using RenderCore.Render;
 using SFML.Graphics;
 using SFML.System;
+using SFML.Window;
 using TGUI;
 
 namespace RenderBox
@@ -69,7 +70,7 @@ namespace RenderBox
 
         public GameBox2()
         {
-            m_submitToDrawRenderWindow = new SubmitToDrawRenderWindow();
+            m_submitToDrawRenderWindow = new SubmitToDrawRenderWindow(1.0f, new Vector2u(800, 800));
 
             m_tickLoop = new TickLoop(TimeSpan.FromMilliseconds(30));
             m_tickLoop.Tick += OnTick;
@@ -130,16 +131,22 @@ namespace RenderBox
 
     public class SubmitToDrawRenderWindow : ITickable
     {
+        private readonly float m_aspectRatio;
         private readonly RenderWindow m_renderWindow;
         private readonly Scene m_scene;
         private readonly Gui m_gui;
 
-        public SubmitToDrawRenderWindow()
+        public SubmitToDrawRenderWindow(float _aspectRatio, Vector2u _windowSize)
         {
-            m_renderWindow = RenderWindowFactory.CreateRenderWindow("", new Vector2u(800, 800));
+            m_aspectRatio = _aspectRatio;
+            m_renderWindow = RenderWindowFactory.CreateRenderWindow("", _windowSize);
+            m_renderWindow.Resized += OnRenderWindowResized;
+
             m_scene = new Scene();
-            
+
             m_gui = new Gui(m_renderWindow);
+
+            Resize(_windowSize);
         }
 
         public void AddDrawableProvider(IDrawableProvider _provider)
@@ -152,7 +159,48 @@ namespace RenderBox
             GuiManager guiManager = new GuiManager(m_gui);
             return guiManager;
         }
-        
+
+        private void OnRenderWindowResized(object _sender, SizeEventArgs _e)
+        {
+            uint width = _e.Width;
+            uint height = _e.Height;
+
+            Resize(new Vector2u(width, height));
+        }
+
+        private void Resize(Vector2u _windowSize)
+        {
+            float windowAspectRatio = (float)_windowSize.X / _windowSize.Y;
+
+            if (windowAspectRatio <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(windowAspectRatio), "negative aspect ratio not supported");
+            }
+
+            FloatRect viewPort = new FloatRect(0, 0, 1, 1);
+
+            if (windowAspectRatio > m_aspectRatio)
+            {
+                float xPadding = (windowAspectRatio - m_aspectRatio) / 2.0f;
+                viewPort = new FloatRect(xPadding / 2.0f, 0, 1 - xPadding, 1);
+            }
+            else if (windowAspectRatio < m_aspectRatio)
+            {
+                float yPadding = (m_aspectRatio - windowAspectRatio) / 2.0f;
+                viewPort = new FloatRect(0, yPadding / 2.0f, 0, 1 - yPadding);
+            }
+            else if (Math.Abs(windowAspectRatio - m_aspectRatio) < 0.0001f)
+            {
+                viewPort = new FloatRect(0, 0, 1, 1);
+            }
+
+            View renderWindowView = m_renderWindow.GetView();
+            renderWindowView.Viewport = viewPort;
+
+            m_renderWindow.SetView(renderWindowView);
+            m_gui.View = renderWindowView;
+        }
+
         public void Tick(TimeSpan _elapsed)
         {
             m_renderWindow.DispatchEvents();
