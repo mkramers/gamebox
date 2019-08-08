@@ -70,12 +70,6 @@ namespace GameCore
             scene.AddDrawable(_entity);
         }
 
-        public void AddDrawableToOverlay(IDrawable _entity)
-        {
-            IRenderCoreTarget scene = m_renderCoreWindow.GetOverlay();
-            scene.AddDrawable(_entity);
-        }
-
         public void AddWidget(IWidget _widget)
         {
             m_widgets.Add(_widget);

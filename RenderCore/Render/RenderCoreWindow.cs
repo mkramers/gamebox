@@ -12,7 +12,6 @@ namespace RenderCore.Render
     {
         private readonly float m_aspectRatio;
         private readonly Gui m_gui;
-        private readonly IRenderCoreTarget m_overlayTarget;
         private readonly RenderWindow m_renderWindow;
         private readonly IRenderCoreTarget m_sceneTarget;
 
@@ -28,13 +27,7 @@ namespace RenderCore.Render
             Vector2u windowSize = m_renderWindow.Size;
 
             m_sceneTarget = new RenderCoreTarget(windowSize, new Color(40, 40, 40));
-            m_overlayTarget = new RenderCoreTarget(windowSize, Color.Transparent);
-
-            View view = new View(new FloatRect(0f, 0, 1, 1));
-            ViewProviderBase viewProviderBase = new ViewProviderBase(view);
-
-            m_overlayTarget.SetViewProvider(viewProviderBase);
-
+            
             Resize(m_renderWindow.Size);
         }
 
@@ -45,7 +38,6 @@ namespace RenderCore.Render
             m_renderWindow.Dispose();
 
             m_sceneTarget.Dispose();
-            m_overlayTarget.Dispose();
         }
 
         public void Tick(TimeSpan _elapsed)
@@ -58,7 +50,6 @@ namespace RenderCore.Render
             m_renderWindow.DispatchEvents();
 
             m_sceneTarget.Tick(_elapsed);
-            m_overlayTarget.Tick(_elapsed);
 
             Draw(m_renderWindow);
         }
@@ -124,17 +115,11 @@ namespace RenderCore.Render
             return m_renderWindow.Size;
         }
 
-        public IRenderCoreTarget GetOverlay()
-        {
-            return m_overlayTarget;
-        }
-
         private void Draw(RenderWindow _renderWindow)
         {
             _renderWindow.Clear();
 
             _renderWindow.Draw(m_sceneTarget);
-            _renderWindow.Draw(m_overlayTarget);
 
             m_gui.Draw();
 
