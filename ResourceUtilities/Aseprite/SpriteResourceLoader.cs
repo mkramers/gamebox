@@ -20,35 +20,12 @@ namespace ResourceUtilities.Aseprite
         {
         }
 
-        public void LoadResources(string _rootDirectory)
+        public Dictionary<SpriteResources, string> LoadResources(string _rootDirectory)
         {
-            IEnumerable<string> paths = PathFromEnum<SpriteResources>.GetPathsFromEnum(_rootDirectory);
+            const string extension = ".png";
 
-            paths = paths.Select(GetAsepriteFileName);
-
-            List<SpriteLayers> spriteLayers = new List<SpriteLayers>();
-
-            foreach (string path in paths)
-            {
-                SpriteSheetFile spriteSheet = SpriteSheetFileLoader.LoadFromFile(path);
-
-                MapFileLoader loader = new MapFileLoader();
-                SpriteLayers layers = loader.LoadSpriteLayersFromFile(spriteSheet);
-
-                spriteLayers.Add(layers);
-            }
-        }
-
-        private string GetAsepriteFileName(string _path)
-        {
-            const string genDirectoryName = "gen";
-            const string asepriteExtension = ".json";
-
-            string spriteName = m_fileSystem.DirectoryInfo.FromDirectoryName(_path).Name;
-
-            string filePath = m_fileSystem.Path.Combine(_path, genDirectoryName, m_fileSystem.Path.ChangeExtension(spriteName, asepriteExtension));
-
-            return filePath;
+            Dictionary<SpriteResources, string> paths = PathFromEnum<SpriteResources>.GetPathsFromEnum(_rootDirectory, extension);
+            return paths;
         }
     }
 }
