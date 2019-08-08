@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using System.Timers;
 using Common.Extensions;
 using Common.Tickable;
 using RenderCore.Drawable;
 using RenderCore.Render;
 using SFML.Graphics;
 using SFML.System;
+using TGUI;
 
 namespace RenderBox
 {
@@ -37,6 +37,26 @@ namespace RenderBox
         }
     }
 
+    public class GuiManager
+    {
+        private readonly Gui m_gui;
+
+        public GuiManager(Gui _gui)
+        {
+            m_gui = _gui;
+        }
+
+        public void AddWidget(Widget _guiWidget)
+        {
+            m_gui.Add(_guiWidget);
+        }
+
+        public void RemoveWidget(Widget _guiWidget)
+        {
+            m_gui.Remove(_guiWidget);
+        }
+    }
+
     public interface IDrawableProvider
     {
         IEnumerable<IDrawable> GetDrawables();
@@ -44,10 +64,6 @@ namespace RenderBox
 
     public class SceneManager : IDrawableProvider
     {
-        public SceneManager()
-        {
-        }
-
         public IEnumerable<IDrawable> GetDrawables()
         {
             return new IDrawable[] { };
@@ -127,16 +143,25 @@ namespace RenderBox
     {
         private readonly RenderWindow m_renderWindow;
         private readonly Scene m_scene;
+        private readonly Gui m_gui;
 
         public SubmitToDrawRenderWindow()
         {
             m_renderWindow = RenderWindowFactory.CreateRenderWindow("", new Vector2u(800, 800));
             m_scene = new Scene();
+            
+            m_gui = new Gui(m_renderWindow);
         }
 
         public void AddDrawableProvider(IDrawableProvider _provider)
         {
             m_scene.AddDrawableProvider(_provider);
+        }
+
+        public GuiManager CreateGuiManager()
+        {
+            GuiManager guiManager = new GuiManager(m_gui);
+            return guiManager;
         }
         
         public void Tick(TimeSpan _elapsed)
@@ -146,6 +171,8 @@ namespace RenderBox
             m_renderWindow.Clear();
 
             m_scene.Draw(m_renderWindow, RenderStates.Default);
+
+            m_gui.Draw();
 
             m_renderWindow.Display();
         }
