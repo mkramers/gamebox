@@ -11,6 +11,7 @@ using GameResources.Converters;
 using LibExtensions;
 using RenderCore.Drawable;
 using RenderCore.Font;
+using RenderCore.Resource;
 using RenderCore.ViewProvider;
 using RenderCore.Widget;
 using ResourceUtilities.Aseprite;

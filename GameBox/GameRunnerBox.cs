@@ -18,6 +18,7 @@ using GameResources.Converters;
 using PhysicsCore;
 using RenderCore.Drawable;
 using RenderCore.Font;
+using RenderCore.Resource;
 using RenderCore.Widget;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;

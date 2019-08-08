@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PhysicsCore;
 using RenderCore.Render;
+using RenderCore.Resource;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;
 using SFML.System;
