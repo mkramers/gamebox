@@ -226,7 +226,8 @@ namespace GameBox
         }
     }
 
-    public abstract class CoinLookupTable
+    // ReSharper disable once ClassNeverInstantiated.Global
+    public class CoinLookupTable
     {
         public List<CoinLookupEntry> Coins { get; set; }
     }
