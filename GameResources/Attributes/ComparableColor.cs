@@ -24,7 +24,7 @@ namespace GameResources.Attributes
             {
                 return -1;
             }
-            
+
             return Color.R.CompareTo(otherColor.Color.R);
         }
     }
