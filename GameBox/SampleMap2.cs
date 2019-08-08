@@ -5,6 +5,7 @@ using Common.Geometry;
 using Common.Grid;
 using Common.VertexObject;
 using GameCore.Entity;
+using GameCore.Maps;
 using GameResources;
 using GameResources.Attributes;
 using MarchingSquares;
@@ -13,7 +14,7 @@ using RenderCore.Drawable;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;
 
-namespace GameCore.Maps
+namespace GameBox
 {
     public class SampleMap2 : IMap
     {

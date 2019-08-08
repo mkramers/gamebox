@@ -37,7 +37,7 @@ namespace IOUtilities
             return enumPaths;
         }
 
-        private static string GetPathFromEnum(T _enumValue, string _rootDirectory, string _extension)
+        public static string GetPathFromEnum(T _enumValue, string _rootDirectory, string _extension)
         {
             string[] segments = _enumValue.ToString().ToLower().Split(new[] {"_"}, StringSplitOptions.RemoveEmptyEntries);
 

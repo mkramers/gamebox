@@ -9,7 +9,7 @@ namespace Common.Cache
     {
         private readonly List<ICacheEntry<T, TY>> m_entries;
 
-        protected Cache()
+        public Cache()
         {
             m_entries = new List<ICacheEntry<T, TY>>();
         }
@@ -32,6 +32,12 @@ namespace Common.Cache
         {
             ICacheEntry<T, TY> existingEntry = m_entries.Find(_entry => _entry.Id.Equals(_id));
             return existingEntry;
+        }
+
+        public bool EntryExists(TY _id)
+        {
+            bool entryExists = m_entries.Any(_entry => _entry.Id.Equals(_id));
+            return entryExists;
         }
 
         public void AddObject(TY _id, T _value)

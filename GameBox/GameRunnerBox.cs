@@ -34,8 +34,9 @@ namespace GameBox
             IPhysics physics = m_gameRunner.GetPhysics();
             physics.SetGravity(new Vector2(0, 5.5f));
 
-            SpriteResourceLoader loader = new SpriteResourceLoader();
-            loader.LoadResources(@"C:\dev\GameBox\Resources\sprite");
+            ResourceManager<SpriteResources> manager = new ResourceManager<SpriteResources>(@"C:\dev\GameBox\Resources\sprite");
+            Resource<Texture> resource = manager.GetTextureResource(SpriteResources.MAP_TREE_SCENE);
+            Texture t = resource.Load();
 
             //create man
             IEntity manEntity;
