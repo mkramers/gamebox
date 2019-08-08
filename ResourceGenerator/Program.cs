@@ -33,9 +33,26 @@ namespace ResourceGenerator
                 return 1;
             }
 
+            string[] pngFilePaths = Directory.GetFiles(resourceDirectory, "*.png", SearchOption.AllDirectories);
+
+            List<string> fileNames = new List<string>();
+            foreach (string pngFilePath in pngFilePaths)
+            {
+                string directory = Path.GetDirectoryName(pngFilePath);
+                string fileName = Path.GetFileName(pngFilePath);
+                string[] splitName = fileName.Split(new[] {"-"}, StringSplitOptions.RemoveEmptyEntries);
+                string spriteName = splitName.First();
+                string layerName = splitName.Last();
+
+                string parentDirectory = Directory.GetParent(directory).FullName;
+
+                string modifiedFileName = Path.Combine(parentDirectory, spriteName, layerName);
+                fileNames.Add(modifiedFileName);
+            }
+
             try
             {
-                FindAndWriteEnumsToCs(asepriteFiles, resourceDirectory, outputFilePath);
+                FindAndWriteEnumsToCs(fileNames, resourceDirectory, outputFilePath);
             }
             catch (Exception e)
             {
