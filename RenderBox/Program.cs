@@ -1,6 +1,4 @@
-﻿using SFML.System;
-
-namespace RenderBox
+﻿namespace RenderBox
 {
     internal static class Program
     {
