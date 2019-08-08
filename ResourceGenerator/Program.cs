@@ -17,8 +17,6 @@ namespace ResourceGenerator
                 return -1;
             }
 
-            //const string resourceDirectory = @"C:\dev\GameBox\Resources\sprite";
-            //const string outputFilePath = @"C:\dev\GameBox\Resources\out\SpriteResources.cs";
             string resourceDirectory = _args[0];
             string outputFilePath = _args[1];
 
