@@ -62,25 +62,14 @@ namespace RenderBox
         IEnumerable<IDrawable> GetDrawables();
     }
 
-    public class SceneManager : IDrawableProvider
-    {
-        public IEnumerable<IDrawable> GetDrawables()
-        {
-            return new IDrawable[] { };
-        }
-    }
-
-    public class SubmitToDrawRenderBox
+    public class GameBox2
     {
         private readonly SubmitToDrawRenderWindow m_submitToDrawRenderWindow;
         private readonly TickLoop m_tickLoop;
 
-        public SubmitToDrawRenderBox()
+        public GameBox2()
         {
-            SceneManager sceneManager = new SceneManager();
-
             m_submitToDrawRenderWindow = new SubmitToDrawRenderWindow();
-            m_submitToDrawRenderWindow.AddDrawableProvider(sceneManager);
 
             m_tickLoop = new TickLoop(TimeSpan.FromMilliseconds(30));
             m_tickLoop.Tick += OnTick;

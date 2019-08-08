@@ -9,7 +9,7 @@
             //RenderBox renderBox = new RenderBox("RenderBox", new Vector2u(800, 800), aspectRatio);
             //renderBox.StartLoop();
 
-            SubmitToDrawRenderBox renderBox = new SubmitToDrawRenderBox();
+            GameBox2 renderBox = new GameBox2();
             renderBox.StartLoop();
         }
     }
