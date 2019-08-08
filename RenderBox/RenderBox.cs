@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Numerics;
+using Common.Grid;
 using GameBox;
 using GameCore;
 using GameCore.Maps;
+using GameResources.Attributes;
+using GameResources.Converters;
 using LibExtensions;
 using RenderCore.Drawable;
 using RenderCore.Font;
 using RenderCore.ViewProvider;
 using RenderCore.Widget;
+using ResourceUtilities.Aseprite;
 using SFML.Graphics;
 using SFML.System;
 
@@ -46,12 +51,18 @@ namespace RenderBox
             m_gameRunner.AddWidget(gridWidget);
 
             m_gameRunner.AddFpsWidget();
+            
+            ResourceManager<SpriteResources> manager = new ResourceManager<SpriteResources>(@"C:\dev\GameBox\Resources\sprite");
 
-            //const string mapName = "square";
-            const string mapName = "sample_tree_map";
-            string mapFilePath = $@"C:\dev\GameBox\RenderCore\Resources\art\{mapName}.json";
+            Resource<Texture> mapSceneResource = manager.GetTextureResource(SpriteResources.MAP_TREE_SCENE);
+            Texture mapSceneTexture = mapSceneResource.Load();
 
-            SampleMap2 map = new SampleMap2(mapFilePath, m_gameRunner.GetPhysics());
+            Resource<Bitmap> mapCollisionResource = manager.GetBitmapResource(SpriteResources.MAP_TREE_COLLISION);
+            Bitmap mapCollisionBitmap = mapCollisionResource.Load();
+
+            Grid<ComparableColor> mapCollisionGrid = BitmapToGridConverter.GetColorGridFromBitmap(mapCollisionBitmap);
+
+            SampleMap2 map = new SampleMap2(mapSceneTexture, mapCollisionGrid, m_gameRunner.GetPhysics());
 
             IEnumerable<IDrawable> mapDrawables = map.GetDrawables();
             foreach (IDrawable mapDrawable in mapDrawables)

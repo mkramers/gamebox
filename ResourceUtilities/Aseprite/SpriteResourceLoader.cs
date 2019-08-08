@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
@@ -17,15 +18,21 @@ namespace ResourceUtilities.Aseprite
     public class ResourceManager<T> where T : Enum
     {
         private readonly TextureResourceManager<T> m_textureResourceManager;
+        private readonly BitmapResourceManager<T> m_bitmapResourceManager;
 
         public ResourceManager(string _resourceRootDirectory)
         {
             m_textureResourceManager = new TextureResourceManager<T>(_resourceRootDirectory);
+            m_bitmapResourceManager = new BitmapResourceManager<T>(_resourceRootDirectory);
         }
 
         public Resource<Texture> GetTextureResource(T _id)
         {
             return m_textureResourceManager.GetTextureResource(_id);
+        }
+        public Resource<Bitmap> GetBitmapResource(T _id)
+        {
+            return m_bitmapResourceManager.GetBitmapResource(_id);
         }
     }
 
@@ -63,11 +70,46 @@ namespace ResourceUtilities.Aseprite
         }
     }
 
+    public class BitmapResourceManager<T> where T : Enum
+    {
+        private readonly string m_rootDirectory;
+        private readonly Cache<Resource<Bitmap>, T> m_cache;
+
+        public BitmapResourceManager(string _rootDirectory)
+        {
+            m_rootDirectory = _rootDirectory;
+            m_cache = new Cache<Resource<Bitmap>, T>();
+        }
+
+        public Resource<Bitmap> GetBitmapResource(T _id)
+        {
+            Resource<Bitmap> resource;
+
+            if (!m_cache.EntryExists(_id))
+            {
+                string textureFilePath = PathFromEnum<T>.GetPathFromEnum(_id, m_rootDirectory, ".png");
+                BitmapFileLoader fileLoader = new BitmapFileLoader(textureFilePath);
+                resource = new Resource<Bitmap>(fileLoader);
+
+                m_cache.AddObject(_id, resource);
+            }
+            else
+            {
+                resource = m_cache.GetObject(_id);
+                Debug.Assert(resource != null);
+            }
+
+
+            return resource;
+        }
+    }
+
+
     public class Resource<T>
     {
-        private readonly ResourceLoader<T> m_resourceLoader;
+        private readonly IResourceLoader<T> m_resourceLoader;
 
-        public Resource(ResourceLoader<T> _resourceLoader)
+        public Resource(IResourceLoader<T> _resourceLoader)
         {
             m_resourceLoader = _resourceLoader;
         }
@@ -78,7 +120,7 @@ namespace ResourceUtilities.Aseprite
         }
     }
 
-    public class TextureFileLoader : ResourceLoader<Texture>
+    public class TextureFileLoader : IResourceLoader<Texture>
     {
         private readonly string m_textureFilePath;
 
@@ -87,24 +129,30 @@ namespace ResourceUtilities.Aseprite
             m_textureFilePath = _textureFilePath;
         }
 
-        public override Texture Load()
+        public Texture Load()
         {
             return new Texture(m_textureFilePath);
         }
     }
 
-    public interface IResourceLoadArgs
+    public class BitmapFileLoader : IResourceLoader<Bitmap>
     {
+        private readonly string m_bitmapFilePath;
+
+        public BitmapFileLoader(string _bitmapFilePath)
+        {
+            m_bitmapFilePath = _bitmapFilePath;
+        }
+
+        public Bitmap Load()
+        {
+            return new Bitmap(m_bitmapFilePath);
+        }
     }
 
-    public class TextureLoadArgs : IResourceLoadArgs
+    public interface IResourceLoader<out T>
     {
-
-    }
-
-    public abstract class ResourceLoader<T>
-    {
-        public abstract T Load();
+        T Load();
     }
 }
 

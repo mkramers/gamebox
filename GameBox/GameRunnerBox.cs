@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using Aether.Physics2D.Dynamics.Contacts;
 using Common.Cache;
 using Common.Caches;
+using Common.Grid;
 using GameCore;
 using GameCore.Entity;
 using GameCore.Input.Key;
 using GameCore.Maps;
 using GameCore.ViewProvider;
+using GameResources.Attributes;
+using GameResources.Converters;
 using PhysicsCore;
 using RenderCore.Drawable;
 using RenderCore.Font;
@@ -34,10 +38,9 @@ namespace GameBox
             IPhysics physics = m_gameRunner.GetPhysics();
             physics.SetGravity(new Vector2(0, 5.5f));
 
-            ResourceManager<SpriteResources> manager = new ResourceManager<SpriteResources>(@"C:\dev\GameBox\Resources\sprite");
-            Resource<Texture> resource = manager.GetTextureResource(SpriteResources.MAP_TREE_SCENE);
-            Texture t = resource.Load();
-
+            const string resourceRootDirectory = @"C:\dev\GameBox\Resources\sprite";
+            ResourceManager<SpriteResources> manager = new ResourceManager<SpriteResources>(resourceRootDirectory);
+            
             //create man
             IEntity manEntity;
             {
@@ -46,8 +49,8 @@ namespace GameBox
                 Vector2 manPosition = new Vector2(0, -10);
                 Vector2 manScale = new Vector2(2f, 2f);
 
-                const string mkFilePath = @"C:\dev\GameBox\RenderCore\Resources\art\mk.png";
-                Texture texture = new Texture(mkFilePath);
+                Resource<Texture> resource = manager.GetTextureResource(SpriteResources.OBJECT_MKRAMERS_LAYER);
+                Texture texture = resource.Load();
 
                 Vector2f spriteScale = new Vector2f(manScale.X / texture.Size.X, manScale.Y / texture.Size.Y);
                 Sprite sprite = new Sprite(texture)
@@ -84,9 +87,15 @@ namespace GameBox
 
             //add map
             {
-                const string mapFilePath = @"C:\dev\GameBox\RenderCore\Resources\art\sample_tree_map.json";
+                Resource<Texture> mapSceneResource = manager.GetTextureResource(SpriteResources.MAP_TREE_SCENE);
+                Texture mapSceneTexture = mapSceneResource.Load();
 
-                SampleMap2 map = new SampleMap2(mapFilePath, physics);
+                Resource<Bitmap> mapCollisionResource = manager.GetBitmapResource(SpriteResources.MAP_TREE_COLLISION);
+                Bitmap mapCollisionBitmap = mapCollisionResource.Load();
+
+                Grid<ComparableColor> mapCollisionGrid = BitmapToGridConverter.GetColorGridFromBitmap(mapCollisionBitmap);
+
+                SampleMap2 map = new SampleMap2(mapSceneTexture, mapCollisionGrid, physics);
 
                 foreach (IEntity woodEntity in map.GetEntities(physics))
                 {
@@ -112,7 +121,7 @@ namespace GameBox
             m_gameRunner.AddEntity(manEntity);
 
             //temp
-            List<Coin> coins = CoinEntitiesFactory.GetCoins(physics).ToList();
+            List<Coin> coins = CoinEntitiesFactory.GetCoins(resourceRootDirectory, physics).ToList();
 
             m_coinThing = new CoinThing(manEntity, coins, m_gameRunner.GetScene(), m_gameRunner.GetGui());
             m_gameRunner.AddGameModule(m_coinThing);

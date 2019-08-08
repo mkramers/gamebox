@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PhysicsCore;
 using RenderCore.Render;
+using ResourceUtilities.Aseprite;
 using SFML.Graphics;
 using SFML.System;
 using TGUI;
@@ -27,8 +28,10 @@ namespace GameBox
 {
     public class CoinEntitiesFactory
     {
-        public static IEnumerable<Coin> GetCoins(IPhysics _physics)
+        public static IEnumerable<Coin> GetCoins(string _resourceRootDirectory, IPhysics _physics)
         {
+            ResourceManager<SpriteResources> resourceManager = new ResourceManager<SpriteResources>(_resourceRootDirectory);
+
             const string coinsMetaFilePath = @"C:\dev\GameBox\RenderCore\Resources\meta\coins.json";
             string coinsMetaText = File.ReadAllText(coinsMetaFilePath);
             CoinLookupTable coinsLookupTable =
@@ -36,28 +39,23 @@ namespace GameBox
 
             List<CoinLookupEntry> coinDefinitions = coinsLookupTable.Coins;
 
-            const string coinsMapFilePath = @"C:\dev\GameBox\RenderCore\Resources\art\coinmap-layout.png";
-
-            Bitmap bitmap = new Bitmap(coinsMapFilePath);
-
+            Bitmap bitmap = resourceManager.GetBitmapResource(SpriteResources.MAP_COINMAP_LAYOUT).Load();
+            
             Grid<ComparableColor> grid = BitmapToGridConverter.GetColorGridFromBitmap(bitmap);
 
             Dictionary<string, Texture> coinTextures = new Dictionary<string, Texture>
             {
                 {
                     "yellow",
-                    new Texture(
-                        @"C:\dev\GameBox\RenderCore\Resources\art\coin-yellow.png")
+                    resourceManager.GetTextureResource(SpriteResources.OBJECT_COIN_YELLOW).Load()
                 },
                 {
                     "orange",
-                    new Texture(
-                        @"C:\dev\GameBox\RenderCore\Resources\art\coin-orange.png")
+                    resourceManager.GetTextureResource(SpriteResources.OBJECT_COIN_ORANGE).Load()
                 },
                 {
                     "red",
-                    new Texture(
-                        @"C:\dev\GameBox\RenderCore\Resources\art\coin-red.png")
+                    resourceManager.GetTextureResource(SpriteResources.OBJECT_COIN_RED).Load()
                 },
             };
 
@@ -174,7 +172,7 @@ namespace GameBox
             m_score += coin.Value;
 
             UpdateScoreLabel(m_score);
-            
+
             m_coins.Remove(coin);
             m_target.RemoveDrawable(coin.Entity);
 
@@ -200,7 +198,7 @@ namespace GameBox
 
             m_gui.Add(childWindow);
         }
-        
+
         private void WinScreenOnClosed(object _sender, EventArgs _e)
         {
             ChildWindow childWindow = _sender as ChildWindow;

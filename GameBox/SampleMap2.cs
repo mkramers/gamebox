@@ -21,28 +21,17 @@ namespace GameBox
         private readonly List<IDrawable> m_drawables;
         private readonly List<IEntity> m_entities;
 
-        public SampleMap2(string _mapFilePath, IPhysics _physics)
+        public SampleMap2(Texture _sceneTexture, Grid<ComparableColor> _collisionGrid, IPhysics _physics)
         {
             Vector2 mapPosition = -0 * Vector2.One;
 
             m_drawables = new List<IDrawable>();
 
-            SpriteSheetFile spriteSheet = SpriteSheetFileLoader.LoadFromFile(_mapFilePath);
-
-            MapFileLoader loader = new MapFileLoader();
-            SpriteLayers spriteLayers = loader.LoadSpriteLayersFromFile(spriteSheet);
-
-            SpriteLayer sceneLayer = spriteLayers["scene"];
-
-            Texture texture = new Texture(sceneLayer.FilePath);
-
-            Sprite sprite = new Sprite(texture);
-
-            Grid<ComparableColor> collisionGrid = spriteLayers.GetCollisionGrid();
+            Sprite sprite = new Sprite(_sceneTexture);
 
             ComparableColor colorThreshold = new ComparableColor(0, 0, 0, 0);
             MarchingSquaresGenerator<ComparableColor> marchingSquares =
-                new MarchingSquaresGenerator<ComparableColor>(collisionGrid, colorThreshold);
+                new MarchingSquaresGenerator<ComparableColor>(_collisionGrid, colorThreshold);
 
             LineSegment[] lines = marchingSquares.GetLineSegments().ToArray();
 
