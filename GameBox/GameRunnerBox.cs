@@ -8,14 +8,13 @@ using Common.Grid;
 using GameCore;
 using GameCore.Entity;
 using GameCore.Input.Key;
+using GameCore.Maps;
 using GameCore.ViewProvider;
 using GameResources.Attributes;
 using GameResources.Converters;
 using PhysicsCore;
 using RenderCore.Drawable;
-using RenderCore.Font;
 using RenderCore.Resource;
-using RenderCore.Widget;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;
 using SFML.System;
@@ -24,10 +23,9 @@ namespace GameBox
 {
     public class GameRunnerBox : IDisposable
     {
-        private readonly CoinThing m_coinThing;
         private readonly GameRunner m_gameRunner;
 
-        public GameRunnerBox(string _windowTitle, Vector2u _windowSize, Vector2 _gravity, float _aspectRatio)
+        public GameRunnerBox(string _windowTitle, Vector2u _windowSize, float _aspectRatio)
         {
             m_gameRunner = new GameRunner(_windowTitle, _windowSize, Vector2.Zero, _aspectRatio);
 
@@ -68,16 +66,15 @@ namespace GameBox
             {
                 m_gameRunner.AddWidget(viewProvider);
 
-                WidgetFontSettings widgetFontSettings = new WidgetFontSettings();
-                FontSettings gridLabelFontSettings =
-                    widgetFontSettings.GetSettings(WidgetFontSettingsType.LABELED_GRID);
-                LabeledGridWidget gridWidget =
-                    new LabeledGridWidget(viewProvider, 0.1f, new Vector2(1, 1), gridLabelFontSettings);
+                //WidgetFontSettings widgetFontSettings = new WidgetFontSettings();
+                //FontSettings gridLabelFontSettings =
+                //    widgetFontSettings.GetSettings(WidgetFontSettingsType.LABELED_GRID);
 
+                //LabeledGridWidget gridWidget = new LabeledGridWidget(viewProvider, 0.1f, new Vector2(1, 1), gridLabelFontSettings);
                 //m_gameRunner.AddDrawableToScene(gridWidget);
                 //m_gameRunner.AddWidget(gridWidget);
 
-                MultiDrawable<VertexArrayShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.05f);
+                MultiDrawable<VertexArrayShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One);
                 m_gameRunner.AddDrawableToScene(crossHairs);
 
                 m_gameRunner.AddFpsWidget();
@@ -94,7 +91,7 @@ namespace GameBox
                 Grid<ComparableColor> mapCollisionGrid =
                     BitmapToGridConverter.GetColorGridFromBitmap(mapCollisionBitmap);
 
-                SampleMap2 map = new SampleMap2(mapSceneTexture, mapCollisionGrid, physics);
+                IMap map = new SampleMap2(mapSceneTexture, mapCollisionGrid, physics);
 
                 foreach (IEntity woodEntity in map.GetEntities(physics))
                 {
@@ -122,8 +119,8 @@ namespace GameBox
             //temp
             List<Coin> coins = CoinEntitiesFactory.GetCoins(resourceRootDirectory, physics).ToList();
 
-            m_coinThing = new CoinThing(manEntity, coins, m_gameRunner.GetScene(), m_gameRunner.GetGui());
-            m_gameRunner.AddGameModule(m_coinThing);
+            CoinThing coinThing = new CoinThing(manEntity, coins, m_gameRunner.GetScene(), m_gameRunner.GetGui());
+            m_gameRunner.AddGameModule(coinThing);
         }
 
         public void Dispose()

@@ -6,7 +6,7 @@ namespace RenderCore.Drawable
 {
     public class Drawable<T> : IPositionDrawable where T : Transformable, SFML.Graphics.Drawable
     {
-        protected readonly T m_renderObject;
+        private readonly T m_renderObject;
 
         public Drawable(T _renderObject)
         {

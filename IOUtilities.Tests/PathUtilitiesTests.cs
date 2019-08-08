@@ -9,9 +9,9 @@ namespace IOUtilities.Tests
         [Test]
         public void TestCanCalculateRelativePath()
         {
-            string rootPath = "c:\\windows";
-            string fullPath = "c:\\windows\\system32\\wininet.dll";
-            string expectedResult = ".\\system32\\wininet.dll";
+            const string rootPath = "c:\\windows";
+            const string fullPath = "c:\\windows\\system32\\wininet.dll";
+            const string expectedResult = ".\\system32\\wininet.dll";
 
             string result = PathUtilities.GetRelativePath(rootPath, fullPath);
 
@@ -51,8 +51,8 @@ namespace IOUtilities.Tests
         [Test]
         public void TestThrowsExceptionIfRootDoesNotMatchFullPath()
         {
-            string rootPath = "c:\\windows";
-            string fullPath = "c:\\program files\\Internet Explorer\\iexplore.exe";
+            const string rootPath = "c:\\windows";
+            const string fullPath = "c:\\program files\\Internet Explorer\\iexplore.exe";
 
             try
             {

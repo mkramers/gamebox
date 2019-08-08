@@ -15,11 +15,9 @@ namespace RenderCore.Widget
     {
         private readonly Vector2 m_cellSize;
         private readonly MultiDrawable<VertexArrayShape> m_drawable;
-        private readonly float m_lineThickness;
 
-        protected GridWidget(IViewProvider _viewProvider, float _lineThickness, Vector2 _cellSize) : base(_viewProvider)
+        protected GridWidget(IViewProvider _viewProvider, Vector2 _cellSize) : base(_viewProvider)
         {
-            m_lineThickness = _lineThickness;
             m_cellSize = _cellSize;
             m_drawable = new MultiDrawable<VertexArrayShape>();
 
@@ -62,7 +60,7 @@ namespace RenderCore.Widget
             View snappedView = new View(snappedCenter.GetVector2F(), size);
 
             IEnumerable<VertexArrayShape> gridDrawables =
-                GridDrawingUtilities.GetGridDrawableFromView(snappedView, m_lineThickness, m_cellSize);
+                GridDrawingUtilities.GetGridDrawableFromView(snappedView, m_cellSize);
             return gridDrawables;
         }
     }

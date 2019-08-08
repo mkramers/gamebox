@@ -12,7 +12,6 @@ namespace RenderCore.ShapeUtilities
     public static class ShapeFactory
     {
         public static IEnumerable<VertexArrayShape> GetGridShapes(int _rows, int _columns, Vector2 _size,
-            float _lineThickness,
             Vector2 _position)
         {
             Vector2 cellSize = new Vector2(_size.X / _columns, _size.Y / _rows);

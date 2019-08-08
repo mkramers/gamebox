@@ -3,6 +3,7 @@ using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using Aether.Physics2D.Dynamics.Contacts;
 using LibExtensions;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace PhysicsCore
 {

@@ -5,6 +5,7 @@ using System.Numerics;
 using Common.Grid;
 using GameBox;
 using GameCore;
+using GameCore.Maps;
 using GameResources.Attributes;
 using GameResources.Converters;
 using LibExtensions;
@@ -42,10 +43,10 @@ namespace RenderBox
             WidgetFontSettings widgetFontSettings = new WidgetFontSettings();
             FontSettings gridLabelFontSettings = widgetFontSettings.GetSettings(WidgetFontSettingsType.LABELED_GRID);
             LabeledGridWidget gridWidget =
-                new LabeledGridWidget(viewProvider, 0.05f, 0.5f * Vector2.One, gridLabelFontSettings);
+                new LabeledGridWidget(viewProvider, 0.5f * Vector2.One, gridLabelFontSettings);
             m_gameRunner.AddDrawableToScene(gridWidget);
 
-            MultiDrawable<VertexArrayShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One, 0.1f);
+            MultiDrawable<VertexArrayShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One);
             m_gameRunner.AddDrawableToScene(crossHairs);
 
             m_gameRunner.AddWidget(gridWidget);
@@ -63,7 +64,7 @@ namespace RenderBox
 
             Grid<ComparableColor> mapCollisionGrid = BitmapToGridConverter.GetColorGridFromBitmap(mapCollisionBitmap);
 
-            SampleMap2 map = new SampleMap2(mapSceneTexture, mapCollisionGrid, m_gameRunner.GetPhysics());
+            IMap map = new SampleMap2(mapSceneTexture, mapCollisionGrid, m_gameRunner.GetPhysics());
 
             IEnumerable<IDrawable> mapDrawables = map.GetDrawables();
             foreach (IDrawable mapDrawable in mapDrawables)

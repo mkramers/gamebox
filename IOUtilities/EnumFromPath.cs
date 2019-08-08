@@ -9,7 +9,7 @@ namespace IOUtilities
     {
         public static string GetEnumFromPath(string _filePath, string _rootDirectory)
         {
-            string filePathNoExtension = Path.ChangeExtension(_filePath, "").TrimEnd('.');
+            string filePathNoExtension = Path.ChangeExtension(_filePath, "")?.TrimEnd('.');
             string relativeDirectory = PathUtilities.GetRelativePath(_rootDirectory, filePathNoExtension);
 
             string[] names = relativeDirectory.TrimStart('.')

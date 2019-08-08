@@ -8,7 +8,7 @@ namespace RenderCore.Drawable
 {
     public static class DrawableFactory
     {
-        public static MultiDrawable<VertexArrayShape> GetCrossHair(Vector2 _size, float _thickness)
+        public static MultiDrawable<VertexArrayShape> GetCrossHair(Vector2 _size)
         {
             LineSegment[] lines = GetCrossHairLineSegments(_size).ToArray();
 

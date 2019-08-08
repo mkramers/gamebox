@@ -16,8 +16,8 @@ namespace RenderCore.Widget
         private readonly FontSettings m_fontSettings;
         private readonly MultiDrawable<Text> m_labels;
 
-        public LabeledGridWidget(IViewProvider _viewProvider, float _lineThickness, Vector2 _cellSize,
-            FontSettings _fontSettings) : base(_viewProvider, _lineThickness, _cellSize)
+        public LabeledGridWidget(IViewProvider _viewProvider, Vector2 _cellSize,
+            FontSettings _fontSettings) : base(_viewProvider, _cellSize)
         {
             m_fontSettings = _fontSettings;
             m_labels = new MultiDrawable<Text>();

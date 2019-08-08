@@ -40,8 +40,6 @@ namespace MarchingSquares.Tests
         [TestCaseSource(nameof(TestCases))]
         public void GeneratesPolygonCorrectly(List<LineSegment> _lineSegments, Polygon _expectedPolygon)
         {
-            HeadToTailGenerator generator = new HeadToTailGenerator();
-
             Polygon polygons = HeadToTailGenerator.GetVertexObject(_lineSegments);
 
             CollectionAssert.AreEqual(polygons, _expectedPolygon);

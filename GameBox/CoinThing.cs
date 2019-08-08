@@ -25,7 +25,7 @@ using Color = SFML.Graphics.Color;
 
 namespace GameBox
 {
-    public class CoinEntitiesFactory
+    public static class CoinEntitiesFactory
     {
         public static IEnumerable<Coin> GetCoins(string _resourceRootDirectory, IPhysics _physics)
         {
@@ -221,12 +221,12 @@ namespace GameBox
             ResumeGame?.Invoke(this, EventArgs.Empty);
         }
 
-        private void EntityOnSeparated(object _sender, SeparationEventArgs _e)
+        private static void EntityOnSeparated(object _sender, SeparationEventArgs _e)
         {
         }
     }
 
-    public class CoinLookupTable
+    public abstract class CoinLookupTable
     {
         public List<CoinLookupEntry> Coins { get; set; }
     }
@@ -257,6 +257,7 @@ namespace GameBox
         public override object ReadJson(JsonReader _reader, Type _objectType, object _existingValue,
             JsonSerializer _serializer)
         {
+            // ReSharper disable once SwitchStatementMissingSomeCases
             switch (_reader.TokenType)
             {
                 case JsonToken.Null:

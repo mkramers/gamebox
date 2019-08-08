@@ -23,10 +23,9 @@ namespace ResourceGenerator
             Console.WriteLine(
                 $"Starting ResourceGenerator with args:\n\tResource Directory: {resourceDirectory,-30}\n\tOutput File Path: {outputFilePath,-30}");
 
-            IEnumerable<string> asepriteFiles;
             try
             {
-                asepriteFiles = Export(resourceDirectory);
+                Export(resourceDirectory);
             }
             catch (Exception e)
             {
@@ -90,7 +89,7 @@ namespace ResourceGenerator
             writer.WriteFile(outputFilePath, enumCs);
         }
 
-        private static IEnumerable<string> Export(string _resourceDirectory)
+        private static void Export(string _resourceDirectory)
         {
             string[] asepriteFiles = SpriteResourceEnumGenerator.GetAsepriteFiles(_resourceDirectory).ToArray();
 
@@ -101,8 +100,6 @@ namespace ResourceGenerator
                 Console.WriteLine($"Exporting {asepriteFile}...");
                 AsepriteExporter.Export(asepriteFile);
             }
-
-            return asepriteFiles;
         }
     }
 }

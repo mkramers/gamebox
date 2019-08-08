@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using SFML.System;
+﻿using SFML.System;
 
 namespace GameBox
 {
@@ -11,8 +10,7 @@ namespace GameBox
             Vector2u windowSize = new Vector2u(800, 800);
             const float aspectRatio = 1.0f;
 
-            Vector2 gravity = new Vector2(0, 9);
-            GameRunnerBox gameRunnerBox = new GameRunnerBox(windowTitle, windowSize, gravity, aspectRatio);
+            GameRunnerBox gameRunnerBox = new GameRunnerBox(windowTitle, windowSize, aspectRatio);
             gameRunnerBox.StartLoop();
             gameRunnerBox.Dispose();
         }

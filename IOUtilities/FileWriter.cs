@@ -6,7 +6,7 @@ namespace IOUtilities
     {
         private readonly FileSystem m_fileSystem;
 
-        protected FileWriter(FileSystem _fileSystem)
+        private FileWriter(FileSystem _fileSystem)
         {
             m_fileSystem = _fileSystem;
         }

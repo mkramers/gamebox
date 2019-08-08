@@ -9,7 +9,7 @@ namespace RenderCore.ShapeUtilities
 {
     public static class GridDrawingUtilities
     {
-        public static IEnumerable<VertexArrayShape> GetGridDrawableFromView(View _view, float _lineThickness,
+        public static IEnumerable<VertexArrayShape> GetGridDrawableFromView(View _view,
             Vector2 _cellSize)
         {
             Vector2 viewSize = _view.Size.GetVector2();
@@ -19,7 +19,7 @@ namespace RenderCore.ShapeUtilities
             int columns = (int) Math.Round(viewSize.X / _cellSize.Y);
 
             IEnumerable<VertexArrayShape> shapes =
-                ShapeFactory.GetGridShapes(rows, columns, viewSize, _lineThickness, position);
+                ShapeFactory.GetGridShapes(rows, columns, viewSize, position);
             return shapes;
         }
     }

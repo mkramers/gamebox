@@ -16,7 +16,6 @@ namespace ResourceUtilities.Aseprite
             List<SpriteLayer> spriteLayers = new List<SpriteLayer>();
             foreach (Layer layer in spriteSheet.Meta.Layers)
             {
-                IntSize size = GetLayerSize(spriteSheet);
                 SpriteLayer spriteLayer = LoadSpriteLayer(_spriteSheetFile, layer.Name);
 
                 spriteLayers.Add(spriteLayer);
@@ -67,8 +66,6 @@ namespace ResourceUtilities.Aseprite
         {
             SpriteSheet spriteSheet = _spriteSheetFile.SpriteSheet;
 
-            IntSize size = GetLayerSize(spriteSheet);
-
             string layerFileName = GetLayerFileName(_layerName, spriteSheet);
 
             string layerFilePath = GetLayerFilePath(_spriteSheetFile, layerFileName);
@@ -78,7 +75,7 @@ namespace ResourceUtilities.Aseprite
                 throw new FileNotFoundException($"layer spriteSheet {layerFilePath} not found");
             }
 
-            SpriteLayer spriteLayer = new SpriteLayer(_layerName, size, layerFilePath);
+            SpriteLayer spriteLayer = new SpriteLayer(_layerName, layerFilePath);
             return spriteLayer;
         }
     }
