@@ -10,12 +10,9 @@ namespace ResourceUtilities.Aseprite
         {
             string fileName = Path.GetFileNameWithoutExtension(_asepriteFilePath);
             string workingDirectory = Path.GetDirectoryName(_asepriteFilePath);
-            string outputDirectory = "gen";
 
-            Directory.CreateDirectory(outputDirectory);
-
-            string outputPngFormat = Path.Combine(outputDirectory, $"{fileName}-{{layer}}.png");
-            string outputJsonFormat = Path.Combine(outputDirectory, $"{fileName}.json");
+            string outputPngFormat = Path.Combine(workingDirectory, $"{fileName}-{{layer}}.png");
+            string outputJsonFormat = Path.Combine(workingDirectory, $"{fileName}.json");
 
             string arguments =
                 $@"-b {fileName}.aseprite --save-as {outputPngFormat} --data {outputJsonFormat} --list-layers --format json-array";
