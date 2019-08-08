@@ -71,6 +71,7 @@ namespace RenderBox
         public GameBox2()
         {
             m_submitToDrawRenderWindow = new SubmitToDrawRenderWindow(1.0f, new Vector2u(800, 800));
+            m_submitToDrawRenderWindow.Closed += (_sender, _e) => m_tickLoop.StopLoop();
 
             m_tickLoop = new TickLoop(TimeSpan.FromMilliseconds(30));
             m_tickLoop.Tick += OnTick;
@@ -215,6 +216,12 @@ namespace RenderBox
             m_gui.Draw();
 
             m_renderWindow.Display();
+        }
+
+        public event EventHandler Closed
+        {
+            add => m_renderWindow.Closed += value;
+            remove => m_renderWindow.Closed -= value;
         }
     }
 }
