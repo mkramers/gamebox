@@ -7,6 +7,7 @@ using Common.Extensions;
 using Common.Tickable;
 using RenderCore.Drawable;
 using RenderCore.Render;
+using RenderCore.ViewProvider;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
@@ -37,27 +38,7 @@ namespace RenderBox
             }
         }
     }
-
-    public class GuiManager
-    {
-        private readonly Gui m_gui;
-
-        public GuiManager(Gui _gui)
-        {
-            m_gui = _gui;
-        }
-
-        public void AddWidget(Widget _guiWidget)
-        {
-            m_gui.Add(_guiWidget);
-        }
-
-        public void RemoveWidget(Widget _guiWidget)
-        {
-            m_gui.Remove(_guiWidget);
-        }
-    }
-
+    
     public interface IDrawableProvider
     {
         IEnumerable<IDrawable> GetDrawables();
@@ -130,9 +111,9 @@ namespace RenderBox
         public TimeSpan Elapsed { get; }
     }
 
-    public static class WindowResizer
+    public static class WindowResizeUtilities
     {
-        public static FloatRect Resize(Vector2u _windowSize, float _aspectRatio)
+        public static FloatRect GetViewPort(Vector2u _windowSize, float _aspectRatio)
         {
             float windowAspectRatio = (float) _windowSize.X / _windowSize.Y;
             if (windowAspectRatio <= 0)
@@ -167,9 +148,12 @@ namespace RenderBox
         private readonly RenderWindow m_renderWindow;
         private readonly Scene m_scene;
         private readonly Gui m_gui;
+        private IViewProvider m_viewProvider;
 
         public SubmitToDrawRenderWindow(float _aspectRatio, Vector2u _windowSize)
         {
+            m_viewProvider = new ViewProviderBase();
+
             m_aspectRatio = _aspectRatio;
             m_renderWindow = RenderWindowFactory.CreateRenderWindow("", _windowSize);
             m_renderWindow.Resized += (_sender, _e) => Resize(new Vector2u(_e.Width, _e.Height));
@@ -186,20 +170,17 @@ namespace RenderBox
             m_scene.AddDrawableProvider(_provider);
         }
 
-        public GuiManager CreateGuiManager()
+        public Gui GetGui()
         {
-            GuiManager guiManager = new GuiManager(m_gui);
-            return guiManager;
+            return m_gui;
         }
 
         private void Resize(Vector2u _windowSize)
         {
             float aspectRatio = m_aspectRatio;
 
-            FloatRect viewPort = WindowResizer.Resize(_windowSize, aspectRatio);
-
             View renderWindowView = m_renderWindow.GetView();
-            renderWindowView.Viewport = viewPort;
+            renderWindowView.Viewport = WindowResizeUtilities.GetViewPort(_windowSize, aspectRatio);
 
             m_renderWindow.SetView(renderWindowView);
             m_gui.View = renderWindowView;
@@ -207,9 +188,16 @@ namespace RenderBox
 
         public void Tick(TimeSpan _elapsed)
         {
+            Draw();
+        }
+
+        private void Draw()
+        {
             m_renderWindow.DispatchEvents();
 
             m_renderWindow.Clear();
+
+            m_renderWindow.SetView(m_viewProvider);
 
             m_scene.Draw(m_renderWindow, RenderStates.Default);
 
@@ -218,10 +206,23 @@ namespace RenderBox
             m_renderWindow.Display();
         }
 
+        public void SetViewProvider(IViewProvider _viewProvider)
+        {
+            m_viewProvider = _viewProvider;
+        }
+
         public event EventHandler Closed
         {
             add => m_renderWindow.Closed += value;
             remove => m_renderWindow.Closed -= value;
+        }
+    }
+
+    public static class RenderWindowExtensions
+    {
+        public static void SetView(this RenderWindow _renderWindow, IViewProvider _viewProvider)
+        {
+            _renderWindow.SetView(_viewProvider.GetView());
         }
     }
 }
