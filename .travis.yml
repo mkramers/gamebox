@@ -1,0 +1,7 @@
+language: csharp
+mono: none
+solution: solution-name.sln
+dotnet: 2.1.502
+script:
+ - dotnet restore 
+ - msbuild /p:Configuration=Release .\Projects.sln
