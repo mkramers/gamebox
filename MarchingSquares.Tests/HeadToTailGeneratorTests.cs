@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace MarchingSquares.Tests
 {
     [TestFixture]
-    public class HeadTailGeneratorTests
+    public class HeadToTailGeneratorTests
     {
         private static IEnumerable TestCases
         {
