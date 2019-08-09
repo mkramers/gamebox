@@ -15,6 +15,7 @@ using LibExtensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PhysicsCore;
+using RenderCore.Drawable;
 using RenderCore.Render;
 using RenderCore.Resource;
 using ResourceUtilities.Aseprite;
@@ -116,22 +117,22 @@ namespace GameBox
         public float Value { get; }
     }
 
-    public class CoinThing : IGameModule
+    public class CoinThing : IGameModule, IDrawableProvider
     {
         private readonly IEntity m_captureEntity;
         private readonly List<Coin> m_coins;
         private readonly Gui m_gui;
         private readonly Label m_scoreLabel;
-        private readonly IRenderCoreTarget m_target;
         private float m_score;
-
-        public CoinThing(IEntity _captureEntity, IEnumerable<Coin> _coins, IRenderCoreTarget _target, Gui _gui)
+        private readonly List<IDrawable> m_drawables;
+ 
+        public CoinThing(IEntity _captureEntity, IEnumerable<Coin> _coins, Gui _gui)
         {
             m_captureEntity = _captureEntity;
-            m_target = _target;
             m_gui = _gui;
 
             m_coins = new List<Coin>();
+            m_drawables = new List<IDrawable>();
 
             IEnumerable<Coin> coins = _coins as Coin[] ?? _coins.ToArray();
             foreach (Coin coin in coins)
@@ -141,7 +142,7 @@ namespace GameBox
                 entity.Collided += EntityOnCollided;
                 entity.Separated += EntityOnSeparated;
 
-                _target.AddDrawable(entity);
+                m_drawables.Add(entity);
 
                 m_coins.Add(coin);
             }
@@ -186,7 +187,7 @@ namespace GameBox
             UpdateScoreLabel(m_score);
 
             m_coins.Remove(coin);
-            m_target.RemoveDrawable(coin.Entity);
+            m_drawables.Remove(coin.Entity);
 
             if (m_score > 0)
             {
@@ -223,6 +224,11 @@ namespace GameBox
 
         private static void EntityOnSeparated(object _sender, SeparationEventArgs _e)
         {
+        }
+
+        public IEnumerable<IDrawable> GetDrawables()
+        {
+            return m_drawables;
         }
     }
 

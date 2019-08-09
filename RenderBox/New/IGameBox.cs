@@ -1,5 +1,6 @@
 ﻿using System;
 using Common.Tickable;
+using RenderCore.Drawable;
 using RenderCore.ViewProvider;
 using SFML.System;
 using TGUI;
@@ -13,7 +14,7 @@ namespace RenderBox.New
         void AddTickable(ITickable _tickable);
         void SetViewProvider(IViewProvider _viewProvider);
         void SetIsPaused(bool _isPaused);
-        void InvokeGui(Action<Gui> _guiAction);
+        Gui GetGui();
         Vector2u GetWindowSize();
     }
 }

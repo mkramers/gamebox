@@ -117,10 +117,10 @@ namespace GameBox
             m_gameRunner.AddEntity(manEntity);
 
             //temp
-            List<Coin> coins = CoinEntitiesFactory.GetCoins(resourceRootDirectory, physics).ToList();
+            //List<Coin> coins = CoinEntitiesFactory.GetCoins(resourceRootDirectory, physics).ToList();
 
-            CoinThing coinThing = new CoinThing(manEntity, coins, m_gameRunner.GetScene(), m_gameRunner.GetGui());
-            m_gameRunner.AddGameModule(coinThing);
+            //CoinThing coinThing = new CoinThing(manEntity, coins, m_gameRunner.GetScene(), m_gameRunner.GetGui());
+            //m_gameRunner.AddGameModule(coinThing);
         }
 
         public void Dispose()

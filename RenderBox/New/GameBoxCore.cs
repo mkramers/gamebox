@@ -1,5 +1,6 @@
 ﻿using System;
 using Common.Tickable;
+using RenderCore.Drawable;
 using RenderCore.ViewProvider;
 using SFML.System;
 using TGUI;
@@ -44,9 +45,9 @@ namespace RenderBox.New
             m_isPaused = _isPaused;
         }
 
-        public void InvokeGui(Action<Gui> _guiAction)
+        public Gui GetGui()
         {
-            m_renderWindow.InvokeGui(_guiAction);
+            return m_renderWindow.GetGui();
         }
 
         public Vector2u GetWindowSize()

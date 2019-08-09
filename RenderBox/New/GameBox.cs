@@ -205,12 +205,14 @@ namespace RenderBox.New
             m_gameBox.AddDrawable(manEntity);
 
             //temp
-            //List<Coin> coins = CoinEntitiesFactory.GetCoins(resourceRootDirectory, physics).ToList();
+            List<Coin> coins = CoinEntitiesFactory.GetCoins(resourceRootDirectory, physics).ToList();
 
-            //CoinThing coinThing = new CoinThing(manEntity, coins, m_gameBox.GetScene(), m_gameBox.GetGui());
-            //coinThing.PauseGame += (_sender, _e) => m_gameBox.SetIsPaused(true);
-            //coinThing.ResumeGame += (_sender, _e) => m_gameBox.SetIsPaused(false);
-            //m_gameBox.AddTickable(coinThing);
+            CoinThing coinThing = new CoinThing(manEntity, coins, m_gameBox.GetGui());
+            coinThing.PauseGame += (_sender, _e) => m_gameBox.SetIsPaused(true);
+            coinThing.ResumeGame += (_sender, _e) => m_gameBox.SetIsPaused(false);
+
+            m_gameBox.AddDrawableProvider(coinThing);
+            m_gameBox.AddTickable(coinThing);
         }
 
         public void Dispose()
@@ -251,10 +253,10 @@ namespace RenderBox.New
         {
             m_gameBox.SetIsPaused(_isPaused);
         }
-
-        public void InvokeGui(Action<Gui> _guiAction)
+        
+        public Gui GetGui()
         {
-            m_gameBox.InvokeGui(_guiAction);
+            return m_gameBox.GetGui();
         }
 
         public Vector2u GetWindowSize()
@@ -306,7 +308,8 @@ namespace RenderBox.New
                 Position = textPosition.GetVector2F()
             };
 
-            _gameBox.InvokeGui(_gui => _gui.Add(fpsWidget));
+            Gui gui = _gameBox.GetGui();
+            gui.Add(fpsWidget);
 
             _gameBox.AddTickable(fpsWidget);
         }

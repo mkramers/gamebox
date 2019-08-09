@@ -2,6 +2,7 @@
 using System.Numerics;
 using Common.Tickable;
 using LibExtensions;
+using RenderCore.Drawable;
 using RenderCore.Font;
 using RenderCore.Render;
 using RenderCore.ViewProvider;
@@ -40,9 +41,9 @@ namespace RenderBox.New
             m_scene.AddDrawableProvider(_provider);
         }
 
-        public void InvokeGui(Action<Gui> _guiAction)
+        public Gui GetGui()
         {
-            _guiAction(m_gui);
+            return m_gui;
         }
 
         private void Resize(Vector2u _windowSize)
