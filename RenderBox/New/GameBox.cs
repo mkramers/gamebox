@@ -140,6 +140,8 @@ namespace RenderBox.New
 
                 manEntity = SpriteEntityFactory.CreateSpriteEntity(mass, manPosition, physics, BodyType.Dynamic,
                     sprite);
+
+                m_gameBox.AddEntity(manEntity);
             }
 
             View view = new View(new Vector2f(0, -6.5f), new Vector2f(35, 35));
@@ -181,8 +183,7 @@ namespace RenderBox.New
 
                 foreach (IEntity mapEntity in map.GetEntities(physics))
                 {
-                    m_gameBox.AddTickable(mapEntity);
-                    m_gameBox.AddDrawable(mapEntity);
+                    m_gameBox.AddEntity(mapEntity);
                 }
 
                 IEnumerable<IDrawable> mapDrawables = map.GetDrawables();
@@ -200,10 +201,7 @@ namespace RenderBox.New
 
                 m_gameBox.AddTickable(moveExecutor);
             }
-
-            m_gameBox.AddTickable(manEntity);
-            m_gameBox.AddDrawable(manEntity);
-
+            
             //temp
             List<Coin> coins = CoinEntitiesFactory.GetCoins(resourceRootDirectory, physics).ToList();
 
@@ -312,6 +310,12 @@ namespace RenderBox.New
             gui.Add(fpsWidget);
 
             _gameBox.AddTickable(fpsWidget);
+        }
+
+        public static void AddEntity(this IGameBox _gameBox, IEntity _entity)
+        {
+            _gameBox.AddTickable(_entity);
+            _gameBox.AddDrawable(_entity);
         }
     }
 }
