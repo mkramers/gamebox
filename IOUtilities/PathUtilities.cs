@@ -9,7 +9,7 @@ namespace IOUtilities
         {
             string result = Path.GetFullPath(_filepath).ToLowerInvariant();
 
-            result = result.TrimEnd('\\');
+            result = result.TrimEnd(Path.PathSeparator);
 
             return result;
         }
