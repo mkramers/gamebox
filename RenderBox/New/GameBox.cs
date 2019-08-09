@@ -148,12 +148,7 @@ namespace RenderBox.New
         {
             m_gameBox.AddTickable(_tickable);
         }
-
-        public void InvokePhysics(Action<IPhysics> _action)
-        {
-            _action(m_physics);
-        }
-
+        
         public IPhysics GetPhysics()
         {
             return m_physics;
