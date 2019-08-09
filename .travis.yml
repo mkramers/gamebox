@@ -1,7 +1,7 @@
 language: csharp
 mono: none
 solution: .\Projects.sln
-dotnet: 2.1.0
+dotnet: 2.2.6
 script:
  - dotnet restore 
  - dotnet build
