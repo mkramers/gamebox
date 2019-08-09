@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Numerics;
 using Common.Tickable;
+using LibExtensions;
+using RenderCore.Font;
 using RenderCore.Render;
 using RenderCore.ViewProvider;
+using RenderCore.Widget;
 using SFML.Graphics;
 using SFML.System;
 using TGUI;
@@ -81,6 +85,11 @@ namespace RenderBox.New
         {
             add => m_renderWindow.Closed += value;
             remove => m_renderWindow.Closed -= value;
+        }
+
+        public Vector2u GetWindowSize()
+        {
+            return m_renderWindow.Size;
         }
     }
 }

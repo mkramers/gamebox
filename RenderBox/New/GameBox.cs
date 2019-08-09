@@ -17,6 +17,7 @@ using RenderCore.ViewProvider;
 using RenderCore.Widget;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;
+using SFML.System;
 using TGUI;
 
 namespace RenderBox.New
@@ -67,7 +68,7 @@ namespace RenderBox.New
 
             m_gameBox.AddTickable(gridWidget);
 
-            //m_gameRunner.AddFpsWidget();
+            m_gameBox.AddFpsWidget();
 
             ResourceManager<SpriteResources> manager =
                 new ResourceManager<SpriteResources>(@"C:\dev\GameBox\Resources\sprite");
@@ -133,6 +134,11 @@ namespace RenderBox.New
             m_gameBox.InvokeGui(_guiAction);
         }
 
+        public Vector2u GetWindowSize()
+        {
+            return m_gameBox.GetWindowSize();
+        }
+
         public void AddDrawableProvider(IDrawableProvider _drawableProvider)
         {
             m_gameBox.AddDrawableProvider(_drawableProvider);
@@ -166,6 +172,25 @@ namespace RenderBox.New
         {
             DrawableProvider drawableProvider = new DrawableProvider(_drawable);
             _gameBox.AddDrawableProvider(drawableProvider);
+        }
+
+        public static void AddFpsWidget(this IGameBox _gameBox)
+        {
+            WidgetFontSettings widgetFontSettingsFactory = new WidgetFontSettings();
+            FontSettings fpsFontSettings = widgetFontSettingsFactory.GetSettings(WidgetFontSettingsType.FPS_COUNTER);
+
+            Vector2u windowSize = _gameBox.GetWindowSize();
+
+            Vector2 textPosition = new Vector2(windowSize.X / 2.0f, windowSize.Y - fpsFontSettings.Size);
+
+            FpsLabel fpsWidget = new FpsLabel(5, fpsFontSettings)
+            {
+                Position = textPosition.GetVector2F()
+            };
+
+            _gameBox.InvokeGui(_gui => _gui.Add(fpsWidget));
+
+            _gameBox.AddTickable(fpsWidget);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using Common.Tickable;
-using PhysicsCore;
 using RenderCore.ViewProvider;
+using SFML.System;
 using TGUI;
 
 namespace RenderBox.New
@@ -14,5 +14,6 @@ namespace RenderBox.New
         void SetViewProvider(IViewProvider _viewProvider);
         void SetIsPaused(bool _isPaused);
         void InvokeGui(Action<Gui> _guiAction);
+        Vector2u GetWindowSize();
     }
 }

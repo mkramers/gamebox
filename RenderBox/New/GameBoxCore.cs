@@ -48,7 +48,12 @@ namespace RenderBox.New
         {
             m_renderWindow.InvokeGui(_guiAction);
         }
-        
+
+        public Vector2u GetWindowSize()
+        {
+            return m_renderWindow.GetWindowSize();
+        }
+
         private void OnTick(object _sender, TimeElapsedEventArgs _e)
         {
             TimeSpan elapsed = _e.Elapsed;
