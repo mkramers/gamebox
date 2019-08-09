@@ -9,7 +9,7 @@ namespace RenderBox
             //RenderBox renderBox = new RenderBox("RenderBox", new Vector2u(800, 800), aspectRatio);
             //renderBox.StartLoop();
 
-            New.GameBox renderBox = new New.GameBox();
+            New.Game2 renderBox = new New.Game2();
             renderBox.StartLoop();
         }
     }

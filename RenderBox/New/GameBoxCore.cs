@@ -48,7 +48,7 @@ namespace RenderBox.New
         {
             m_renderWindow.InvokeGui(_guiAction);
         }
-
+        
         private void OnTick(object _sender, TimeElapsedEventArgs _e)
         {
             TimeSpan elapsed = _e.Elapsed;
