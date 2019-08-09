@@ -46,21 +46,42 @@ namespace RenderBox
 
     public class GameBox2
     {
-        private readonly SubmitToDrawRenderWindow m_submitToDrawRenderWindow;
+        private readonly SubmitToDrawRenderWindow m_renderWindow;
         private readonly TickLoop m_tickLoop;
+        private readonly TickableContainer<ITickable> m_tickables;
+        private bool m_isPaused;
 
         public GameBox2()
         {
-            m_submitToDrawRenderWindow = new SubmitToDrawRenderWindow(1.0f, new Vector2u(800, 800));
-            m_submitToDrawRenderWindow.Closed += (_sender, _e) => m_tickLoop.StopLoop();
+            m_renderWindow = new SubmitToDrawRenderWindow(1.0f, new Vector2u(800, 800));
+            m_renderWindow.Closed += (_sender, _e) => m_tickLoop.StopLoop();
+
+            m_tickables = new TickableContainer<ITickable>();
 
             m_tickLoop = new TickLoop(TimeSpan.FromMilliseconds(30));
             m_tickLoop.Tick += OnTick;
         }
 
+        public void AddTickable(ITickable _tickable)
+        {
+            m_tickables.Add(_tickable);
+        }
+
+        public void SetViewProvider(IViewProvider _viewProvider)
+        {
+            m_renderWindow.SetViewProvider(_viewProvider);
+        }
+
         private void OnTick(object _sender, TimeElapsedEventArgs _e)
         {
-            m_submitToDrawRenderWindow.Tick(_e.Elapsed);
+            TimeSpan elapsed = _e.Elapsed;
+
+            if (!m_isPaused)
+            {
+                m_tickables.Tick(elapsed);
+            }
+
+            m_renderWindow.Tick(elapsed);
         }
 
         public void StartLoop()
