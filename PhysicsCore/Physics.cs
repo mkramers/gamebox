@@ -8,7 +8,7 @@ using LibExtensions;
 
 namespace PhysicsCore
 {
-    public class Physics : IPhysics, IDisposable
+    public class Physics : IPhysics
     {
         public Physics(Vector2 _gravity)
         {

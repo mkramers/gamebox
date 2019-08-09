@@ -14,10 +14,10 @@ using RenderCore.Render;
 using RenderCore.ViewProvider;
 using RenderCore.Widget;
 using SFML.System;
-using TGUI;
-
 namespace GameCore
 {
+using TGUI;
+
     public class GameRunner : IDisposable
     {
         private readonly DisposableTickableContainer<IEntity> m_entityContainer;
