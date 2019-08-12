@@ -28,6 +28,21 @@ using TGUI;
 
 namespace RenderBox.New
 {
+    public class TickableProvider : ITickableProvider
+    {
+        private readonly ITickable m_tickable;
+
+        public TickableProvider(ITickable _tickable)
+        {
+            m_tickable = _tickable;
+        }
+
+        public IEnumerable<ITickable> GetTickables()
+        {
+            return new[] {m_tickable};
+        }
+    }
+
     public class DrawableProvider : IDrawableProvider
     {
         private readonly IDrawable m_drawable;
@@ -234,7 +249,7 @@ namespace RenderBox.New
             m_gameBox = new GameBoxCore();
 
             m_physics = new Physics(new Vector2(0, 5.5f));
-            AddTickable(m_physics);
+            m_gameBox.AddTickable(m_physics);
         }
 
         public void StartLoop()
@@ -262,14 +277,14 @@ namespace RenderBox.New
             return m_gameBox.GetWindowSize();
         }
 
+        public void AddTickableProvider(TickableProvider _tickableProvider)
+        {
+            m_gameBox.AddTickableProvider(_tickableProvider);
+        }
+
         public void AddDrawableProvider(IDrawableProvider _drawableProvider)
         {
             m_gameBox.AddDrawableProvider(_drawableProvider);
-        }
-
-        public void AddTickable(ITickable _tickable)
-        {
-            m_gameBox.AddTickable(_tickable);
         }
         
         public IPhysics GetPhysics()
@@ -290,6 +305,12 @@ namespace RenderBox.New
         {
             DrawableProvider drawableProvider = new DrawableProvider(_drawable);
             _gameBox.AddDrawableProvider(drawableProvider);
+        }
+
+        public static void AddTickable(this IGameBox _gameBox, ITickable _tickable)
+        {
+            TickableProvider tickableProvider = new TickableProvider(_tickable);
+            _gameBox.AddTickableProvider(tickableProvider);
         }
 
         public static void AddFpsWidget(this IGameBox _gameBox)

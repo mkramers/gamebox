@@ -11,10 +11,10 @@ namespace RenderBox.New
     {
         void StartLoop();
         void AddDrawableProvider(IDrawableProvider _drawableProvider);
-        void AddTickable(ITickable _tickable);
         void SetViewProvider(IViewProvider _viewProvider);
         void SetIsPaused(bool _isPaused);
         Gui GetGui();
         Vector2u GetWindowSize();
+        void AddTickableProvider(TickableProvider _tickableProvider);
     }
 }

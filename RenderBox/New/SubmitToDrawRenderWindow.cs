@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Numerics;
 using Common.Tickable;
-using LibExtensions;
 using RenderCore.Drawable;
-using RenderCore.Font;
 using RenderCore.Render;
 using RenderCore.ViewProvider;
-using RenderCore.Widget;
 using SFML.Graphics;
 using SFML.System;
 using TGUI;

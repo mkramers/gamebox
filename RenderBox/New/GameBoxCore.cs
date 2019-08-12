@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Common.Tickable;
 using RenderCore.Drawable;
 using RenderCore.ViewProvider;
@@ -11,7 +13,7 @@ namespace RenderBox.New
     {
         private readonly SubmitToDrawRenderWindow m_renderWindow;
         private readonly TickLoop m_tickLoop;
-        private readonly TickableContainer<ITickable> m_tickables;
+        private readonly List<ITickableProvider> m_tickableProviders;
         private bool m_isPaused;
 
         public GameBoxCore()
@@ -19,7 +21,7 @@ namespace RenderBox.New
             m_renderWindow = new SubmitToDrawRenderWindow(1.0f, new Vector2u(800, 800));
             m_renderWindow.Closed += (_sender, _e) => m_tickLoop.StopLoop();
 
-            m_tickables = new TickableContainer<ITickable>();
+            m_tickableProviders = new List<ITickableProvider>();
 
             m_tickLoop = new TickLoop(TimeSpan.FromMilliseconds(30));
             m_tickLoop.Tick += OnTick;
@@ -29,12 +31,7 @@ namespace RenderBox.New
         {
             m_renderWindow.AddDrawableProvider(_drawableProvider);
         }
-
-        public void AddTickable(ITickable _tickable)
-        {
-            m_tickables.Add(_tickable);
-        }
-
+        
         public void SetViewProvider(IViewProvider _viewProvider)
         {
             m_renderWindow.SetViewProvider(_viewProvider);
@@ -55,13 +52,22 @@ namespace RenderBox.New
             return m_renderWindow.GetWindowSize();
         }
 
+        public void AddTickableProvider(TickableProvider _tickableProvider)
+        {
+            m_tickableProviders.Add(_tickableProvider);
+        }
+
         private void OnTick(object _sender, TimeElapsedEventArgs _e)
         {
             TimeSpan elapsed = _e.Elapsed;
 
             if (!m_isPaused)
             {
-                m_tickables.Tick(elapsed);
+                IEnumerable<ITickable> tickables = m_tickableProviders.SelectMany(_provider => _provider.GetTickables());
+                foreach (ITickable tickable in tickables)
+                {
+                    tickable.Tick(elapsed);
+                }
             }
 
             m_renderWindow.Tick(elapsed);
@@ -74,7 +80,6 @@ namespace RenderBox.New
 
         public void Dispose()
         {
-            m_tickables.Dispose();
         }
     }
 }
