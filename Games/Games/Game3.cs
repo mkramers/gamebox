@@ -21,11 +21,11 @@ namespace Games.Games
 {
     public class Game3 : IDisposable
     {
-        private readonly GameCore.GameBox m_gameBox;
+        private readonly GameBox m_gameBox;
 
         public Game3()
         {
-            m_gameBox = new GameCore.GameBox();
+            m_gameBox = new GameBox();
 
             const float size = 25;
             Vector2 sceneSize = new Vector2(size, size);

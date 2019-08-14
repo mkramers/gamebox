@@ -25,11 +25,11 @@ namespace Games.Games
 {
     public class Game2 : IDisposable
     {
-        private readonly GameCore.GameBox m_gameBox;
+        private readonly GameBox m_gameBox;
 
         public Game2()
         {
-            m_gameBox = new GameCore.GameBox();
+            m_gameBox = new GameBox();
 
             IPhysics physics = m_gameBox.GetPhysics();
             physics.SetGravity(new Vector2(0, 5.5f));
