@@ -39,15 +39,26 @@ namespace GameCore
 
         protected void AddGameProvider(IGameProvider _gameProvider)
         {
-            _gameProvider.PauseGame += PauseGame;
-            _gameProvider.ResumeGame += ResumeGame;
+            _gameProvider.PauseGame += OnPausedGame;
+            _gameProvider.ResumeGame += OnResumedGame;
 
             m_gameProviders.Add(_gameProvider);
         }
+
+        private void OnResumedGame(object _sender, EventArgs _e)
+        {
+            ResumeGame?.Invoke(_sender, _e);
+        }
+
+        private void OnPausedGame(object _sender, EventArgs _e)
+        {
+            PauseGame?.Invoke(_sender, _e);
+        }
+
         protected void RemoveGameProvider(IGameProvider _gameProvider)
         {
-            _gameProvider.PauseGame -= PauseGame;
-            _gameProvider.ResumeGame -= ResumeGame;
+            _gameProvider.PauseGame -= OnPausedGame;
+            _gameProvider.ResumeGame -= OnResumedGame;
 
             m_gameProviders.Remove(_gameProvider);
         }
@@ -81,16 +92,6 @@ namespace GameCore
         
         public virtual void Dispose()
         {
-        }
-
-        protected void OnPauseGame(EventArgs _e)
-        {
-            PauseGame?.Invoke(this, _e);
-        }
-
-        protected void OnResumeGame(EventArgs _e)
-        {
-            ResumeGame?.Invoke(this, _e);
         }
     }
 }

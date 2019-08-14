@@ -134,9 +134,6 @@ namespace Games.Games
             List<Coin> coins = CoinEntitiesFactory.GetCoins(resourceRootDirectory, _physics).ToList();
 
             CoinThing coinThing = new CoinThing(manEntity, coins, _gui);
-            coinThing.PauseGame += (_sender, _e) => OnPauseGame(_e);
-            coinThing.ResumeGame += (_sender, _e) => OnResumeGame(_e);
-
             AddGameProvider(coinThing);
         }
     }
