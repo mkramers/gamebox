@@ -23,7 +23,7 @@ using SFML.System;
 
 namespace Games.Games
 {
-    public class Game2 : IDisposable
+    public class Game2 : ILoopable
     {
         private readonly GameBox m_gameBox;
 

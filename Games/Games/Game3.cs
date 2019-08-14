@@ -19,7 +19,7 @@ using SFML.Graphics;
 
 namespace Games.Games
 {
-    public class Game3 : IDisposable
+    public class Game3 : ILoopable
     {
         private readonly GameBox m_gameBox;
 
