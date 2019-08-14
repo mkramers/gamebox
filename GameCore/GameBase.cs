@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Common.Tickable;
 using PhysicsCore;
 using RenderCore.Drawable;
@@ -33,12 +34,38 @@ namespace GameCore
             m_gameProviders = new List<IGameProvider>();
         }
 
-        public abstract IEnumerable<IDrawable> GetDrawables();
-        public abstract IEnumerable<ITickable> GetTickables();
-        public abstract void Dispose();
         public event EventHandler PauseGame;
         public event EventHandler ResumeGame;
-        public abstract View GetView();
+        public View GetView()
+        {
+            return m_viewProvider.GetView();
+        }
+
+        public IEnumerable<IDrawable> GetDrawables()
+        {
+            List<IDrawable> drawables = new List<IDrawable>();
+            drawables.AddRange(m_drawables);
+
+            IEnumerable<IDrawable> subGameDrawables = m_gameProviders.SelectMany(_gameProvider => _gameProvider.GetDrawables());
+            drawables.AddRange(subGameDrawables);
+
+            return drawables;
+        }
+
+        public IEnumerable<ITickable> GetTickables()
+        {
+            List<ITickable> tickables = new List<ITickable>();
+            tickables.AddRange(m_tickables);
+
+            IEnumerable<ITickable> subGameTickables = m_gameProviders.SelectMany(_gameProvider => _gameProvider.GetTickables());
+            tickables.AddRange(subGameTickables);
+
+            return tickables;
+        }
+        
+        public virtual void Dispose()
+        {
+        }
 
         protected void OnPauseGame(EventArgs _e)
         {

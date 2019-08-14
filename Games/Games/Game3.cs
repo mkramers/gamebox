@@ -68,24 +68,5 @@ namespace Games.Games
                 m_drawables.Add(mapDrawable);
             }
         }
-
-        public override void Dispose()
-        {
-        }
-
-        public override IEnumerable<IDrawable> GetDrawables()
-        {
-            return m_drawables;
-        }
-
-        public override IEnumerable<ITickable> GetTickables()
-        {
-            return m_tickables;
-        }
-
-        public override View GetView()
-        {
-            return m_viewProvider.GetView();
-        }
     }
 }

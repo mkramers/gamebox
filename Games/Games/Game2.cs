@@ -24,6 +24,13 @@ using TGUI;
 
 namespace Games.Games
 {
+    public class MultiGame : GameBase
+    {
+        public MultiGame(IPhysics _physics, Gui _gui) : base(_physics, _gui)
+        {
+        }
+    }
+
     public class Game2 : GameBase
     {
         public Game2(IPhysics _physics, Gui _gui) : base(_physics, _gui)
@@ -121,37 +128,6 @@ namespace Games.Games
             coinThing.ResumeGame += (_sender, _e) => OnResumeGame(_e);
 
             m_gameProviders.Add(coinThing);
-        }
-        
-        public override IEnumerable<IDrawable> GetDrawables()
-        {
-            List<IDrawable> drawables = new List<IDrawable>();
-            drawables.AddRange(m_drawables);
-
-            IEnumerable<IDrawable> subGameDrawables = m_gameProviders.SelectMany(_gameProvider => _gameProvider.GetDrawables());
-            drawables.AddRange(subGameDrawables);
-
-            return drawables;
-        }
-
-        public override IEnumerable<ITickable> GetTickables()
-        {
-            List<ITickable> tickables = new List<ITickable>();
-            tickables.AddRange(m_tickables);
-
-            IEnumerable<ITickable> subGameTickables = m_gameProviders.SelectMany(_gameProvider => _gameProvider.GetTickables());
-            tickables.AddRange(subGameTickables);
-
-            return tickables;
-        }
-
-        public override View GetView()
-        {
-            return m_viewProvider.GetView();
-        }
-
-        public override void Dispose()
-        {
         }
     }
 }
