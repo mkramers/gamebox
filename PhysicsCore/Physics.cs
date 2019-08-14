@@ -29,18 +29,27 @@ namespace PhysicsCore
 
         public IBody CreateVertexBody(IVertexObject _vertexObject, Vector2 _position, float _mass, BodyType _bodyType)
         {
-            Aether.Physics2D.Dynamics.Body physicsBody = World.CreatePolygon(_vertexObject.GetVertices(), _mass,
-                _position.GetVector2(), 0, _bodyType);
+            Aether.Physics2D.Dynamics.Body pBody = new Aether.Physics2D.Dynamics.Body
+            {
+                Position = _position.GetVector2(), Rotation = 0, BodyType = _bodyType
+            };
 
-            World.Add(physicsBody);
+            pBody.CreatePolygon(_vertexObject.GetVertices(), _mass);
 
-            Body body = new Body(physicsBody);
+            World.Add(pBody);
+
+            Body body = new Body(pBody);
             return body;
         }
 
         public IBody CreateEdges(IEnumerable<LineSegment> _lineSegments, Vector2 _position)
         {
-            Aether.Physics2D.Dynamics.Body body = World.CreateBody(_position.GetVector2());
+            Aether.Physics2D.Dynamics.Body body = new Aether.Physics2D.Dynamics.Body
+            {
+                Position = _position.GetVector2(),
+                Rotation = 0,
+                BodyType = BodyType.Static,
+            };
 
             foreach (LineSegment lineSegment in _lineSegments)
             {
