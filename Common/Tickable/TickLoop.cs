@@ -7,8 +7,8 @@ namespace Common.Tickable
 {
     public class TickLoop
     {
-        private bool m_isRunning;
         private readonly Stopwatch m_stopwatch;
+        private bool m_isRunning;
 
         public TickLoop(TimeSpan _interval)
         {
@@ -21,7 +21,7 @@ namespace Common.Tickable
             m_isRunning = true;
             while (m_isRunning)
             {
-                TimeSpan elapsed = StopwatchExtensions.GetElapsedAndRestart(m_stopwatch);
+                TimeSpan elapsed = m_stopwatch.GetElapsedAndRestart();
 
                 Tick?.Invoke(this, new TimeElapsedEventArgs(elapsed));
 

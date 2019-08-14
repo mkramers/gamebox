@@ -7,6 +7,11 @@ namespace RenderCore.Render
     {
         private RenderTexture m_sceneRenderTexture;
 
+        public void Dispose()
+        {
+            m_sceneRenderTexture?.Dispose();
+        }
+
         public void SetSize(uint _width, uint _height, View _view)
         {
             m_sceneRenderTexture?.Dispose();
@@ -25,11 +30,6 @@ namespace RenderCore.Render
             m_sceneRenderTexture.Display();
 
             return m_sceneRenderTexture.Texture;
-        }
-
-        public void Dispose()
-        {
-            m_sceneRenderTexture?.Dispose();
         }
     }
 }

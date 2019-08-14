@@ -11,11 +11,11 @@ namespace RenderCore.Render
     public class SubmitToDrawRenderWindow : ITickable
     {
         private readonly float m_aspectRatio;
+        private readonly Gui m_gui;
         private readonly RenderWindow m_renderWindow;
         private readonly Scene m_scene;
-        private readonly Gui m_gui;
-        private IViewProvider m_viewProvider;
         private readonly SceneTexture m_sceneTexture;
+        private IViewProvider m_viewProvider;
 
         public SubmitToDrawRenderWindow(float _aspectRatio, Vector2u _windowSize)
         {
@@ -32,6 +32,11 @@ namespace RenderCore.Render
             m_sceneTexture = new SceneTexture();
 
             Resize(_windowSize);
+        }
+
+        public void Tick(TimeSpan _elapsed)
+        {
+            Draw();
         }
 
         public void AddDrawableProvider(IDrawableProvider _provider)
@@ -54,18 +59,13 @@ namespace RenderCore.Render
             renderWindowView.Viewport = viewPort;
 
             m_renderWindow.SetView(renderWindowView);
-            
-            uint adjustedWidth = (uint)Math.Round(viewPort.Width * _windowSize.X);
-            uint adjustedHeight = (uint)Math.Round(viewPort.Height * _windowSize.Y);
+
+            uint adjustedWidth = (uint) Math.Round(viewPort.Width * _windowSize.X);
+            uint adjustedHeight = (uint) Math.Round(viewPort.Height * _windowSize.Y);
 
             m_sceneTexture.SetSize(adjustedWidth, adjustedHeight, renderWindowView);
 
             m_gui.View = renderWindowView;
-        }
-        
-        public void Tick(TimeSpan _elapsed)
-        {
-            Draw();
         }
 
         private void Draw()
@@ -73,7 +73,7 @@ namespace RenderCore.Render
             m_renderWindow.DispatchEvents();
 
             Texture sceneTexture = m_sceneTexture.RenderToTexture(m_scene, m_viewProvider.GetView());
-            
+
             m_renderWindow.Clear();
 
             m_renderWindow.Draw(sceneTexture, RenderStates.Default);

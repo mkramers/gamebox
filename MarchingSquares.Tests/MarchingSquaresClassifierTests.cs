@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using Common.Grid;
 using NUnit.Framework;
 
@@ -68,7 +67,7 @@ namespace MarchingSquares.Tests
                         false, false, false, false
                     };
                     byte[] classifiedValues =
-                        { 2, 3, 1, 4, 12, 8, 0, 0, 0};
+                        {2, 3, 1, 4, 12, 8, 0, 0, 0};
                     yield return GetTestCaseData(gridValues, classifiedValues);
                 }
             }

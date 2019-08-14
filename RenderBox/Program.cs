@@ -1,5 +1,4 @@
-﻿
-using GameBox.Games;
+﻿using GameBox.Games;
 
 namespace RenderBox
 {

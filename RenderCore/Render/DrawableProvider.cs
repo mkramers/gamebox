@@ -14,7 +14,7 @@ namespace RenderCore.Render
 
         public IEnumerable<IDrawable> GetDrawables()
         {
-            return new[] { m_drawable };
+            return new[] {m_drawable};
         }
     }
 }

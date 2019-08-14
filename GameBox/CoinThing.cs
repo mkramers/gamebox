@@ -16,7 +16,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PhysicsCore;
 using RenderCore.Drawable;
-using RenderCore.Render;
 using RenderCore.Resource;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;
@@ -121,11 +120,11 @@ namespace GameBox
     {
         private readonly IEntity m_captureEntity;
         private readonly List<Coin> m_coins;
+        private readonly List<IDrawable> m_drawables;
         private readonly Gui m_gui;
         private readonly Label m_scoreLabel;
         private float m_score;
-        private readonly List<IDrawable> m_drawables;
- 
+
         public CoinThing(IEntity _captureEntity, IEnumerable<Coin> _coins, Gui _gui)
         {
             m_captureEntity = _captureEntity;
@@ -153,6 +152,11 @@ namespace GameBox
             m_gui.Add(m_scoreLabel);
 
             UpdateScoreLabel(m_score);
+        }
+
+        public IEnumerable<IDrawable> GetDrawables()
+        {
+            return m_drawables;
         }
 
         public void Tick(TimeSpan _elapsed)
@@ -224,11 +228,6 @@ namespace GameBox
 
         private static void EntityOnSeparated(object _sender, SeparationEventArgs _e)
         {
-        }
-
-        public IEnumerable<IDrawable> GetDrawables()
-        {
-            return m_drawables;
         }
     }
 

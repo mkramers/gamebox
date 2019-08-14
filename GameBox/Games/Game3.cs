@@ -40,7 +40,8 @@ namespace GameBox.Games
 
             WidgetFontSettings widgetFontSettings = new WidgetFontSettings();
             FontSettings gridLabelFontSettings = widgetFontSettings.GetSettings(WidgetFontSettingsType.LABELED_GRID);
-            LabeledGridWidget gridWidget = new LabeledGridWidget(viewProvider, 0.5f * Vector2.One, gridLabelFontSettings);
+            LabeledGridWidget gridWidget =
+                new LabeledGridWidget(viewProvider, 0.5f * Vector2.One, gridLabelFontSettings);
 
             m_gameBox.AddDrawable(gridWidget);
 

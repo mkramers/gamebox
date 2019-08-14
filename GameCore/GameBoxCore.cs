@@ -13,8 +13,8 @@ namespace GameCore
     public class GameBoxCore : IGameBox
     {
         private readonly SubmitToDrawRenderWindow m_renderWindow;
-        private readonly TickLoop m_tickLoop;
         private readonly List<ITickableProvider> m_tickableProviders;
+        private readonly TickLoop m_tickLoop;
         private bool m_isPaused;
 
         public GameBoxCore()
@@ -32,7 +32,7 @@ namespace GameCore
         {
             m_renderWindow.AddDrawableProvider(_drawableProvider);
         }
-        
+
         public void SetViewProvider(IViewProvider _viewProvider)
         {
             m_renderWindow.SetViewProvider(_viewProvider);
@@ -58,22 +58,6 @@ namespace GameCore
             m_tickableProviders.Add(_tickableProvider);
         }
 
-        private void OnTick(object _sender, TimeElapsedEventArgs _e)
-        {
-            TimeSpan elapsed = _e.Elapsed;
-
-            if (!m_isPaused)
-            {
-                IEnumerable<ITickable> tickables = m_tickableProviders.SelectMany(_provider => _provider.GetTickables());
-                foreach (ITickable tickable in tickables)
-                {
-                    tickable.Tick(elapsed);
-                }
-            }
-
-            m_renderWindow.Tick(elapsed);
-        }
-
         public void StartLoop()
         {
             m_tickLoop.StartLoop();
@@ -81,6 +65,23 @@ namespace GameCore
 
         public void Dispose()
         {
+        }
+
+        private void OnTick(object _sender, TimeElapsedEventArgs _e)
+        {
+            TimeSpan elapsed = _e.Elapsed;
+
+            if (!m_isPaused)
+            {
+                IEnumerable<ITickable> tickables =
+                    m_tickableProviders.SelectMany(_provider => _provider.GetTickables());
+                foreach (ITickable tickable in tickables)
+                {
+                    tickable.Tick(elapsed);
+                }
+            }
+
+            m_renderWindow.Tick(elapsed);
         }
     }
 }

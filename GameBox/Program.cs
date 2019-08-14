@@ -1,6 +1,4 @@
-﻿using SFML.System;
-
-namespace GameBox
+﻿namespace GameBox
 {
     internal static class Program
     {
@@ -13,7 +11,6 @@ namespace GameBox
             //GameRunnerBox gameRunnerBox = new GameRunnerBox(windowTitle, windowSize, aspectRatio);
             //gameRunnerBox.StartLoop();
             //gameRunnerBox.Dispose();
-
         }
     }
 }

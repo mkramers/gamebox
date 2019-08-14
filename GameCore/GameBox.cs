@@ -35,7 +35,7 @@ namespace GameCore
         {
             m_gameBox.SetIsPaused(_isPaused);
         }
-        
+
         public Gui GetGui()
         {
             return m_gameBox.GetGui();
@@ -55,16 +55,16 @@ namespace GameCore
         {
             m_gameBox.AddDrawableProvider(_drawableProvider);
         }
-        
-        public IPhysics GetPhysics()
-        {
-            return m_physics;
-        }
 
         public void Dispose()
         {
             m_gameBox.Dispose();
             m_physics.Dispose();
+        }
+
+        public IPhysics GetPhysics()
+        {
+            return m_physics;
         }
     }
 }

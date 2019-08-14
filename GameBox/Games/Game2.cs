@@ -115,7 +115,7 @@ namespace GameBox.Games
 
                 m_gameBox.AddTickable(moveExecutor);
             }
-            
+
             //temp
             List<Coin> coins = CoinEntitiesFactory.GetCoins(resourceRootDirectory, physics).ToList();
 
