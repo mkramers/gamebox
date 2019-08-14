@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
@@ -18,7 +17,6 @@ using Games.Maps;
 using PhysicsCore;
 using RenderCore.Drawable;
 using RenderCore.Resource;
-using RenderCore.ViewProvider;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;
 using SFML.System;
@@ -26,19 +24,10 @@ using TGUI;
 
 namespace Games.Games
 {
-    public class Game2 : IGameProvider, IViewProvider
+    public class Game2 : GameBase
     {
-        private readonly List<IDrawable> m_drawables;
-        private readonly List<ITickable> m_tickables;
-        private readonly List<IGameProvider> m_gameProviders;
-        private readonly IViewProvider m_viewProvider;
-
-        public Game2(IPhysics _physics, Gui _gui)
+        public Game2(IPhysics _physics, Gui _gui) : base(_physics, _gui)
         {
-            m_drawables = new List<IDrawable>();
-            m_tickables = new List<ITickable>();
-            m_gameProviders = new List<IGameProvider>();
-            
             _physics.SetGravity(new Vector2(0, 5.5f));
 
             const string resourceRootDirectory = @"C:\dev\GameBox\Resources\sprite";
@@ -128,13 +117,13 @@ namespace Games.Games
             List<Coin> coins = CoinEntitiesFactory.GetCoins(resourceRootDirectory, _physics).ToList();
 
             CoinThing coinThing = new CoinThing(manEntity, coins, _gui);
-            coinThing.PauseGame += (_sender, _e) => PauseGame?.Invoke(_sender, _e);
-            coinThing.ResumeGame += (_sender, _e) => ResumeGame?.Invoke(_sender, _e);
+            coinThing.PauseGame += (_sender, _e) => OnPauseGame(_e);
+            coinThing.ResumeGame += (_sender, _e) => OnResumeGame(_e);
 
             m_gameProviders.Add(coinThing);
         }
         
-        public IEnumerable<IDrawable> GetDrawables()
+        public override IEnumerable<IDrawable> GetDrawables()
         {
             List<IDrawable> drawables = new List<IDrawable>();
             drawables.AddRange(m_drawables);
@@ -145,7 +134,7 @@ namespace Games.Games
             return drawables;
         }
 
-        public IEnumerable<ITickable> GetTickables()
+        public override IEnumerable<ITickable> GetTickables()
         {
             List<ITickable> tickables = new List<ITickable>();
             tickables.AddRange(m_tickables);
@@ -156,16 +145,13 @@ namespace Games.Games
             return tickables;
         }
 
-        public View GetView()
+        public override View GetView()
         {
             return m_viewProvider.GetView();
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
         }
-
-        public event EventHandler PauseGame;
-        public event EventHandler ResumeGame;
     }
 }

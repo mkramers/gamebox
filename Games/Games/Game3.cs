@@ -18,20 +18,14 @@ using RenderCore.ViewProvider;
 using RenderCore.Widget;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;
+using TGUI;
 
 namespace Games.Games
 {
-    public class Game3 : IGameProvider, IViewProvider
+    public class Game3 : GameBase
     {
-        private readonly List<IDrawable> m_drawables;
-        private readonly List<ITickable> m_tickables;
-        private readonly ViewProviderBase m_viewProvider;
-
-        public Game3(IPhysics _physics)
+        public Game3(IPhysics _physics, Gui _gui) : base(_physics, _gui)
         {
-            m_drawables = new List<IDrawable>();
-            m_tickables = new List<ITickable>();
-
             const float size = 25;
             Vector2 sceneSize = new Vector2(size, size);
             Vector2 scenePosition = -Vector2.One;
@@ -75,26 +69,23 @@ namespace Games.Games
             }
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
         }
 
-        public IEnumerable<IDrawable> GetDrawables()
+        public override IEnumerable<IDrawable> GetDrawables()
         {
             return m_drawables;
         }
 
-        public IEnumerable<ITickable> GetTickables()
+        public override IEnumerable<ITickable> GetTickables()
         {
             return m_tickables;
         }
 
-        public View GetView()
+        public override View GetView()
         {
             return m_viewProvider.GetView();
         }
-
-        public event EventHandler PauseGame;
-        public event EventHandler ResumeGame;
     }
 }
