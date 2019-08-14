@@ -11,6 +11,7 @@ namespace RenderBox
 
             New.Game2 renderBox = new New.Game2();
             renderBox.StartLoop();
+            renderBox.Dispose();
         }
     }
 }

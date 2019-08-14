@@ -5,7 +5,7 @@ using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using Common.Grid;
-using GameCore;
+using GameBox;
 using GameCore.Entity;
 using GameCore.Input.Key;
 using GameCore.Maps;
@@ -19,17 +19,17 @@ using ResourceUtilities.Aseprite;
 using SFML.Graphics;
 using SFML.System;
 
-namespace GameBox
+namespace RenderBox.New
 {
-    public class GameRunnerBox : IDisposable
+    public class Game2 : IDisposable
     {
-        private readonly GameRunner m_gameRunner;
+        private readonly GameBox m_gameBox;
 
-        public GameRunnerBox(string _windowTitle, Vector2u _windowSize, float _aspectRatio)
+        public Game2()
         {
-            m_gameRunner = new GameRunner(_windowTitle, _windowSize, Vector2.Zero, _aspectRatio);
+            m_gameBox = new GameBox();
 
-            IPhysics physics = m_gameRunner.GetPhysics();
+            IPhysics physics = m_gameBox.GetPhysics();
             physics.SetGravity(new Vector2(0, 5.5f));
 
             const string resourceRootDirectory = @"C:\dev\GameBox\Resources\sprite";
@@ -54,17 +54,19 @@ namespace GameBox
 
                 manEntity = SpriteEntityFactory.CreateSpriteEntity(mass, manPosition, physics, BodyType.Dynamic,
                     sprite);
+
+                m_gameBox.AddEntity(manEntity);
             }
 
             View view = new View(new Vector2f(0, -6.5f), new Vector2f(35, 35));
             EntityFollowerViewProvider
                 viewProvider = new EntityFollowerViewProvider(manEntity, view);
 
-            m_gameRunner.SetSceneViewProvider(viewProvider);
+            m_gameBox.SetViewProvider(viewProvider);
 
             //widgets
             {
-                m_gameRunner.AddWidget(viewProvider);
+                m_gameBox.AddTickable(viewProvider);
 
                 //WidgetFontSettings widgetFontSettings = new WidgetFontSettings();
                 //FontSettings gridLabelFontSettings =
@@ -75,9 +77,9 @@ namespace GameBox
                 //m_gameRunner.AddWidget(gridWidget);
 
                 MultiDrawable<VertexArrayShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One);
-                m_gameRunner.AddDrawableToScene(crossHairs);
+                m_gameBox.AddDrawable(crossHairs);
 
-                m_gameRunner.AddFpsWidget();
+                m_gameBox.AddFpsWidget();
             }
 
             //add map
@@ -93,15 +95,15 @@ namespace GameBox
 
                 IMap map = new SampleMap2(mapSceneTexture, mapCollisionGrid, physics);
 
-                foreach (IEntity woodEntity in map.GetEntities(physics))
+                foreach (IEntity mapEntity in map.GetEntities(physics))
                 {
-                    m_gameRunner.AddEntity(woodEntity);
+                    m_gameBox.AddEntity(mapEntity);
                 }
 
                 IEnumerable<IDrawable> mapDrawables = map.GetDrawables();
                 foreach (IDrawable mapDrawable in mapDrawables)
                 {
-                    m_gameRunner.AddDrawableToScene(mapDrawable);
+                    m_gameBox.AddDrawable(mapDrawable);
                 }
             }
 
@@ -111,26 +113,28 @@ namespace GameBox
 
                 KeyHandler moveExecutor = KeyHandlerFactory.CreateEntityKeyHandler(manEntity, force);
 
-                m_gameRunner.AddKeyHandler(moveExecutor);
+                m_gameBox.AddTickable(moveExecutor);
             }
-
-            m_gameRunner.AddEntity(manEntity);
-
+            
             //temp
-            //List<Coin> coins = CoinEntitiesFactory.GetCoins(resourceRootDirectory, physics).ToList();
+            List<Coin> coins = CoinEntitiesFactory.GetCoins(resourceRootDirectory, physics).ToList();
 
-            //CoinThing coinThing = new CoinThing(manEntity, coins, m_gameRunner.GetScene(), m_gameRunner.GetGui());
-            //m_gameRunner.AddGameModule(coinThing);
+            CoinThing coinThing = new CoinThing(manEntity, coins, m_gameBox.GetGui());
+            coinThing.PauseGame += (_sender, _e) => m_gameBox.SetIsPaused(true);
+            coinThing.ResumeGame += (_sender, _e) => m_gameBox.SetIsPaused(false);
+
+            m_gameBox.AddDrawableProvider(coinThing);
+            m_gameBox.AddTickable(coinThing);
         }
 
         public void Dispose()
         {
-            m_gameRunner?.Dispose();
+            m_gameBox.Dispose();
         }
 
         public void StartLoop()
         {
-            m_gameRunner.StartLoop();
+            m_gameBox.StartLoop();
         }
     }
 }

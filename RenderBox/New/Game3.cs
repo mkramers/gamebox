@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Numerics;
 using Common.Grid;
 using GameBox;
-using GameCore;
 using GameCore.Maps;
 using GameResources.Attributes;
 using GameResources.Converters;
@@ -16,17 +15,16 @@ using RenderCore.ViewProvider;
 using RenderCore.Widget;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;
-using SFML.System;
 
-namespace RenderBox
+namespace RenderBox.New
 {
-    public class RenderBox : IDisposable
+    public class Game3 : IDisposable
     {
-        private readonly GameRunner m_gameRunner;
+        private readonly GameBox m_gameBox;
 
-        public RenderBox(string _windowTitle, Vector2u _windowSize, float _aspectRatio)
+        public Game3()
         {
-            m_gameRunner = new GameRunner(_windowTitle, _windowSize, Vector2.Zero, _aspectRatio);
+            m_gameBox = new GameBox();
 
             const float size = 25;
             Vector2 sceneSize = new Vector2(size, size);
@@ -35,23 +33,23 @@ namespace RenderBox
             View view = new View(viewRect);
 
             ViewProviderBase viewProvider = new ViewProviderBase(view);
-            m_gameRunner.SetSceneViewProvider(viewProvider);
+            m_gameBox.SetViewProvider(viewProvider);
 
             //MultiDrawable<RectangleShape> box = DrawableFactory.GetBox(sceneSize, 1);
             //scene.AddDrawable(box);
 
             WidgetFontSettings widgetFontSettings = new WidgetFontSettings();
             FontSettings gridLabelFontSettings = widgetFontSettings.GetSettings(WidgetFontSettingsType.LABELED_GRID);
-            LabeledGridWidget gridWidget =
-                new LabeledGridWidget(viewProvider, 0.5f * Vector2.One, gridLabelFontSettings);
-            m_gameRunner.AddDrawableToScene(gridWidget);
+            LabeledGridWidget gridWidget = new LabeledGridWidget(viewProvider, 0.5f * Vector2.One, gridLabelFontSettings);
+
+            m_gameBox.AddDrawable(gridWidget);
 
             MultiDrawable<VertexArrayShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One);
-            m_gameRunner.AddDrawableToScene(crossHairs);
+            m_gameBox.AddDrawable(crossHairs);
 
-            m_gameRunner.AddWidget(gridWidget);
+            m_gameBox.AddTickable(gridWidget);
 
-            m_gameRunner.AddFpsWidget();
+            m_gameBox.AddFpsWidget();
 
             ResourceManager<SpriteResources> manager =
                 new ResourceManager<SpriteResources>(@"C:\dev\GameBox\Resources\sprite");
@@ -64,23 +62,23 @@ namespace RenderBox
 
             Grid<ComparableColor> mapCollisionGrid = BitmapToGridConverter.GetColorGridFromBitmap(mapCollisionBitmap);
 
-            IMap map = new SampleMap2(mapSceneTexture, mapCollisionGrid, m_gameRunner.GetPhysics());
+            IMap map = new SampleMap2(mapSceneTexture, mapCollisionGrid, m_gameBox.GetPhysics());
 
             IEnumerable<IDrawable> mapDrawables = map.GetDrawables();
             foreach (IDrawable mapDrawable in mapDrawables)
             {
-                m_gameRunner.AddDrawableToScene(mapDrawable);
+                m_gameBox.AddDrawable(mapDrawable);
             }
         }
 
         public void Dispose()
         {
-            m_gameRunner?.Dispose();
+            m_gameBox.Dispose();
         }
 
         public void StartLoop()
         {
-            m_gameRunner.StartLoop();
+            m_gameBox.StartLoop();
         }
     }
 }
