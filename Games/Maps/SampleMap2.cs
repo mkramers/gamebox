@@ -45,7 +45,7 @@ namespace Games.Maps
             m_drawables.Add(lineShapes);
 
             LineSegment floorLineSegment = new LineSegment(-100, 0, 100, 0);
-            IBody edgeBody = PhysicsExtensions.CreateEdges(new[] {floorLineSegment}, mapPosition - -20 * Vector2.UnitY);
+            IBody edgeBody = BodyFactory.CreateEdges(new[] {floorLineSegment}, mapPosition - -20 * Vector2.UnitY);
 
             Entity edgeEntity = new Entity(null, edgeBody);
             m_entities.Add(edgeEntity);

@@ -36,7 +36,7 @@ namespace GameCore.Entity
 
             Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(sprite);
 
-            IBody body = PhysicsExtensions.CreateVertexBody(_bodyVertexObject, _position, _mass, _bodyType);
+            IBody body = BodyFactory.CreateVertexBody(_bodyVertexObject, _position, _mass, _bodyType);
 
             Entity entity = new Entity(spriteDrawable, body);
             return entity;
@@ -47,7 +47,7 @@ namespace GameCore.Entity
         {
             Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(_sprite);
 
-            IBody body = PhysicsExtensions.CreateEdges(_lineSegments, _position);
+            IBody body = BodyFactory.CreateEdges(_lineSegments, _position);
 
             Entity entity = new Entity(spriteDrawable, body);
             return entity;
