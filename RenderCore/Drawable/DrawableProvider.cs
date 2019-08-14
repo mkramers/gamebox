@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using RenderCore.Drawable;
 
-namespace RenderCore.Render
+namespace RenderCore.Drawable
 {
     public class DrawableProvider : IDrawableProvider
     {

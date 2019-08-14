@@ -16,6 +16,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="TextureCache\**" />
+    <EmbeddedResource Remove="TextureCache\**" />
+    <None Remove="TextureCache\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\head-mk_0.png" />
     <None Remove="Resources\Roboto-Regular.ttf" />
   </ItemGroup>
@@ -37,10 +43,6 @@
     <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\IOUtilities\IOUtilities.csproj" />
     <ProjectReference Include="..\LibExtensions\LibExtensions.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="TextureCache\" />
   </ItemGroup>
 
 </Project>
