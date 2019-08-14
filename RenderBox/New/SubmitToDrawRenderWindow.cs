@@ -10,14 +10,44 @@ using TGUI;
 
 namespace RenderBox.New
 {
+    public class SceneTexture : IDisposable
+    {
+        private RenderTexture m_sceneRenderTexture;
+
+        public void SetSize(uint _width, uint _height, View _view)
+        {
+            m_sceneRenderTexture?.Dispose();
+
+            m_sceneRenderTexture = new RenderTexture(_width, _height);
+        }
+
+        public Texture RenderToTexture(Scene _scene, View _view)
+        {
+            m_sceneRenderTexture.Clear();
+
+            m_sceneRenderTexture.SetView(_view);
+
+            _scene.Draw(m_sceneRenderTexture, RenderStates.Default);
+
+            m_sceneRenderTexture.Display();
+
+            return m_sceneRenderTexture.Texture;
+        }
+
+        public void Dispose()
+        {
+            m_sceneRenderTexture?.Dispose();
+        }
+    }
+
     public class SubmitToDrawRenderWindow : ITickable
     {
         private readonly float m_aspectRatio;
         private readonly RenderWindow m_renderWindow;
         private readonly Scene m_scene;
-        private RenderTexture m_sceneRenderTexture;
         private readonly Gui m_gui;
         private IViewProvider m_viewProvider;
+        private readonly SceneTexture m_sceneTexture;
 
         public SubmitToDrawRenderWindow(float _aspectRatio, Vector2u _windowSize)
         {
@@ -30,6 +60,8 @@ namespace RenderBox.New
             m_scene = new Scene();
 
             m_gui = new Gui(m_renderWindow);
+
+            m_sceneTexture = new SceneTexture();
 
             Resize(_windowSize);
         }
@@ -49,22 +81,20 @@ namespace RenderBox.New
             float aspectRatio = m_aspectRatio;
 
             View renderWindowView = m_renderWindow.GetView();
+
             FloatRect viewPort = WindowResizeUtilities.GetViewPort(_windowSize, aspectRatio);
             renderWindowView.Viewport = viewPort;
 
             m_renderWindow.SetView(renderWindowView);
-
-            m_sceneRenderTexture?.Dispose();
-
+            
             uint adjustedWidth = (uint)Math.Round(viewPort.Width * _windowSize.X);
             uint adjustedHeight = (uint)Math.Round(viewPort.Height * _windowSize.Y);
 
-            m_sceneRenderTexture = new RenderTexture(adjustedWidth, adjustedHeight);
-            m_sceneRenderTexture.SetView(renderWindowView);
+            m_sceneTexture.SetSize(adjustedWidth, adjustedHeight, renderWindowView);
 
             m_gui.View = renderWindowView;
         }
-
+        
         public void Tick(TimeSpan _elapsed)
         {
             Draw();
@@ -73,18 +103,12 @@ namespace RenderBox.New
         private void Draw()
         {
             m_renderWindow.DispatchEvents();
-            
-            m_sceneRenderTexture.Clear();
 
-            m_sceneRenderTexture.SetView(m_viewProvider.GetView());
-
-            m_scene.Draw(m_sceneRenderTexture, RenderStates.Default);
-
-            m_sceneRenderTexture.Display();
+            Texture sceneTexture = m_sceneTexture.RenderToTexture(m_scene, m_viewProvider.GetView());
             
             m_renderWindow.Clear();
 
-            m_renderWindow.Draw(m_sceneRenderTexture.Texture, RenderStates.Default);
+            m_renderWindow.Draw(sceneTexture, RenderStates.Default);
 
             m_gui.Draw();
 
