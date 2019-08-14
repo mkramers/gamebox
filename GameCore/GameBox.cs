@@ -4,7 +4,6 @@ using PhysicsCore;
 using RenderCore.Drawable;
 using RenderCore.ViewProvider;
 using SFML.System;
-using TGUI;
 
 namespace GameCore
 {
@@ -39,11 +38,6 @@ namespace GameCore
         public void SetIsPaused(bool _isPaused)
         {
             m_gameBox.SetIsPaused(_isPaused);
-        }
-
-        public Gui GetGui()
-        {
-            return m_gameBox.GetGui();
         }
 
         public Vector2u GetWindowSize()

@@ -25,6 +25,12 @@ namespace GameCore
             _gameBox.AddTickableProvider(tickableProvider);
         }
 
+        public static void AddWidget(this IGameBox _gameBox, Widget _widget)
+        {
+            WidgetProvider widgetProvider = new WidgetProvider(_widget);
+            _gameBox.AddWidgetProvider(widgetProvider);
+        }
+
         public static void AddFpsWidget(this IGameBox _gameBox)
         {
             WidgetFontSettings widgetFontSettingsFactory = new WidgetFontSettings();
@@ -39,9 +45,7 @@ namespace GameCore
                 Position = textPosition.GetVector2F()
             };
 
-            Gui gui = _gameBox.GetGui();
-            gui.Add(fpsWidget);
-
+            _gameBox.AddWidget(fpsWidget);
             _gameBox.AddTickable(fpsWidget);
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Common.Tickable;
 using RenderCore.Drawable;
 using RenderCore.ViewProvider;
@@ -52,11 +53,6 @@ namespace RenderCore.Render
         {
             m_widgetProviders.Add(_provider);
         }
-        
-        public Gui GetGui()
-        {
-            return m_gui;
-        }
 
         private void Resize(Vector2u _windowSize)
         {
@@ -91,10 +87,8 @@ namespace RenderCore.Render
                 m_renderWindow.Draw(sceneTexture, RenderStates.Default);
             }
 
-            foreach (IWidgetProvider widgetProvider in m_widgetProviders)
-            {
-                m_gui.UpdateCurrentWidgets(widgetProvider.GetWidgets());
-            }
+            IEnumerable<TGUI.Widget> allWidgets = m_widgetProviders.SelectMany(_widgetProvider => _widgetProvider.GetWidgets());
+            m_gui.UpdateCurrentWidgets(allWidgets);
 
             m_gui.Draw();
 

@@ -4,7 +4,6 @@ using System.Linq;
 using GameCore;
 using PhysicsCore;
 using SFML.Graphics;
-using TGUI;
 
 namespace Games.Games
 {
@@ -13,7 +12,7 @@ namespace Games.Games
         private readonly IEnumerable<GameBase> m_games;
         private GameBase m_currentGame;
 
-        public MultiGame(IEnumerable<GameBase> _games, IPhysics _physics, Gui _gui) : base(_physics, _gui)
+        public MultiGame(IEnumerable<GameBase> _games, IPhysics _physics) : base(_physics)
         {
             m_games = _games;
 

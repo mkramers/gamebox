@@ -20,13 +20,12 @@ using RenderCore.Resource;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;
 using SFML.System;
-using TGUI;
 
 namespace Games.Games
 {
     public class Game2 : GameBase
     {
-        public Game2(IPhysics _physics, Gui _gui) : base(_physics, _gui)
+        public Game2(IPhysics _physics) : base(_physics)
         {
             _physics.SetGravity(new Vector2(0, 5.5f));
 

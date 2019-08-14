@@ -18,13 +18,12 @@ using RenderCore.ViewProvider;
 using RenderCore.Widget;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;
-using TGUI;
 
 namespace Games.Games
 {
     public class Game3 : GameBase
     {
-        public Game3(IPhysics _physics, Gui _gui) : base(_physics, _gui)
+        public Game3(IPhysics _physics) : base(_physics)
         {
             const float size = 25;
             Vector2 sceneSize = new Vector2(size, size);

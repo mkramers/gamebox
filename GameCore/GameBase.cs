@@ -18,18 +18,14 @@ namespace GameCore
         protected readonly List<Widget> m_widgets;
 
         [SuppressMessage("ReSharper", "NotAccessedField.Local")]
-        private readonly Gui m_gui;
-
-        [SuppressMessage("ReSharper", "NotAccessedField.Local")]
         private readonly IPhysics m_physics;
 
         protected readonly List<ITickable> m_tickables;
         protected IViewProvider m_viewProvider;
 
-        protected GameBase(IPhysics _physics, Gui _gui)
+        protected GameBase(IPhysics _physics)
         {
             m_physics = _physics;
-            m_gui = _gui;
             m_drawables = new List<IDrawable>();
             m_tickables = new List<ITickable>();
             m_gameProviders = new List<IGameProvider>();
