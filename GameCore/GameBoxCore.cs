@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Common.Tickable;
 using RenderCore.Drawable;
+using RenderCore.Render;
 using RenderCore.ViewProvider;
 using SFML.System;
 using TGUI;
 
-namespace RenderBox.New
+namespace GameCore
 {
     public class GameBoxCore : IGameBox
     {

@@ -2,7 +2,7 @@
 using SFML.Graphics;
 using SFML.System;
 
-namespace RenderBox.New
+namespace RenderCore.Render
 {
     public static class WindowResizeUtilities
     {

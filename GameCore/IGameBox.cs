@@ -5,7 +5,7 @@ using RenderCore.ViewProvider;
 using SFML.System;
 using TGUI;
 
-namespace RenderBox.New
+namespace GameCore
 {
     public interface IGameBox : IDisposable
     {

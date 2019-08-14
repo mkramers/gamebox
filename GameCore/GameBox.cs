@@ -1,12 +1,12 @@
 ﻿using System.Numerics;
-using GameCore;
+using Common.Tickable;
 using PhysicsCore;
 using RenderCore.Drawable;
 using RenderCore.ViewProvider;
 using SFML.System;
 using TGUI;
 
-namespace RenderBox.New
+namespace GameCore
 {
     public class GameBox : IGameBox
     {

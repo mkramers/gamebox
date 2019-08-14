@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
 using Common.Grid;
-using GameBox;
+using GameCore;
 using GameCore.Maps;
 using GameResources.Attributes;
 using GameResources.Converters;
@@ -16,15 +16,15 @@ using RenderCore.Widget;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;
 
-namespace RenderBox.New
+namespace GameBox.Games
 {
     public class Game3 : IDisposable
     {
-        private readonly GameBox m_gameBox;
+        private readonly GameCore.GameBox m_gameBox;
 
         public Game3()
         {
-            m_gameBox = new GameBox();
+            m_gameBox = new GameCore.GameBox();
 
             const float size = 25;
             Vector2 sceneSize = new Vector2(size, size);

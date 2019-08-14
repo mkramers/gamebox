@@ -1,14 +1,12 @@
 ﻿using System;
 using Common.Tickable;
 using RenderCore.Drawable;
-using RenderCore.Render;
 using RenderCore.ViewProvider;
 using SFML.Graphics;
 using SFML.System;
-using SFML.Window;
 using TGUI;
 
-namespace RenderBox.New
+namespace RenderCore.Render
 {
     public class SubmitToDrawRenderWindow : ITickable
     {

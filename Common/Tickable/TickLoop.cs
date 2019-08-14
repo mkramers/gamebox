@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using Common.Extensions;
 
-namespace RenderBox.New
+namespace Common.Tickable
 {
     public class TickLoop
     {
@@ -21,7 +21,7 @@ namespace RenderBox.New
             m_isRunning = true;
             while (m_isRunning)
             {
-                TimeSpan elapsed = m_stopwatch.GetElapsedAndRestart();
+                TimeSpan elapsed = StopwatchExtensions.GetElapsedAndRestart(m_stopwatch);
 
                 Tick?.Invoke(this, new TimeElapsedEventArgs(elapsed));
 

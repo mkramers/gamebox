@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RenderBox.New
+namespace Common.Tickable
 {
     public class TimeElapsedEventArgs : EventArgs
     {

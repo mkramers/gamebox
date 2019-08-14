@@ -4,11 +4,12 @@ using GameCore.Entity;
 using LibExtensions;
 using RenderCore.Drawable;
 using RenderCore.Font;
+using RenderCore.Render;
 using RenderCore.Widget;
 using SFML.System;
 using TGUI;
 
-namespace RenderBox.New
+namespace GameCore
 {
     public static class GameBoxExtensions
     {

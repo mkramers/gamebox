@@ -1,7 +1,7 @@
 ﻿using System;
 using SFML.Graphics;
 
-namespace RenderBox.New
+namespace RenderCore.Render
 {
     public class SceneTexture : IDisposable
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using Common.Grid;
-using GameBox;
+using GameCore;
 using GameCore.Entity;
 using GameCore.Input.Key;
 using GameCore.Maps;
@@ -19,15 +19,15 @@ using ResourceUtilities.Aseprite;
 using SFML.Graphics;
 using SFML.System;
 
-namespace RenderBox.New
+namespace GameBox.Games
 {
     public class Game2 : IDisposable
     {
-        private readonly GameBox m_gameBox;
+        private readonly GameCore.GameBox m_gameBox;
 
         public Game2()
         {
-            m_gameBox = new GameBox();
+            m_gameBox = new GameCore.GameBox();
 
             IPhysics physics = m_gameBox.GetPhysics();
             physics.SetGravity(new Vector2(0, 5.5f));

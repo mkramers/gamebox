@@ -1,4 +1,6 @@
 ﻿
+using GameBox.Games;
+
 namespace RenderBox
 {
     internal static class Program
@@ -9,7 +11,7 @@ namespace RenderBox
             //RenderBox renderBox = new RenderBox("RenderBox", new Vector2u(800, 800), aspectRatio);
             //renderBox.StartLoop();
 
-            New.Game2 renderBox = new New.Game2();
+            Game2 renderBox = new Game2();
             renderBox.StartLoop();
             renderBox.Dispose();
         }

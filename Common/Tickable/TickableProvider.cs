@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Common.Tickable;
 
-namespace RenderBox.New
+namespace Common.Tickable
 {
     public class TickableProvider : ITickableProvider
     {

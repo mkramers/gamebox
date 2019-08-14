@@ -3,7 +3,7 @@ using System.Linq;
 using RenderCore.Drawable;
 using SFML.Graphics;
 
-namespace RenderBox.New
+namespace RenderCore.Render
 {
     public class Scene
     {
