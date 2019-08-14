@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
 using Common.Grid;
@@ -21,7 +20,7 @@ using SFML.Graphics;
 
 namespace Games.Games
 {
-    public class Game3 : IDrawableProvider, ITickableProvider, IViewProvider, IDisposable
+    public class Game3 : IGameProvider
     {
         private readonly List<IDrawable> m_drawables;
         private readonly List<ITickable> m_tickables;
