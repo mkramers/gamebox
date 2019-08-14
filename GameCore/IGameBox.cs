@@ -14,6 +14,6 @@ namespace GameCore
         void SetIsPaused(bool _isPaused);
         Gui GetGui();
         Vector2u GetWindowSize();
-        void AddTickableProvider(TickableProvider _tickableProvider);
+        void AddTickableProvider(ITickableProvider _tickableProvider);
     }
 }

@@ -46,7 +46,7 @@ namespace GameCore
             return m_gameBox.GetWindowSize();
         }
 
-        public void AddTickableProvider(TickableProvider _tickableProvider)
+        public void AddTickableProvider(ITickableProvider _tickableProvider)
         {
             m_gameBox.AddTickableProvider(_tickableProvider);
         }
