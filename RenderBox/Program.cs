@@ -6,11 +6,7 @@ namespace RenderBox
     {
         private static void Main()
         {
-            //const float aspectRatio = 1.0f;
-            //RenderBox renderBox = new RenderBox("RenderBox", new Vector2u(800, 800), aspectRatio);
-            //renderBox.StartLoop();
-
-            Game2 renderBox = new Game2();
+            Game3 renderBox = new Game3();
             renderBox.StartLoop();
             renderBox.Dispose();
         }
