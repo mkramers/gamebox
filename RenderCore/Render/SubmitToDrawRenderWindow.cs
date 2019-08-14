@@ -71,12 +71,16 @@ namespace RenderCore.Render
         private void Draw()
         {
             m_renderWindow.DispatchEvents();
-
-            Texture sceneTexture = m_sceneTexture.RenderToTexture(m_scene, m_viewProvider.GetView());
-
+            
             m_renderWindow.Clear();
 
-            m_renderWindow.Draw(sceneTexture, RenderStates.Default);
+            View view = m_viewProvider.GetView();
+            if (view != null)
+            {
+                Texture sceneTexture = m_sceneTexture.RenderToTexture(m_scene, view);
+
+                m_renderWindow.Draw(sceneTexture, RenderStates.Default);
+            }
 
             m_gui.Draw();
 

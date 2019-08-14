@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using SFML.Graphics;
 
 namespace RenderCore.Render
@@ -21,6 +22,11 @@ namespace RenderCore.Render
 
         public Texture RenderToTexture(Scene _scene, View _view)
         {
+            if (_view == null)
+            {
+                throw new ArgumentNullException(nameof(_view));
+            }
+
             m_sceneRenderTexture.Clear();
 
             m_sceneRenderTexture.SetView(_view);
