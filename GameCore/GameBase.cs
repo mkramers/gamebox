@@ -14,7 +14,7 @@ namespace GameCore
     public abstract class GameBase : IGameProvider, IViewProvider
     {
         protected readonly List<IDrawable> m_drawables;
-        protected readonly List<IGameProvider> m_gameProviders;
+        private readonly List<IGameProvider> m_gameProviders;
 
         [SuppressMessage("ReSharper", "NotAccessedField.Local")]
         private readonly Gui m_gui;
@@ -36,12 +36,28 @@ namespace GameCore
 
         public event EventHandler PauseGame;
         public event EventHandler ResumeGame;
-        public View GetView()
+
+        protected void AddGameProvider(IGameProvider _gameProvider)
+        {
+            _gameProvider.PauseGame += PauseGame;
+            _gameProvider.ResumeGame += ResumeGame;
+
+            m_gameProviders.Add(_gameProvider);
+        }
+        protected void RemoveGameProvider(IGameProvider _gameProvider)
+        {
+            _gameProvider.PauseGame -= PauseGame;
+            _gameProvider.ResumeGame -= ResumeGame;
+
+            m_gameProviders.Remove(_gameProvider);
+        }
+
+        public virtual View GetView()
         {
             return m_viewProvider.GetView();
         }
 
-        public IEnumerable<IDrawable> GetDrawables()
+        public virtual IEnumerable<IDrawable> GetDrawables()
         {
             List<IDrawable> drawables = new List<IDrawable>();
             drawables.AddRange(m_drawables);
@@ -52,7 +68,7 @@ namespace GameCore
             return drawables;
         }
 
-        public IEnumerable<ITickable> GetTickables()
+        public virtual IEnumerable<ITickable> GetTickables()
         {
             List<ITickable> tickables = new List<ITickable>();
             tickables.AddRange(m_tickables);

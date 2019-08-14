@@ -26,8 +26,18 @@ namespace Games.Games
 {
     public class MultiGame : GameBase
     {
-        public MultiGame(IPhysics _physics, Gui _gui) : base(_physics, _gui)
+        private readonly GameBase m_gameProvider;
+
+        public MultiGame(GameBase _game, IPhysics _physics, Gui _gui) : base(_physics, _gui)
         {
+            m_gameProvider = _game;
+
+            AddGameProvider(_game);
+        }
+
+        public override View GetView()
+        {
+            return m_gameProvider.GetView();
         }
     }
 
@@ -127,7 +137,7 @@ namespace Games.Games
             coinThing.PauseGame += (_sender, _e) => OnPauseGame(_e);
             coinThing.ResumeGame += (_sender, _e) => OnResumeGame(_e);
 
-            m_gameProviders.Add(coinThing);
+            AddGameProvider(coinThing);
         }
     }
 }

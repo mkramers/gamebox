@@ -9,15 +9,16 @@ namespace GameBox
         {
             GameCore.GameBox gameBox = new GameCore.GameBox();
             gameBox.AddFpsWidget();
-
+            
             Game2 game = new Game2(gameBox.GetPhysics(), gameBox.GetGui());
+            MultiGame multiGame = new MultiGame(game, gameBox.GetPhysics(), gameBox.GetGui());
 
-            game.PauseGame += (_sender, _args) => gameBox.SetIsPaused(true);
-            game.ResumeGame += (_sender, _args) => gameBox.SetIsPaused(false);
+            multiGame.PauseGame += (_sender, _args) => gameBox.SetIsPaused(true);
+            multiGame.ResumeGame += (_sender, _args) => gameBox.SetIsPaused(false);
 
-            gameBox.AddDrawableProvider(game);
-            gameBox.AddTickableProvider(game);
-            gameBox.SetViewProvider(game);
+            gameBox.AddDrawableProvider(multiGame);
+            gameBox.AddTickableProvider(multiGame);
+            gameBox.SetViewProvider(multiGame);
 
             gameBox.StartLoop();
             gameBox.Dispose();
