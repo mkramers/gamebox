@@ -2,6 +2,7 @@
 using Common.Tickable;
 using GameCore.Entity;
 using LibExtensions;
+using PhysicsCore;
 using RenderCore.Drawable;
 using RenderCore.Font;
 using RenderCore.Render;
@@ -29,6 +30,12 @@ namespace GameCore
         {
             WidgetProvider widgetProvider = new WidgetProvider(_widget);
             _gameBox.AddWidgetProvider(widgetProvider);
+        }
+
+        public static void AddBody(this IGameBox _gameBox, IBody _body)
+        {
+            BodyProvider bodyProvider = new BodyProvider(_body);
+            _gameBox.AddBodyProvider(bodyProvider);
         }
 
         public static void AddFpsWidget(this IGameBox _gameBox)

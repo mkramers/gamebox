@@ -10,8 +10,9 @@ namespace PhysicsCore
 {
     public interface IPhysics : ITickable, IDisposable
     {
+        void Add(IBody _body);
         void SetGravity(Vector2 _gravity);
-        IBody CreateVertexBody(IVertexObject _vertexObject, Vector2 _position, float _mass, BodyType _bodyType);
-        IBody CreateEdges(IEnumerable<LineSegment> _lineSegments, Vector2 _position);
+        void Remove(IBody _body);
+        IEnumerable<IBody> GetBodies();
     }
 }

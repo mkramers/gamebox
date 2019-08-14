@@ -15,7 +15,7 @@ namespace GameCore.Entity
 {
     public static class SpriteEntityFactory
     {
-        public static IEntity CreateSpriteEntity(float _mass, Vector2 _position, IPhysics _physics, BodyType _bodyType,
+        public static IEntity CreateSpriteEntity(float _mass, Vector2 _position, BodyType _bodyType,
             Sprite _sprite)
         {
             FloatRect spriteLocalBounds = _sprite.GetGlobalBounds();
@@ -25,29 +25,29 @@ namespace GameCore.Entity
             IVertexObject bodyVertexObject = ShapeFactory.CreateRectangle(spriteSize / 2);
 
             IEntity entity =
-                CreateSpriteEntity(_mass, _position, _physics, _bodyType, _sprite, bodyVertexObject);
+                CreateSpriteEntity(_mass, _position, _bodyType, _sprite, bodyVertexObject);
             return entity;
         }
 
-        private static IEntity CreateSpriteEntity(float _mass, Vector2 _position, IPhysics _physics, BodyType _bodyType,
+        private static IEntity CreateSpriteEntity(float _mass, Vector2 _position, BodyType _bodyType,
             Sprite _sprite, IVertexObject _bodyVertexObject)
         {
             Sprite sprite = FixSprite(_sprite);
 
             Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(sprite);
 
-            IBody body = _physics.CreateVertexBody(_bodyVertexObject, _position, _mass, _bodyType);
+            IBody body = PhysicsExtensions.CreateVertexBody(_bodyVertexObject, _position, _mass, _bodyType);
 
             Entity entity = new Entity(spriteDrawable, body);
             return entity;
         }
 
-        public static IEntity CreateSpriteEdgeEntity(Vector2 _position, IPhysics _physics, Sprite _sprite,
+        public static IEntity CreateSpriteEdgeEntity(Vector2 _position, Sprite _sprite,
             IEnumerable<LineSegment> _lineSegments)
         {
             Drawable<Sprite> spriteDrawable = new Drawable<Sprite>(_sprite);
 
-            IBody body = _physics.CreateEdges(_lineSegments, _position);
+            IBody body = PhysicsExtensions.CreateEdges(_lineSegments, _position);
 
             Entity entity = new Entity(spriteDrawable, body);
             return entity;

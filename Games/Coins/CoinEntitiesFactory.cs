@@ -10,7 +10,6 @@ using GameResources.Attributes;
 using GameResources.Converters;
 using LibExtensions;
 using Newtonsoft.Json;
-using PhysicsCore;
 using RenderCore.Resource;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;
@@ -20,7 +19,7 @@ namespace Games.Coins
 {
     public static class CoinEntitiesFactory
     {
-        public static IEnumerable<Coin> GetCoins(string _resourceRootDirectory, IPhysics _physics)
+        public static IEnumerable<Coin> GetCoins(string _resourceRootDirectory)
         {
             ResourceManager<SpriteResources> resourceManager =
                 new ResourceManager<SpriteResources>(_resourceRootDirectory);
@@ -84,7 +83,7 @@ namespace Games.Coins
                         };
 
                         IEntity coinEntity =
-                            SpriteEntityFactory.CreateSpriteEntity(0.01f, coinPosition, _physics, BodyType.Dynamic,
+                            SpriteEntityFactory.CreateSpriteEntity(0.01f, coinPosition, BodyType.Dynamic,
                                 coinSprite);
 
                         Coin coin = new Coin(coinEntity, coinEntry.Value);

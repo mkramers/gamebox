@@ -18,6 +18,8 @@ namespace GameCore.Legacy.VertexBodyConfig
         public IEntity CreateEntity(IPhysics _physics)
         {
             IBody body = BodyCreator.CreateBody(_physics);
+            _physics.Add(body);
+
             IPositionDrawable drawable = DrawableCreator.CreateDrawable();
 
             Entity.Entity entity = new Entity.Entity(drawable, body);

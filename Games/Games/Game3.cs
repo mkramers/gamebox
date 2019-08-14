@@ -10,7 +10,6 @@ using GameResources.Attributes;
 using GameResources.Converters;
 using Games.Maps;
 using LibExtensions;
-using PhysicsCore;
 using RenderCore.Drawable;
 using RenderCore.Font;
 using RenderCore.Resource;
@@ -23,7 +22,7 @@ namespace Games.Games
 {
     public class Game3 : GameBase
     {
-        public Game3(IPhysics _physics) : base(_physics)
+        public Game3()
         {
             const float size = 25;
             Vector2 sceneSize = new Vector2(size, size);
@@ -59,7 +58,7 @@ namespace Games.Games
 
             Grid<ComparableColor> mapCollisionGrid = BitmapToGridConverter.GetColorGridFromBitmap(mapCollisionBitmap);
 
-            IMap map = new SampleMap2(mapSceneTexture, mapCollisionGrid, _physics);
+            IMap map = new SampleMap2(mapSceneTexture, mapCollisionGrid);
 
             IEnumerable<IDrawable> mapDrawables = map.GetDrawables();
             foreach (IDrawable mapDrawable in mapDrawables)

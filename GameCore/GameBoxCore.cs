@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using Common.Tickable;
+using PhysicsCore;
 using RenderCore.Drawable;
 using RenderCore.Render;
 using RenderCore.ViewProvider;
@@ -13,8 +15,10 @@ namespace GameCore
     {
         private readonly SubmitToDrawRenderWindow m_renderWindow;
         private readonly List<ITickableProvider> m_tickableProviders;
+        private readonly List<IBodyProvider> m_bodyProviders;
         private readonly TickLoop m_tickLoop;
         private bool m_isPaused;
+        private readonly IPhysics m_physics;
 
         public GameBoxCore()
         {
@@ -22,9 +26,13 @@ namespace GameCore
             m_renderWindow.Closed += (_sender, _e) => m_tickLoop.StopLoop();
 
             m_tickableProviders = new List<ITickableProvider>();
+            m_bodyProviders = new List<IBodyProvider>();
 
             m_tickLoop = new TickLoop(TimeSpan.FromMilliseconds(30));
             m_tickLoop.Tick += OnTick;
+
+            m_physics = new Physics(new Vector2(0, 5.5f));
+            this.AddTickable(m_physics);
         }
 
         public void AddDrawableProvider(IDrawableProvider _drawableProvider)
@@ -35,6 +43,11 @@ namespace GameCore
         public void AddWidgetProvider(IWidgetProvider _widgetProvider)
         {
             m_renderWindow.AddWidgetProvider(_widgetProvider);
+        }
+
+        public void AddBodyProvider(IBodyProvider _bodyProvider)
+        {
+            m_bodyProviders.Add(_bodyProvider);
         }
 
         public void SetViewProvider(IViewProvider _viewProvider)
@@ -72,6 +85,9 @@ namespace GameCore
 
             if (!m_isPaused)
             {
+                IEnumerable<IBody> allBodies = m_bodyProviders.SelectMany(_bodyProvider => _bodyProvider.GetBodies());
+                m_physics.UpdateCurrentBodies(allBodies);
+
                 IEnumerable<ITickable> tickables =
                     m_tickableProviders.SelectMany(_provider => _provider.GetTickables());
                 foreach (ITickable tickable in tickables)

@@ -78,6 +78,11 @@ namespace PhysicsCore
             world?.Remove(m_body);
         }
 
+        public Aether.Physics2D.Dynamics.Body GetBody()
+        {
+            return m_body;
+        }
+
         public void SetPosition(Vector2 _position)
         {
             m_body.Position = _position.GetVector2();

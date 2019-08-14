@@ -14,7 +14,6 @@ using GameResources.Attributes;
 using GameResources.Converters;
 using Games.Coins;
 using Games.Maps;
-using PhysicsCore;
 using RenderCore.Drawable;
 using RenderCore.Resource;
 using ResourceUtilities.Aseprite;
@@ -25,10 +24,8 @@ namespace Games.Games
 {
     public class Game2 : GameBase
     {
-        public Game2(IPhysics _physics) : base(_physics)
+        public Game2()
         {
-            _physics.SetGravity(new Vector2(0, 5.5f));
-
             const string resourceRootDirectory = @"C:\dev\GameBox\Resources\sprite";
             ResourceManager<SpriteResources> manager = new ResourceManager<SpriteResources>(resourceRootDirectory);
 
@@ -49,11 +46,12 @@ namespace Games.Games
                     Scale = spriteScale
                 };
 
-                manEntity = SpriteEntityFactory.CreateSpriteEntity(mass, manPosition, _physics, BodyType.Dynamic,
+                manEntity = SpriteEntityFactory.CreateSpriteEntity(mass, manPosition, BodyType.Dynamic,
                     sprite);
 
                 m_drawables.Add(manEntity);
                 m_tickables.Add(manEntity);
+                m_bodies.Add(manEntity);
             }
 
             View view = new View(new Vector2f(0, -6.5f), new Vector2f(35, 35));
@@ -88,12 +86,13 @@ namespace Games.Games
                 Grid<ComparableColor> mapCollisionGrid =
                     BitmapToGridConverter.GetColorGridFromBitmap(mapCollisionBitmap);
 
-                IMap map = new SampleMap2(mapSceneTexture, mapCollisionGrid, _physics);
+                IMap map = new SampleMap2(mapSceneTexture, mapCollisionGrid);
 
-                foreach (IEntity mapEntity in map.GetEntities(_physics))
+                foreach (IEntity mapEntity in map.GetEntities())
                 {
                     m_drawables.Add(mapEntity);
                     m_tickables.Add(mapEntity);
+                    m_bodies.Add(mapEntity);
                 }
 
                 IEnumerable<IDrawable> mapDrawables = map.GetDrawables();
@@ -113,7 +112,7 @@ namespace Games.Games
             }
 
             //temp
-            List<Coin> coins = CoinEntitiesFactory.GetCoins(resourceRootDirectory, _physics).ToList();
+            List<Coin> coins = CoinEntitiesFactory.GetCoins(resourceRootDirectory).ToList();
 
             CoinThing coinThing = new CoinThing(manEntity, coins);
             AddGameProvider(coinThing);

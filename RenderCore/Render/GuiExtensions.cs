@@ -4,7 +4,7 @@ using TGUI;
 
 namespace RenderCore.Render
 {
-    public static class GuiUtilities
+    public static class GuiExtensions
     {
         public static void UpdateCurrentWidgets(this Gui _gui, IEnumerable<TGUI.Widget> _widgets)
         {

@@ -10,5 +10,6 @@ namespace PhysicsCore
         void ApplyLinearImpulse(Vector2 _force);
 
         void RemoveFromWorld();
+        Aether.Physics2D.Dynamics.Body GetBody();
     }
 }

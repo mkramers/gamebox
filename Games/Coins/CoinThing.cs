@@ -17,7 +17,6 @@ namespace Games.Coins
     {
         private readonly IEntity m_captureEntity;
         private readonly List<Coin> m_coins;
-        private readonly List<IDrawable> m_drawables;
         private readonly Label m_scoreLabel;
         private float m_score;
         private readonly List<Widget> m_widgets;
@@ -29,7 +28,6 @@ namespace Games.Coins
             m_captureEntity = _captureEntity;
 
             m_coins = new List<Coin>();
-            m_drawables = new List<IDrawable>();
 
             IEnumerable<Coin> coins = _coins as Coin[] ?? _coins.ToArray();
             foreach (Coin coin in coins)
@@ -38,8 +36,6 @@ namespace Games.Coins
 
                 entity.Collided += EntityOnCollided;
                 entity.Separated += EntityOnSeparated;
-
-                m_drawables.Add(entity);
 
                 m_coins.Add(coin);
             }
@@ -55,7 +51,7 @@ namespace Games.Coins
         
         public IEnumerable<IDrawable> GetDrawables()
         {
-            return m_drawables;
+            return m_coins.Select(_coin => _coin.Entity);
         }
 
         public event EventHandler PauseGame;
@@ -82,7 +78,6 @@ namespace Games.Coins
             UpdateScoreLabel(m_score);
 
             m_coins.Remove(coin);
-            m_drawables.Remove(coin.Entity);
 
             if (m_score > 0)
             {
@@ -133,6 +128,11 @@ namespace Games.Coins
         public IEnumerable<Widget> GetWidgets()
         {
             return m_widgets;
+        }
+
+        public IEnumerable<IBody> GetBodies()
+        {
+            return m_coins.Select(_coin => _coin.Entity);
         }
     }
 }

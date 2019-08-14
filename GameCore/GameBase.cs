@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Common.Tickable;
 using PhysicsCore;
@@ -16,24 +15,22 @@ namespace GameCore
         protected readonly List<IDrawable> m_drawables;
         private readonly List<IGameProvider> m_gameProviders;
         protected readonly List<Widget> m_widgets;
-
-        [SuppressMessage("ReSharper", "NotAccessedField.Local")]
-        private readonly IPhysics m_physics;
+        protected readonly List<IBody> m_bodies;
 
         protected readonly List<ITickable> m_tickables;
         protected IViewProvider m_viewProvider;
 
-        protected GameBase(IPhysics _physics)
-        {
-            m_physics = _physics;
-            m_drawables = new List<IDrawable>();
-            m_tickables = new List<ITickable>();
-            m_gameProviders = new List<IGameProvider>();
-            m_widgets = new List<Widget>();
-        }
-
         public event EventHandler PauseGame;
         public event EventHandler ResumeGame;
+
+        public GameBase()
+        {
+            m_drawables = new List<IDrawable>();
+            m_gameProviders = new List<IGameProvider>();
+            m_widgets = new List<Widget>();
+            m_bodies = new List<IBody>();
+            m_tickables = new List<ITickable>();
+        }
 
         protected void AddGameProvider(IGameProvider _gameProvider)
         {
@@ -101,6 +98,17 @@ namespace GameCore
             widgets.AddRange(subGameWidgets);
 
             return widgets;
+        }
+
+        public IEnumerable<IBody> GetBodies()
+        {
+            List<IBody> bodies = new List<IBody>();
+            bodies.AddRange(m_bodies);
+
+            IEnumerable<IBody> subGameBodies = m_gameProviders.SelectMany(_gameProvider => _gameProvider.GetBodies());
+            bodies.AddRange(subGameBodies);
+
+            return bodies;
         }
     }
 }

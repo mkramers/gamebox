@@ -21,7 +21,7 @@ namespace GameCore.Legacy.VertexBodyConfig
 
         public IBody CreateBody(IPhysics _physics)
         {
-            IBody body = _physics.CreateVertexBody(VertexObject, Position, Mass, BodyType);
+            IBody body = PhysicsExtensions.CreateVertexBody(VertexObject, Position, Mass, BodyType);
             return body;
         }
     }

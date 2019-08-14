@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Linq;
 using GameCore;
-using PhysicsCore;
 using SFML.Graphics;
 
 namespace Games.Games
@@ -12,7 +11,7 @@ namespace Games.Games
         private readonly IEnumerable<GameBase> m_games;
         private GameBase m_currentGame;
 
-        public MultiGame(IEnumerable<GameBase> _games, IPhysics _physics) : base(_physics)
+        public MultiGame(IEnumerable<GameBase> _games)
         {
             m_games = _games;
 

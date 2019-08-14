@@ -19,7 +19,7 @@ namespace Games.Maps
         private readonly List<IDrawable> m_drawables;
         private readonly List<IEntity> m_entities;
 
-        public SampleMap2(Texture _sceneTexture, Grid<ComparableColor> _collisionGrid, IPhysics _physics)
+        public SampleMap2(Texture _sceneTexture, Grid<ComparableColor> _collisionGrid)
         {
             Vector2 mapPosition = -0 * Vector2.One;
 
@@ -33,7 +33,7 @@ namespace Games.Maps
 
             LineSegment[] lines = marchingSquares.GetLineSegments().ToArray();
 
-            IEntity entity = SpriteEntityFactory.CreateSpriteEdgeEntity(mapPosition, _physics, sprite, lines);
+            IEntity entity = SpriteEntityFactory.CreateSpriteEdgeEntity(mapPosition, sprite, lines);
 
             m_entities = new List<IEntity>
             {
@@ -45,10 +45,13 @@ namespace Games.Maps
             m_drawables.Add(lineShapes);
 
             LineSegment floorLineSegment = new LineSegment(-100, 0, 100, 0);
-            _physics.CreateEdges(new[] {floorLineSegment}, mapPosition - -20 * Vector2.UnitY);
+            IBody edgeBody = PhysicsExtensions.CreateEdges(new[] {floorLineSegment}, mapPosition - -20 * Vector2.UnitY);
+
+            Entity edgeEntity = new Entity(null, edgeBody);
+            m_entities.Add(edgeEntity);
         }
 
-        public IEnumerable<IEntity> GetEntities(IPhysics _physics)
+        public IEnumerable<IEntity> GetEntities()
         {
             return m_entities;
         }
