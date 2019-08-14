@@ -33,6 +33,11 @@ namespace GameCore
             m_renderWindow.AddDrawableProvider(_drawableProvider);
         }
 
+        public void AddWidgetProvider(IWidgetProvider _widgetProvider)
+        {
+            m_renderWindow.AddWidgetProvider(_widgetProvider);
+        }
+
         public void SetViewProvider(IViewProvider _viewProvider)
         {
             m_renderWindow.SetViewProvider(_viewProvider);

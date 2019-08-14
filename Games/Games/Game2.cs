@@ -116,7 +116,7 @@ namespace Games.Games
             //temp
             List<Coin> coins = CoinEntitiesFactory.GetCoins(resourceRootDirectory, _physics).ToList();
 
-            CoinThing coinThing = new CoinThing(manEntity, coins, _gui);
+            CoinThing coinThing = new CoinThing(manEntity, coins);
             AddGameProvider(coinThing);
         }
     }

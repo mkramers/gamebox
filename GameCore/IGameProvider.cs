@@ -4,7 +4,7 @@ using RenderCore.Drawable;
 
 namespace GameCore
 {
-    public interface IGameProvider : IDrawableProvider, ITickableProvider, IDisposable
+    public interface IGameProvider : IDrawableProvider, ITickableProvider, IWidgetProvider, IDisposable
     {
         event EventHandler PauseGame;
         event EventHandler ResumeGame;

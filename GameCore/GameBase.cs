@@ -15,6 +15,7 @@ namespace GameCore
     {
         protected readonly List<IDrawable> m_drawables;
         private readonly List<IGameProvider> m_gameProviders;
+        protected readonly List<Widget> m_widgets;
 
         [SuppressMessage("ReSharper", "NotAccessedField.Local")]
         private readonly Gui m_gui;
@@ -32,6 +33,7 @@ namespace GameCore
             m_drawables = new List<IDrawable>();
             m_tickables = new List<ITickable>();
             m_gameProviders = new List<IGameProvider>();
+            m_widgets = new List<Widget>();
         }
 
         public event EventHandler PauseGame;
@@ -44,7 +46,7 @@ namespace GameCore
 
             m_gameProviders.Add(_gameProvider);
         }
-
+        
         private void OnResumedGame(object _sender, EventArgs _e)
         {
             ResumeGame?.Invoke(_sender, _e);
@@ -92,6 +94,17 @@ namespace GameCore
         
         public virtual void Dispose()
         {
+        }
+
+        public IEnumerable<Widget> GetWidgets()
+        {
+            List<Widget> widgets = new List<Widget>();
+            widgets.AddRange(m_widgets);
+
+            IEnumerable<Widget> subGameWidgets = m_gameProviders.SelectMany(_gameProvider => _gameProvider.GetWidgets());
+            widgets.AddRange(subGameWidgets);
+
+            return widgets;
         }
     }
 }

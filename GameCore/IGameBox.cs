@@ -10,6 +10,7 @@ namespace GameCore
     public interface IGameBox : ILoopable, IDisposable
     {
         void AddDrawableProvider(IDrawableProvider _drawableProvider);
+        void AddWidgetProvider(IWidgetProvider _widgetProvider);
         void SetViewProvider(IViewProvider _viewProvider);
         void SetIsPaused(bool _isPaused);
         Gui GetGui();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Common.Tickable;
 using RenderCore.Drawable;
 using RenderCore.ViewProvider;
@@ -16,9 +17,12 @@ namespace RenderCore.Render
         private readonly Scene m_scene;
         private readonly SceneTexture m_sceneTexture;
         private IViewProvider m_viewProvider;
+        private readonly List<IWidgetProvider> m_widgetProviders;
 
         public SubmitToDrawRenderWindow(float _aspectRatio, Vector2u _windowSize)
         {
+            m_widgetProviders = new List<IWidgetProvider>();
+
             m_viewProvider = new ViewProviderBase();
 
             m_aspectRatio = _aspectRatio;
@@ -44,6 +48,11 @@ namespace RenderCore.Render
             m_scene.AddDrawableProvider(_provider);
         }
 
+        public void AddWidgetProvider(IWidgetProvider _provider)
+        {
+            m_widgetProviders.Add(_provider);
+        }
+        
         public Gui GetGui()
         {
             return m_gui;
@@ -60,8 +69,8 @@ namespace RenderCore.Render
 
             m_renderWindow.SetView(renderWindowView);
 
-            uint adjustedWidth = (uint) Math.Round(viewPort.Width * _windowSize.X);
-            uint adjustedHeight = (uint) Math.Round(viewPort.Height * _windowSize.Y);
+            uint adjustedWidth = (uint)Math.Round(viewPort.Width * _windowSize.X);
+            uint adjustedHeight = (uint)Math.Round(viewPort.Height * _windowSize.Y);
 
             m_sceneTexture.SetSize(adjustedWidth, adjustedHeight, renderWindowView);
 
@@ -71,7 +80,7 @@ namespace RenderCore.Render
         private void Draw()
         {
             m_renderWindow.DispatchEvents();
-            
+
             m_renderWindow.Clear();
 
             View view = m_viewProvider.GetView();
@@ -80,6 +89,11 @@ namespace RenderCore.Render
                 Texture sceneTexture = m_sceneTexture.RenderToTexture(m_scene, view);
 
                 m_renderWindow.Draw(sceneTexture, RenderStates.Default);
+            }
+
+            foreach (IWidgetProvider widgetProvider in m_widgetProviders)
+            {
+                m_gui.UpdateCurrentWidgets(widgetProvider.GetWidgets());
             }
 
             m_gui.Draw();

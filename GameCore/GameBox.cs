@@ -26,6 +26,11 @@ namespace GameCore
             m_gameBox.StartLoop();
         }
 
+        public void AddWidgetProvider(IWidgetProvider _widgetProvider)
+        {
+            m_gameBox.AddWidgetProvider(_widgetProvider);
+        }
+
         public void SetViewProvider(IViewProvider _viewProvider)
         {
             m_gameBox.SetViewProvider(_viewProvider);

@@ -18,14 +18,15 @@ namespace Games.Coins
         private readonly IEntity m_captureEntity;
         private readonly List<Coin> m_coins;
         private readonly List<IDrawable> m_drawables;
-        private readonly Gui m_gui;
         private readonly Label m_scoreLabel;
         private float m_score;
+        private readonly List<Widget> m_widgets;
 
-        public CoinThing(IEntity _captureEntity, IEnumerable<Coin> _coins, Gui _gui)
+        public CoinThing(IEntity _captureEntity, IEnumerable<Coin> _coins)
         {
+            m_widgets = new List<Widget>();
+
             m_captureEntity = _captureEntity;
-            m_gui = _gui;
 
             m_coins = new List<Coin>();
             m_drawables = new List<IDrawable>();
@@ -46,16 +47,17 @@ namespace Games.Coins
             m_scoreLabel = new Label();
             m_scoreLabel.SetPosition(new Layout2d(10, 10));
             m_scoreLabel.Renderer.TextColor = Color.White;
-            m_gui.Add(m_scoreLabel);
+
+            m_widgets.Add(m_scoreLabel);
 
             UpdateScoreLabel(m_score);
         }
-
+        
         public IEnumerable<IDrawable> GetDrawables()
         {
             return m_drawables;
         }
-        
+
         public event EventHandler PauseGame;
         public event EventHandler ResumeGame;
 
@@ -102,7 +104,7 @@ namespace Games.Coins
             childWindow.SetPosition(new Layout2d(50, 50));
             childWindow.Closed += WinScreenOnClosed;
 
-            m_gui.Add(childWindow);
+            m_widgets.Add(childWindow);
         }
 
         private void WinScreenOnClosed(object _sender, EventArgs _e)
@@ -110,7 +112,7 @@ namespace Games.Coins
             ChildWindow childWindow = _sender as ChildWindow;
             Debug.Assert(childWindow != null);
 
-            m_gui.Remove(childWindow);
+            m_widgets.Remove(childWindow);
 
             ResumeGame?.Invoke(this, EventArgs.Empty);
         }
@@ -123,9 +125,14 @@ namespace Games.Coins
         {
             return m_coins.Select(_coin => _coin.Entity);
         }
-        
+
         public void Dispose()
         {
+        }
+
+        public IEnumerable<Widget> GetWidgets()
+        {
+            return m_widgets;
         }
     }
 }
