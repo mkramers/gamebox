@@ -12,6 +12,8 @@ using GameCore.Maps;
 using GameCore.ViewProvider;
 using GameResources.Attributes;
 using GameResources.Converters;
+using Games.Coins;
+using Games.Maps;
 using PhysicsCore;
 using RenderCore.Drawable;
 using RenderCore.Resource;
@@ -19,7 +21,7 @@ using ResourceUtilities.Aseprite;
 using SFML.Graphics;
 using SFML.System;
 
-namespace GameBox.Games
+namespace Games.Games
 {
     public class Game2 : IDisposable
     {

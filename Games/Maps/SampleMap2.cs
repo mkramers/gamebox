@@ -12,7 +12,7 @@ using PhysicsCore;
 using RenderCore.Drawable;
 using SFML.Graphics;
 
-namespace GameBox
+namespace Games.Maps
 {
     public class SampleMap2 : IMap
     {

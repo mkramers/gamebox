@@ -1,4 +1,4 @@
-﻿using GameBox.Games;
+﻿using Games.Games;
 
 namespace GameBox
 {

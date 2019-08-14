@@ -7,6 +7,7 @@ using GameCore;
 using GameCore.Maps;
 using GameResources.Attributes;
 using GameResources.Converters;
+using Games.Maps;
 using LibExtensions;
 using RenderCore.Drawable;
 using RenderCore.Font;
@@ -16,7 +17,7 @@ using RenderCore.Widget;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;
 
-namespace GameBox.Games
+namespace Games.Games
 {
     public class Game3 : IDisposable
     {

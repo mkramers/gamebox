@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GameCore\GameCore.csproj" />
+    <ProjectReference Include="..\Games\Games.csproj" />
     <ProjectReference Include="..\RenderCore\RenderCore.csproj" />
     <ProjectReference Include="..\ResourceUtilities\ResourceUtilities.csproj" />
   </ItemGroup>
