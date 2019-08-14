@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using Common.Grid;
+using Common.Tickable;
 using GameCore;
 using GameCore.Entity;
 using GameCore.Input.Key;
@@ -17,22 +18,28 @@ using Games.Maps;
 using PhysicsCore;
 using RenderCore.Drawable;
 using RenderCore.Resource;
+using RenderCore.ViewProvider;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;
 using SFML.System;
+using TGUI;
 
 namespace Games.Games
 {
-    public class Game2 : ILoopable
+    public class Game2 : IGameProvider, IViewProvider
     {
-        private readonly GameBox m_gameBox;
+        private readonly List<IDrawable> m_drawables;
+        private readonly List<ITickable> m_tickables;
+        private readonly List<IGameProvider> m_gameProviders;
+        private readonly IViewProvider m_viewProvider;
 
-        public Game2()
+        public Game2(IPhysics _physics, Gui _gui)
         {
-            m_gameBox = new GameBox();
-
-            IPhysics physics = m_gameBox.GetPhysics();
-            physics.SetGravity(new Vector2(0, 5.5f));
+            m_drawables = new List<IDrawable>();
+            m_tickables = new List<ITickable>();
+            m_gameProviders = new List<IGameProvider>();
+            
+            _physics.SetGravity(new Vector2(0, 5.5f));
 
             const string resourceRootDirectory = @"C:\dev\GameBox\Resources\sprite";
             ResourceManager<SpriteResources> manager = new ResourceManager<SpriteResources>(resourceRootDirectory);
@@ -54,21 +61,21 @@ namespace Games.Games
                     Scale = spriteScale
                 };
 
-                manEntity = SpriteEntityFactory.CreateSpriteEntity(mass, manPosition, physics, BodyType.Dynamic,
+                manEntity = SpriteEntityFactory.CreateSpriteEntity(mass, manPosition, _physics, BodyType.Dynamic,
                     sprite);
 
-                m_gameBox.AddEntity(manEntity);
+                m_drawables.Add(manEntity);
+                m_tickables.Add(manEntity);
             }
 
             View view = new View(new Vector2f(0, -6.5f), new Vector2f(35, 35));
-            EntityFollowerViewProvider
-                viewProvider = new EntityFollowerViewProvider(manEntity, view);
+            EntityFollowerViewProvider viewProvider = new EntityFollowerViewProvider(manEntity, view);
 
-            m_gameBox.SetViewProvider(viewProvider);
+            m_viewProvider = viewProvider;
 
             //widgets
             {
-                m_gameBox.AddTickable(viewProvider);
+                m_tickables.Add(viewProvider);
 
                 //WidgetFontSettings widgetFontSettings = new WidgetFontSettings();
                 //FontSettings gridLabelFontSettings =
@@ -79,9 +86,7 @@ namespace Games.Games
                 //m_gameRunner.AddWidget(gridWidget);
 
                 MultiDrawable<VertexArrayShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One);
-                m_gameBox.AddDrawable(crossHairs);
-
-                m_gameBox.AddFpsWidget();
+                m_drawables.Add(crossHairs);
             }
 
             //add map
@@ -95,17 +100,18 @@ namespace Games.Games
                 Grid<ComparableColor> mapCollisionGrid =
                     BitmapToGridConverter.GetColorGridFromBitmap(mapCollisionBitmap);
 
-                IMap map = new SampleMap2(mapSceneTexture, mapCollisionGrid, physics);
+                IMap map = new SampleMap2(mapSceneTexture, mapCollisionGrid, _physics);
 
-                foreach (IEntity mapEntity in map.GetEntities(physics))
+                foreach (IEntity mapEntity in map.GetEntities(_physics))
                 {
-                    m_gameBox.AddEntity(mapEntity);
+                    m_drawables.Add(mapEntity);
+                    m_tickables.Add(mapEntity);
                 }
 
                 IEnumerable<IDrawable> mapDrawables = map.GetDrawables();
                 foreach (IDrawable mapDrawable in mapDrawables)
                 {
-                    m_gameBox.AddDrawable(mapDrawable);
+                    m_drawables.Add(mapDrawable);
                 }
             }
 
@@ -115,28 +121,51 @@ namespace Games.Games
 
                 KeyHandler moveExecutor = KeyHandlerFactory.CreateEntityKeyHandler(manEntity, force);
 
-                m_gameBox.AddTickable(moveExecutor);
+                m_tickables.Add(moveExecutor);
             }
 
             //temp
-            List<Coin> coins = CoinEntitiesFactory.GetCoins(resourceRootDirectory, physics).ToList();
+            List<Coin> coins = CoinEntitiesFactory.GetCoins(resourceRootDirectory, _physics).ToList();
 
-            CoinThing coinThing = new CoinThing(manEntity, coins, m_gameBox.GetGui());
-            coinThing.PauseGame += (_sender, _e) => m_gameBox.SetIsPaused(true);
-            coinThing.ResumeGame += (_sender, _e) => m_gameBox.SetIsPaused(false);
+            CoinThing coinThing = new CoinThing(manEntity, coins, _gui);
+            coinThing.PauseGame += (_sender, _e) => PauseGame?.Invoke(_sender, _e);
+            coinThing.ResumeGame += (_sender, _e) => ResumeGame?.Invoke(_sender, _e);
 
-            m_gameBox.AddDrawableProvider(coinThing);
-            m_gameBox.AddTickable(coinThing);
+            m_gameProviders.Add(coinThing);
+        }
+        
+        public IEnumerable<IDrawable> GetDrawables()
+        {
+            List<IDrawable> drawables = new List<IDrawable>();
+            drawables.AddRange(m_drawables);
+
+            IEnumerable<IDrawable> subGameDrawables = m_gameProviders.SelectMany(_gameProvider => _gameProvider.GetDrawables());
+            drawables.AddRange(subGameDrawables);
+
+            return drawables;
+        }
+
+        public IEnumerable<ITickable> GetTickables()
+        {
+            List<ITickable> tickables = new List<ITickable>();
+            tickables.AddRange(m_tickables);
+
+            IEnumerable<ITickable> subGameTickables = m_gameProviders.SelectMany(_gameProvider => _gameProvider.GetTickables());
+            tickables.AddRange(subGameTickables);
+
+            return tickables;
+        }
+
+        public View GetView()
+        {
+            return m_viewProvider.GetView();
         }
 
         public void Dispose()
         {
-            m_gameBox.Dispose();
         }
 
-        public void StartLoop()
-        {
-            m_gameBox.StartLoop();
-        }
+        public event EventHandler PauseGame;
+        public event EventHandler ResumeGame;
     }
 }

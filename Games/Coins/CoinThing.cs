@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Aether.Physics2D.Dynamics;
+using Common.Tickable;
 using GameCore;
 using GameCore.Entity;
 using PhysicsCore;
@@ -12,7 +13,7 @@ using TGUI;
 
 namespace Games.Coins
 {
-    public class CoinThing : IGameModule, IDrawableProvider
+    public class CoinThing : IGameProvider
     {
         private readonly IEntity m_captureEntity;
         private readonly List<Coin> m_coins;
@@ -54,15 +55,7 @@ namespace Games.Coins
         {
             return m_drawables;
         }
-
-        public void Tick(TimeSpan _elapsed)
-        {
-            foreach (Coin coin in m_coins)
-            {
-                coin.Entity.Tick(_elapsed);
-            }
-        }
-
+        
         public event EventHandler PauseGame;
         public event EventHandler ResumeGame;
 
@@ -123,6 +116,15 @@ namespace Games.Coins
         }
 
         private static void EntityOnSeparated(object _sender, SeparationEventArgs _e)
+        {
+        }
+
+        public IEnumerable<ITickable> GetTickables()
+        {
+            return m_coins.Select(_coin => _coin.Entity);
+        }
+        
+        public void Dispose()
         {
         }
     }
