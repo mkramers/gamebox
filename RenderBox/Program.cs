@@ -7,7 +7,7 @@ namespace RenderBox
     {
         private static void Main()
         {
-            GameBox gameBox = new GameBox();
+            IGameBox gameBox = new GameBoxCore();
             gameBox.AddFpsWidget();
 
             Game3 game = new Game3();

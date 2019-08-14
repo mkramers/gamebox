@@ -1,38 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using LibExtensions;
 
 namespace PhysicsCore
 {
-    public static class PhysicsExtensions
-    {
-        public static void UpdateCurrentBodies(this IPhysics _physics, IEnumerable<IBody> _bodies)
-        {
-            List<IBody> currentBodies = _physics.GetBodies().ToList();
-
-            IEnumerable<IBody> bodies = _bodies as IBody[] ?? _bodies.ToArray();
-
-            foreach (IBody body in bodies)
-            {
-                if (!currentBodies.Contains(body))
-                {
-                    _physics.Add(body);
-                }
-            }
-
-            foreach (IBody currentBody in currentBodies)
-            {
-                if (!bodies.Contains(currentBody))
-                {
-                    _physics.Remove(currentBody);
-                }
-            }
-        }
-    }
-
     public class Physics : IPhysics
     {
         private readonly List<IBody> m_bodies;

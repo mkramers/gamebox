@@ -8,7 +8,7 @@ namespace GameBox
     {
         private static void Main()
         {
-            GameCore.GameBox gameBox = new GameCore.GameBox();
+            IGameBox gameBox = new GameBoxCore();
             gameBox.AddFpsWidget();
 
             Game2 game2 = new Game2();
