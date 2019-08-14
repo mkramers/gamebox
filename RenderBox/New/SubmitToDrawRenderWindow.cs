@@ -5,6 +5,7 @@ using RenderCore.Render;
 using RenderCore.ViewProvider;
 using SFML.Graphics;
 using SFML.System;
+using SFML.Window;
 using TGUI;
 
 namespace RenderBox.New
@@ -14,6 +15,7 @@ namespace RenderBox.New
         private readonly float m_aspectRatio;
         private readonly RenderWindow m_renderWindow;
         private readonly Scene m_scene;
+        private RenderTexture m_sceneRenderTexture;
         private readonly Gui m_gui;
         private IViewProvider m_viewProvider;
 
@@ -47,9 +49,19 @@ namespace RenderBox.New
             float aspectRatio = m_aspectRatio;
 
             View renderWindowView = m_renderWindow.GetView();
-            renderWindowView.Viewport = WindowResizeUtilities.GetViewPort(_windowSize, aspectRatio);
+            FloatRect viewPort = WindowResizeUtilities.GetViewPort(_windowSize, aspectRatio);
+            renderWindowView.Viewport = viewPort;
 
             m_renderWindow.SetView(renderWindowView);
+
+            m_sceneRenderTexture?.Dispose();
+
+            uint adjustedWidth = (uint)Math.Round(viewPort.Width * _windowSize.X);
+            uint adjustedHeight = (uint)Math.Round(viewPort.Height * _windowSize.Y);
+
+            m_sceneRenderTexture = new RenderTexture(adjustedWidth, adjustedHeight);
+            m_sceneRenderTexture.SetView(renderWindowView);
+
             m_gui.View = renderWindowView;
         }
 
@@ -61,12 +73,18 @@ namespace RenderBox.New
         private void Draw()
         {
             m_renderWindow.DispatchEvents();
+            
+            m_sceneRenderTexture.Clear();
 
+            m_sceneRenderTexture.SetView(m_viewProvider.GetView());
+
+            m_scene.Draw(m_sceneRenderTexture, RenderStates.Default);
+
+            m_sceneRenderTexture.Display();
+            
             m_renderWindow.Clear();
 
-            m_renderWindow.SetView(m_viewProvider);
-
-            m_scene.Draw(m_renderWindow, RenderStates.Default);
+            m_renderWindow.Draw(m_sceneRenderTexture.Texture, RenderStates.Default);
 
             m_gui.Draw();
 
