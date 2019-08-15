@@ -67,10 +67,6 @@ namespace RenderCore.Render
 
         private void Draw()
         {
-            m_renderWindow.DispatchEvents();
-
-            m_renderWindow.Clear();
-
             Texture sceneTexture = m_textureProvider.GetTexture();
 
             Vector2f size = new Vector2f(sceneTexture.Size.X, sceneTexture.Size.Y);
@@ -80,12 +76,18 @@ namespace RenderCore.Render
             currentView.Size = size;
             currentView.Center = center;
 
+            IEnumerable<TGUI.Widget> allWidgets = m_widgetProviders.SelectMany(_widgetProvider => _widgetProvider.GetWidgets());
+            m_gui.UpdateCurrentWidgets(allWidgets);
+
+            m_renderWindow.DispatchEvents();
+
+            m_renderWindow.Clear();
+
             m_renderWindow.SetView(currentView);
 
             m_renderWindow.Draw(sceneTexture, RenderStates.Default);
-
-            IEnumerable<TGUI.Widget> allWidgets = m_widgetProviders.SelectMany(_widgetProvider => _widgetProvider.GetWidgets());
-            m_gui.UpdateCurrentWidgets(allWidgets);
+            
+            m_gui.View = currentView;
 
             m_gui.Draw();
 
