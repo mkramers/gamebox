@@ -11,7 +11,7 @@ using TGUI;
 
 namespace GameCore
 {
-    public abstract class GameBase : IGameProvider, IViewProvider, IDrawable
+    public abstract class GameBase : IGameProvider, IViewProvider, ITextureProvider
     {
         protected readonly List<IDrawable> m_drawables;
         private readonly List<IGameProvider> m_gameProviders;
@@ -121,10 +121,11 @@ namespace GameCore
 
             return bodies;
         }
-        
-        public void Draw(RenderTarget _target, RenderStates _states)
+
+        public Texture GetTexture()
         {
-            m_scene.Draw(_target, _states);
+            Texture texture = m_scene.UpdateTexture();
+            return texture;
         }
     }
 }

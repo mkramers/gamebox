@@ -18,20 +18,27 @@ namespace RenderCore.Render
 
         public override void Draw(RenderTarget _target, RenderStates _states)
         {
-            m_sceneRenderTexture.Clear();
-
             if (m_viewProvider == null)
             {
                 return;
             }
 
+            UpdateTexture();
+
+            _target.Draw(m_sceneRenderTexture.Texture, _states);
+        }
+
+        public Texture UpdateTexture()
+        {
+            m_sceneRenderTexture.Clear();
+
             m_sceneRenderTexture.SetView(m_viewProvider.GetView());
 
-            base.Draw(m_sceneRenderTexture, _states);
+            base.Draw(m_sceneRenderTexture, RenderStates.Default);
 
             m_sceneRenderTexture.Display();
 
-            _target.Draw(m_sceneRenderTexture.Texture, _states);
+            return m_sceneRenderTexture.Texture;
         }
 
         public void Dispose()

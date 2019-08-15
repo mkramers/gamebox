@@ -13,6 +13,7 @@ namespace GameCore
         void AddWidgetProvider(IWidgetProvider _widgetProvider);
         void AddBodyProvider(IBodyProvider _bodyProvider);
         void SetViewProvider(IViewProvider _viewProvider);
+        void SetTextureProvider(ITextureProvider _textureProvider);
         void SetIsPaused(bool _isPaused);
         Vector2u GetWindowSize();
         void AddTickableProvider(ITickableProvider _tickableProvider);

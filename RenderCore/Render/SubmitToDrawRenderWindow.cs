@@ -19,6 +19,7 @@ namespace RenderCore.Render
         private readonly SceneTexture m_sceneTexture;
         private IViewProvider m_viewProvider;
         private readonly List<IWidgetProvider> m_widgetProviders;
+        private ITextureProvider m_textureProvider;
 
         public SubmitToDrawRenderWindow(float _aspectRatio, Vector2u _windowSize)
         {
@@ -53,6 +54,11 @@ namespace RenderCore.Render
             m_widgetProviders.Add(_provider);
         }
 
+        public void SetTextureProvider(ITextureProvider _textureProvider)
+        {
+            m_textureProvider = _textureProvider;
+        }
+
         private void Resize(Vector2u _windowSize)
         {
             float aspectRatio = m_aspectRatio;
@@ -78,7 +84,17 @@ namespace RenderCore.Render
 
             m_renderWindow.Clear();
 
-            Texture sceneTexture = m_sceneTexture.RenderToTexture(m_scene);
+            Texture sceneTexture = m_textureProvider.GetTexture();
+
+            Vector2f size = new Vector2f(sceneTexture.Size.X, sceneTexture.Size.Y);
+            Vector2f center = size / 2.0f;
+            FloatRect viewRect = new FloatRect(center, size);
+
+            View currentView = m_renderWindow.GetView();
+            currentView.Size = size;
+            currentView.Center = center;
+
+            m_renderWindow.SetView(currentView);
 
             m_renderWindow.Draw(sceneTexture, RenderStates.Default);
 
