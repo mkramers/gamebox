@@ -17,7 +17,7 @@ namespace GameCore
         private readonly List<IGameProvider> m_gameProviders;
         protected readonly List<Widget> m_widgets;
         protected readonly List<IBody> m_bodies;
-        private readonly Scene2 m_scene;
+        private readonly Scene m_scene;
 
         protected readonly List<ITickable> m_tickables;
         protected IViewProvider m_viewProvider;
@@ -33,7 +33,7 @@ namespace GameCore
             m_bodies = new List<IBody>();
             m_tickables = new List<ITickable>();
 
-            m_scene = new Scene2(400, 400, new ViewProviderBase());
+            m_scene = new Scene(400, 400, new ViewProviderBase());
             m_scene.AddDrawableProvider(this);
         }
 

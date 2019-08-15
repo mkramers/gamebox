@@ -1,20 +1,29 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Linq;
+using RenderCore.Drawable;
 using RenderCore.ViewProvider;
 using SFML.Graphics;
 
 namespace RenderCore.Render
 {
-    public class Scene2 : Scene
+    public class Scene
     {
         private IViewProvider m_viewProvider;
         private RenderTexture m_sceneRenderTexture;
+        private readonly List<IDrawableProvider> m_drawableProviders;
 
-        public Scene2(uint _width, uint _height, IViewProvider _viewProvider)
+        public Scene(uint _width, uint _height, IViewProvider _viewProvider)
         {
             m_viewProvider = _viewProvider;
             m_sceneRenderTexture = new RenderTexture(_width, _height);
+            m_drawableProviders = new List<IDrawableProvider>();
         }
-        
+
+        public void AddDrawableProvider(IDrawableProvider _provider)
+        {
+            m_drawableProviders.Add(_provider);
+        }
+
         public Texture UpdateTexture()
         {
             if (m_sceneRenderTexture == null)
@@ -26,7 +35,7 @@ namespace RenderCore.Render
 
             m_sceneRenderTexture.SetView(m_viewProvider.GetView());
 
-            base.Draw(m_sceneRenderTexture, RenderStates.Default);
+            Draw(m_sceneRenderTexture, RenderStates.Default);
 
             m_sceneRenderTexture.Display();
 
@@ -36,6 +45,15 @@ namespace RenderCore.Render
         public void Dispose()
         {
             m_sceneRenderTexture?.Dispose();
+        }
+
+        private void Draw(RenderTarget _target, RenderStates _states)
+        {
+            IEnumerable<IDrawable> drawables = m_drawableProviders.SelectMany(_provider => _provider.GetDrawables());
+            foreach (IDrawable drawable in drawables)
+            {
+                _target.Draw(drawable, _states);
+            }
         }
 
         public void SetViewProvider(IViewProvider _viewProvider)
@@ -47,34 +65,6 @@ namespace RenderCore.Render
         {
             m_sceneRenderTexture?.Dispose();
             m_sceneRenderTexture = new RenderTexture(_width, _height);
-        }
-    }
-
-    public class SceneTexture : IDisposable
-    {
-        private RenderTexture m_sceneRenderTexture;
-
-        public void Dispose()
-        {
-            m_sceneRenderTexture?.Dispose();
-        }
-
-        public void SetSize(uint _width, uint _height)
-        {
-            m_sceneRenderTexture?.Dispose();
-
-            m_sceneRenderTexture = new RenderTexture(_width, _height);
-        }
-
-        public Texture RenderToTexture(Scene _scene)
-        {
-            m_sceneRenderTexture.Clear();
-
-            _scene.Draw(m_sceneRenderTexture, RenderStates.Default);
-
-            m_sceneRenderTexture.Display();
-
-            return m_sceneRenderTexture.Texture;
         }
     }
 }
