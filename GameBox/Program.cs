@@ -50,7 +50,6 @@ namespace GameBox
             gameBox.AddTickableProvider(_game);
             gameBox.AddWidgetProvider(_game);
             gameBox.AddBodyProvider(_game);
-            gameBox.SetViewProvider(_game);
             gameBox.SetTextureProvider(_game);
 
             gameBox.StartLoop();

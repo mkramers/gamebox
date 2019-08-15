@@ -1,35 +1,27 @@
 ﻿using System;
-using RenderCore.Drawable;
 using RenderCore.ViewProvider;
 using SFML.Graphics;
 
 namespace RenderCore.Render
 {
-    public class Scene2 : Scene, IDrawable
+    public class Scene2 : Scene
     {
         private IViewProvider m_viewProvider;
-        private readonly RenderTexture m_sceneRenderTexture;
+        private RenderTexture m_sceneRenderTexture;
 
         public Scene2(uint _width, uint _height, IViewProvider _viewProvider)
         {
             m_viewProvider = _viewProvider;
             m_sceneRenderTexture = new RenderTexture(_width, _height);
         }
-
-        public override void Draw(RenderTarget _target, RenderStates _states)
-        {
-            if (m_viewProvider == null)
-            {
-                return;
-            }
-
-            UpdateTexture();
-
-            _target.Draw(m_sceneRenderTexture.Texture, _states);
-        }
-
+        
         public Texture UpdateTexture()
         {
+            if (m_sceneRenderTexture == null)
+            {
+                return null;
+            }
+
             m_sceneRenderTexture.Clear();
 
             m_sceneRenderTexture.SetView(m_viewProvider.GetView());
@@ -43,12 +35,18 @@ namespace RenderCore.Render
 
         public void Dispose()
         {
-            m_sceneRenderTexture.Dispose();
+            m_sceneRenderTexture?.Dispose();
         }
 
         public void SetViewProvider(IViewProvider _viewProvider)
         {
             m_viewProvider = _viewProvider;
+        }
+
+        public void SetSize(uint _width, uint _height)
+        {
+            m_sceneRenderTexture?.Dispose();
+            m_sceneRenderTexture = new RenderTexture(_width, _height);
         }
     }
 

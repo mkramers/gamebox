@@ -127,5 +127,10 @@ namespace GameCore
             Texture texture = m_scene.UpdateTexture();
             return texture;
         }
+
+        public void SetSize(uint _width, uint _height)
+        {
+            m_scene.SetSize(_width, _height);
+        }
     }
 }

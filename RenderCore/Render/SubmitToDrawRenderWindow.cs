@@ -15,26 +15,18 @@ namespace RenderCore.Render
         private readonly float m_aspectRatio;
         private readonly Gui m_gui;
         private readonly RenderWindow m_renderWindow;
-        private readonly Scene m_scene;
-        private readonly SceneTexture m_sceneTexture;
-        private IViewProvider m_viewProvider;
         private readonly List<IWidgetProvider> m_widgetProviders;
         private ITextureProvider m_textureProvider;
 
         public SubmitToDrawRenderWindow(float _aspectRatio, Vector2u _windowSize)
         {
             m_widgetProviders = new List<IWidgetProvider>();
-            m_viewProvider = new ViewProviderBase();
 
             m_aspectRatio = _aspectRatio;
             m_renderWindow = RenderWindowFactory.CreateRenderWindow("", _windowSize);
             m_renderWindow.Resized += (_sender, _e) => Resize(new Vector2u(_e.Width, _e.Height));
-
-            m_scene = new Scene();
-
+            
             m_gui = new Gui(m_renderWindow);
-
-            m_sceneTexture = new SceneTexture();
 
             Resize(_windowSize);
         }
@@ -42,11 +34,6 @@ namespace RenderCore.Render
         public void Tick(TimeSpan _elapsed)
         {
             Draw();
-        }
-
-        public void AddDrawableProvider(IDrawableProvider _provider)
-        {
-            m_scene.AddDrawableProvider(_provider);
         }
 
         public void AddWidgetProvider(IWidgetProvider _provider)
@@ -73,7 +60,7 @@ namespace RenderCore.Render
             uint adjustedWidth = (uint)Math.Round(viewPort.Width * _windowSize.X);
             uint adjustedHeight = (uint)Math.Round(viewPort.Height * _windowSize.Y);
 
-            m_sceneTexture.SetSize(adjustedWidth, adjustedHeight);
+            m_textureProvider?.SetSize(adjustedWidth, adjustedHeight);
 
             m_gui.View = renderWindowView;
         }
@@ -88,7 +75,6 @@ namespace RenderCore.Render
 
             Vector2f size = new Vector2f(sceneTexture.Size.X, sceneTexture.Size.Y);
             Vector2f center = size / 2.0f;
-            FloatRect viewRect = new FloatRect(center, size);
 
             View currentView = m_renderWindow.GetView();
             currentView.Size = size;
@@ -104,11 +90,6 @@ namespace RenderCore.Render
             m_gui.Draw();
 
             m_renderWindow.Display();
-        }
-
-        public void SetViewProvider(IViewProvider _viewProvider)
-        {
-            m_viewProvider = _viewProvider;
         }
 
         public event EventHandler Closed

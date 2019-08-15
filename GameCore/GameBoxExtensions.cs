@@ -14,12 +14,6 @@ namespace GameCore
 {
     public static class GameBoxExtensions
     {
-        public static void AddDrawable(this IGameBox _gameBox, IDrawable _drawable)
-        {
-            DrawableProvider drawableProvider = new DrawableProvider(_drawable);
-            _gameBox.AddDrawableProvider(drawableProvider);
-        }
-
         public static void AddTickable(this IGameBox _gameBox, ITickable _tickable)
         {
             TickableProvider tickableProvider = new TickableProvider(_tickable);
@@ -54,12 +48,6 @@ namespace GameCore
 
             _gameBox.AddWidget(fpsWidget);
             _gameBox.AddTickable(fpsWidget);
-        }
-
-        public static void AddEntity(this IGameBox _gameBox, IEntity _entity)
-        {
-            _gameBox.AddTickable(_entity);
-            _gameBox.AddDrawable(_entity);
         }
     }
 }

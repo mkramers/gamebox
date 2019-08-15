@@ -35,11 +35,6 @@ namespace GameCore
             this.AddTickable(m_physics);
         }
 
-        public void AddDrawableProvider(IDrawableProvider _drawableProvider)
-        {
-            m_renderWindow.AddDrawableProvider(_drawableProvider);
-        }
-
         public void AddWidgetProvider(IWidgetProvider _widgetProvider)
         {
             m_renderWindow.AddWidgetProvider(_widgetProvider);
@@ -48,11 +43,6 @@ namespace GameCore
         public void AddBodyProvider(IBodyProvider _bodyProvider)
         {
             m_bodyProviders.Add(_bodyProvider);
-        }
-
-        public void SetViewProvider(IViewProvider _viewProvider)
-        {
-            m_renderWindow.SetViewProvider(_viewProvider);
         }
 
         public void SetTextureProvider(ITextureProvider _textureProvider)

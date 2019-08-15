@@ -15,9 +15,7 @@ namespace RenderBox
             game.PauseGame += (_sender, _args) => gameBox.SetIsPaused(true);
             game.ResumeGame += (_sender, _args) => gameBox.SetIsPaused(false);
 
-            gameBox.AddDrawableProvider(game);
             gameBox.AddTickableProvider(game);
-            gameBox.SetViewProvider(game);
 
             gameBox.StartLoop();
             gameBox.Dispose();
