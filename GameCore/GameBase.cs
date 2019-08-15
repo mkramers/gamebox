@@ -4,19 +4,20 @@ using System.Linq;
 using Common.Tickable;
 using PhysicsCore;
 using RenderCore.Drawable;
+using RenderCore.Render;
 using RenderCore.ViewProvider;
 using SFML.Graphics;
 using TGUI;
 
 namespace GameCore
 {
-    public abstract class GameBase : IGameProvider, IViewProvider
+    public abstract class GameBase : IGameProvider, IViewProvider, IDrawable
     {
         protected readonly List<IDrawable> m_drawables;
         private readonly List<IGameProvider> m_gameProviders;
         protected readonly List<Widget> m_widgets;
         protected readonly List<IBody> m_bodies;
-        private readonly List<Texture> m_textures;
+        private readonly Scene2 m_scene;
 
         protected readonly List<ITickable> m_tickables;
         protected IViewProvider m_viewProvider;
@@ -31,7 +32,9 @@ namespace GameCore
             m_widgets = new List<Widget>();
             m_bodies = new List<IBody>();
             m_tickables = new List<ITickable>();
-            m_textures = new List<Texture>();
+
+            m_scene = new Scene2(100, 100, new ViewProviderBase());
+            m_scene.AddDrawableProvider(this);
         }
 
         protected void AddGameProvider(IGameProvider _gameProvider)
@@ -89,6 +92,7 @@ namespace GameCore
         
         public virtual void Dispose()
         {
+            m_scene.Dispose();
         }
 
         public IEnumerable<Widget> GetWidgets()
@@ -112,16 +116,10 @@ namespace GameCore
 
             return bodies;
         }
-
-        public IEnumerable<Texture> GetTextures()
+        
+        public void Draw(RenderTarget _target, RenderStates _states)
         {
-            List<Texture> textures = new List<Texture>();
-            textures.AddRange(m_textures);
-
-            IEnumerable<Texture> subGameTextures = m_gameProviders.SelectMany(_gameProvider => _gameProvider.GetTextures());
-            textures.AddRange(subGameTextures);
-
-            return textures;
+            m_scene.Draw(_target, _states);
         }
     }
 }

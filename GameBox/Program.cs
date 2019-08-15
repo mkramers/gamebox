@@ -51,7 +51,6 @@ namespace GameBox
             gameBox.AddWidgetProvider(_game);
             gameBox.AddBodyProvider(_game);
             gameBox.SetViewProvider(_game);
-            gameBox.AddTextureProvider(_game);
 
             gameBox.StartLoop();
             gameBox.Dispose();

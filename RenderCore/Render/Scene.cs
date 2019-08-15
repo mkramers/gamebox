@@ -19,7 +19,7 @@ namespace RenderCore.Render
             m_drawableProviders.Add(_provider);
         }
 
-        public void Draw(RenderTarget _target, RenderStates _states)
+        public virtual void Draw(RenderTarget _target, RenderStates _states)
         {
             IEnumerable<IDrawable> drawables = m_drawableProviders.SelectMany(_provider => _provider.GetDrawables());
             foreach (IDrawable drawable in drawables)

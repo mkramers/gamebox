@@ -55,11 +55,6 @@ namespace GameCore
             m_renderWindow.SetViewProvider(_viewProvider);
         }
 
-        public void AddTextureProvider(ITextureProvider _textureProvider)
-        {
-            m_renderWindow.AddTextureProvider(_textureProvider);
-        }
-
         public void SetIsPaused(bool _isPaused)
         {
             m_isPaused = _isPaused;
