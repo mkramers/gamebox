@@ -134,5 +134,10 @@ namespace Games.Coins
         {
             return m_coins.Select(_coin => _coin.Entity);
         }
+
+        public IEnumerable<Texture> GetTextures()
+        {
+            return new Texture[] {};
+        }
     }
 }

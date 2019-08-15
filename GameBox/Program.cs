@@ -38,19 +38,20 @@ namespace GameBox
             return multiGame;
         }
 
-        private static void RunGame(GameBase _multiGame)
+        private static void RunGame(GameBase _game)
         {
             IGameBox gameBox = new GameBoxCore();
             gameBox.AddFpsWidget();
 
-            _multiGame.PauseGame += (_sender, _args) => gameBox.SetIsPaused(true);
-            _multiGame.ResumeGame += (_sender, _args) => gameBox.SetIsPaused(false);
+            _game.PauseGame += (_sender, _args) => gameBox.SetIsPaused(true);
+            _game.ResumeGame += (_sender, _args) => gameBox.SetIsPaused(false);
 
-            gameBox.AddDrawableProvider(_multiGame);
-            gameBox.AddTickableProvider(_multiGame);
-            gameBox.AddWidgetProvider(_multiGame);
-            gameBox.AddBodyProvider(_multiGame);
-            gameBox.SetViewProvider(_multiGame);
+            gameBox.AddDrawableProvider(_game);
+            gameBox.AddTickableProvider(_game);
+            gameBox.AddWidgetProvider(_game);
+            gameBox.AddBodyProvider(_game);
+            gameBox.SetViewProvider(_game);
+            gameBox.AddTextureProvider(_game);
 
             gameBox.StartLoop();
             gameBox.Dispose();

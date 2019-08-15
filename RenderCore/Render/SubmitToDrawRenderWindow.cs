@@ -19,12 +19,13 @@ namespace RenderCore.Render
         private readonly SceneTexture m_sceneTexture;
         private IViewProvider m_viewProvider;
         private readonly List<IWidgetProvider> m_widgetProviders;
+        private readonly List<ITextureProvider> m_textureProviders;
 
         public SubmitToDrawRenderWindow(float _aspectRatio, Vector2u _windowSize)
         {
             m_widgetProviders = new List<IWidgetProvider>();
-
             m_viewProvider = new ViewProviderBase();
+            m_textureProviders = new List<ITextureProvider>();
 
             m_aspectRatio = _aspectRatio;
             m_renderWindow = RenderWindowFactory.CreateRenderWindow("", _windowSize);
@@ -52,6 +53,11 @@ namespace RenderCore.Render
         public void AddWidgetProvider(IWidgetProvider _provider)
         {
             m_widgetProviders.Add(_provider);
+        }
+
+        public void AddTextureProvider(ITextureProvider _textureProvider)
+        {
+            m_textureProviders.Add(_textureProvider);
         }
 
         private void Resize(Vector2u _windowSize)
@@ -85,6 +91,15 @@ namespace RenderCore.Render
                 Texture sceneTexture = m_sceneTexture.RenderToTexture(m_scene, view);
 
                 m_renderWindow.Draw(sceneTexture, RenderStates.Default);
+            }
+
+            foreach (ITextureProvider textureProvider in m_textureProviders)
+            {
+                IEnumerable<Texture> textures = textureProvider.GetTextures();
+                foreach (Texture texture in textures)
+                {
+                    m_renderWindow.Draw(texture, RenderStates.Default);
+                }
             }
 
             IEnumerable<TGUI.Widget> allWidgets = m_widgetProviders.SelectMany(_widgetProvider => _widgetProvider.GetWidgets());

@@ -16,6 +16,7 @@ namespace GameCore
         private readonly List<IGameProvider> m_gameProviders;
         protected readonly List<Widget> m_widgets;
         protected readonly List<IBody> m_bodies;
+        private readonly List<Texture> m_textures;
 
         protected readonly List<ITickable> m_tickables;
         protected IViewProvider m_viewProvider;
@@ -23,13 +24,14 @@ namespace GameCore
         public event EventHandler PauseGame;
         public event EventHandler ResumeGame;
 
-        public GameBase()
+        protected GameBase()
         {
             m_drawables = new List<IDrawable>();
             m_gameProviders = new List<IGameProvider>();
             m_widgets = new List<Widget>();
             m_bodies = new List<IBody>();
             m_tickables = new List<ITickable>();
+            m_textures = new List<Texture>();
         }
 
         protected void AddGameProvider(IGameProvider _gameProvider)
@@ -109,6 +111,17 @@ namespace GameCore
             bodies.AddRange(subGameBodies);
 
             return bodies;
+        }
+
+        public IEnumerable<Texture> GetTextures()
+        {
+            List<Texture> textures = new List<Texture>();
+            textures.AddRange(m_textures);
+
+            IEnumerable<Texture> subGameTextures = m_gameProviders.SelectMany(_gameProvider => _gameProvider.GetTextures());
+            textures.AddRange(subGameTextures);
+
+            return textures;
         }
     }
 }
