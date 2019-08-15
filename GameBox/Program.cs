@@ -12,9 +12,14 @@ namespace GameBox
     {
         private static void Main()
         {
-            IGameBox gameBox = new GameBoxCore();
-            gameBox.AddFpsWidget();
-            
+            //MultiGame game = CreateMultiGame();
+
+            Game2 game = new Game2();
+            RunGame(game);
+        }
+
+        private static MultiGame CreateMultiGame()
+        {
             List<GameBase> games = new List<GameBase>();
             Assembly executingAssembly = Assembly.Load("Games");
             List<Type> gameTypes = ReflectionUtilities.FindAllDerivedTypes<GameBase>(executingAssembly);
@@ -30,14 +35,22 @@ namespace GameBox
             }
 
             MultiGame multiGame = new MultiGame(games);
-            multiGame.PauseGame += (_sender, _args) => gameBox.SetIsPaused(true);
-            multiGame.ResumeGame += (_sender, _args) => gameBox.SetIsPaused(false);
+            return multiGame;
+        }
 
-            gameBox.AddDrawableProvider(multiGame);
-            gameBox.AddTickableProvider(multiGame);
-            gameBox.AddWidgetProvider(multiGame);
-            gameBox.AddBodyProvider(multiGame);
-            gameBox.SetViewProvider(multiGame);
+        private static void RunGame(GameBase _multiGame)
+        {
+            IGameBox gameBox = new GameBoxCore();
+            gameBox.AddFpsWidget();
+
+            _multiGame.PauseGame += (_sender, _args) => gameBox.SetIsPaused(true);
+            _multiGame.ResumeGame += (_sender, _args) => gameBox.SetIsPaused(false);
+
+            gameBox.AddDrawableProvider(_multiGame);
+            gameBox.AddTickableProvider(_multiGame);
+            gameBox.AddWidgetProvider(_multiGame);
+            gameBox.AddBodyProvider(_multiGame);
+            gameBox.SetViewProvider(_multiGame);
 
             gameBox.StartLoop();
             gameBox.Dispose();
