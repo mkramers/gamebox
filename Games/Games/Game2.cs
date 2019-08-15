@@ -58,6 +58,7 @@ namespace Games.Games
             EntityFollowerViewProvider viewProvider = new EntityFollowerViewProvider(manEntity, view);
 
             m_viewProvider = viewProvider;
+            SetViewProvider(viewProvider);
 
             //widgets
             {

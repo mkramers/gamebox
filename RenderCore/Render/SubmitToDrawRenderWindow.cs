@@ -52,7 +52,7 @@ namespace RenderCore.Render
         {
             m_widgetProviders.Add(_provider);
         }
-        
+
         private void Resize(Vector2u _windowSize)
         {
             float aspectRatio = m_aspectRatio;
@@ -67,7 +67,7 @@ namespace RenderCore.Render
             uint adjustedWidth = (uint)Math.Round(viewPort.Width * _windowSize.X);
             uint adjustedHeight = (uint)Math.Round(viewPort.Height * _windowSize.Y);
 
-            m_sceneTexture.SetSize(adjustedWidth, adjustedHeight, renderWindowView);
+            m_sceneTexture.SetSize(adjustedWidth, adjustedHeight);
 
             m_gui.View = renderWindowView;
         }
@@ -78,13 +78,9 @@ namespace RenderCore.Render
 
             m_renderWindow.Clear();
 
-            View view = m_viewProvider.GetView();
-            if (view != null)
-            {
-                Texture sceneTexture = m_sceneTexture.RenderToTexture(m_scene, view);
+            Texture sceneTexture = m_sceneTexture.RenderToTexture(m_scene);
 
-                m_renderWindow.Draw(sceneTexture, RenderStates.Default);
-            }
+            m_renderWindow.Draw(sceneTexture, RenderStates.Default);
 
             IEnumerable<TGUI.Widget> allWidgets = m_widgetProviders.SelectMany(_widgetProvider => _widgetProvider.GetWidgets());
             m_gui.UpdateCurrentWidgets(allWidgets);

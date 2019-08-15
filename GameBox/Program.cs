@@ -46,7 +46,8 @@ namespace GameBox
             _game.PauseGame += (_sender, _args) => gameBox.SetIsPaused(true);
             _game.ResumeGame += (_sender, _args) => gameBox.SetIsPaused(false);
 
-            gameBox.AddDrawableProvider(_game);
+            gameBox.AddDrawable(_game);
+            //gameBox.AddDrawableProvider(_game);
             gameBox.AddTickableProvider(_game);
             gameBox.AddWidgetProvider(_game);
             gameBox.AddBodyProvider(_game);

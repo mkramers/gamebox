@@ -33,7 +33,7 @@ namespace GameCore
             m_bodies = new List<IBody>();
             m_tickables = new List<ITickable>();
 
-            m_scene = new Scene2(100, 100, new ViewProviderBase());
+            m_scene = new Scene2(400, 400, new ViewProviderBase());
             m_scene.AddDrawableProvider(this);
         }
 
@@ -66,6 +66,11 @@ namespace GameCore
         public virtual View GetView()
         {
             return m_viewProvider.GetView();
+        }
+
+        protected void SetViewProvider(IViewProvider _viewProvider)
+        {
+            m_scene.SetViewProvider(_viewProvider);
         }
 
         public IEnumerable<IDrawable> GetDrawables()
