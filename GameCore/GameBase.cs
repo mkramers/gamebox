@@ -65,7 +65,7 @@ namespace GameCore
             return m_viewProvider.GetView();
         }
 
-        public virtual IEnumerable<IDrawable> GetDrawables()
+        public IEnumerable<IDrawable> GetDrawables()
         {
             List<IDrawable> drawables = new List<IDrawable>();
             drawables.AddRange(m_drawables);
@@ -76,7 +76,7 @@ namespace GameCore
             return drawables;
         }
 
-        public virtual IEnumerable<ITickable> GetTickables()
+        public IEnumerable<ITickable> GetTickables()
         {
             List<ITickable> tickables = new List<ITickable>();
             tickables.AddRange(m_tickables);
