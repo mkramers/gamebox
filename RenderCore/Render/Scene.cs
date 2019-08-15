@@ -6,7 +6,7 @@ using SFML.Graphics;
 
 namespace RenderCore.Render
 {
-    public class Scene
+    public class Scene : ISceneProvider
     {
         private IViewProvider m_viewProvider;
         private RenderTexture m_sceneRenderTexture;
@@ -24,7 +24,7 @@ namespace RenderCore.Render
             m_drawableProviders.Add(_provider);
         }
 
-        public Texture UpdateTexture()
+        public Texture GetTexture()
         {
             if (m_sceneRenderTexture == null)
             {

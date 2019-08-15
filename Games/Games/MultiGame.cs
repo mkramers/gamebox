@@ -10,12 +10,12 @@ namespace Games.Games
 {
     public class MultiGame : GameBase
     {
-        private readonly IEnumerable<GameBase> m_games;
-        private GameBase m_currentGame;
+        private readonly IEnumerable<IGame> m_games;
+        private IGame m_currentGame;
 
-        public MultiGame(IEnumerable<GameBase> _games)
+        public MultiGame(IEnumerable<IGame> _games)
         {
-            GameBase[] games = _games as GameBase[] ?? _games.ToArray();
+            IGame[] games = _games as IGame[] ?? _games.ToArray();
 
             m_games = games;
 
@@ -33,7 +33,7 @@ namespace Games.Games
 
             for (int i = 0; i < games.Length; i++)
             {
-                GameBase gameBase = games[i];
+                IGame gameBase = games[i];
 
                 float yPosition = panelHeight / 3.0f + i * buttonHeight;
 
@@ -61,7 +61,7 @@ namespace Games.Games
             SetCurrentGame(m_games.First());
         }
 
-        private void SetCurrentGame(GameBase _game)
+        private void SetCurrentGame(IGame _game)
         {
             if (m_currentGame != null)
             {
@@ -70,16 +70,13 @@ namespace Games.Games
 
             m_currentGame = _game;
 
-            if (m_currentGame != null)
+            if (m_currentGame == null)
             {
-                Debug.Assert(m_games.Contains(_game));
-                AddGameProvider(m_currentGame);
+                return;
             }
-        }
 
-        public override View GetView()
-        {
-            return m_currentGame?.GetView();
+            Debug.Assert(m_games.Contains(_game));
+            AddGameProvider(m_currentGame);
         }
     }
 }

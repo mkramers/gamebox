@@ -11,13 +11,13 @@ using TGUI;
 
 namespace GameCore
 {
-    public abstract class GameBase : IGameProvider, IViewProvider, ITextureProvider
+    public abstract class GameBase : IGame
     {
         protected readonly List<IDrawable> m_drawables;
         private readonly List<IGameProvider> m_gameProviders;
         protected readonly List<Widget> m_widgets;
         protected readonly List<IBody> m_bodies;
-        private readonly Scene m_scene;
+        private readonly ISceneProvider m_scene;
 
         protected readonly List<ITickable> m_tickables;
         protected IViewProvider m_viewProvider;
@@ -62,12 +62,7 @@ namespace GameCore
 
             m_gameProviders.Remove(_gameProvider);
         }
-
-        public virtual View GetView()
-        {
-            return m_viewProvider.GetView();
-        }
-
+        
         protected void SetViewProvider(IViewProvider _viewProvider)
         {
             m_scene.SetViewProvider(_viewProvider);
@@ -124,7 +119,7 @@ namespace GameCore
 
         public Texture GetTexture()
         {
-            Texture texture = m_scene.UpdateTexture();
+            Texture texture = m_scene.GetTexture();
             return texture;
         }
 

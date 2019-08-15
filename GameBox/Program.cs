@@ -12,9 +12,9 @@ namespace GameBox
     {
         private static void Main()
         {
-            //MultiGame game = CreateMultiGame();
-
-            Game2 game = new Game2();
+            //IGame game = CreateMultiGame();
+            IGame game = new Game2();
+            //IGame game = new Game3();
             RunGame(game);
         }
 
@@ -38,7 +38,7 @@ namespace GameBox
             return multiGame;
         }
 
-        private static void RunGame(GameBase _game)
+        private static void RunGame(IGame _game)
         {
             IGameBox gameBox = new GameBoxCore();
             gameBox.AddFpsWidget();
@@ -46,7 +46,6 @@ namespace GameBox
             _game.PauseGame += (_sender, _args) => gameBox.SetIsPaused(true);
             _game.ResumeGame += (_sender, _args) => gameBox.SetIsPaused(false);
 
-            //gameBox.AddDrawableProvider(_game);
             gameBox.AddTickableProvider(_game);
             gameBox.AddWidgetProvider(_game);
             gameBox.AddBodyProvider(_game);
