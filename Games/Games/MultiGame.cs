@@ -58,7 +58,7 @@ namespace Games.Games
             clearButton.Clicked += (_sender, _args) => SetCurrentGame(null);
             panel.Add(clearButton);
 
-            GuiWidget panelWidget = new GuiWidget(panel, new Vector2());
+            GuiWidget panelWidget = new GuiWidget(panel, new Vector2(0.25f, 0.25f));
             AddWidget(panelWidget);
 
             SetCurrentGame(m_games.First());
@@ -79,7 +79,9 @@ namespace Games.Games
             }
 
             Debug.Assert(m_games.Contains(_game));
+
             AddGameProvider(m_currentGame);
+            SetViewProvider(m_currentGame.GetViewProvider());
         }
     }
 }

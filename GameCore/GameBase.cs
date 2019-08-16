@@ -99,6 +99,11 @@ namespace GameCore
             m_sceneProvider.SetSize(_width, _height);
         }
 
+        public IViewProvider GetViewProvider()
+        {
+            return m_sceneProvider.GetViewProvider();
+        }
+
         protected void AddGameProvider(IGameProvider _gameProvider)
         {
             _gameProvider.PauseGame += OnPausedGame;

@@ -24,6 +24,11 @@ namespace RenderCore.Render
             m_drawableProviders.Add(_provider);
         }
 
+        public void RemoveDrawableProvider(IDrawableProvider _provider)
+        {
+            m_drawableProviders.Remove(_provider);
+        }
+
         public Texture GetTexture()
         {
             if (m_sceneRenderTexture == null)
@@ -55,6 +60,11 @@ namespace RenderCore.Render
         public void SetSize(uint _width, uint _height)
         {
             m_sceneRenderTexture.SetSize(_width, _height);
+        }
+
+        public IViewProvider GetViewProvider()
+        {
+            return m_viewProvider;
         }
 
         private void Draw(RenderTarget _target, RenderStates _states)
