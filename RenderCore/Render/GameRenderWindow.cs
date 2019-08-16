@@ -13,7 +13,7 @@ namespace RenderCore.Render
     {
         private readonly float m_aspectRatio;
         private readonly IGui m_gui;
-        private readonly RenderWindow m_renderWindow;
+        private readonly IRenderWindowWrapper m_renderWindow;
         private readonly List<IWidgetProvider> m_widgetProviders;
         private ITextureProvider m_textureProvider;
 
@@ -22,10 +22,13 @@ namespace RenderCore.Render
             m_widgetProviders = new List<IWidgetProvider>();
 
             m_aspectRatio = _aspectRatio;
-            m_renderWindow = RenderWindowFactory.CreateRenderWindow("", _windowSize);
+
+            RenderWindow renderWindow = RenderWindowFactory.CreateRenderWindow("", _windowSize);
+
+            m_renderWindow = new RenderWindowWrapper(renderWindow);
             m_renderWindow.Resized += (_sender, _e) => Resize(new Vector2u(_e.Width, _e.Height));
 
-            m_gui = new GuiWrapper(m_renderWindow);
+            m_gui = new GuiWrapper(renderWindow);
 
             Resize(_windowSize);
         }
@@ -90,7 +93,7 @@ namespace RenderCore.Render
 
             m_renderWindow.DispatchEvents();
 
-            m_renderWindow.Clear();
+            m_renderWindow.Clear(Color.Black);
 
             m_renderWindow.SetView(currentView);
 
@@ -109,11 +112,6 @@ namespace RenderCore.Render
         {
             add => m_renderWindow.Closed += value;
             remove => m_renderWindow.Closed -= value;
-        }
-
-        public Vector2u GetWindowSize()
-        {
-            return m_renderWindow.Size;
         }
     }
 }

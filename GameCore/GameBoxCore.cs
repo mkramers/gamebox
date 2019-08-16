@@ -54,12 +54,7 @@ namespace GameCore
         {
             m_isPaused = _isPaused;
         }
-
-        public Vector2u GetWindowSize()
-        {
-            return m_renderWindow.GetWindowSize();
-        }
-
+        
         public void AddTickableProvider(ITickableProvider _tickableProvider)
         {
             m_tickableProviders.Add(_tickableProvider);

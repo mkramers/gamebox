@@ -4,7 +4,7 @@ using RenderCore.ViewProvider;
 
 namespace RenderCore.Render
 {
-    public interface ISceneProvider : ITextureProvider, IDrawableConsumer, IViewConsumer, IDisposable
+    public interface ISceneProvider : ITextureProvider, IDrawableConsumer, IViewProviderConsumer, IDisposable
     {
     }
 }
