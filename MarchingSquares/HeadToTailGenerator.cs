@@ -5,6 +5,7 @@ using Common.VertexObject;
 
 namespace MarchingSquares
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class HeadToTailGenerator : IVertexObjectsGenerator
     {
         public IEnumerable<IVertexObject> GetVertexObjects(IEnumerable<LineSegment> _lineSegments)

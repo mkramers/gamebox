@@ -11,6 +11,7 @@ namespace MarchingSquares.Tests
     {
         private static IEnumerable TestCases
         {
+            // ReSharper disable once UnusedMember.Local
             get
             {
                 TestCaseData GetTestCaseData(IReadOnlyList<bool> _grid, IReadOnlyList<byte> _classifiedGrid)

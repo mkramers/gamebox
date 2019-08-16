@@ -7,11 +7,13 @@ namespace Common.Tickable
 {
     public class TickLoop : ITickLoop
     {
+        private readonly TimeSpan m_intervalMs;
         private readonly Stopwatch m_stopwatch;
         private bool m_isRunning;
 
-        public TickLoop(TimeSpan _interval)
+        public TickLoop(TimeSpan _intervalMs)
         {
+            m_intervalMs = _intervalMs;
             m_stopwatch = Stopwatch.StartNew();
             m_isRunning = false;
         }
@@ -25,7 +27,7 @@ namespace Common.Tickable
 
                 Tick?.Invoke(this, new TimeElapsedEventArgs(elapsed));
 
-                Thread.Sleep(30);
+                Thread.Sleep(m_intervalMs);
             }
         }
 
