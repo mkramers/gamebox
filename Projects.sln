@@ -27,11 +27,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6CD419D6
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarchingSquares.Tests", "MarchingSquares.Tests\MarchingSquares.Tests.csproj", "{569BB76E-BDCF-43B7-8581-111FF2CA38A8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{31481635-2847-4100-9B4C-619E88B90C4E}"
-	ProjectSection(SolutionItems) = preProject
-		todo.txt = todo.txt
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{4808D44E-507D-4CDE-8FA0-C82D1ACCD71F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceGenerator", "ResourceGenerator\ResourceGenerator.csproj", "{39984616-5ACF-494F-9106-82A9FA2F7CF2}"
