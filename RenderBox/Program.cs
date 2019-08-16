@@ -12,7 +12,7 @@ namespace RenderBox
             GameBoxCore gameBox = GameBoxCoreFactory.CreateGameBoxCore();
             gameBox.AddFpsWidget();
 
-            ISceneProvider sceneProvider = new Scene(400, 400, new ViewProviderBase());
+            ISceneProvider sceneProvider = new SceneProvider(400, 400, new ViewProviderBase());
             Game3 game = new Game3(sceneProvider);
 
             game.PauseGame += (_sender, _args) => gameBox.SetIsPaused(true);

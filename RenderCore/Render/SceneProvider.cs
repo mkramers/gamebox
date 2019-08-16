@@ -6,13 +6,13 @@ using SFML.Graphics;
 
 namespace RenderCore.Render
 {
-    public class Scene : ISceneProvider
+    public class SceneProvider : ISceneProvider
     {
         private IViewProvider m_viewProvider;
         private RenderTexture m_sceneRenderTexture;
         private readonly List<IDrawableProvider> m_drawableProviders;
 
-        public Scene(uint _width, uint _height, IViewProvider _viewProvider)
+        public SceneProvider(uint _width, uint _height, IViewProvider _viewProvider)
         {
             m_viewProvider = _viewProvider;
             m_sceneRenderTexture = new RenderTexture(_width, _height);
