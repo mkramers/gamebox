@@ -44,10 +44,9 @@ namespace Games.Coins
             }
 
             m_scoreLabel = new Label();
-            m_scoreLabel.SetPosition(new Layout2d(10, 10));
             m_scoreLabel.Renderer.TextColor = Color.White;
 
-            GuiWidget widget = new GuiWidget(m_scoreLabel, new Vector2(0.05f, 0.05f));
+            GuiWidget widget = new GuiWidget(m_scoreLabel, new Vector2(0.02f, 0.02f));
             m_widgets.Add(widget);
 
             UpdateScoreLabel(m_score);

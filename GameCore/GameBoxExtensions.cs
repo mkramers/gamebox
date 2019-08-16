@@ -30,7 +30,7 @@ namespace GameCore
             
             FpsLabel fpsLabel = new FpsLabel(5, fpsFontSettings);
 
-            GuiWidget widget = new GuiWidget(fpsLabel, new Vector2(0.2f, 0.95f));
+            GuiWidget widget = new GuiWidget(fpsLabel, new Vector2(0.2f, 0.98f));
 
             _gameBox.AddWidget(widget);
             _gameBox.AddTickable(fpsLabel);
