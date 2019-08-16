@@ -44,7 +44,7 @@ namespace GameBox
 
         private static void RunGame(IGame _game)
         {
-            GameBoxCore gameBox = GameBoxCoreFactory.CreateGameBoxCore();
+            IGameBox gameBox = GameBoxCoreFactory.CreateGameBoxCore();
             gameBox.AddFpsWidget();
 
             _game.PauseGame += (_sender, _args) => gameBox.SetIsPaused(true);
