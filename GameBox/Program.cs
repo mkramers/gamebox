@@ -5,7 +5,6 @@ using Common.ReflectionUtilities;
 using GameCore;
 using Games.Games;
 using RenderCore.Render;
-using RenderCore.ViewProvider;
 
 namespace GameBox
 {
@@ -15,15 +14,15 @@ namespace GameBox
         {
             IGameBox gameBox = GameBoxCoreFactory.CreateGameBoxCore();
 
-            IRenderTexture renderTexture = new RenderTexture(400, 400);
-            ISceneProvider sceneProvider = new SceneProvider(renderTexture, new ViewProviderBase());
-            //IGame game = CreateMultiGame(sceneProvider);
-            IGame game = new Game2(sceneProvider);
+            ISceneProvider sceneProvider = SceneProviderFactory.CreateSceneProvider();
+            IGame game = CreateMultiGame(sceneProvider);
+            //IGame game = new Game2(sceneProvider);
             //IGame game = new Game3(sceneProvider);
 
             GameRunner gameRunner = new GameRunner(gameBox);
             gameRunner.RunGame(game);
         }
+
         private static MultiGame CreateMultiGame(ISceneProvider _sceneProvider)
         {
             List<GameBase> games = new List<GameBase>();

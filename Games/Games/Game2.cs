@@ -24,6 +24,10 @@ namespace Games.Games
 {
     public class Game2 : GameBase
     {
+        public Game2() : this(SceneProviderFactory.CreateSceneProvider())
+        {
+        }
+
         public Game2(ISceneProvider _sceneProvider) : base(_sceneProvider)
         {
             const string resourceRootDirectory = @"C:\dev\GameBox\Resources\sprite";

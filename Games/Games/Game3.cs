@@ -21,6 +21,10 @@ namespace Games.Games
 {
     public class Game3 : GameBase
     {
+        public Game3() : this(SceneProviderFactory.CreateSceneProvider())
+        {
+            
+        }
         public Game3(ISceneProvider _sceneProvider) : base(_sceneProvider)
         {
             const float size = 25;
