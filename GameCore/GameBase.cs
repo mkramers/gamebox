@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common.Tickable;
+using GameCore.Entity;
 using PhysicsCore;
 using RenderCore.Drawable;
 using RenderCore.Render;
@@ -14,14 +15,12 @@ namespace GameCore
 {
     public abstract class GameBase : IGame
     {
-        protected readonly List<IDrawable> m_drawables;
+        private readonly List<IDrawable> m_drawables;
         private readonly List<IGameProvider> m_gameProviders;
-        protected readonly List<IGuiWidget> m_widgets;
-        protected readonly List<IBody> m_bodies;
+        private readonly List<IGuiWidget> m_widgets;
+        private readonly List<IBody> m_bodies;
         private readonly ISceneProvider m_sceneProvider;
-
-        protected readonly List<ITickable> m_tickables;
-        protected IViewProvider m_viewProvider;
+        private readonly List<ITickable> m_tickables;
 
         public event EventHandler PauseGame;
         public event EventHandler ResumeGame;
@@ -46,6 +45,33 @@ namespace GameCore
             m_gameProviders.Add(_gameProvider);
         }
         
+        protected void AddTickable(ITickable _tickable)
+        {
+            m_tickables.Add(_tickable);
+        }
+
+        protected void AddDrawable(IDrawable _drawable)
+        {
+            m_drawables.Add(_drawable);
+        }
+
+        protected void AddBody(IBody _body)
+        {
+            m_bodies.Add(_body);
+        }
+
+        protected void AddWidget(IGuiWidget _widget)
+        {
+            m_widgets.Add(_widget);
+        }
+
+        public void AddEntity(IEntity _entity)
+        {
+            AddDrawable(_entity);
+            AddTickable(_entity);
+            AddBody(_entity);
+        }
+
         private void OnResumedGame(object _sender, EventArgs _e)
         {
             ResumeGame?.Invoke(_sender, _e);
@@ -68,7 +94,7 @@ namespace GameCore
         {
             m_sceneProvider.SetViewProvider(_viewProvider);
         }
-
+        
         public IEnumerable<IDrawable> GetDrawables()
         {
             List<IDrawable> drawables = new List<IDrawable>();

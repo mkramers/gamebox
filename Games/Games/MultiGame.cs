@@ -59,7 +59,7 @@ namespace Games.Games
             panel.Add(clearButton);
 
             GuiWidget panelWidget = new GuiWidget(panel, new Vector2());
-            m_widgets.Add(panelWidget);
+            AddWidget(panelWidget);
 
             SetCurrentGame(m_games.First());
         }

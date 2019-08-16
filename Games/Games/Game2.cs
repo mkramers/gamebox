@@ -49,20 +49,17 @@ namespace Games.Games
                 manEntity = SpriteEntityFactory.CreateSpriteEntity(mass, manPosition, BodyType.Dynamic,
                     sprite);
 
-                m_drawables.Add(manEntity);
-                m_tickables.Add(manEntity);
-                m_bodies.Add(manEntity);
+                AddEntity(manEntity);
             }
 
             View view = new View(new Vector2f(0, -6.5f), new Vector2f(35, 35));
             EntityFollowerViewProvider viewProvider = new EntityFollowerViewProvider(manEntity, view);
 
-            m_viewProvider = viewProvider;
             SetViewProvider(viewProvider);
 
             //widgets
             {
-                m_tickables.Add(viewProvider);
+                AddTickable(viewProvider);
 
                 //WidgetFontSettings widgetFontSettings = new WidgetFontSettings();
                 //FontSettings gridLabelFontSettings =
@@ -73,7 +70,7 @@ namespace Games.Games
                 //m_gameRunner.AddWidget(gridWidget);
 
                 MultiDrawable<VertexArrayShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One);
-                m_drawables.Add(crossHairs);
+                AddDrawable(crossHairs);
             }
 
             //add map
@@ -91,15 +88,13 @@ namespace Games.Games
 
                 foreach (IEntity mapEntity in map.GetEntities())
                 {
-                    m_drawables.Add(mapEntity);
-                    m_tickables.Add(mapEntity);
-                    m_bodies.Add(mapEntity);
+                    AddEntity(mapEntity);
                 }
 
                 IEnumerable<IDrawable> mapDrawables = map.GetDrawables();
                 foreach (IDrawable mapDrawable in mapDrawables)
                 {
-                    m_drawables.Add(mapDrawable);
+                    AddDrawable(mapDrawable);
                 }
             }
 
@@ -109,7 +104,7 @@ namespace Games.Games
 
                 KeyHandler moveExecutor = KeyHandlerFactory.CreateEntityKeyHandler(manEntity, force);
 
-                m_tickables.Add(moveExecutor);
+                AddTickable(moveExecutor);
             }
 
             //temp

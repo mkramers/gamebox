@@ -29,7 +29,7 @@ namespace Games.Games
             FloatRect viewRect = new FloatRect(scenePosition.GetVector2F(), sceneSize.GetVector2F());
             View view = new View(viewRect);
 
-            m_viewProvider = new ViewProviderBase(view);
+            ViewProviderBase viewProvider = new ViewProviderBase(view);
 
             //MultiDrawable<VertexArrayShape> box = DrawableFactory.GetBox(sceneSize, Color.White);
             //m_drawables.Add(box);
@@ -37,14 +37,16 @@ namespace Games.Games
             WidgetFontSettings widgetFontSettings = new WidgetFontSettings();
             FontSettings gridLabelFontSettings = widgetFontSettings.GetSettings(WidgetFontSettingsType.LABELED_GRID);
             LabeledGridWidget gridWidget =
-                new LabeledGridWidget(m_viewProvider, 0.5f * Vector2.One, gridLabelFontSettings);
+                new LabeledGridWidget(viewProvider, 0.5f * Vector2.One, gridLabelFontSettings);
 
-            m_drawables.Add(gridWidget);
+            SetViewProvider(viewProvider);
+
+            AddDrawable(gridWidget);
 
             MultiDrawable<VertexArrayShape> crossHairs = DrawableFactory.GetCrossHair(5 * Vector2.One);
-            m_drawables.Add(crossHairs);
+            AddDrawable(crossHairs);
 
-            m_tickables.Add(gridWidget);
+            AddDrawable(gridWidget);
             
             ResourceManager<SpriteResources> manager =
                 new ResourceManager<SpriteResources>(@"C:\dev\GameBox\Resources\sprite");
@@ -62,7 +64,7 @@ namespace Games.Games
             IEnumerable<IDrawable> mapDrawables = map.GetDrawables();
             foreach (IDrawable mapDrawable in mapDrawables)
             {
-                m_drawables.Add(mapDrawable);
+                AddDrawable(mapDrawable);
             }
         }
     }
