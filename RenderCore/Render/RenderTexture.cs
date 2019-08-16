@@ -13,17 +13,17 @@ namespace RenderCore.Render
 
         public void Clear(Color _color)
         {
-            m_renderTexture?.Clear(_color);
+            m_renderTexture.Clear(_color);
         }
 
         public void SetView(View _view)
         {
-            m_renderTexture?.SetView(_view);
+            m_renderTexture.SetView(_view);
         }
 
         public void Display()
         {
-            m_renderTexture?.Display();
+            m_renderTexture.Display();
         }
 
         public RenderTarget GetRenderTarget()
@@ -33,12 +33,12 @@ namespace RenderCore.Render
 
         public void Dispose()
         {
-            m_renderTexture?.Dispose();
+            m_renderTexture.Dispose();
         }
 
         public Texture GetTexture()
         {
-            return m_renderTexture?.Texture;
+            return m_renderTexture.Texture;
         }
 
         public void SetSize(uint _width, uint _height)

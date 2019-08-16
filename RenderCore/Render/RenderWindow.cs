@@ -18,10 +18,6 @@ namespace RenderCore.Render
             m_renderWindow.Display();
         }
 
-        public void Draw(SFML.Graphics.Drawable _drawable, RenderStates _states)
-        {
-            m_renderWindow.Draw(_drawable, _states);
-        }
         public void Draw(Texture _texture, RenderStates _states)
         {
             m_renderWindow.Draw(_texture, _states);
@@ -56,6 +52,11 @@ namespace RenderCore.Render
         {
             add => m_renderWindow.Closed += value;
             remove => m_renderWindow.Closed -= value;
+        }
+
+        public void Dispose()
+        {
+            m_renderWindow.Dispose();
         }
     }
 }

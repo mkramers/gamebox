@@ -5,7 +5,7 @@ using SFML.Window;
 
 namespace RenderCore.Render
 {
-    public interface IRenderWindow : IViewProvider, IViewConsumer, IRenderTarget
+    public interface IRenderWindow : IViewProvider, IRenderTarget
     {
         void Draw(Texture _texture, RenderStates _states);
         void DispatchEvents();

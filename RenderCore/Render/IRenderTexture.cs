@@ -5,7 +5,7 @@ using SFML.Graphics;
 
 namespace RenderCore.Render
 {
-    public interface IRenderTexture : IRenderTarget, IViewConsumer, IDisposable, ITextureProvider
+    public interface IRenderTexture : IRenderTarget, ITextureProvider
     {
         RenderTarget GetRenderTarget();
     }
