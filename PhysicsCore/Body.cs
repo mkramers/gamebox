@@ -8,44 +8,6 @@ using LibExtensions;
 
 namespace PhysicsCore
 {
-    public class CollisionEventArgs : EventArgs
-    {
-        public CollisionEventArgs(Fixture _sender, Fixture _other, Contact _contact)
-        {
-            Sender = _sender;
-            Other = _other;
-            Contact = _contact;
-        }
-
-        public Fixture Sender { get; }
-        public Fixture Other { get; }
-        public Contact Contact { get; }
-
-        public bool AllowCollision { get; set; } = true;
-    }
-
-    public class SeparationEventArgs : EventArgs
-    {
-        public SeparationEventArgs(Fixture _sender, Fixture _other, Contact _contact)
-        {
-            Sender = _sender;
-            Other = _other;
-            Contact = _contact;
-        }
-
-        public Fixture Sender { get; }
-        public Fixture Other { get; }
-        public Contact Contact { get; }
-    }
-
-    public interface ICollidable
-    {
-        event EventHandler<CollisionEventArgs> Collided;
-        event EventHandler<SeparationEventArgs> Separated;
-
-        bool ContainsFixture(Fixture _fixture);
-    }
-
     public class Body : IBody
     {
         private readonly Aether.Physics2D.Dynamics.Body m_body;
