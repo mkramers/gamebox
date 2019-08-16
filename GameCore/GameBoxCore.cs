@@ -13,7 +13,7 @@ namespace GameCore
 {
     public class GameBoxCore : IGameBox
     {
-        private readonly SubmitToDrawRenderWindow m_renderWindow;
+        private readonly GameRenderWindow m_renderWindow;
         private readonly List<ITickableProvider> m_tickableProviders;
         private readonly List<IBodyProvider> m_bodyProviders;
         private readonly TickLoop m_tickLoop;
@@ -22,7 +22,7 @@ namespace GameCore
 
         public GameBoxCore()
         {
-            m_renderWindow = new SubmitToDrawRenderWindow(1.0f, new Vector2u(800, 800));
+            m_renderWindow = new GameRenderWindow(1.0f, new Vector2u(800, 800));
             m_renderWindow.Closed += (_sender, _e) => m_tickLoop.StopLoop();
 
             m_tickableProviders = new List<ITickableProvider>();

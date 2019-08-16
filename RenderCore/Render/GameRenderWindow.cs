@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Common.Tickable;
 using RenderCore.Drawable;
-using RenderCore.ViewProvider;
 using SFML.Graphics;
 using SFML.System;
 using TGUI;
 
 namespace RenderCore.Render
 {
-    public class SubmitToDrawRenderWindow : ITickable
+    public class GameRenderWindow : ITickable
     {
         private readonly float m_aspectRatio;
         private readonly Gui m_gui;
@@ -18,7 +17,7 @@ namespace RenderCore.Render
         private readonly List<IWidgetProvider> m_widgetProviders;
         private ITextureProvider m_textureProvider;
 
-        public SubmitToDrawRenderWindow(float _aspectRatio, Vector2u _windowSize)
+        public GameRenderWindow(float _aspectRatio, Vector2u _windowSize)
         {
             m_widgetProviders = new List<IWidgetProvider>();
 
