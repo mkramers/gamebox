@@ -31,7 +31,7 @@ namespace RenderCore.Render
                 return null;
             }
 
-            m_sceneRenderTexture.Clear();
+            m_sceneRenderTexture.Clear(Color.Blue);
 
             m_sceneRenderTexture.SetView(m_viewProvider.GetView());
 

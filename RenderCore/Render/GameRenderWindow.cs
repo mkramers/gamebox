@@ -52,20 +52,15 @@ namespace RenderCore.Render
         private void Resize(Vector2u _windowSize)
         {
             float aspectRatio = m_aspectRatio;
-
-            View renderWindowView = m_renderWindow.GetView();
-
+            
             FloatRect viewPort = WindowResizeUtilities.GetViewPort(_windowSize, aspectRatio);
-            renderWindowView.Viewport = viewPort;
-
-            m_renderWindow.SetView(renderWindowView);
+            
+            m_renderWindow.SetViewport(viewPort);
 
             uint adjustedWidth = (uint)Math.Round(viewPort.Width * _windowSize.X);
             uint adjustedHeight = (uint)Math.Round(viewPort.Height * _windowSize.Y);
 
             m_textureProvider?.SetSize(adjustedWidth, adjustedHeight);
-
-            m_gui.View = renderWindowView;
         }
 
         private void Draw()
@@ -106,6 +101,15 @@ namespace RenderCore.Render
         public Vector2u GetWindowSize()
         {
             return m_renderWindow.Size;
+        }
+    }
+
+    public static class RenderWindowExtensions
+    {
+        public static void SetViewport(this RenderWindow _renderWindow, FloatRect _viewPort)
+        {
+            View renderWindowView = _renderWindow.GetView();
+            renderWindowView.Viewport = _viewPort;
         }
     }
 }
