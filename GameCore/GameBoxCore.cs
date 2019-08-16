@@ -46,6 +46,10 @@ namespace GameCore
         {
             m_bodyProviders.Add(_bodyProvider);
         }
+        public void RemoveBodyProvider(IBodyProvider _bodyProvider)
+        {
+            m_bodyProviders.Remove(_bodyProvider);
+        }
 
         public void SetTextureProvider(ITextureProvider _textureProvider)
         {
@@ -60,6 +64,10 @@ namespace GameCore
         public void AddTickableProvider(ITickableProvider _tickableProvider)
         {
             m_tickableProviders.Add(_tickableProvider);
+        }
+        public void RemoveTickableProvider(ITickableProvider _tickableProvider)
+        {
+            m_tickableProviders.Remove(_tickableProvider);
         }
 
         public void StartLoop()

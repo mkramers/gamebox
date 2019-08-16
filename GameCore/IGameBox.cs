@@ -5,11 +5,9 @@ using RenderCore.Drawable;
 
 namespace GameCore
 {
-    public interface IGameBox : ILoopable, IWidgetConsumer, IDisposable
+    public interface IGameBox : ILoopable, IWidgetConsumer, IBodyConsumer, ITickableConsumer, IDisposable
     {
-        void AddBodyProvider(IBodyProvider _bodyProvider);
         void SetTextureProvider(ITextureProvider _textureProvider);
         void SetIsPaused(bool _isPaused);
-        void AddTickableProvider(ITickableProvider _tickableProvider);
     }
 }
