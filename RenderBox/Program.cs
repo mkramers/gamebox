@@ -12,8 +12,8 @@ namespace RenderBox
             GameBoxCore gameBox = GameBoxCoreFactory.CreateGameBoxCore();
             gameBox.AddFpsWidget();
 
-            IRenderTextureWrapper renderTextureWrapper = new RenderTextureWrapper(400, 400);
-            ISceneProvider sceneProvider = new SceneProvider(renderTextureWrapper, new ViewProviderBase());
+            IRenderTexture renderTexture = new RenderTexture(400, 400);
+            ISceneProvider sceneProvider = new SceneProvider(renderTexture, new ViewProviderBase());
             Game3 game = new Game3(sceneProvider);
 
             game.PauseGame += (_sender, _args) => gameBox.SetIsPaused(true);

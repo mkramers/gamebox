@@ -13,8 +13,8 @@ namespace GameBox
     {
         private static void Main()
         {
-            IRenderTextureWrapper renderTextureWrapper = new RenderTextureWrapper(400, 400);
-            ISceneProvider sceneProvider = new SceneProvider(renderTextureWrapper, new ViewProviderBase());
+            IRenderTexture renderTexture = new RenderTexture(400, 400);
+            ISceneProvider sceneProvider = new SceneProvider(renderTexture, new ViewProviderBase());
             //IGame game = CreateMultiGame(sceneProvider);
             IGame game = new Game2(sceneProvider);
             //IGame game = new Game3(sceneProvider);

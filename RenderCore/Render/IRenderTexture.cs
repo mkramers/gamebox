@@ -3,7 +3,7 @@ using SFML.Graphics;
 
 namespace RenderCore.Render
 {
-    public interface IRenderTextureWrapper : IDisposable
+    public interface IRenderTexture : IDisposable
     {
         void Clear(Color _color);
         void SetView(View _view);

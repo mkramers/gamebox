@@ -9,13 +9,13 @@ namespace RenderCore.Render
     public class SceneProvider : ISceneProvider
     {
         private IViewProvider m_viewProvider;
-        private readonly IRenderTextureWrapper m_sceneRenderTexture;
+        private readonly IRenderTexture m_sceneRenderTexture;
         private readonly List<IDrawableProvider> m_drawableProviders;
 
-        public SceneProvider(IRenderTextureWrapper _renderTextureWrapper, IViewProvider _viewProvider)
+        public SceneProvider(IRenderTexture _renderTexture, IViewProvider _viewProvider)
         {
             m_viewProvider = _viewProvider;
-            m_sceneRenderTexture = _renderTextureWrapper;
+            m_sceneRenderTexture = _renderTexture;
             m_drawableProviders = new List<IDrawableProvider>();
         }
 

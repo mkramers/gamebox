@@ -2,11 +2,11 @@
 
 namespace RenderCore.Render
 {
-    public class RenderTextureWrapper : IRenderTextureWrapper
+    public class RenderTexture : IRenderTexture
     {
-        private RenderTexture m_renderTexture;
+        private SFML.Graphics.RenderTexture m_renderTexture;
 
-        public RenderTextureWrapper(uint _width, uint _height)
+        public RenderTexture(uint _width, uint _height)
         {
             SetSize(_width, _height);
         }
@@ -44,7 +44,7 @@ namespace RenderCore.Render
         public void SetSize(uint _width, uint _height)
         {
             m_renderTexture?.Dispose();
-            m_renderTexture = new RenderTexture(_width, _height);
+            m_renderTexture = new SFML.Graphics.RenderTexture(_width, _height);
         }
     }
 }
