@@ -6,6 +6,7 @@ using Common.ReflectionUtilities;
 using Common.Tickable;
 using GameCore;
 using Games.Games;
+using PhysicsCore;
 using RenderCore.Render;
 using SFML.System;
 
@@ -45,7 +46,9 @@ namespace GameBox
         {
             GameRenderWindow gameRenderWindow = GameRenderWindowFactory.CreateGameRenderWindow(new Vector2u(800, 800));
             TickLoop tickLoop = new TickLoop(TimeSpan.FromMilliseconds(30));
-            IGameBox gameBox = new GameBoxCore(gameRenderWindow, tickLoop);
+            IPhysics physics = new Physics(0, 5.5f);
+
+            IGameBox gameBox = new GameBoxCore(gameRenderWindow, tickLoop, physics);
             gameBox.AddFpsWidget();
 
             _game.PauseGame += (_sender, _args) => gameBox.SetIsPaused(true);

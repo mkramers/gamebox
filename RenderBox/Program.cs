@@ -2,6 +2,7 @@
 using Common.Tickable;
 using GameCore;
 using Games.Games;
+using PhysicsCore;
 using RenderCore.Render;
 using SFML.System;
 
@@ -12,8 +13,10 @@ namespace RenderBox
         private static void Main()
         {
             GameRenderWindow gameRenderWindow = GameRenderWindowFactory.CreateGameRenderWindow(new Vector2u(800, 800));
-            TickLoop tickLoop = new TickLoop(TimeSpan.FromMilliseconds(30));
-            IGameBox gameBox = new GameBoxCore(gameRenderWindow, tickLoop);
+            ITickLoop tickLoop = new TickLoop(TimeSpan.FromMilliseconds(30));
+            IPhysics physics = new Physics(0, 5.5f);
+
+            IGameBox gameBox = new GameBoxCore(gameRenderWindow, tickLoop, physics);
             gameBox.AddFpsWidget();
 
             Game3 game = new Game3();
