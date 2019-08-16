@@ -12,11 +12,7 @@ namespace RenderBox
     {
         private static void Main()
         {
-            GameRenderWindow gameRenderWindow = GameRenderWindowFactory.CreateGameRenderWindow(new Vector2u(800, 800));
-            ITickLoop tickLoop = new TickLoop(TimeSpan.FromMilliseconds(30));
-            IPhysics physics = new Physics(0, 5.5f);
-
-            IGameBox gameBox = new GameBoxCore(gameRenderWindow, tickLoop, physics);
+            GameBoxCore gameBox = GameBoxCoreFactory.CreateGameBoxCore();
             gameBox.AddFpsWidget();
 
             Game3 game = new Game3();

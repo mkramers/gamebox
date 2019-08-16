@@ -7,7 +7,6 @@ using PhysicsCore;
 using RenderCore.Drawable;
 using RenderCore.Render;
 using RenderCore.ViewProvider;
-using SFML.System;
 
 namespace GameCore
 {
