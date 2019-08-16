@@ -1,10 +1,5 @@
-﻿using System;
-using Common.Tickable;
-using GameCore;
+﻿using GameCore;
 using Games.Games;
-using PhysicsCore;
-using RenderCore.Render;
-using SFML.System;
 
 namespace RenderBox
 {
