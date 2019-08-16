@@ -33,7 +33,15 @@ namespace RenderCore.Render
 
         public void Tick(TimeSpan _elapsed)
         {
-            Draw();
+            try
+            {
+                Draw();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         public void AddWidgetProvider(IWidgetProvider _provider)
