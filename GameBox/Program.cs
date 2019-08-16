@@ -4,6 +4,8 @@ using System.Reflection;
 using Common.ReflectionUtilities;
 using GameCore;
 using Games.Games;
+using RenderCore.Render;
+using RenderCore.ViewProvider;
 
 namespace GameBox
 {
@@ -11,13 +13,15 @@ namespace GameBox
     {
         private static void Main()
         {
-            //IGame game = CreateMultiGame();
-            IGame game = new Game2();
-            //IGame game = new Game3();
+            ISceneProvider sceneProvider = new Scene(400, 400, new ViewProviderBase());
+            //IGame game = CreateMultiGame(sceneProvider);
+            IGame game = new Game2(sceneProvider);
+            //IGame game = new Game3(sceneProvider);
+
             RunGame(game);
         }
 
-        private static MultiGame CreateMultiGame()
+        private static MultiGame CreateMultiGame(ISceneProvider _sceneProvider)
         {
             List<GameBase> games = new List<GameBase>();
             Assembly executingAssembly = Assembly.Load("Games");
@@ -33,7 +37,7 @@ namespace GameBox
                 games.Add(game);
             }
 
-            MultiGame multiGame = new MultiGame(games);
+            MultiGame multiGame = new MultiGame(games, _sceneProvider);
             return multiGame;
         }
 

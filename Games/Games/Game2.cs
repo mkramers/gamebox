@@ -4,7 +4,6 @@ using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using Common.Grid;
-using Common.Tickable;
 using GameCore;
 using GameCore.Entity;
 using GameCore.Input.Key;
@@ -15,6 +14,7 @@ using GameResources.Converters;
 using Games.Coins;
 using Games.Maps;
 using RenderCore.Drawable;
+using RenderCore.Render;
 using RenderCore.Resource;
 using ResourceUtilities.Aseprite;
 using SFML.Graphics;
@@ -24,7 +24,7 @@ namespace Games.Games
 {
     public class Game2 : GameBase
     {
-        public Game2()
+        public Game2(ISceneProvider _sceneProvider) : base(_sceneProvider)
         {
             const string resourceRootDirectory = @"C:\dev\GameBox\Resources\sprite";
             ResourceManager<SpriteResources> manager = new ResourceManager<SpriteResources>(resourceRootDirectory);

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
 using Common.Grid;
-using Common.Tickable;
 using GameCore;
 using GameCore.Maps;
 using GameResources.Attributes;
@@ -12,6 +10,7 @@ using Games.Maps;
 using LibExtensions;
 using RenderCore.Drawable;
 using RenderCore.Font;
+using RenderCore.Render;
 using RenderCore.Resource;
 using RenderCore.ViewProvider;
 using RenderCore.Widget;
@@ -22,7 +21,7 @@ namespace Games.Games
 {
     public class Game3 : GameBase
     {
-        public Game3()
+        public Game3(ISceneProvider _sceneProvider) : base(_sceneProvider)
         {
             const float size = 25;
             Vector2 sceneSize = new Vector2(size, size);

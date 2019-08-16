@@ -18,15 +18,15 @@ namespace GameCore
         private readonly List<IGameProvider> m_gameProviders;
         protected readonly List<IGuiWidget> m_widgets;
         protected readonly List<IBody> m_bodies;
-        private readonly ISceneProvider m_scene;
+        private readonly ISceneProvider m_sceneProvider;
 
         protected readonly List<ITickable> m_tickables;
         protected IViewProvider m_viewProvider;
 
         public event EventHandler PauseGame;
         public event EventHandler ResumeGame;
-
-        protected GameBase()
+        
+        protected GameBase(ISceneProvider _sceneProvider)
         {
             m_drawables = new List<IDrawable>();
             m_gameProviders = new List<IGameProvider>();
@@ -34,8 +34,8 @@ namespace GameCore
             m_bodies = new List<IBody>();
             m_tickables = new List<ITickable>();
 
-            m_scene = new Scene(400, 400, new ViewProviderBase());
-            m_scene.AddDrawableProvider(this);
+            m_sceneProvider = _sceneProvider;
+            m_sceneProvider.AddDrawableProvider(this);
         }
 
         protected void AddGameProvider(IGameProvider _gameProvider)
@@ -66,7 +66,7 @@ namespace GameCore
         
         protected void SetViewProvider(IViewProvider _viewProvider)
         {
-            m_scene.SetViewProvider(_viewProvider);
+            m_sceneProvider.SetViewProvider(_viewProvider);
         }
 
         public IEnumerable<IDrawable> GetDrawables()
@@ -93,7 +93,7 @@ namespace GameCore
         
         public virtual void Dispose()
         {
-            m_scene.Dispose();
+            m_sceneProvider.Dispose();
         }
 
         public IEnumerable<IGuiWidget> GetWidgets()
@@ -120,13 +120,13 @@ namespace GameCore
 
         public Texture GetTexture()
         {
-            Texture texture = m_scene.GetTexture();
+            Texture texture = m_sceneProvider.GetTexture();
             return texture;
         }
 
         public void SetSize(uint _width, uint _height)
         {
-            m_scene.SetSize(_width, _height);
+            m_sceneProvider.SetSize(_width, _height);
         }
     }
 }

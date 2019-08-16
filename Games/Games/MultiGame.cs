@@ -3,8 +3,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using GameCore;
+using RenderCore.Render;
 using RenderCore.Widget;
-using SFML.Graphics;
 using SFML.System;
 using TGUI;
 
@@ -15,7 +15,7 @@ namespace Games.Games
         private readonly IEnumerable<IGame> m_games;
         private IGame m_currentGame;
 
-        public MultiGame(IEnumerable<IGame> _games)
+        public MultiGame(IEnumerable<IGame> _games, ISceneProvider _sceneProvider) : base(_sceneProvider)
         {
             IGame[] games = _games as IGame[] ?? _games.ToArray();
 
