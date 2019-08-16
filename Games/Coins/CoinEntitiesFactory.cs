@@ -24,7 +24,7 @@ namespace Games.Coins
             ResourceManager<SpriteResources> resourceManager =
                 new ResourceManager<SpriteResources>(_resourceRootDirectory);
 
-            const string coinsMetaFilePath = @"C:\dev\GameBox\RenderCore\Resources\meta\coins.json";
+            const string coinsMetaFilePath = @"C:\dev\GameBox\Resources\meta\coins.json";
             string coinsMetaText = File.ReadAllText(coinsMetaFilePath);
             CoinLookupTable coinsLookupTable =
                 JsonConvert.DeserializeObject<CoinLookupTable>(coinsMetaText, new CoinMetaConverter());
