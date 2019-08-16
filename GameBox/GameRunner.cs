@@ -30,7 +30,7 @@ namespace GameBox
 
         private void GameOnResumeGame(object _sender, EventArgs _e)
         {
-            m_gameBox.SetIsPaused(true);
+            m_gameBox.SetIsPaused(false);
         }
 
         private void GameOnPauseGame(object _sender, EventArgs _e)
