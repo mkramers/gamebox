@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GameCore\GameCore.csproj" />
+    <ProjectReference Include="..\MarchingSquares\MarchingSquares.csproj" />
     <ProjectReference Include="..\PhysicsCore\PhysicsCore.csproj" />
     <ProjectReference Include="..\RenderCore\RenderCore.csproj" />
     <ProjectReference Include="..\ResourceUtilities\ResourceUtilities.csproj" />

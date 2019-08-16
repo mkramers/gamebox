@@ -22,9 +22,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\BitmapUtilities\BitmapUtilities.csproj" />
     <ProjectReference Include="..\Common\Common.csproj" />
-    <ProjectReference Include="..\MarchingSquares\MarchingSquares.csproj" />
   </ItemGroup>
 
 </Project>
