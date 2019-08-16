@@ -1,11 +1,8 @@
 ﻿using System.Numerics;
 using Common.Tickable;
-using LibExtensions;
 using RenderCore.Drawable;
 using RenderCore.Font;
 using RenderCore.Widget;
-using SFML.System;
-using TGUI;
 
 namespace GameCore
 {
@@ -27,7 +24,7 @@ namespace GameCore
         {
             WidgetFontSettings widgetFontSettingsFactory = new WidgetFontSettings();
             FontSettings fpsFontSettings = widgetFontSettingsFactory.GetSettings(WidgetFontSettingsType.FPS_COUNTER);
-            
+
             FpsLabel fpsLabel = new FpsLabel(5, fpsFontSettings);
 
             GuiWidget widget = new GuiWidget(fpsLabel, new Vector2(0.2f, 0.98f));

@@ -47,7 +47,7 @@ namespace Games.Games
             AddDrawable(crossHairs);
 
             AddDrawable(gridWidget);
-            
+
             ResourceManager<SpriteResources> manager =
                 new ResourceManager<SpriteResources>(@"C:\dev\GameBox\Resources\sprite");
 

@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using Common.Tickable;
 using PhysicsCore;
 using RenderCore.Drawable;
 using RenderCore.Render;
-using RenderCore.ViewProvider;
 
 namespace GameCore
 {
     public class GameBoxCore : IGameBox
     {
+        private readonly List<IBodyProvider> m_bodyProviders;
+        private readonly IPhysics m_physics;
         private readonly GameRenderWindow m_renderWindow;
         private readonly List<ITickableProvider> m_tickableProviders;
-        private readonly List<IBodyProvider> m_bodyProviders;
         private readonly ITickLoop m_tickLoop;
         private bool m_isPaused;
-        private readonly IPhysics m_physics;
 
         public GameBoxCore(GameRenderWindow _gameRenderWindow, ITickLoop _tickLoop, IPhysics _physics)
         {
@@ -53,7 +51,7 @@ namespace GameCore
         {
             m_isPaused = _isPaused;
         }
-        
+
         public void AddTickableProvider(ITickableProvider _tickableProvider)
         {
             m_tickableProviders.Add(_tickableProvider);

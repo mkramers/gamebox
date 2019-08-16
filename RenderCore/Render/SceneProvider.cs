@@ -8,9 +8,9 @@ namespace RenderCore.Render
 {
     public class SceneProvider : ISceneProvider
     {
-        private IViewProvider m_viewProvider;
-        private readonly IRenderTexture m_sceneRenderTexture;
         private readonly List<IDrawableProvider> m_drawableProviders;
+        private readonly IRenderTexture m_sceneRenderTexture;
+        private IViewProvider m_viewProvider;
 
         public SceneProvider(IRenderTexture _renderTexture, IViewProvider _viewProvider)
         {
@@ -47,15 +47,6 @@ namespace RenderCore.Render
             m_sceneRenderTexture?.Dispose();
         }
 
-        private void Draw(RenderTarget _target, RenderStates _states)
-        {
-            IEnumerable<IDrawable> drawables = m_drawableProviders.SelectMany(_provider => _provider.GetDrawables());
-            foreach (IDrawable drawable in drawables)
-            {
-                _target.Draw(drawable, _states);
-            }
-        }
-
         public void SetViewProvider(IViewProvider _viewProvider)
         {
             m_viewProvider = _viewProvider;
@@ -64,6 +55,15 @@ namespace RenderCore.Render
         public void SetSize(uint _width, uint _height)
         {
             m_sceneRenderTexture.SetSize(_width, _height);
+        }
+
+        private void Draw(RenderTarget _target, RenderStates _states)
+        {
+            IEnumerable<IDrawable> drawables = m_drawableProviders.SelectMany(_provider => _provider.GetDrawables());
+            foreach (IDrawable drawable in drawables)
+            {
+                _target.Draw(drawable, _states);
+            }
         }
     }
 }

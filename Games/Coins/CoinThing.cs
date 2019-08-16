@@ -20,9 +20,9 @@ namespace Games.Coins
         private readonly IEntity m_captureEntity;
         private readonly List<Coin> m_coins;
         private readonly Label m_scoreLabel;
-        private float m_score;
         private readonly List<IGuiWidget> m_widgets;
         private GuiWidget m_childWindowWidget;
+        private float m_score;
 
         public CoinThing(IEntity _captureEntity, IEnumerable<Coin> _coins)
         {
@@ -59,6 +59,25 @@ namespace Games.Coins
 
         public event EventHandler PauseGame;
         public event EventHandler ResumeGame;
+
+        public IEnumerable<ITickable> GetTickables()
+        {
+            return m_coins.Select(_coin => _coin.Entity);
+        }
+
+        public void Dispose()
+        {
+        }
+
+        public IEnumerable<IGuiWidget> GetWidgets()
+        {
+            return m_widgets;
+        }
+
+        public IEnumerable<IBody> GetBodies()
+        {
+            return m_coins.Select(_coin => _coin.Entity);
+        }
 
         private void EntityOnCollided(object _sender, CollisionEventArgs _e)
         {
@@ -118,25 +137,6 @@ namespace Games.Coins
 
         private static void EntityOnSeparated(object _sender, SeparationEventArgs _e)
         {
-        }
-
-        public IEnumerable<ITickable> GetTickables()
-        {
-            return m_coins.Select(_coin => _coin.Entity);
-        }
-
-        public void Dispose()
-        {
-        }
-
-        public IEnumerable<IGuiWidget> GetWidgets()
-        {
-            return m_widgets;
-        }
-
-        public IEnumerable<IBody> GetBodies()
-        {
-            return m_coins.Select(_coin => _coin.Entity);
         }
     }
 }

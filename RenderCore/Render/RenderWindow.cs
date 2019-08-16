@@ -48,6 +48,7 @@ namespace RenderCore.Render
             add => m_renderWindow.Resized += value;
             remove => m_renderWindow.Resized -= value;
         }
+
         public event EventHandler Closed
         {
             add => m_renderWindow.Closed += value;

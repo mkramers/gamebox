@@ -14,7 +14,7 @@ namespace RenderCore.Drawable
 
         public IEnumerable<IGuiWidget> GetWidgets()
         {
-            return new[] { m_widget };
+            return new[] {m_widget};
         }
     }
 }

@@ -9,7 +9,8 @@ namespace PhysicsCore
 {
     public static class BodyFactory
     {
-        public static IBody CreateVertexBody(IVertexObject _vertexObject, Vector2 _position, float _mass, BodyType _bodyType)
+        public static IBody CreateVertexBody(IVertexObject _vertexObject, Vector2 _position, float _mass,
+            BodyType _bodyType)
         {
             Aether.Physics2D.Dynamics.Body physicsBody = new Aether.Physics2D.Dynamics.Body
             {
@@ -30,7 +31,7 @@ namespace PhysicsCore
             {
                 Position = _position.GetVector2(),
                 Rotation = 0,
-                BodyType = BodyType.Static,
+                BodyType = BodyType.Static
             };
 
             foreach (LineSegment lineSegment in _lineSegments)

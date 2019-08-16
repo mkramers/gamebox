@@ -1,7 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Color = SFML.Graphics.Color;
 
 namespace Games.Coins
 {

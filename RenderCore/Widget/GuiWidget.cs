@@ -6,8 +6,8 @@ namespace RenderCore.Widget
 {
     public class GuiWidget : IGuiWidget
     {
-        private readonly TGUI.Widget m_widget;
         private readonly Vector2 m_relativePosition;
+        private readonly TGUI.Widget m_widget;
 
         public GuiWidget(TGUI.Widget _widget, Vector2 _relativePosition)
         {
@@ -21,7 +21,7 @@ namespace RenderCore.Widget
 
             m_widget.SetPosition(position);
         }
-         
+
         public TGUI.Widget GetWidget()
         {
             return m_widget;

@@ -9,22 +9,18 @@ using RenderCore.Render;
 using RenderCore.ViewProvider;
 using RenderCore.Widget;
 using SFML.Graphics;
-using TGUI;
 
 namespace GameCore
 {
     public abstract class GameBase : IGame
     {
+        private readonly List<IBody> m_bodies;
         private readonly List<IDrawable> m_drawables;
         private readonly List<IGameProvider> m_gameProviders;
-        private readonly List<IGuiWidget> m_widgets;
-        private readonly List<IBody> m_bodies;
         private readonly ISceneProvider m_sceneProvider;
         private readonly List<ITickable> m_tickables;
+        private readonly List<IGuiWidget> m_widgets;
 
-        public event EventHandler PauseGame;
-        public event EventHandler ResumeGame;
-        
         protected GameBase(ISceneProvider _sceneProvider)
         {
             m_drawables = new List<IDrawable>();
@@ -37,6 +33,72 @@ namespace GameCore
             m_sceneProvider.AddDrawableProvider(this);
         }
 
+        public event EventHandler PauseGame;
+        public event EventHandler ResumeGame;
+
+        public IEnumerable<IDrawable> GetDrawables()
+        {
+            List<IDrawable> drawables = new List<IDrawable>();
+            drawables.AddRange(m_drawables);
+
+            IEnumerable<IDrawable> subGameDrawables =
+                m_gameProviders.SelectMany(_gameProvider => _gameProvider.GetDrawables());
+            drawables.AddRange(subGameDrawables);
+
+            return drawables;
+        }
+
+        public IEnumerable<ITickable> GetTickables()
+        {
+            List<ITickable> tickables = new List<ITickable>();
+            tickables.AddRange(m_tickables);
+
+            IEnumerable<ITickable> subGameTickables =
+                m_gameProviders.SelectMany(_gameProvider => _gameProvider.GetTickables());
+            tickables.AddRange(subGameTickables);
+
+            return tickables;
+        }
+
+        public virtual void Dispose()
+        {
+            m_sceneProvider.Dispose();
+        }
+
+        public IEnumerable<IGuiWidget> GetWidgets()
+        {
+            List<IGuiWidget> widgets = new List<IGuiWidget>();
+            widgets.AddRange(m_widgets);
+
+            IEnumerable<IGuiWidget> subGameWidgets =
+                m_gameProviders.SelectMany(_gameProvider => _gameProvider.GetWidgets());
+            widgets.AddRange(subGameWidgets);
+
+            return widgets;
+        }
+
+        public IEnumerable<IBody> GetBodies()
+        {
+            List<IBody> bodies = new List<IBody>();
+            bodies.AddRange(m_bodies);
+
+            IEnumerable<IBody> subGameBodies = m_gameProviders.SelectMany(_gameProvider => _gameProvider.GetBodies());
+            bodies.AddRange(subGameBodies);
+
+            return bodies;
+        }
+
+        public Texture GetTexture()
+        {
+            Texture texture = m_sceneProvider.GetTexture();
+            return texture;
+        }
+
+        public void SetSize(uint _width, uint _height)
+        {
+            m_sceneProvider.SetSize(_width, _height);
+        }
+
         protected void AddGameProvider(IGameProvider _gameProvider)
         {
             _gameProvider.PauseGame += OnPausedGame;
@@ -44,7 +106,7 @@ namespace GameCore
 
             m_gameProviders.Add(_gameProvider);
         }
-        
+
         protected void AddTickable(ITickable _tickable)
         {
             m_tickables.Add(_tickable);
@@ -89,70 +151,10 @@ namespace GameCore
 
             m_gameProviders.Remove(_gameProvider);
         }
-        
+
         protected void SetViewProvider(IViewProvider _viewProvider)
         {
             m_sceneProvider.SetViewProvider(_viewProvider);
-        }
-        
-        public IEnumerable<IDrawable> GetDrawables()
-        {
-            List<IDrawable> drawables = new List<IDrawable>();
-            drawables.AddRange(m_drawables);
-
-            IEnumerable<IDrawable> subGameDrawables = m_gameProviders.SelectMany(_gameProvider => _gameProvider.GetDrawables());
-            drawables.AddRange(subGameDrawables);
-
-            return drawables;
-        }
-
-        public IEnumerable<ITickable> GetTickables()
-        {
-            List<ITickable> tickables = new List<ITickable>();
-            tickables.AddRange(m_tickables);
-
-            IEnumerable<ITickable> subGameTickables = m_gameProviders.SelectMany(_gameProvider => _gameProvider.GetTickables());
-            tickables.AddRange(subGameTickables);
-
-            return tickables;
-        }
-        
-        public virtual void Dispose()
-        {
-            m_sceneProvider.Dispose();
-        }
-
-        public IEnumerable<IGuiWidget> GetWidgets()
-        {
-            List<IGuiWidget> widgets = new List<IGuiWidget>();
-            widgets.AddRange(m_widgets);
-
-            IEnumerable<IGuiWidget> subGameWidgets = m_gameProviders.SelectMany(_gameProvider => _gameProvider.GetWidgets());
-            widgets.AddRange(subGameWidgets);
-
-            return widgets;
-        }
-
-        public IEnumerable<IBody> GetBodies()
-        {
-            List<IBody> bodies = new List<IBody>();
-            bodies.AddRange(m_bodies);
-
-            IEnumerable<IBody> subGameBodies = m_gameProviders.SelectMany(_gameProvider => _gameProvider.GetBodies());
-            bodies.AddRange(subGameBodies);
-
-            return bodies;
-        }
-
-        public Texture GetTexture()
-        {
-            Texture texture = m_sceneProvider.GetTexture();
-            return texture;
-        }
-
-        public void SetSize(uint _width, uint _height)
-        {
-            m_sceneProvider.SetSize(_width, _height);
         }
     }
 }

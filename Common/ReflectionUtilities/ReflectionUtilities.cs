@@ -6,7 +6,7 @@ using System.Reflection;
 namespace Common.ReflectionUtilities
 {
     /// <summary>
-    /// derived from https://stackoverflow.com/a/2362756/1620721
+    ///     derived from https://stackoverflow.com/a/2362756/1620721
     /// </summary>
     public static class ReflectionUtilities
     {

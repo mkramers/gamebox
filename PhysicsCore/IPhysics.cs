@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
-using Aether.Physics2D.Dynamics;
-using Common.Geometry;
 using Common.Tickable;
-using Common.VertexObject;
 
 namespace PhysicsCore
 {

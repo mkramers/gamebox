@@ -17,7 +17,7 @@ namespace PhysicsCore
             World = new World(_gravity.GetVector2());
         }
 
-        public Physics(float _gravityX, float _gravityY): this(new Vector2(_gravityX, _gravityY))
+        public Physics(float _gravityX, float _gravityY) : this(new Vector2(_gravityX, _gravityY))
         {
         }
 

@@ -1,6 +1,4 @@
-﻿using System;
-using RenderCore.Drawable;
-using RenderCore.ViewProvider;
+﻿using RenderCore.Drawable;
 using SFML.Graphics;
 
 namespace RenderCore.Render

@@ -52,7 +52,7 @@ namespace RenderCore.Render
 
             View currentView = m_renderWindow.GetView();
             Vector2f size = currentView.Size;
-            m_textureProvider?.SetSize((uint)Math.Round(size.X), (uint)Math.Round(size.Y));
+            m_textureProvider?.SetSize((uint) Math.Round(size.X), (uint) Math.Round(size.Y));
         }
 
         private void Resize(Vector2u _windowSize)
@@ -61,8 +61,8 @@ namespace RenderCore.Render
 
             m_renderWindow.SetViewport(viewPort);
 
-            uint adjustedWidth = (uint)Math.Round(viewPort.Width * _windowSize.X);
-            uint adjustedHeight = (uint)Math.Round(viewPort.Height * _windowSize.Y);
+            uint adjustedWidth = (uint) Math.Round(viewPort.Width * _windowSize.X);
+            uint adjustedHeight = (uint) Math.Round(viewPort.Height * _windowSize.Y);
 
             m_textureProvider?.SetSize(adjustedWidth, adjustedHeight);
         }
@@ -78,7 +78,8 @@ namespace RenderCore.Render
             currentView.Size = size;
             currentView.Center = center;
 
-            IGuiWidget[] allWidgets = m_widgetProviders.SelectMany(_widgetProvider => _widgetProvider.GetWidgets()).ToArray();
+            IGuiWidget[] allWidgets =
+                m_widgetProviders.SelectMany(_widgetProvider => _widgetProvider.GetWidgets()).ToArray();
             foreach (IGuiWidget allWidget in allWidgets)
             {
                 allWidget.OnViewChanged(currentView);
