@@ -13,15 +13,17 @@ namespace GameBox
     {
         private static void Main()
         {
+            IGameBox gameBox = GameBoxCoreFactory.CreateGameBoxCore();
+
             IRenderTexture renderTexture = new RenderTexture(400, 400);
             ISceneProvider sceneProvider = new SceneProvider(renderTexture, new ViewProviderBase());
             //IGame game = CreateMultiGame(sceneProvider);
             IGame game = new Game2(sceneProvider);
             //IGame game = new Game3(sceneProvider);
 
-            RunGame(game);
+            GameRunner gameRunner = new GameRunner(gameBox);
+            gameRunner.RunGame(game);
         }
-
         private static MultiGame CreateMultiGame(ISceneProvider _sceneProvider)
         {
             List<GameBase> games = new List<GameBase>();
@@ -40,23 +42,6 @@ namespace GameBox
 
             MultiGame multiGame = new MultiGame(games, _sceneProvider);
             return multiGame;
-        }
-
-        private static void RunGame(IGame _game)
-        {
-            IGameBox gameBox = GameBoxCoreFactory.CreateGameBoxCore();
-            gameBox.AddFpsWidget();
-
-            _game.PauseGame += (_sender, _args) => gameBox.SetIsPaused(true);
-            _game.ResumeGame += (_sender, _args) => gameBox.SetIsPaused(false);
-
-            gameBox.AddTickableProvider(_game);
-            gameBox.AddWidgetProvider(_game);
-            gameBox.AddBodyProvider(_game);
-            gameBox.SetTextureProvider(_game);
-
-            gameBox.StartLoop();
-            gameBox.Dispose();
         }
     }
 }
