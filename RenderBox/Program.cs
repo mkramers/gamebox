@@ -1,5 +1,7 @@
 ﻿using GameCore;
 using Games.Games;
+using RenderCore.Render;
+using SFML.System;
 
 namespace RenderBox
 {
@@ -7,7 +9,8 @@ namespace RenderBox
     {
         private static void Main()
         {
-            IGameBox gameBox = new GameBoxCore();
+            GameRenderWindow gameRenderWindow = GameRenderWindowFactory.CreateGameRenderWindow(new Vector2u(800, 800));
+            IGameBox gameBox = new GameBoxCore(gameRenderWindow);
             gameBox.AddFpsWidget();
 
             Game3 game = new Game3();

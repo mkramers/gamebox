@@ -20,9 +20,9 @@ namespace GameCore
         private bool m_isPaused;
         private readonly IPhysics m_physics;
 
-        public GameBoxCore()
+        public GameBoxCore(GameRenderWindow _gameRenderWindow)
         {
-            m_renderWindow = new GameRenderWindow(1.0f, new Vector2u(800, 800));
+            m_renderWindow = _gameRenderWindow;
             m_renderWindow.Closed += (_sender, _e) => m_tickLoop.StopLoop();
 
             m_tickableProviders = new List<ITickableProvider>();

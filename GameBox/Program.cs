@@ -5,6 +5,8 @@ using System.Reflection;
 using Common.ReflectionUtilities;
 using GameCore;
 using Games.Games;
+using RenderCore.Render;
+using SFML.System;
 
 namespace GameBox
 {
@@ -40,7 +42,8 @@ namespace GameBox
 
         private static void RunGame(IGame _game)
         {
-            IGameBox gameBox = new GameBoxCore();
+            GameRenderWindow gameRenderWindow = GameRenderWindowFactory.CreateGameRenderWindow(new Vector2u(800, 800));
+            IGameBox gameBox = new GameBoxCore(gameRenderWindow);
             gameBox.AddFpsWidget();
 
             _game.PauseGame += (_sender, _args) => gameBox.SetIsPaused(true);

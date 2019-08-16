@@ -11,24 +11,19 @@ namespace RenderCore.Render
 {
     public class GameRenderWindow : ITickable
     {
-        private readonly float m_aspectRatio;
         private readonly IGui m_gui;
         private readonly IRenderWindowWrapper m_renderWindow;
         private readonly List<IWidgetProvider> m_widgetProviders;
         private ITextureProvider m_textureProvider;
 
-        public GameRenderWindow(float _aspectRatio, Vector2u _windowSize)
+        public GameRenderWindow(IRenderWindowWrapper _renderWindow, IGui _gui, Vector2u _windowSize)
         {
             m_widgetProviders = new List<IWidgetProvider>();
 
-            m_aspectRatio = _aspectRatio;
-
-            RenderWindow renderWindow = RenderWindowFactory.CreateRenderWindow("", _windowSize);
-
-            m_renderWindow = new RenderWindowWrapper(renderWindow);
+            m_renderWindow = _renderWindow;
             m_renderWindow.Resized += (_sender, _e) => Resize(new Vector2u(_e.Width, _e.Height));
 
-            m_gui = new GuiWrapper(renderWindow);
+            m_gui = _gui;
 
             Resize(_windowSize);
         }
@@ -62,9 +57,7 @@ namespace RenderCore.Render
 
         private void Resize(Vector2u _windowSize)
         {
-            float aspectRatio = m_aspectRatio;
-
-            FloatRect viewPort = WindowResizeUtilities.GetViewPort(_windowSize, aspectRatio);
+            FloatRect viewPort = WindowResizeUtilities.GetViewPort(_windowSize, 1.0f);
 
             m_renderWindow.SetViewport(viewPort);
 
