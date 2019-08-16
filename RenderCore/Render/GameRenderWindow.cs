@@ -24,7 +24,7 @@ namespace RenderCore.Render
             m_aspectRatio = _aspectRatio;
             m_renderWindow = RenderWindowFactory.CreateRenderWindow("", _windowSize);
             m_renderWindow.Resized += (_sender, _e) => Resize(new Vector2u(_e.Width, _e.Height));
-            
+
             m_gui = new Gui(m_renderWindow);
 
             Resize(_windowSize);
@@ -43,6 +43,10 @@ namespace RenderCore.Render
         public void SetTextureProvider(ITextureProvider _textureProvider)
         {
             m_textureProvider = _textureProvider;
+
+            View currentView = m_renderWindow.GetView();
+            Vector2f size = currentView.Size;
+            m_textureProvider?.SetSize((uint)Math.Round(size.X), (uint)Math.Round(size.Y));
         }
 
         private void Resize(Vector2u _windowSize)
