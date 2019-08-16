@@ -6,6 +6,7 @@ using PhysicsCore;
 using RenderCore.Drawable;
 using RenderCore.Render;
 using RenderCore.ViewProvider;
+using RenderCore.Widget;
 using SFML.Graphics;
 using TGUI;
 
@@ -15,7 +16,7 @@ namespace GameCore
     {
         protected readonly List<IDrawable> m_drawables;
         private readonly List<IGameProvider> m_gameProviders;
-        protected readonly List<Widget> m_widgets;
+        protected readonly List<IGuiWidget> m_widgets;
         protected readonly List<IBody> m_bodies;
         private readonly ISceneProvider m_scene;
 
@@ -29,7 +30,7 @@ namespace GameCore
         {
             m_drawables = new List<IDrawable>();
             m_gameProviders = new List<IGameProvider>();
-            m_widgets = new List<Widget>();
+            m_widgets = new List<IGuiWidget>();
             m_bodies = new List<IBody>();
             m_tickables = new List<ITickable>();
 
@@ -95,12 +96,12 @@ namespace GameCore
             m_scene.Dispose();
         }
 
-        public IEnumerable<Widget> GetWidgets()
+        public IEnumerable<IGuiWidget> GetWidgets()
         {
-            List<Widget> widgets = new List<Widget>();
+            List<IGuiWidget> widgets = new List<IGuiWidget>();
             widgets.AddRange(m_widgets);
 
-            IEnumerable<Widget> subGameWidgets = m_gameProviders.SelectMany(_gameProvider => _gameProvider.GetWidgets());
+            IEnumerable<IGuiWidget> subGameWidgets = m_gameProviders.SelectMany(_gameProvider => _gameProvider.GetWidgets());
             widgets.AddRange(subGameWidgets);
 
             return widgets;

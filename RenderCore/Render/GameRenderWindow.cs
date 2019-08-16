@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Common.Tickable;
 using RenderCore.Drawable;
+using RenderCore.Widget;
 using SFML.Graphics;
 using SFML.System;
 using TGUI;
@@ -74,7 +75,12 @@ namespace RenderCore.Render
             currentView.Size = size;
             currentView.Center = center;
 
-            IEnumerable<TGUI.Widget> allWidgets = m_widgetProviders.SelectMany(_widgetProvider => _widgetProvider.GetWidgets());
+            IGuiWidget[] allWidgets = m_widgetProviders.SelectMany(_widgetProvider => _widgetProvider.GetWidgets()).ToArray();
+            foreach (IGuiWidget allWidget in allWidgets)
+            {
+                allWidget.OnViewChanged(currentView);
+            }
+
             m_gui.UpdateCurrentWidgets(allWidgets);
 
             m_renderWindow.DispatchEvents();
@@ -101,15 +107,6 @@ namespace RenderCore.Render
         public Vector2u GetWindowSize()
         {
             return m_renderWindow.Size;
-        }
-    }
-
-    public static class RenderWindowExtensions
-    {
-        public static void SetViewport(this RenderWindow _renderWindow, FloatRect _viewPort)
-        {
-            View renderWindowView = _renderWindow.GetView();
-            renderWindowView.Viewport = _viewPort;
         }
     }
 }

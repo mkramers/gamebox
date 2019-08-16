@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using GameCore;
+using RenderCore.Widget;
 using SFML.Graphics;
 using SFML.System;
 using TGUI;
@@ -56,7 +58,8 @@ namespace Games.Games
             clearButton.Clicked += (_sender, _args) => SetCurrentGame(null);
             panel.Add(clearButton);
 
-            m_widgets.Add(panel);
+            GuiWidget panelWidget = new GuiWidget(panel, new Vector2());
+            m_widgets.Add(panelWidget);
 
             SetCurrentGame(m_games.First());
         }

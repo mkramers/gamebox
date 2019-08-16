@@ -1,25 +1,28 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using RenderCore.Widget;
 using TGUI;
 
 namespace RenderCore.Render
 {
     public static class GuiExtensions
     {
-        public static void UpdateCurrentWidgets(this Gui _gui, IEnumerable<TGUI.Widget> _widgets)
+        public static void UpdateCurrentWidgets(this Gui _gui, IEnumerable<IGuiWidget> _widgets)
         {
             List<TGUI.Widget> currentWidgets = _gui.GetWidgets();
 
-            IEnumerable<TGUI.Widget> widgets = _widgets as TGUI.Widget[] ?? _widgets.ToArray();
+            IEnumerable<IGuiWidget> allWidgets = _widgets as IGuiWidget[] ?? _widgets.ToArray();
 
-            foreach (TGUI.Widget widget in widgets)
+            foreach (IGuiWidget guiWidget in allWidgets)
             {
+                TGUI.Widget widget = guiWidget.GetWidget();
                 if (!currentWidgets.Contains(widget))
                 {
                     _gui.Add(widget);
                 }
             }
 
+            TGUI.Widget[] widgets = allWidgets.Select(_widget => _widget.GetWidget()).ToArray();
             foreach (TGUI.Widget currentWidget in currentWidgets)
             {
                 if (!widgets.Contains(currentWidget))

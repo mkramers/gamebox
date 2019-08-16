@@ -27,5 +27,10 @@ namespace LibExtensions
             Vector2 size = new Vector2(_rect.Width, _rect.Height);
             return size;
         }
+
+        public static Vector2f Subtract(this Vector2f _vectorA, Vector2f _vectorB)
+        {
+            return new Vector2f(_vectorA.X - _vectorB.X, _vectorA.Y - _vectorB.X);
+        }
     }
 }

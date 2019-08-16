@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using Common.Tickable;
 using GameCore;
 using GameCore.Entity;
 using PhysicsCore;
 using RenderCore.Drawable;
+using RenderCore.Widget;
 using SFML.Graphics;
 using TGUI;
 
@@ -19,11 +21,12 @@ namespace Games.Coins
         private readonly List<Coin> m_coins;
         private readonly Label m_scoreLabel;
         private float m_score;
-        private readonly List<Widget> m_widgets;
+        private readonly List<IGuiWidget> m_widgets;
+        private GuiWidget m_childWindowWidget;
 
         public CoinThing(IEntity _captureEntity, IEnumerable<Coin> _coins)
         {
-            m_widgets = new List<Widget>();
+            m_widgets = new List<IGuiWidget>();
 
             m_captureEntity = _captureEntity;
 
@@ -44,11 +47,12 @@ namespace Games.Coins
             m_scoreLabel.SetPosition(new Layout2d(10, 10));
             m_scoreLabel.Renderer.TextColor = Color.White;
 
-            m_widgets.Add(m_scoreLabel);
+            GuiWidget widget = new GuiWidget(m_scoreLabel, new Vector2(0.05f, 0.05f));
+            m_widgets.Add(widget);
 
             UpdateScoreLabel(m_score);
         }
-        
+
         public IEnumerable<IDrawable> GetDrawables()
         {
             return m_coins.Select(_coin => _coin.Entity);
@@ -99,15 +103,17 @@ namespace Games.Coins
             childWindow.SetPosition(new Layout2d(50, 50));
             childWindow.Closed += WinScreenOnClosed;
 
-            m_widgets.Add(childWindow);
+            m_childWindowWidget = new GuiWidget(m_scoreLabel, new Vector2(0.05f, 0.05f));
+            m_widgets.Add(m_childWindowWidget);
         }
 
         private void WinScreenOnClosed(object _sender, EventArgs _e)
         {
             ChildWindow childWindow = _sender as ChildWindow;
             Debug.Assert(childWindow != null);
+            Debug.Assert(childWindow == m_childWindowWidget.GetWidget());
 
-            m_widgets.Remove(childWindow);
+            m_widgets.Remove(m_childWindowWidget);
 
             ResumeGame?.Invoke(this, EventArgs.Empty);
         }
@@ -125,7 +131,7 @@ namespace Games.Coins
         {
         }
 
-        public IEnumerable<Widget> GetWidgets()
+        public IEnumerable<IGuiWidget> GetWidgets()
         {
             return m_widgets;
         }

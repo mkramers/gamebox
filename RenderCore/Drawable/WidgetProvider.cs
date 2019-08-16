@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
+using RenderCore.Widget;
 
 namespace RenderCore.Drawable
 {
     public class WidgetProvider : IWidgetProvider
     {
-        private readonly TGUI.Widget m_widget;
+        private readonly IGuiWidget m_widget;
 
-        public WidgetProvider(TGUI.Widget _widget)
+        public WidgetProvider(IGuiWidget _widget)
         {
             m_widget = _widget;
         }
 
-        public IEnumerable<TGUI.Widget> GetWidgets()
+        public IEnumerable<IGuiWidget> GetWidgets()
         {
             return new[] { m_widget };
         }

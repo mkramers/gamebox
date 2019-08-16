@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using RenderCore.Widget;
 
 namespace RenderCore.Drawable
 {
     public interface IWidgetProvider
     {
-        IEnumerable<TGUI.Widget> GetWidgets();
+        IEnumerable<IGuiWidget> GetWidgets();
     }
 }
