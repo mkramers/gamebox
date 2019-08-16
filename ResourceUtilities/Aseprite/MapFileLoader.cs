@@ -14,6 +14,8 @@ namespace ResourceUtilities.Aseprite
             SpriteSheet spriteSheet = _spriteSheetFile.SpriteSheet;
 
             List<SpriteLayer> spriteLayers = new List<SpriteLayer>();
+
+            // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (Layer layer in spriteSheet.Meta.Layers)
             {
                 SpriteLayer spriteLayer = LoadSpriteLayer(_spriteSheetFile, layer.Name);

@@ -35,20 +35,7 @@ namespace ResourceGenerator
 
             string[] pngFilePaths = Directory.GetFiles(resourceDirectory, "*.png", SearchOption.AllDirectories);
 
-            List<string> fileNames = new List<string>();
-            foreach (string pngFilePath in pngFilePaths)
-            {
-                string directory = Path.GetDirectoryName(pngFilePath);
-                string fileName = Path.GetFileName(pngFilePath);
-                string[] splitName = fileName.Split(new[] {"-"}, StringSplitOptions.RemoveEmptyEntries);
-                string spriteName = splitName.First();
-                string layerName = splitName.Last();
-
-                string parentDirectory = Directory.GetParent(directory).FullName;
-
-                string modifiedFileName = Path.Combine(parentDirectory, spriteName, layerName);
-                fileNames.Add(modifiedFileName);
-            }
+            IEnumerable<string> fileNames = pngFilePaths.Select(GetModifiedFileName);
 
             try
             {
@@ -62,6 +49,20 @@ namespace ResourceGenerator
 
             Console.WriteLine("Success");
             return 0;
+        }
+
+        private static string GetModifiedFileName(string _pngFilePath)
+        {
+            string directory = Path.GetDirectoryName(_pngFilePath);
+            string fileName = Path.GetFileName(_pngFilePath);
+            string[] splitName = fileName.Split(new[] {"-"}, StringSplitOptions.RemoveEmptyEntries);
+            string spriteName = splitName.First();
+            string layerName = splitName.Last();
+
+            string parentDirectory = Directory.GetParent(directory).FullName;
+
+            string modifiedFileName = Path.Combine(parentDirectory, spriteName, layerName);
+            return modifiedFileName;
         }
 
         private static string GetUsageText()

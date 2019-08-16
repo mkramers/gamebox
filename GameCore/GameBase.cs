@@ -127,7 +127,7 @@ namespace GameCore
             m_widgets.Add(_widget);
         }
 
-        public void AddEntity(IEntity _entity)
+        protected void AddEntity(IEntity _entity)
         {
             AddDrawable(_entity);
             AddTickable(_entity);
