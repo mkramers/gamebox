@@ -6,14 +6,13 @@ using RenderCore.Drawable;
 using RenderCore.Widget;
 using SFML.Graphics;
 using SFML.System;
-using TGUI;
 
 namespace RenderCore.Render
 {
     public class GameRenderWindow : ITickable
     {
         private readonly float m_aspectRatio;
-        private readonly Gui m_gui;
+        private readonly IGui m_gui;
         private readonly RenderWindow m_renderWindow;
         private readonly List<IWidgetProvider> m_widgetProviders;
         private ITextureProvider m_textureProvider;
@@ -26,7 +25,7 @@ namespace RenderCore.Render
             m_renderWindow = RenderWindowFactory.CreateRenderWindow("", _windowSize);
             m_renderWindow.Resized += (_sender, _e) => Resize(new Vector2u(_e.Width, _e.Height));
 
-            m_gui = new Gui(m_renderWindow);
+            m_gui = new GuiWrapper(m_renderWindow);
 
             Resize(_windowSize);
         }
@@ -61,9 +60,9 @@ namespace RenderCore.Render
         private void Resize(Vector2u _windowSize)
         {
             float aspectRatio = m_aspectRatio;
-            
+
             FloatRect viewPort = WindowResizeUtilities.GetViewPort(_windowSize, aspectRatio);
-            
+
             m_renderWindow.SetViewport(viewPort);
 
             uint adjustedWidth = (uint)Math.Round(viewPort.Width * _windowSize.X);
@@ -89,8 +88,6 @@ namespace RenderCore.Render
                 allWidget.OnViewChanged(currentView);
             }
 
-            m_gui.UpdateCurrentWidgets(allWidgets);
-
             m_renderWindow.DispatchEvents();
 
             m_renderWindow.Clear();
@@ -98,8 +95,10 @@ namespace RenderCore.Render
             m_renderWindow.SetView(currentView);
 
             m_renderWindow.Draw(sceneTexture, RenderStates.Default);
-            
-            m_gui.View = currentView;
+
+            m_gui.UpdateCurrentWidgets(allWidgets);
+
+            m_gui.SetView(currentView);
 
             m_gui.Draw();
 
