@@ -157,7 +157,7 @@ namespace GameCore
             m_gameProviders.Remove(_gameProvider);
         }
 
-        protected void SetViewProvider(IViewProvider _viewProvider)
+        public void SetViewProvider(IViewProvider _viewProvider)
         {
             m_sceneProvider.SetViewProvider(_viewProvider);
         }
