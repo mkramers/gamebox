@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Reflection;
 using Common.ReflectionUtilities;
+using Common.Tickable;
 using GameCore;
 using Games.Games;
 using RenderCore.Render;
@@ -43,7 +44,8 @@ namespace GameBox
         private static void RunGame(IGame _game)
         {
             GameRenderWindow gameRenderWindow = GameRenderWindowFactory.CreateGameRenderWindow(new Vector2u(800, 800));
-            IGameBox gameBox = new GameBoxCore(gameRenderWindow);
+            TickLoop tickLoop = new TickLoop(TimeSpan.FromMilliseconds(30));
+            IGameBox gameBox = new GameBoxCore(gameRenderWindow, tickLoop);
             gameBox.AddFpsWidget();
 
             _game.PauseGame += (_sender, _args) => gameBox.SetIsPaused(true);

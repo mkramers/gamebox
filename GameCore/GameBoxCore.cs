@@ -20,7 +20,7 @@ namespace GameCore
         private bool m_isPaused;
         private readonly IPhysics m_physics;
 
-        public GameBoxCore(GameRenderWindow _gameRenderWindow)
+        public GameBoxCore(GameRenderWindow _gameRenderWindow, ITickLoop _tickLoop)
         {
             m_renderWindow = _gameRenderWindow;
             m_renderWindow.Closed += (_sender, _e) => m_tickLoop.StopLoop();
@@ -28,7 +28,7 @@ namespace GameCore
             m_tickableProviders = new List<ITickableProvider>();
             m_bodyProviders = new List<IBodyProvider>();
 
-            m_tickLoop = new TickLoop(TimeSpan.FromMilliseconds(30));
+            m_tickLoop = _tickLoop;
             m_tickLoop.Tick += OnTick;
 
             m_physics = new Physics(new Vector2(0, 5.5f));

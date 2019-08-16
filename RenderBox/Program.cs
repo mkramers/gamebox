@@ -1,4 +1,6 @@
-﻿using GameCore;
+﻿using System;
+using Common.Tickable;
+using GameCore;
 using Games.Games;
 using RenderCore.Render;
 using SFML.System;
@@ -10,7 +12,8 @@ namespace RenderBox
         private static void Main()
         {
             GameRenderWindow gameRenderWindow = GameRenderWindowFactory.CreateGameRenderWindow(new Vector2u(800, 800));
-            IGameBox gameBox = new GameBoxCore(gameRenderWindow);
+            TickLoop tickLoop = new TickLoop(TimeSpan.FromMilliseconds(30));
+            IGameBox gameBox = new GameBoxCore(gameRenderWindow, tickLoop);
             gameBox.AddFpsWidget();
 
             Game3 game = new Game3();
