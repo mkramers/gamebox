@@ -6,10 +6,10 @@ namespace RenderCore.Render
 {
     public static class RenderWindowFactory
     {
-        public static RenderWindow CreateRenderWindow(string _name, Vector2u _windowSize)
+        public static SFML.Graphics.RenderWindow CreateRenderWindow(string _name, Vector2u _windowSize)
         {
             VideoMode videoMode = new VideoMode(_windowSize.X, _windowSize.Y);
-            RenderWindow window = new RenderWindow(videoMode, _name);
+            SFML.Graphics.RenderWindow window = new SFML.Graphics.RenderWindow(videoMode, _name);
 
             return window;
         }

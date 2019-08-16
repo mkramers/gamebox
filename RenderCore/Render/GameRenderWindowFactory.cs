@@ -7,12 +7,12 @@ namespace RenderCore.Render
     {
         public static GameRenderWindow CreateGameRenderWindow(Vector2u _windowSize)
         {
-            RenderWindow renderWindow = RenderWindowFactory.CreateRenderWindow("", _windowSize);
-            GuiWrapper gui = new GuiWrapper(renderWindow);
+            SFML.Graphics.RenderWindow window = RenderWindowFactory.CreateRenderWindow("", _windowSize);
+            GuiWrapper gui = new GuiWrapper(window);
 
-            RenderWindowWrapper renderWindowWrapper = new RenderWindowWrapper(renderWindow);
+            RenderWindow renderWindow = new RenderWindow(window);
 
-            GameRenderWindow gameRenderWindow = new GameRenderWindow(renderWindowWrapper, gui, _windowSize);
+            GameRenderWindow gameRenderWindow = new GameRenderWindow(renderWindow, gui, _windowSize);
             return gameRenderWindow;
         }
     }

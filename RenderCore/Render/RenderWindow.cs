@@ -4,11 +4,11 @@ using SFML.Window;
 
 namespace RenderCore.Render
 {
-    public class RenderWindowWrapper : IRenderWindowWrapper
+    public class RenderWindow : IRenderWindow
     {
-        private readonly RenderWindow m_renderWindow;
+        private readonly SFML.Graphics.RenderWindow m_renderWindow;
 
-        public RenderWindowWrapper(RenderWindow _renderWindow)
+        public RenderWindow(SFML.Graphics.RenderWindow _renderWindow)
         {
             m_renderWindow = _renderWindow;
         }

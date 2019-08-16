@@ -10,7 +10,7 @@ namespace RenderCore.Render
         private readonly Gui m_gui;
         private readonly List<IGuiWidget> m_guiWidgets;
 
-        public GuiWrapper(RenderWindow _renderWindow)
+        public GuiWrapper(SFML.Graphics.RenderWindow _renderWindow)
         {
             m_gui = new Gui(_renderWindow);
             m_guiWidgets = new List<IGuiWidget>();

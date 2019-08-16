@@ -5,11 +5,9 @@ using SFML.Window;
 
 namespace RenderCore.Render
 {
-    public interface IRenderWindowWrapper : IViewProvider, IViewConsumer
+    public interface IRenderWindow : IViewProvider, IViewConsumer, IRenderTarget
     {
-        void Display();
         void Draw(Texture _texture, RenderStates _states);
-        void Clear(Color _color);
         void DispatchEvents();
 
         event EventHandler<SizeEventArgs> Resized;

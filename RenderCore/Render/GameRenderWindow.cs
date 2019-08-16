@@ -12,11 +12,11 @@ namespace RenderCore.Render
     public class GameRenderWindow : ITickable
     {
         private readonly IGui m_gui;
-        private readonly IRenderWindowWrapper m_renderWindow;
+        private readonly IRenderWindow m_renderWindow;
         private readonly List<IWidgetProvider> m_widgetProviders;
         private ITextureProvider m_textureProvider;
 
-        public GameRenderWindow(IRenderWindowWrapper _renderWindow, IGui _gui, Vector2u _windowSize)
+        public GameRenderWindow(IRenderWindow _renderWindow, IGui _gui, Vector2u _windowSize)
         {
             m_widgetProviders = new List<IWidgetProvider>();
 
