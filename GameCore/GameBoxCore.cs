@@ -16,7 +16,7 @@ namespace GameCore
         private readonly GameRenderWindow m_renderWindow;
         private readonly List<ITickableProvider> m_tickableProviders;
         private readonly List<IBodyProvider> m_bodyProviders;
-        private readonly TickLoop m_tickLoop;
+        private readonly ITickLoop m_tickLoop;
         private bool m_isPaused;
         private readonly IPhysics m_physics;
 

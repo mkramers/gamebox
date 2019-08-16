@@ -5,7 +5,7 @@ using Common.Extensions;
 
 namespace Common.Tickable
 {
-    public class TickLoop
+    public class TickLoop : ITickLoop
     {
         private readonly Stopwatch m_stopwatch;
         private bool m_isRunning;
