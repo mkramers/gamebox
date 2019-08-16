@@ -1,11 +1,12 @@
 ﻿using System;
+using Common.Tickable;
 using RenderCore.Drawable;
 using RenderCore.ViewProvider;
 using SFML.Graphics;
 
 namespace RenderCore.Widget
 {
-    public abstract class ViewWidgetBase : IWidget, IDrawable
+    public abstract class ViewWidgetBase : IDrawable, ITickable
     {
         protected readonly IViewProvider m_viewProvider;
 

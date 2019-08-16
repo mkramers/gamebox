@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Numerics;
+using Common.Tickable;
 using GameCore.Entity;
 using RenderCore.ViewProvider;
-using RenderCore.Widget;
 using SFML.Graphics;
 using SFML.System;
 
 namespace GameCore.ViewProvider
 {
-    public class EntityFollowerViewProvider : ViewProviderBase, IWidget
+    public class EntityFollowerViewProvider : ViewProviderBase, ITickable
     {
         private const float MOVEMENT_BUFFER_SIZE = 0.75f;
         private readonly IEntity m_entity;

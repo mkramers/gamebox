@@ -1,10 +1,11 @@
 ﻿using System;
+using Common.Tickable;
 using RenderCore.Font;
 using TGUI;
 
 namespace RenderCore.Widget
 {
-    public class FpsLabel : Label, IWidget
+    public class FpsLabel : Label, ITickable
     {
         private readonly int m_fpsBufferSize;
         private TimeSpan m_fpsBufferAccumulator;
