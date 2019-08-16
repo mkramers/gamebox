@@ -99,10 +99,9 @@ namespace Games.Coins
 
             ChildWindow childWindow = new ChildWindow("Winner!");
             childWindow.SetSize(new Layout2d(300, 100));
-            childWindow.SetPosition(new Layout2d(50, 50));
             childWindow.Closed += WinScreenOnClosed;
 
-            m_childWindowWidget = new GuiWidget(m_scoreLabel, new Vector2(0.05f, 0.05f));
+            m_childWindowWidget = new GuiWidget(childWindow, new Vector2(0.5f, 0.5f));
             m_widgets.Add(m_childWindowWidget);
         }
 

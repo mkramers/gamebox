@@ -21,7 +21,7 @@ namespace RenderCore.Widget
 
             m_widget.SetPosition(position);
         }
-
+         
         public TGUI.Widget GetWidget()
         {
             return m_widget;
