@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using NUnit.Framework;
 
 namespace IOUtilities.Tests
@@ -41,9 +42,6 @@ namespace IOUtilities.Tests
         {
             string format1 = PathUtilities.NormalizeFilepath(".\\windows\\system32");
             string format2 = PathUtilities.NormalizeFilepath(".\\windows\\system32\\");
-
-            Console.WriteLine(format1);
-            Console.WriteLine(format2);
 
             Assert.AreEqual(format1, format2);
         }
