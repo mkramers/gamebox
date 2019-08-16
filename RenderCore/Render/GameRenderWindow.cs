@@ -9,7 +9,7 @@ using SFML.System;
 
 namespace RenderCore.Render
 {
-    public class GameRenderWindow : ITickable
+    public class GameRenderWindow : ITickable, IWidgetConsumer
     {
         private readonly IGui m_gui;
         private readonly IRenderWindow m_renderWindow;
@@ -41,9 +41,14 @@ namespace RenderCore.Render
             }
         }
 
-        public void AddWidgetProvider(IWidgetProvider _provider)
+        public void AddWidgetProvider(IWidgetProvider _widgetProvider)
         {
-            m_widgetProviders.Add(_provider);
+            m_widgetProviders.Add(_widgetProvider);
+        }
+
+        public void RemoveWidgetProvider(IWidgetProvider _widgetProvider)
+        {
+            m_widgetProviders.Remove(_widgetProvider);
         }
 
         public void SetTextureProvider(ITextureProvider _textureProvider)
@@ -69,7 +74,11 @@ namespace RenderCore.Render
 
         private void Draw()
         {
-            Texture sceneTexture = m_textureProvider.GetTexture();
+            Texture sceneTexture = m_textureProvider?.GetTexture();
+            if (sceneTexture == null)
+            {
+                return;
+            }
 
             Vector2f size = new Vector2f(sceneTexture.Size.X, sceneTexture.Size.Y);
             Vector2f center = size / 2.0f;

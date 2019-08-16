@@ -5,9 +5,8 @@ using RenderCore.Drawable;
 
 namespace GameCore
 {
-    public interface IGameBox : ILoopable, IDisposable
+    public interface IGameBox : ILoopable, IWidgetConsumer, IDisposable
     {
-        void AddWidgetProvider(IWidgetProvider _widgetProvider);
         void AddBodyProvider(IBodyProvider _bodyProvider);
         void SetTextureProvider(ITextureProvider _textureProvider);
         void SetIsPaused(bool _isPaused);

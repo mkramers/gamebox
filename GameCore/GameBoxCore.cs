@@ -37,6 +37,11 @@ namespace GameCore
             m_renderWindow.AddWidgetProvider(_widgetProvider);
         }
 
+        public void RemoveWidgetProvider(IWidgetProvider _widgetProvider)
+        {
+            m_renderWindow.RemoveWidgetProvider(_widgetProvider);
+        }
+
         public void AddBodyProvider(IBodyProvider _bodyProvider)
         {
             m_bodyProviders.Add(_bodyProvider);
