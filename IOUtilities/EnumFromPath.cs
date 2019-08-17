@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -6,17 +7,19 @@ namespace IOUtilities
 {
     public static class EnumFromPath
     {
-        public static string GetEnumFromPath(string _filePath, string _rootDirectory)
+        public static T GetEnumFromPath<T>(string _filePath) where T : Enum
         {
             string filePathNoExtension = Path.ChangeExtension(_filePath, "")?.TrimEnd('.');
-            string relativeDirectory = PathUtilities.GetRelativePath(_rootDirectory, filePathNoExtension);
 
-            string[] names = relativeDirectory.TrimStart('.')
-                .Split(new[] {"\\", "-"}, StringSplitOptions.RemoveEmptyEntries);
+            List<string> names = filePathNoExtension.TrimStart('.')
+                .Split(new[] { "\\", "-" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            names.RemoveAt(names.Count - 2);
 
             string enumName = string.Join("_", names.Select(_name => _name.ToUpper()));
 
-            return enumName;
+            T enumValue = (T)Enum.Parse(typeof(T), enumName);
+            return enumValue;
         }
     }
 }

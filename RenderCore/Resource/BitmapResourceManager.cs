@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using Common.Cache;
 using IOUtilities;
 
@@ -23,8 +24,9 @@ namespace RenderCore.Resource
 
             if (!m_cache.EntryExists(_id))
             {
-                string textureFilePath = PathFromEnum<T>.GetPathFromEnum(_id, m_rootDirectory, ".png");
-                BitmapFileLoader fileLoader = new BitmapFileLoader(textureFilePath);
+                string pathFromEnum = PathFromEnum<T>.GetPathFromEnum(_id, ".png");
+                string bitmapFilePath = Path.Combine(m_rootDirectory, pathFromEnum);
+                BitmapFileLoader fileLoader = new BitmapFileLoader(bitmapFilePath);
                 resource = new Resource<Bitmap>(fileLoader);
 
                 m_cache.AddObject(_id, resource);

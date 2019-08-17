@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using Common.Cache;
 using IOUtilities;
 using SFML.Graphics;
@@ -23,7 +24,8 @@ namespace RenderCore.Resource
 
             if (!m_cache.EntryExists(_id))
             {
-                string textureFilePath = PathFromEnum<T>.GetPathFromEnum(_id, m_rootDirectory, ".png");
+                string pathFromEnum = PathFromEnum<T>.GetPathFromEnum(_id, ".png");
+                string textureFilePath = Path.Combine(m_rootDirectory, pathFromEnum);
                 TextureFileLoader fileLoader = new TextureFileLoader(textureFilePath);
                 resource = new Resource<Texture>(fileLoader);
 

@@ -35,7 +35,7 @@ namespace ResourceGenerator
 
             string[] pngFilePaths = Directory.GetFiles(resourceDirectory, "*.png", SearchOption.AllDirectories);
 
-            IEnumerable<string> fileNames = pngFilePaths.Select(GetModifiedFileName);
+            IEnumerable<string> fileNames = pngFilePaths.Select(_pngFilePath => GetModifiedFileName(_pngFilePath, resourceDirectory));
 
             try
             {
@@ -51,7 +51,7 @@ namespace ResourceGenerator
             return 0;
         }
 
-        private static string GetModifiedFileName(string _pngFilePath)
+        private static string GetModifiedFileName(string _pngFilePath, string _rootDirectory)
         {
             string directory = Path.GetDirectoryName(_pngFilePath);
             string fileName = Path.GetFileName(_pngFilePath);
@@ -61,7 +61,7 @@ namespace ResourceGenerator
 
             string parentDirectory = Directory.GetParent(directory).FullName;
 
-            string modifiedFileName = Path.Combine(parentDirectory, spriteName, layerName);
+            string modifiedFileName = Path.Combine(_rootDirectory, parentDirectory, spriteName, layerName);
             return modifiedFileName;
         }
 
@@ -75,8 +75,7 @@ namespace ResourceGenerator
         {
             Console.WriteLine("Generating enum cs file...");
 
-            IEnumerable<string> enumNames = _asepriteFiles.Select(_asepriteFile =>
-                EnumFromPath.GetEnumFromPath(_asepriteFile, _resourceDirectory));
+            IEnumerable<string> enumNames = _asepriteFiles.Select(EnumFromPath.GetEnumFromPath);
 
             const string enumName = "SpriteResources";
 
