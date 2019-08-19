@@ -40,6 +40,15 @@ namespace IOUtilities.Tests
 
             Assert.That(actualEnum, Is.EqualTo(_enum));
         }
+
+        [Test]
+        public void ConstructorlessDoesNotThrow()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                EnumFromPath a = new EnumFromPath();
+            });
+        }
     }
 
     [TestFixture]
