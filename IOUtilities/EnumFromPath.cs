@@ -30,14 +30,15 @@ namespace IOUtilities
 
         public string GetEnumFromPath(string _filePath)
         {
-            string filePathNoExtension = m_fileSystem.Path.ChangeExtension(_filePath, "")?.TrimEnd('.');
+            string parentDirectory = m_fileSystem.Path.GetDirectoryName(_filePath);
+            string filePathNoExtension = m_fileSystem.Path.GetFileNameWithoutExtension(_filePath);
 
-            List<string> names = filePathNoExtension.TrimStart('.')
-                .Split(new[] {"\\", "-"}, StringSplitOptions.RemoveEmptyEntries).ToList();
+            List<string> directoryNames = parentDirectory.Split(new[] { m_fileSystem.Path.DirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            List<string> fileNames = filePathNoExtension.Split(new[] {"-"}, StringSplitOptions.RemoveEmptyEntries).Skip(1).ToList();
 
-            names.RemoveAt(names.Count - 2);
+            IEnumerable<string> allNames = directoryNames.Concat(fileNames);
 
-            string enumName = string.Join("_", names.Select(_name => _name.ToUpper()));
+            string enumName = string.Join("_", allNames).ToUpper();
             return enumName;
         }
     }

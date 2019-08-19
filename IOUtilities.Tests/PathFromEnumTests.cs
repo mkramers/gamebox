@@ -11,31 +11,38 @@ namespace IOUtilities.Tests
         A_B_C_D,
     }
 
-    [TestFixture]
-    public class PathFromEnumTests
+    internal static class EnumTestCases
     {
-        private static readonly MockFileSystem m_fileSystem = new MockFileSystem();
+        public static MockFileSystem FileSystem { get; } = new MockFileSystem();
 
-        private static IEnumerable TestCases
+        public static IEnumerable TestCases
         {
             get
             {
-                yield return new TestCaseData(TestEnum.A_B, m_fileSystem.Path.Combine("a", "a-b"));
-                yield return new TestCaseData(TestEnum.A_B_C, m_fileSystem.Path.Combine("a", "b", "b-c"));
-                yield return new TestCaseData(TestEnum.A_B_C_D, m_fileSystem.Path.Combine("a", "b", "c", "c-d"));
+                yield return new TestCaseData(TestEnum.A_B, FileSystem.Path.Combine("a", "a-b"));
+                yield return new TestCaseData(TestEnum.A_B_C, FileSystem.Path.Combine("a", "b", "b-c"));
+                yield return new TestCaseData(TestEnum.A_B_C_D, FileSystem.Path.Combine("a", "b", "c", "c-d"));
             }
         }
+    }
 
-        [Test, TestCaseSource(nameof(TestCases))]
+    [TestFixture]
+    public class EnumToPathTests
+    {
+        [Test, TestCaseSource(typeof(EnumTestCases), nameof(EnumTestCases.TestCases))]
         public void EnumToPathIsCorrect(TestEnum _enum, string _expectedPath)
         {
-            EnumFromPath enumFromPath = new EnumFromPath(m_fileSystem);
+            EnumFromPath enumFromPath = new EnumFromPath(EnumTestCases.FileSystem);
             TestEnum actualEnum = enumFromPath.GetEnumFromPath<TestEnum>(_expectedPath);
 
             Assert.That(actualEnum, Is.EqualTo(_enum));
         }
+    }
 
-        [Test, TestCaseSource(nameof(TestCases))]
+    [TestFixture]
+    public class PathFromEnumTests
+    {
+        [Test, TestCaseSource(typeof(EnumTestCases), nameof(EnumTestCases.TestCases))]
         public void GetPathFromEnumIsCorrect(TestEnum  _enum, string _expectedPath)
         {
             PathFromEnum<TestEnum> pathFromEnum = new PathFromEnum<TestEnum>();
