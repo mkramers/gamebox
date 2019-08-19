@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RenderCore.Resource
+namespace IOUtilities
 {
     public interface IPathConverter<in T> where T : Enum
     {

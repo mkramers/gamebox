@@ -1,4 +1,5 @@
 using System.Collections;
+using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using NUnit.Framework;
 
@@ -13,15 +14,15 @@ namespace IOUtilities.Tests
 
     internal static class EnumTestCases
     {
-        public static MockFileSystem FileSystem { get; } = new MockFileSystem();
+        public static IPath FileSystemPath { get; } = new MockPath(new MockFileSystem());
 
         public static IEnumerable TestCases
         {
             get
             {
-                yield return new TestCaseData(TestEnum.A_B, FileSystem.Path.Combine("a", "a-b"));
-                yield return new TestCaseData(TestEnum.A_B_C, FileSystem.Path.Combine("a", "b", "b-c"));
-                yield return new TestCaseData(TestEnum.A_B_C_D, FileSystem.Path.Combine("a", "b", "c", "c-d"));
+                yield return new TestCaseData(TestEnum.A_B, FileSystemPath.Combine("a", "a-b"));
+                yield return new TestCaseData(TestEnum.A_B_C, FileSystemPath.Combine("a", "b", "b-c"));
+                yield return new TestCaseData(TestEnum.A_B_C_D, FileSystemPath.Combine("a", "b", "c", "c-d"));
             }
         }
     }
@@ -32,7 +33,7 @@ namespace IOUtilities.Tests
         [Test, TestCaseSource(typeof(EnumTestCases), nameof(EnumTestCases.TestCases))]
         public void EnumToPathIsCorrect(TestEnum _enum, string _expectedPath)
         {
-            EnumFromPath enumFromPath = new EnumFromPath(EnumTestCases.FileSystem);
+            EnumFromPath enumFromPath = new EnumFromPath(EnumTestCases.FileSystemPath);
             TestEnum actualEnum = enumFromPath.GetEnumFromPath<TestEnum>(_expectedPath);
 
             Assert.That(actualEnum, Is.EqualTo(_enum));
@@ -49,6 +50,26 @@ namespace IOUtilities.Tests
             string path = pathFromEnum.GetPathFromEnum(_enum);
 
             Assert.That(path, Is.EqualTo(_expectedPath));
+        }
+    }
+
+    [TestFixture]
+    public class PathFromEnumPathConverterTests
+    {
+        [Test, TestCaseSource(typeof(EnumTestCases), nameof(EnumTestCases.TestCases))]
+        public void PathConvertsCorrectly(TestEnum _enum, string _expectedPath)
+        {
+            const string rootDirectory = "C:\\test";
+            const string fileExtension = ".txt";
+
+            IPath fileSystemPath = EnumTestCases.FileSystemPath;
+
+            PathFromEnumPathConverter<TestEnum> converter = new PathFromEnumPathConverter<TestEnum>(rootDirectory, fileExtension, fileSystemPath);
+            string path = converter.GetPath(_enum);
+
+            string expectedFullPath = fileSystemPath.Combine(rootDirectory, fileSystemPath.ChangeExtension(_expectedPath, fileExtension));
+
+            Assert.That(path, Is.EqualTo(expectedFullPath));
         }
     }
 }

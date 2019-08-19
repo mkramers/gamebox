@@ -1,19 +1,18 @@
 ﻿using System;
 using System.IO.Abstractions;
-using IOUtilities;
 
-namespace RenderCore.Resource
+namespace IOUtilities
 {
     public class PathFromEnumPathConverter<T> : IPathConverter<T> where T : Enum
     {
         private readonly string m_rootDirectory;
         private readonly string m_fileExtension;
-        private readonly IFileSystem m_fileSystem;
+        private readonly IPath m_fileSystemPath;
 
-        public PathFromEnumPathConverter(string _rootDirectory, string _fileExtension, IFileSystem _fileSystem)
+        public PathFromEnumPathConverter(string _rootDirectory, string _fileExtension, IPath _fileSystemPath)
         {
             m_rootDirectory = _rootDirectory;
-            m_fileSystem = _fileSystem;
+            m_fileSystemPath = _fileSystemPath;
             m_fileExtension = _fileExtension;
         }
         public string GetPath(T _id)
@@ -21,8 +20,8 @@ namespace RenderCore.Resource
             PathFromEnum<T> pathFromEnum = new PathFromEnum<T>();
 
             string fileName = pathFromEnum.GetPathFromEnum(_id);
-            string fullFileName = m_fileSystem.Path.ChangeExtension(fileName, m_fileExtension);
-            return m_fileSystem.Path.Combine(m_rootDirectory, fullFileName);
+            string fullFileName = m_fileSystemPath.ChangeExtension(fileName, m_fileExtension);
+            return m_fileSystemPath.Combine(m_rootDirectory, fullFileName);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 
@@ -8,14 +7,14 @@ namespace IOUtilities
 {
     public class EnumFromPath
     {
-        private readonly IFileSystem m_fileSystem;
+        private readonly IPath m_fileSystemPath;
 
-        public EnumFromPath(IFileSystem _fileSystem)
+        public EnumFromPath(IPath _fileSystemPath)
         {
-            m_fileSystem = _fileSystem;
+            m_fileSystemPath = _fileSystemPath;
         }
 
-        public EnumFromPath() : this(new FileSystem())
+        public EnumFromPath() : this(new PathWrapper(new FileSystem()))
         {
             
         }
@@ -30,10 +29,10 @@ namespace IOUtilities
 
         public string GetEnumFromPath(string _filePath)
         {
-            string parentDirectory = m_fileSystem.Path.GetDirectoryName(_filePath);
-            string filePathNoExtension = m_fileSystem.Path.GetFileNameWithoutExtension(_filePath);
+            string parentDirectory = m_fileSystemPath.GetDirectoryName(_filePath);
+            string filePathNoExtension = m_fileSystemPath.GetFileNameWithoutExtension(_filePath);
 
-            List<string> directoryNames = parentDirectory.Split(new[] { m_fileSystem.Path.DirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            List<string> directoryNames = parentDirectory.Split(new[] { m_fileSystemPath.DirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries).ToList();
             List<string> fileNames = filePathNoExtension.Split(new[] {"-"}, StringSplitOptions.RemoveEmptyEntries).Skip(1).ToList();
 
             IEnumerable<string> allNames = directoryNames.Concat(fileNames);
