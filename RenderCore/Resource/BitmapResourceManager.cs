@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.IO.Abstractions;
 using Common.Cache;
 using IOUtilities;
 
@@ -11,10 +12,16 @@ namespace RenderCore.Resource
     {
         private readonly Cache<Resource<Bitmap>, T> m_cache;
         private readonly string m_rootDirectory;
+        private readonly IFileSystem m_fileSystem;
 
-        public BitmapResourceManager(string _rootDirectory)
+        public BitmapResourceManager(string _rootDirectory) : this(_rootDirectory, new FileSystem())
+        {
+        }
+
+        public BitmapResourceManager(string _rootDirectory, IFileSystem _fileSystem)
         {
             m_rootDirectory = _rootDirectory;
+            m_fileSystem = _fileSystem;
             m_cache = new Cache<Resource<Bitmap>, T>();
         }
 
@@ -24,8 +31,9 @@ namespace RenderCore.Resource
 
             if (!m_cache.EntryExists(_id))
             {
-                string pathFromEnum = PathFromEnum<T>.GetPathFromEnum(_id, ".png");
-                string bitmapFilePath = Path.Combine(m_rootDirectory, pathFromEnum);
+                PathFromEnum<T> pathFromEnum = new PathFromEnum<T>(m_fileSystem);
+                string path = pathFromEnum.GetPathFromEnum(_id, ".png");
+                string bitmapFilePath = Path.Combine(m_rootDirectory, path);
                 BitmapFileLoader fileLoader = new BitmapFileLoader(bitmapFilePath);
                 resource = new Resource<Bitmap>(fileLoader);
 

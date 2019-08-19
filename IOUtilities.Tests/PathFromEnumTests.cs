@@ -1,5 +1,4 @@
 using System.Collections;
-using System.IO;
 using System.IO.Abstractions.TestingHelpers;
 using NUnit.Framework;
 
@@ -15,22 +14,24 @@ namespace IOUtilities.Tests
     [TestFixture]
     public class PathFromEnumTests
     {
+        private static readonly MockFileSystem m_fileSystem = new MockFileSystem();
+
         private static IEnumerable TestCases
         {
             get
             {
-                MockFileSystem fileSystem = new MockFileSystem();
                 const string extension = "ext";
-                yield return new TestCaseData(TestEnum.A_B, extension, fileSystem.Path.Combine("a", $"a-b.{extension}"));
-                yield return new TestCaseData(TestEnum.A_B_C, extension, fileSystem.Path.Combine("a", "b", $"b-c.{extension}"));
-                yield return new TestCaseData(TestEnum.A_B_C_D, extension, fileSystem.Path.Combine("a", "b", "c", $"c-d.{extension}"));
+                yield return new TestCaseData(TestEnum.A_B, extension, m_fileSystem.Path.Combine("a", $"a-b.{extension}"));
+                yield return new TestCaseData(TestEnum.A_B_C, extension, m_fileSystem.Path.Combine("a", "b", $"b-c.{extension}"));
+                yield return new TestCaseData(TestEnum.A_B_C_D, extension, m_fileSystem.Path.Combine("a", "b", "c", $"c-d.{extension}"));
             }
         }
 
         [Test, TestCaseSource(nameof(TestCases))]
-        public void EnumToPathIsCorrect(TestEnum _enum, string _extension, string _expectedPath)
+        public void EnumToPathIsCorrect(TestEnum _enum, string _, string _expectedPath)
         {
-            TestEnum actualEnum = EnumFromPath.GetEnumFromPath<TestEnum>(_expectedPath);
+            EnumFromPath enumFromPath = new EnumFromPath(m_fileSystem);
+            TestEnum actualEnum = enumFromPath.GetEnumFromPath<TestEnum>(_expectedPath);
 
             Assert.That(actualEnum, Is.EqualTo(_enum));
         }
@@ -38,9 +39,10 @@ namespace IOUtilities.Tests
         [Test, TestCaseSource(nameof(TestCases))]
         public void GetPathFromEnumIsCorrect(TestEnum  _enum, string _extension, string _expectedPath)
         {
-            string pathFromEnum = PathFromEnum<TestEnum>.GetPathFromEnum(_enum, _extension);
+            PathFromEnum<TestEnum> pathFromEnum = new PathFromEnum<TestEnum>(m_fileSystem);
+            string path = pathFromEnum.GetPathFromEnum(_enum, _extension);
 
-            Assert.That(pathFromEnum, Is.EqualTo(_expectedPath));
+            Assert.That(path, Is.EqualTo(_expectedPath));
         }
     }
 }

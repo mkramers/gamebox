@@ -1,12 +1,25 @@
 ﻿using System;
 using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
 
 namespace IOUtilities
 {
-    public static class PathFromEnum<T> where T : Enum
+    public class PathFromEnum<T> where T : Enum
     {
-        public static string GetPathFromEnum(T _enumValue, string _extension)
+        private readonly IFileSystem m_fileSystem;
+
+        public PathFromEnum(IFileSystem _fileSystem)
+        {
+            m_fileSystem = _fileSystem;
+        }
+
+        public PathFromEnum() : this(new FileSystem())
+        {
+            
+        }
+
+        public string GetPathFromEnum(T _enumValue, string _extension)
         {
             string[] segments = _enumValue.ToString().ToLower()
                 .Split(new[] {"_"}, StringSplitOptions.RemoveEmptyEntries);
