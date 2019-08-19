@@ -4,50 +4,48 @@ using System.Linq;
 
 namespace Common.Cache
 {
-    public class Cache<T, TY> where T : class
+    public class Cache<TValue, TType> : ICache<TValue, TType> where TValue : class
     {
-        private readonly List<ICacheEntry<T, TY>> m_entries;
+        private readonly List<ICacheEntry<TValue, TType>> m_entries;
 
         public Cache()
         {
-            m_entries = new List<ICacheEntry<T, TY>>();
+            m_entries = new List<ICacheEntry<TValue, TType>>();
         }
 
-        public static Cache<T, TY> Instance { get; } = new Cache<T, TY>();
-
-        public T GetObject(TY _id)
+        public TValue GetObject(TType _id)
         {
-            ICacheEntry<T, TY> existingEntry = FindCacheEntry(_id);
+            ICacheEntry<TValue, TType> existingEntry = FindCacheEntry(_id);
             if (existingEntry == null)
             {
                 throw new Exception("Item does not exist in cache!");
             }
 
-            T cachedObject = existingEntry.CachedObject;
+            TValue cachedObject = existingEntry.CachedObject;
             return cachedObject;
         }
 
-        private ICacheEntry<T, TY> FindCacheEntry(TY _id)
+        private ICacheEntry<TValue, TType> FindCacheEntry(TType _id)
         {
-            ICacheEntry<T, TY> existingEntry = m_entries.Find(_entry => _entry.Id.Equals(_id));
+            ICacheEntry<TValue, TType> existingEntry = m_entries.Find(_entry => _entry.Id.Equals(_id));
             return existingEntry;
         }
 
-        public bool EntryExists(TY _id)
+        public bool EntryExists(TType _id)
         {
             bool entryExists = m_entries.Any(_entry => _entry.Id.Equals(_id));
             return entryExists;
         }
 
-        public void AddObject(TY _id, T _value)
+        public void AddObject(TType _id, TValue _value)
         {
-            ICacheEntry<T, TY> existingEntry = FindCacheEntry(_id);
+            ICacheEntry<TValue, TType> existingEntry = FindCacheEntry(_id);
             if (existingEntry != null)
             {
                 throw new Exception("Item already exists in cache!");
             }
 
-            ICacheEntry<T, TY> entry = new CacheEntry<T, TY>(_id, _value);
+            ICacheEntry<TValue, TType> entry = new CacheEntry<TValue, TType>(_id, _value);
             m_entries.Add(entry);
         }
     }
