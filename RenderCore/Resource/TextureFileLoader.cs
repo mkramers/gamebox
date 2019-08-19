@@ -2,15 +2,18 @@
 
 namespace RenderCore.Resource
 {
-    public class TextureFileLoader : ResourceLoaderBase<Texture>
+    public sealed class TextureFileLoader : IResourceLoader<Texture>
     {
-        public TextureFileLoader(string _textureFilePath) : base(_textureFilePath)
+        private readonly string m_textureFilePath;
+
+        public TextureFileLoader(string _textureFilePath)
         {
+            m_textureFilePath = _textureFilePath;
         }
 
-        public override Texture Load()
+        public Texture Load()
         {
-            return new Texture(m_resourcePath);
+            return new Texture(m_textureFilePath);
         }
     }
 }

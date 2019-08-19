@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO.Abstractions;
 using SFML.Graphics;
 
 namespace RenderCore.Resource
