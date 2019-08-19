@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -7,20 +6,6 @@ namespace IOUtilities
 {
     public static class PathFromEnum<T> where T : Enum
     {
-        public static Dictionary<T, string> GetPathsFromEnum(string _extension)
-        {
-            Dictionary<T, string> enumPaths = new Dictionary<T, string>();
-
-            Array enumValues = Enum.GetValues(typeof(T));
-            foreach (T enumValue in enumValues)
-            {
-                string enumPath = GetPathFromEnum(enumValue, _extension);
-                enumPaths.Add(enumValue, enumPath);
-            }
-
-            return enumPaths;
-        }
-
         public static string GetPathFromEnum(T _enumValue, string _extension)
         {
             string[] segments = _enumValue.ToString().ToLower()
