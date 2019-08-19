@@ -1,9 +1,22 @@
 ﻿using System;
 using System.Drawing;
+using System.IO.Abstractions;
 using SFML.Graphics;
 
 namespace RenderCore.Resource
 {
+    public class ResourceManagerFactory<T> where T : Enum
+    {        
+        public ResourceManager<T> Create(string _rootDirectory)
+        {
+            IFileSystem fileSystem = new FileSystem();
+            BitmapResourceManager<T> bitmapResourceManager  = new BitmapResourceManager<T>(_rootDirectory, fileSystem);
+            TextureResourceManager<T> textureResourceManager = new TextureResourceManager<T>(_rootDirectory, fileSystem);
+            ResourceManager<T> resourceManager = new ResourceManager<T>(textureResourceManager, bitmapResourceManager);
+            return resourceManager;
+        }
+    }
+
     /// <summary>
     ///     https://gamedev.stackexchange.com/a/2246/31371
     /// </summary>
@@ -12,10 +25,10 @@ namespace RenderCore.Resource
         private readonly BitmapResourceManager<T> m_bitmapResourceManager;
         private readonly TextureResourceManager<T> m_textureResourceManager;
 
-        public ResourceManager(string _resourceRootDirectory)
+        public ResourceManager(TextureResourceManager<T> _textureResourceManager, BitmapResourceManager<T> _bitmapResourceManager)
         {
-            m_textureResourceManager = new TextureResourceManager<T>(_resourceRootDirectory);
-            m_bitmapResourceManager = new BitmapResourceManager<T>(_resourceRootDirectory);
+            m_textureResourceManager = _textureResourceManager;
+            m_bitmapResourceManager = _bitmapResourceManager;
         }
 
         public Resource<Texture> GetTextureResource(T _id)

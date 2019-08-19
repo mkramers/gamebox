@@ -52,13 +52,16 @@ namespace Games.Games
 
             AddDrawable(gridWidget);
 
-            ResourceManager<SpriteResources> manager =
-                new ResourceManager<SpriteResources>(@"C:\dev\GameBox\Resources\sprite");
 
-            Resource<Texture> mapSceneResource = manager.GetTextureResource(SpriteResources.MAP_TREE_SCENE);
+            ResourceManagerFactory<SpriteResources> resourceManagerFactory = new ResourceManagerFactory<SpriteResources>();
+
+            const string resourceDirectory = @"C:\dev\GameBox\Resources\sprite";
+            ResourceManager<SpriteResources> resourceManager = resourceManagerFactory.Create(resourceDirectory);
+
+            Resource<Texture> mapSceneResource = resourceManager.GetTextureResource(SpriteResources.MAP_TREE_SCENE);
             Texture mapSceneTexture = mapSceneResource.Load();
 
-            Resource<Bitmap> mapCollisionResource = manager.GetBitmapResource(SpriteResources.MAP_TREE_COLLISION);
+            Resource<Bitmap> mapCollisionResource = resourceManager.GetBitmapResource(SpriteResources.MAP_TREE_COLLISION);
             Bitmap mapCollisionBitmap = mapCollisionResource.Load();
 
             Grid<ComparableColor> mapCollisionGrid = BitmapToGridConverter.GetColorGridFromBitmap(mapCollisionBitmap);

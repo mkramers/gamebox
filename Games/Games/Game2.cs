@@ -31,7 +31,8 @@ namespace Games.Games
         public Game2(ISceneProvider _sceneProvider) : base(_sceneProvider)
         {
             const string resourceRootDirectory = @"C:\dev\GameBox\Resources\sprite";
-            ResourceManager<SpriteResources> manager = new ResourceManager<SpriteResources>(resourceRootDirectory);
+            ResourceManagerFactory<SpriteResources> resourceManagerFactory = new ResourceManagerFactory<SpriteResources>();
+            ResourceManager<SpriteResources> resourceManager = resourceManagerFactory.Create(resourceRootDirectory);
 
             //create man
             IEntity manEntity;
@@ -41,7 +42,7 @@ namespace Games.Games
                 Vector2 manPosition = new Vector2(0, -10);
                 Vector2 manScale = new Vector2(2f, 2f);
 
-                Resource<Texture> resource = manager.GetTextureResource(SpriteResources.OBJECT_MKRAMERS_LAYER);
+                Resource<Texture> resource = resourceManager.GetTextureResource(SpriteResources.OBJECT_MKRAMERS_LAYER);
                 Texture texture = resource.Load();
 
                 Vector2f spriteScale = new Vector2f(manScale.X / texture.Size.X, manScale.Y / texture.Size.Y);
@@ -79,10 +80,10 @@ namespace Games.Games
 
             //add map
             {
-                Resource<Texture> mapSceneResource = manager.GetTextureResource(SpriteResources.MAP_TREE_SCENE);
+                Resource<Texture> mapSceneResource = resourceManager.GetTextureResource(SpriteResources.MAP_TREE_SCENE);
                 Texture mapSceneTexture = mapSceneResource.Load();
 
-                Resource<Bitmap> mapCollisionResource = manager.GetBitmapResource(SpriteResources.MAP_TREE_COLLISION);
+                Resource<Bitmap> mapCollisionResource = resourceManager.GetBitmapResource(SpriteResources.MAP_TREE_COLLISION);
                 Bitmap mapCollisionBitmap = mapCollisionResource.Load();
 
                 Grid<ComparableColor> mapCollisionGrid =

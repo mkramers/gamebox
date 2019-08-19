@@ -21,8 +21,8 @@ namespace Games.Coins
     {
         public static IEnumerable<Coin> GetCoins(string _resourceRootDirectory)
         {
-            ResourceManager<SpriteResources> resourceManager =
-                new ResourceManager<SpriteResources>(_resourceRootDirectory);
+            ResourceManagerFactory<SpriteResources> resourceManagerFactory = new ResourceManagerFactory<SpriteResources>();
+            ResourceManager<SpriteResources> resourceManager = resourceManagerFactory.Create(_resourceRootDirectory);
 
             const string coinsMetaFilePath = @"C:\dev\GameBox\Resources\meta\coins.json";
             string coinsMetaText = File.ReadAllText(coinsMetaFilePath);
@@ -63,7 +63,7 @@ namespace Games.Coins
 
                     List<CoinLookupEntry> coinEntries = coinDefinitions.FindAll(_coin =>
                     {
-                        int greyValue = (int) _coin.Grey;
+                        int greyValue = (int)_coin.Grey;
 
                         ComparableColor gray = new ComparableColor(greyValue, greyValue, greyValue, 255);
                         return gray.CompareTo(comparableColor) == 0;
