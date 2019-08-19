@@ -4,13 +4,13 @@ using Common.Cache;
 
 namespace RenderCore.Resource
 {
-    public abstract class ResourceManagerBase<TType, TValue> : IResourceManager<TType, TValue> where TType : Enum
+    public class ResourceManagerBase<TType, TValue> : IResourceManager<TType, TValue> where TType : Enum
     {
         private readonly IResourceLoaderFactory<TValue> m_resourceLoaderFactory;
         private readonly IPathConverter<TType> m_pathConverter;
         private readonly Cache<Resource<TValue>, TType> m_cache;
 
-        protected ResourceManagerBase(IResourceLoaderFactory<TValue> _resourceLoaderFactory, IPathConverter<TType> _pathConverter)
+        public ResourceManagerBase(IResourceLoaderFactory<TValue> _resourceLoaderFactory, IPathConverter<TType> _pathConverter)
         {
             m_resourceLoaderFactory = _resourceLoaderFactory;
             m_pathConverter = _pathConverter;

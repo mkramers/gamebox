@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Drawing;
 using System.IO.Abstractions;
+using SFML.Graphics;
 
 namespace RenderCore.Resource
 {
@@ -11,11 +13,11 @@ namespace RenderCore.Resource
 
             IPathConverter<T> bitmapPathConverter = new PathFromEnumPathConverter<T>(_rootDirectory, ".png", fileSystem);
             BitmapResourceLoaderFactory bitmapResourceLoaderFactory = new BitmapResourceLoaderFactory();
-            BitmapResourceManager<T> bitmapResourceManager  = new BitmapResourceManager<T>(bitmapResourceLoaderFactory, bitmapPathConverter);
+            ResourceManagerBase<T, Bitmap> bitmapResourceManager  = new ResourceManagerBase<T, Bitmap>(bitmapResourceLoaderFactory, bitmapPathConverter);
 
             IPathConverter<T> texturePathConverter = new PathFromEnumPathConverter<T>(_rootDirectory, ".png", fileSystem);
             TextureResourceLoaderFactory textureResourceLoaderFactory = new TextureResourceLoaderFactory();
-            TextureResourceManager<T> textureResourceManager = new TextureResourceManager<T>(textureResourceLoaderFactory, texturePathConverter);
+            ResourceManagerBase<T, Texture> textureResourceManager = new ResourceManagerBase<T, Texture>(textureResourceLoaderFactory, texturePathConverter);
 
             ResourceManager<T> resourceManager = new ResourceManager<T>(textureResourceManager, bitmapResourceManager);
             return resourceManager;
