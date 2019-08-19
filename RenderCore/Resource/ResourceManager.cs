@@ -10,8 +10,15 @@ namespace RenderCore.Resource
         public ResourceManager<T> Create(string _rootDirectory)
         {
             IFileSystem fileSystem = new FileSystem();
-            BitmapResourceManager<T> bitmapResourceManager  = new BitmapResourceManager<T>(_rootDirectory, fileSystem);
-            TextureResourceManager<T> textureResourceManager = new TextureResourceManager<T>(_rootDirectory, fileSystem);
+
+            IPathConverter<T> bitmapPathConverter = new PathFromEnumPathConverter<T>(_rootDirectory, ".png", fileSystem);
+            BitmapResourceLoaderFactory bitmapResourceLoaderFactory = new BitmapResourceLoaderFactory();
+            BitmapResourceManager<T> bitmapResourceManager  = new BitmapResourceManager<T>(bitmapResourceLoaderFactory, bitmapPathConverter);
+
+            IPathConverter<T> texturePathConverter = new PathFromEnumPathConverter<T>(_rootDirectory, ".png", fileSystem);
+            TextureResourceLoaderFactory textureResourceLoaderFactory = new TextureResourceLoaderFactory();
+            TextureResourceManager<T> textureResourceManager = new TextureResourceManager<T>(textureResourceLoaderFactory, texturePathConverter);
+
             ResourceManager<T> resourceManager = new ResourceManager<T>(textureResourceManager, bitmapResourceManager);
             return resourceManager;
         }
@@ -33,12 +40,12 @@ namespace RenderCore.Resource
 
         public Resource<Texture> GetTextureResource(T _id)
         {
-            return m_textureResourceManager.GetTextureResource(_id);
+            return m_textureResourceManager.GetResource(_id);
         }
 
         public Resource<Bitmap> GetBitmapResource(T _id)
         {
-            return m_bitmapResourceManager.GetBitmapResource(_id);
+            return m_bitmapResourceManager.GetResource(_id);
         }
     }
 }

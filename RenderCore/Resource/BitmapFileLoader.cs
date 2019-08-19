@@ -2,18 +2,23 @@
 
 namespace RenderCore.Resource
 {
-    public class BitmapFileLoader : IResourceLoader<Bitmap>
+    public class BitmapResourceLoaderFactory : IResourceLoaderFactory<Bitmap>
     {
-        private readonly string m_bitmapFilePath;
-
-        public BitmapFileLoader(string _bitmapFilePath)
+        public virtual IResourceLoader<Bitmap> CreateResourceLoader(string _resourcePath)
         {
-            m_bitmapFilePath = _bitmapFilePath;
+            return new BitmapFileLoader(_resourcePath);
+        }
+    }
+
+    public class BitmapFileLoader : ResourceLoaderBase<Bitmap>
+    {
+        public BitmapFileLoader(string _bitmapFilePath) : base(_bitmapFilePath)
+        {
         }
 
-        public Bitmap Load()
+        public override Bitmap Load()
         {
-            return new Bitmap(m_bitmapFilePath);
+            return new Bitmap(m_resourcePath);
         }
     }
 }

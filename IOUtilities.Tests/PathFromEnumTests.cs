@@ -20,15 +20,14 @@ namespace IOUtilities.Tests
         {
             get
             {
-                const string extension = "ext";
-                yield return new TestCaseData(TestEnum.A_B, extension, m_fileSystem.Path.Combine("a", $"a-b.{extension}"));
-                yield return new TestCaseData(TestEnum.A_B_C, extension, m_fileSystem.Path.Combine("a", "b", $"b-c.{extension}"));
-                yield return new TestCaseData(TestEnum.A_B_C_D, extension, m_fileSystem.Path.Combine("a", "b", "c", $"c-d.{extension}"));
+                yield return new TestCaseData(TestEnum.A_B, m_fileSystem.Path.Combine("a", "a-b"));
+                yield return new TestCaseData(TestEnum.A_B_C, m_fileSystem.Path.Combine("a", "b", "b-c"));
+                yield return new TestCaseData(TestEnum.A_B_C_D, m_fileSystem.Path.Combine("a", "b", "c", "c-d"));
             }
         }
 
         [Test, TestCaseSource(nameof(TestCases))]
-        public void EnumToPathIsCorrect(TestEnum _enum, string _, string _expectedPath)
+        public void EnumToPathIsCorrect(TestEnum _enum, string _expectedPath)
         {
             EnumFromPath enumFromPath = new EnumFromPath(m_fileSystem);
             TestEnum actualEnum = enumFromPath.GetEnumFromPath<TestEnum>(_expectedPath);
@@ -37,10 +36,10 @@ namespace IOUtilities.Tests
         }
 
         [Test, TestCaseSource(nameof(TestCases))]
-        public void GetPathFromEnumIsCorrect(TestEnum  _enum, string _extension, string _expectedPath)
+        public void GetPathFromEnumIsCorrect(TestEnum  _enum, string _expectedPath)
         {
-            PathFromEnum<TestEnum> pathFromEnum = new PathFromEnum<TestEnum>(m_fileSystem);
-            string path = pathFromEnum.GetPathFromEnum(_enum, _extension);
+            PathFromEnum<TestEnum> pathFromEnum = new PathFromEnum<TestEnum>();
+            string path = pathFromEnum.GetPathFromEnum(_enum);
 
             Assert.That(path, Is.EqualTo(_expectedPath));
         }
