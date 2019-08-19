@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Diagnostics;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using NUnit.Framework;
@@ -70,6 +72,28 @@ namespace IOUtilities.Tests
             string expectedFullPath = fileSystemPath.Combine(rootDirectory, fileSystemPath.ChangeExtension(_expectedPath, fileExtension));
 
             Assert.That(path, Is.EqualTo(expectedFullPath));
+        }
+    }
+
+    [TestFixture]
+    public class EnumCsGeneratorTests
+    {
+        [Test]
+        public void CreatesCorrectCsText()
+        {
+            string csText = EnumCsGenerator.GenerateEnumCs(Enum.GetNames(typeof(TestEnum)), nameof(TestEnum), "TestNamespace");
+            Debug.WriteLine(csText);
+
+            const string expectedCsText = @"namespace TestNamespace
+{
+	public enum TestEnum
+	{
+		A_B,
+		A_B_C,
+		A_B_C_D
+	}
+}";
+            Assert.That(csText, Is.EqualTo(expectedCsText));
         }
     }
 }

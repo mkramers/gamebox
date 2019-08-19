@@ -86,8 +86,7 @@ namespace ResourceGenerator
 
             Console.WriteLine($"\n<{outputFilePath}>:\n{enumCs}");
 
-            FileWriter writer = new FileWriter();
-            writer.WriteFile(outputFilePath, enumCs);
+            File.WriteAllText(outputFilePath, enumCs);
         }
 
         private static void Export(string _resourceDirectory)
