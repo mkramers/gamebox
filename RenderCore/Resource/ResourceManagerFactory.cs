@@ -11,14 +11,12 @@ namespace RenderCore.Resource
         public ResourceManager<T> Create(string _rootDirectory)
         {
             IFileSystem fileSystem = new FileSystem();
+            
+            IPathConverter<T> pathConverter = new PathFromEnumPathConverter<T>(_rootDirectory, ".png", fileSystem.Path);
 
-            IPathConverter<T> bitmapPathConverter = new PathFromEnumPathConverter<T>(_rootDirectory, ".png", fileSystem.Path);
-            BitmapResourceLoaderFactory bitmapResourceLoaderFactory = new BitmapResourceLoaderFactory();
-            ResourceManagerBase<T, Bitmap> bitmapResourceManager  = new ResourceManagerBase<T, Bitmap>(bitmapResourceLoaderFactory, bitmapPathConverter);
-
-            IPathConverter<T> texturePathConverter = new PathFromEnumPathConverter<T>(_rootDirectory, ".png", fileSystem.Path);
-            TextureResourceLoaderFactory textureResourceLoaderFactory = new TextureResourceLoaderFactory();
-            ResourceManagerBase<T, Texture> textureResourceManager = new ResourceManagerBase<T, Texture>(textureResourceLoaderFactory, texturePathConverter);
+            ResourceManagerBase<T, Bitmap> bitmapResourceManager  = new ResourceManagerBase<T, Bitmap>(pathConverter, _path => new Bitmap(_path));
+            
+            ResourceManagerBase<T, Texture> textureResourceManager = new ResourceManagerBase<T, Texture>(pathConverter, _path => new Texture(_path));
 
             ResourceManager<T> resourceManager = new ResourceManager<T>(textureResourceManager, bitmapResourceManager);
             return resourceManager;
