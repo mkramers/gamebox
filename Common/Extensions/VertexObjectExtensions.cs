@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Numerics;
-using Common.VertexObject;
+using Common.Geometry;
 
-namespace Common.Geometry
+namespace Common.Extensions
 {
     public static class VertexObjectExtensions
     {

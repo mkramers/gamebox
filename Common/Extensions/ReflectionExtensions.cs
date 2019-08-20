@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Common.ReflectionUtilities
+namespace Common.Extensions
 {
     /// <summary>
     ///     derived from https://stackoverflow.com/a/2362756/1620721
     /// </summary>
-    public static class ReflectionUtilities
+    public static class ReflectionExtensions
     {
         public static IEnumerable<Type> FindAllDerivedTypes<T>()
         {

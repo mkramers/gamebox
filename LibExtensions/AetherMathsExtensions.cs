@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Common;
-using Common.VertexObject;
+using Common.Geometry;
 
 namespace LibExtensions
 {

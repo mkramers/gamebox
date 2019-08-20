@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Numerics;
-using Common.VertexObject;
 
 namespace Common.Geometry
 {

@@ -1,4 +1,6 @@
-﻿namespace Common.Geometry
+﻿using Common.Geometry;
+
+namespace Common.Extensions
 {
     public static class LineSegmentExtensions
     {

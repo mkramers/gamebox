@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Reflection.Emit;
-using System.Threading;
 using Common.Cache;
-using Moq;
 using NUnit.Framework;
 
-namespace Common.Tests
+namespace Common.Tests.Cache
 {
     [TestFixture]
     public class CacheTests

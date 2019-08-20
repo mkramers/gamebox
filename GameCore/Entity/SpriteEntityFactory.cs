@@ -2,8 +2,8 @@
 using System.Diagnostics;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
+using Common.Extensions;
 using Common.Geometry;
-using Common.VertexObject;
 using LibExtensions;
 using PhysicsCore;
 using RenderCore.Drawable;

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Common.ReflectionUtilities;
+using Common.Extensions;
 using NUnit.Framework;
 
-namespace Common.Tests
+namespace Common.Tests.Extensions
 {
     [TestFixture]
-    public class ReflectionUtilitiesTests
+    public class ReflectionExtensionsTests
     {
         public class TestTypeBase
         { }
@@ -38,7 +38,7 @@ namespace Common.Tests
             };
 
             IEnumerable<Type> types =
-                ReflectionUtilities.ReflectionUtilities.FindAllDerivedTypes<TestTypeBase>();
+                ReflectionExtensions.FindAllDerivedTypes<TestTypeBase>();
 
             Assert.That(expectedTypes, Is.EquivalentTo(types));
         }

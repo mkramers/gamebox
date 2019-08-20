@@ -1,7 +1,7 @@
 ﻿using Common.Geometry;
 using NUnit.Framework;
 
-namespace Common.Tests
+namespace Common.Tests.Geometry
 {
     [TestFixture]
     public class IntRectTests

@@ -2,7 +2,7 @@
 using System.Numerics;
 using System.Text;
 
-namespace Common.Geometry
+namespace Common.Extensions
 {
     public static class Vector2Extensions
     {

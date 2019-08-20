@@ -1,7 +1,7 @@
 ﻿using System;
 using Common.Tickable;
 
-namespace Common.Tests
+namespace Common.Tests.Tickable
 {
     public class MockTickable : ITickable
     {

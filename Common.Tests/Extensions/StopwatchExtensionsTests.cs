@@ -3,7 +3,7 @@ using System.Diagnostics;
 using Common.Extensions;
 using NUnit.Framework;
 
-namespace Common.Tests
+namespace Common.Tests.Extensions
 {
     [TestFixture]
     public class StopwatchExtensionsTests

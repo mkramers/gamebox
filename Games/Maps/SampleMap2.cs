@@ -3,7 +3,6 @@ using System.Linq;
 using System.Numerics;
 using Common.Geometry;
 using Common.Grid;
-using Common.VertexObject;
 using GameCore.Entity;
 using GameCore.Maps;
 using GameResources.Attributes;

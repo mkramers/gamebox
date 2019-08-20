@@ -2,7 +2,7 @@
 using System.IO;
 using NUnit.Framework;
 
-namespace Common.Tests
+namespace Common.Tests.Grid
 {
     [TestFixture]
     public class GridTests
@@ -11,7 +11,7 @@ namespace Common.Tests
         public void ThrowsWhenIncorrectRowsAndColumns()
         {
             List<int> cells = new List<int> { 0 };
-            Assert.Throws<InvalidDataException>(() => new Grid.Grid<int>(cells, 5, 5));
+            Assert.Throws<InvalidDataException>(() => new Common.Grid.Grid<int>(cells, 5, 5));
         }
     }
 }

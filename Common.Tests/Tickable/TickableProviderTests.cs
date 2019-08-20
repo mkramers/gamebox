@@ -2,7 +2,7 @@
 using Common.Tickable;
 using NUnit.Framework;
 
-namespace Common.Tests
+namespace Common.Tests.Tickable
 {
     [TestFixture]
     public class TickableProviderTests

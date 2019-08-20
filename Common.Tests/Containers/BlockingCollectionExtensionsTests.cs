@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using Common.Containers;
 using NUnit.Framework;
 
-namespace Common.Tests
+namespace Common.Tests.Containers
 {
     [TestFixture]
     public class BlockingCollectionExtensionsTests

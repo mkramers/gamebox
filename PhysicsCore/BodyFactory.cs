@@ -2,7 +2,6 @@
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
 using Common.Geometry;
-using Common.VertexObject;
 using LibExtensions;
 
 namespace PhysicsCore

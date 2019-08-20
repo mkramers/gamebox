@@ -1,8 +1,9 @@
 ﻿using System.Numerics;
+using Common.Extensions;
 using Common.Geometry;
 using NUnit.Framework;
 
-namespace Common.Tests
+namespace Common.Tests.Extensions
 {
     [TestFixture]
     public class LineSegmentExtensionsTests

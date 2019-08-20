@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Numerics;
+using Common.Extensions;
 using Common.Geometry;
-using Common.VertexObject;
 using NUnit.Framework;
 
-namespace Common.Tests
+namespace Common.Tests.Extensions
 {
     [TestFixture]
     public class VertexObjectExtensionsTests

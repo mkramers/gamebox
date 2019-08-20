@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common.Geometry;
-using Common.VertexObject;
 
 namespace MarchingSquares
 {

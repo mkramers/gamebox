@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Numerics;
 using Common.Geometry;
-using Common.VertexObject;
 using LibExtensions;
 using RenderCore.Drawable;
 using SFML.Graphics;
