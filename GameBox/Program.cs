@@ -27,7 +27,7 @@ namespace GameBox
         {
             List<GameBase> games = new List<GameBase>();
             Assembly executingAssembly = Assembly.Load("Games");
-            List<Type> gameTypes = ReflectionUtilities.FindAllDerivedTypes<GameBase>(executingAssembly);
+            IEnumerable<Type> gameTypes = executingAssembly.FindAllDerivedTypes<GameBase>();
             foreach (Type gameType in gameTypes)
             {
                 if (gameType == typeof(MultiGame))
