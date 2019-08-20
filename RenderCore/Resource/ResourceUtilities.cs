@@ -8,7 +8,7 @@ namespace RenderCore.Resource
     {
         public static byte[] GetResourceData(string _resourceName)
         {
-            Assembly myAssembly = Assembly.GetExecutingAssembly();
+            Assembly myAssembly = Assembly.GetCallingAssembly();
             Stream resourceStream = myAssembly.GetManifestResourceStream(_resourceName);
             Debug.Assert(resourceStream != null);
 
