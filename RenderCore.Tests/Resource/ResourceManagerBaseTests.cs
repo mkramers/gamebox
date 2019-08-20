@@ -3,17 +3,11 @@ using Moq;
 using NUnit.Framework;
 using RenderCore.Resource;
 
-namespace RenderCore.Tests
+namespace RenderCore.Tests.Resource
 {
     [TestFixture]
     public class ResourceManagerBaseTests
     {
-        public enum TestEnum
-        {
-            A,
-            B,
-            C
-        }
 
         [Test]
         public void ReturnsResourceCorrectly()
