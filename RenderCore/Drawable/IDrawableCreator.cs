@@ -2,6 +2,6 @@
 {
     public interface IDrawableCreator
     {
-        IPositionDrawable CreateDrawable();
+        IDrawable CreateDrawable();
     }
 }

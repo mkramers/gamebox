@@ -5,7 +5,7 @@ using SFML.Graphics;
 
 namespace RenderCore.Drawable
 {
-    public class MultiDrawable<T> : List<T>, IPositionDrawable where T : Transformable, SFML.Graphics.Drawable
+    public class MultiDrawable<T> : List<T>, IDrawable where T : Transformable, SFML.Graphics.Drawable
     {
         private Vector2 m_position;
 

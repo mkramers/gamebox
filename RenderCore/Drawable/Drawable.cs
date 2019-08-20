@@ -4,7 +4,7 @@ using SFML.Graphics;
 
 namespace RenderCore.Drawable
 {
-    public class Drawable<T> : IPositionDrawable where T : Transformable, SFML.Graphics.Drawable
+    public class Drawable<T> : IDrawable where T : Transformable, SFML.Graphics.Drawable
     {
         private readonly T m_renderObject;
 

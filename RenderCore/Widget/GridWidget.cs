@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Common.Tickable;
 using LibExtensions;
 using RenderCore.Drawable;
 using RenderCore.ShapeUtilities;
@@ -11,20 +12,22 @@ using SFML.System;
 
 namespace RenderCore.Widget
 {
-    public class GridWidget : ViewWidgetBase
+    public class GridWidget : IDrawable, ITickable
     {
+        protected readonly IViewProvider m_viewProvider;
         private readonly Vector2 m_cellSize;
         private readonly MultiDrawable<VertexArrayShape> m_drawable;
 
-        protected GridWidget(IViewProvider _viewProvider, Vector2 _cellSize) : base(_viewProvider)
+        protected GridWidget(IViewProvider _viewProvider, Vector2 _cellSize)
         {
+            m_viewProvider = _viewProvider;
             m_cellSize = _cellSize;
             m_drawable = new MultiDrawable<VertexArrayShape>();
 
             UpdateDrawable();
         }
 
-        public override void Tick(TimeSpan _elapsed)
+        public virtual void Tick(TimeSpan _elapsed)
         {
             UpdateDrawable();
         }
@@ -40,12 +43,12 @@ namespace RenderCore.Widget
             m_drawable.AddRange(vertexArrayShapes);
         }
 
-        public override void Draw(RenderTarget _target, RenderStates _states)
+        public virtual void Draw(RenderTarget _target, RenderStates _states)
         {
             m_drawable.Draw(_target, _states);
         }
 
-        public override void Dispose()
+        public virtual void Dispose()
         {
             m_drawable.Dispose();
         }
@@ -62,6 +65,16 @@ namespace RenderCore.Widget
             IEnumerable<VertexArrayShape> gridDrawables =
                 GridDrawingUtilities.GetGridDrawableFromView(snappedView, m_cellSize);
             return gridDrawables;
+        }
+
+        public Vector2 GetPosition()
+        {
+            return m_drawable.GetPosition();
+        }
+
+        public void SetPosition(Vector2 _position)
+        {
+            m_drawable.SetPosition(_position);
         }
     }
 }

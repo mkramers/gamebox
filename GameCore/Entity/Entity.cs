@@ -11,9 +11,9 @@ namespace GameCore.Entity
     public class Entity : IEntity
     {
         private readonly IBody m_body;
-        private readonly IPositionDrawable m_drawable;
+        private readonly IDrawable m_drawable;
 
-        public Entity(IPositionDrawable _drawable, IBody _body)
+        public Entity(IDrawable _drawable, IBody _body)
         {
             m_drawable = _drawable;
             m_body = _body;

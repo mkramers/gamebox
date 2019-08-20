@@ -4,7 +4,7 @@ using RenderCore.Drawable;
 
 namespace GameCore.Entity
 {
-    public interface IEntity : IBody, ITickable, IPositionDrawable
+    public interface IEntity : IBody, ITickable, IDrawable
     {
     }
 }
