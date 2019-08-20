@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 using System.Text;
 
@@ -7,19 +6,6 @@ namespace Common.Geometry
 {
     public static class Vector2Extensions
     {
-        public static IList<double[]> GetDoubleArrays(this IEnumerable<Vector2> _vectors)
-        {
-            List<double[]> doubleArrays = _vectors.Select(_vector => new double[] {_vector.X, _vector.Y}).ToList();
-            return doubleArrays;
-        }
-
-        public static IEnumerable<Vector2> FromDoubleArrays(this IEnumerable<double[]> _doubleArrays)
-        {
-            IEnumerable<Vector2> vectors = _doubleArrays.Select(_doubleArray =>
-                new Vector2((float) _doubleArray[0], (float) _doubleArray[1]));
-            return vectors;
-        }
-
         public static string GetDisplayString(this IEnumerable<Vector2> _vectors)
         {
             StringBuilder stringBuilder = new StringBuilder();
@@ -30,7 +16,7 @@ namespace Common.Geometry
                 stringBuilder.AppendLine(displayString);
             }
 
-            return stringBuilder.ToString();
+            return stringBuilder.ToString().TrimEnd();
         }
 
         public static string GetDisplayString(this Vector2 _vector)

@@ -10,7 +10,7 @@ namespace Common.Geometry
         {
             Vector2[] translatedVertices = _polygon.Select(_vertex => _vertex + _translation).ToArray();
 
-            Polygon polygon = new Polygon(translatedVertices.Length);
+            Polygon polygon = new Polygon();
             polygon.AddRange(translatedVertices);
             return polygon;
         }

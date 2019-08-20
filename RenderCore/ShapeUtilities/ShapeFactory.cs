@@ -55,7 +55,7 @@ namespace RenderCore.ShapeUtilities
 
         public static Polygon CreateRectangle(Vector2 _halfSize)
         {
-            Polygon polygon = new Polygon(4)
+            Polygon polygon = new Polygon
             {
                 new Vector2(-_halfSize.X, -_halfSize.Y),
                 new Vector2(_halfSize.X, -_halfSize.Y),

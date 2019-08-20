@@ -26,11 +26,6 @@ namespace MarchingSquares.Tests
 
         public static Grid<T> CreateSquareGridFromArray<T>(IReadOnlyList<T> _values) where T : IComparable
         {
-            if (Math.Abs(Math.Sqrt(_values.Count / 2.0f) % 1) < 0.000001f)
-            {
-                throw new Exception("incorrect size of array");
-            }
-
             int sideLength = (int) Math.Sqrt(_values.Count);
 
             IList<T> gridCells = new List<T>();

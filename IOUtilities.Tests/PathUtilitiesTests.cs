@@ -52,16 +52,7 @@ namespace IOUtilities.Tests
             const string rootPath = ".\\windows";
             const string fullPath = ".\\program files\\Internet Explorer\\iexplore.exe";
 
-            try
-            {
-                PathUtilities.GetRelativePath(rootPath, fullPath);
-            }
-            catch (Exception)
-            {
-                return;
-            }
-
-            Assert.Fail("Exception expected");
+            Assert.Throws<Exception>(() => PathUtilities.GetRelativePath(rootPath, fullPath));
         }
     }
 }
