@@ -11,7 +11,7 @@ namespace Common.Tickable
             m_tickable = _tickable;
         }
 
-        public IEnumerable<ITickable> GetTickables()
+        public virtual IEnumerable<ITickable> GetTickables()
         {
             return new[] {m_tickable};
         }

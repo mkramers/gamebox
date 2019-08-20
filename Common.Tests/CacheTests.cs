@@ -8,10 +8,13 @@ using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Threading;
 using Common.Cache;
 using Common.Containers;
 using Common.Extensions;
 using Common.Geometry;
+using Common.ReflectionUtilities;
+using Common.Tickable;
 using Common.VertexObject;
 using Moq;
 using NUnit.Framework;
@@ -335,17 +338,78 @@ namespace Common.Tests
         { }
 
         [Test]
-        public void Do()
+        public void FindsAllDerivedTypesCorrectlyGivenAssembly()
         {
             Type[] expectedTypes = {
                 typeof(TestType),
             };
 
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
-            IEnumerable<Type> types =
-                ReflectionUtilities.ReflectionUtilities.FindAllDerivedTypes<TestTypeBase>(currentAssembly);
+            IEnumerable<Type> types = currentAssembly.FindAllDerivedTypes<TestTypeBase>();
 
             Assert.That(expectedTypes, Is.EquivalentTo(types));
+        }
+        [Test]
+        public void FindsAllDerivedTypesCorrectly()
+        {
+            Type[] expectedTypes = {
+                typeof(TestType),
+            };
+
+            IEnumerable<Type> types =
+                ReflectionUtilities.ReflectionUtilities.FindAllDerivedTypes<TestTypeBase>();
+
+            Assert.That(expectedTypes, Is.EquivalentTo(types));
+        }
+    }
+
+    public class MockTickable : ITickable
+    {
+        public bool Ticked { get; private set; }
+        public void Tick(TimeSpan _elapsed)
+        {
+            Ticked = true;
+        }
+    }
+
+    [TestFixture]
+    public class TickableProviderTests
+    {
+        [Test]
+        public void ReturnsCorrectTickables()
+        {
+            MockTickable mockTickable = new MockTickable();
+         
+            TickableProvider mock = new TickableProvider(mockTickable);
+            MockTickable[] expectedTickables = {mockTickable};
+
+            IEnumerable<ITickable> actualTickables = mock.GetTickables();
+            Assert.That(expectedTickables, Is.EquivalentTo(actualTickables));
+        }
+    }
+
+    [TestFixture]
+    public class TickLoopTests
+    {
+        [Test]
+        public void TicksWithCorrectElapsed()
+        {
+            TimeSpan tickPeriod = TimeSpan.FromMilliseconds(1);
+
+            TickLoop tickLoop = new TickLoop(tickPeriod);
+            tickLoop.Tick += TickLoopOnTick;
+
+            TimeSpan actualElapsed = TimeSpan.Zero;
+
+            void TickLoopOnTick(object _sender, TimeElapsedEventArgs _e)
+            {
+                tickLoop.StopLoop();
+                actualElapsed = _e.Elapsed;
+            }
+ 
+            tickLoop.StartLoop();
+
+            Assert.That(actualElapsed, Is.EqualTo(tickPeriod).Within(TimeSpan.FromMilliseconds(1)));
         }
     }
 }

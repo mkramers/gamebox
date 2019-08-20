@@ -15,7 +15,7 @@ namespace Common.ReflectionUtilities
             return FindAllDerivedTypes<T>(Assembly.GetAssembly(typeof(T)));
         }
 
-        public static IEnumerable<Type> FindAllDerivedTypes<T>(Assembly _assembly)
+        public static IEnumerable<Type> FindAllDerivedTypes<T>(this Assembly _assembly)
         {
             Type derivedType = typeof(T);
             return _assembly
