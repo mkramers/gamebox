@@ -9,10 +9,10 @@ namespace RenderCore.Resource
     /// </summary>
     public class ResourceManager<T> where T : Enum
     {
-        private readonly ResourceManagerBase<T, Bitmap> m_bitmapResourceManager;
-        private readonly ResourceManagerBase<T, Texture> m_textureResourceManager;
+        private readonly IResourceManager<T, Bitmap> m_bitmapResourceManager;
+        private readonly IResourceManager<T, Texture> m_textureResourceManager;
 
-        public ResourceManager(ResourceManagerBase<T, Texture> _textureResourceManager, ResourceManagerBase<T, Bitmap> _bitmapResourceManager)
+        public ResourceManager(IResourceManager<T, Texture> _textureResourceManager, IResourceManager<T, Bitmap> _bitmapResourceManager)
         {
             m_textureResourceManager = _textureResourceManager;
             m_bitmapResourceManager = _bitmapResourceManager;
