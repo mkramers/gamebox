@@ -1,12 +1,19 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
+using System.Reflection.Emit;
 using Common.Cache;
 using Common.Containers;
+using Common.Extensions;
 using Common.Geometry;
+using Common.VertexObject;
+using Moq;
 using NUnit.Framework;
 
 namespace Common.Tests
@@ -211,6 +218,134 @@ namespace Common.Tests
                 Assert.That(flipped.Start, Is.EqualTo(end));
                 Assert.That(flipped.End, Is.EqualTo(start));
             });
+        }
+    }
+
+    [TestFixture]
+    public class VertexObjectExtensionsTests
+    {
+        [Test]
+        public void TranslatesCorrectly()
+        {
+            Vector2 translation = new Vector2(1, 1);
+
+            Vector2 vector = new Vector2(0, 0);
+            Polygon polygon = new Polygon { vector };
+
+            IVertexObject translated = polygon.Translate(translation);
+            Assert.That(translated.First(), Is.EqualTo(translation));
+        }
+    }
+
+    [TestFixture]
+    public class IntRectTests
+    {
+        [Test]
+        public void ConstructsCorrectly()
+        {
+            const int x = 0;
+            const int y = 2;
+            const int width = 3;
+            const int height = 4;
+            IntRect intRect = new IntRect(x, y, width, height);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(intRect.X, Is.EqualTo(x));
+                Assert.That(intRect.Y, Is.EqualTo(y));
+                Assert.That(intRect.Width, Is.EqualTo(width));
+                Assert.That(intRect.Height, Is.EqualTo(height));
+            });
+        }
+    }
+
+    [TestFixture]
+    public class IntSizeTests
+    {
+        [Test]
+        public void ConstructsCorrectly()
+        {
+            const int width = 0;
+            const int height = 1;
+            IntSize intSize = new IntSize(width, height);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(intSize.Width, Is.EqualTo(width));
+                Assert.That(intSize.Height, Is.EqualTo(height));
+            });
+        }
+    }
+
+    [TestFixture]
+    public class StopwatchExtensionsTests
+    {
+        [Test]
+        public void GetsElapsedAndRestarts()
+        {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            stopwatch.Stop();
+
+            TimeSpan expectedElapsed = stopwatch.Elapsed;
+            TimeSpan actualElapsed = stopwatch.GetElapsedAndRestart();
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(expectedElapsed, Is.EqualTo(actualElapsed));
+                Assert.That(stopwatch.IsRunning, Is.True, "Stopwatch not running!");
+            });
+        }
+    }
+
+    [TestFixture]
+    public class FloatExtensionsTests
+    {
+        public static IEnumerable TestCases
+        {
+            get
+            {
+                yield return new TestCaseData(0.1f, 5.72957802f);
+                yield return new TestCaseData(-10.1f, 141.312622f);
+                yield return new TestCaseData(2.66f, 152.406769f);
+                yield return new TestCaseData(8.1f, 104.095825f);
+            }
+        }
+
+        [Test, TestCaseSource(nameof(TestCases))]
+        public void DegreesCorrect(float _radians, float _expectedDegrees)
+        {
+            float actualDegrees = _radians.ToDegrees();
+
+            Debug.WriteLine(actualDegrees);
+
+            Assert.That(actualDegrees, Is.EqualTo(_expectedDegrees).Within(0.00001f));
+        }
+    }
+
+    [TestFixture]
+    public class ReflectionUtilitiesTests
+    {
+        public class TestTypeBase
+        { }
+
+        public class TestType : TestTypeBase
+        { }
+
+        public class OtherTestType
+        { }
+
+        [Test]
+        public void Do()
+        {
+            Type[] expectedTypes = {
+                typeof(TestType),
+            };
+
+            Assembly currentAssembly = Assembly.GetExecutingAssembly();
+            IEnumerable<Type> types =
+                ReflectionUtilities.ReflectionUtilities.FindAllDerivedTypes<TestTypeBase>(currentAssembly);
+
+            Assert.That(expectedTypes, Is.EquivalentTo(types));
         }
     }
 }

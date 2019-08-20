@@ -10,12 +10,12 @@ namespace Common.ReflectionUtilities
     /// </summary>
     public static class ReflectionUtilities
     {
-        public static List<Type> FindAllDerivedTypes<T>()
+        public static IEnumerable<Type> FindAllDerivedTypes<T>()
         {
             return FindAllDerivedTypes<T>(Assembly.GetAssembly(typeof(T)));
         }
 
-        public static List<Type> FindAllDerivedTypes<T>(Assembly _assembly)
+        public static IEnumerable<Type> FindAllDerivedTypes<T>(Assembly _assembly)
         {
             Type derivedType = typeof(T);
             return _assembly
