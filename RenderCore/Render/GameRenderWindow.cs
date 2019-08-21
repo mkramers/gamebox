@@ -57,7 +57,7 @@ namespace RenderCore.Render
 
             View currentView = m_renderWindow.GetView();
             Vector2f size = currentView.Size;
-            m_textureProvider?.SetSize((uint) Math.Round(size.X), (uint) Math.Round(size.Y));
+            m_textureProvider?.SetSize((uint)Math.Round(size.X), (uint)Math.Round(size.Y));
         }
 
         private void Resize(Vector2u _windowSize)
@@ -66,8 +66,8 @@ namespace RenderCore.Render
 
             m_renderWindow.SetViewport(viewPort);
 
-            uint adjustedWidth = (uint) Math.Round(viewPort.Width * _windowSize.X);
-            uint adjustedHeight = (uint) Math.Round(viewPort.Height * _windowSize.Y);
+            uint adjustedWidth = (uint)Math.Round(viewPort.Width * _windowSize.X);
+            uint adjustedHeight = (uint)Math.Round(viewPort.Height * _windowSize.Y);
 
             m_textureProvider?.SetSize(adjustedWidth, adjustedHeight);
         }
@@ -79,17 +79,25 @@ namespace RenderCore.Render
             m_renderWindow.Clear(Color.Black);
 
             Texture sceneTexture = m_textureProvider?.GetTexture();
-            if (sceneTexture == null)
+            if (sceneTexture != null)
             {
-                return;
+                Vector2f size = new Vector2f(sceneTexture.Size.X, sceneTexture.Size.Y);
+                Vector2f center = size / 2.0f;
+
+                View view = m_renderWindow.GetView();
+                view.Size = size;
+                view.Center = center;
+
+                m_renderWindow.SetView(view);
+
+                m_renderWindow.Draw(sceneTexture, RenderStates.Default);
+            }
+            else
+            {
+                m_renderWindow.ResetToDefaultView();
             }
 
-            Vector2f size = new Vector2f(sceneTexture.Size.X, sceneTexture.Size.Y);
-            Vector2f center = size / 2.0f;
-
             View currentView = m_renderWindow.GetView();
-            currentView.Size = size;
-            currentView.Center = center;
 
             IGuiWidget[] allWidgets =
                 m_widgetProviders.SelectMany(_widgetProvider => _widgetProvider.GetWidgets()).ToArray();
@@ -98,13 +106,12 @@ namespace RenderCore.Render
                 allWidget.OnViewChanged(currentView);
             }
 
-            m_renderWindow.SetView(currentView);
-
-            m_renderWindow.Draw(sceneTexture, RenderStates.Default);
-
             m_gui.UpdateCurrentWidgets(allWidgets);
 
-            m_gui.SetView(currentView);
+            if (currentView != null)
+            {
+                m_gui.SetView(currentView);
+            }
 
             m_gui.Draw();
 

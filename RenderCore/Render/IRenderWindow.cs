@@ -12,5 +12,6 @@ namespace RenderCore.Render
 
         event EventHandler<SizeEventArgs> Resized;
         event EventHandler Closed;
+        void ResetToDefaultView();
     }
 }

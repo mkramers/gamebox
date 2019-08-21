@@ -55,6 +55,11 @@ namespace RenderCore.Render
             remove => m_renderWindow.Closed -= value;
         }
 
+        public void ResetToDefaultView()
+        {
+            SetView(m_renderWindow.DefaultView);
+        }
+
         public void Dispose()
         {
             m_renderWindow.Dispose();
