@@ -64,12 +64,11 @@ namespace GameCore
         public virtual void Dispose()
         {
             m_bodies.Clear();
+            m_tickables.Clear();
 
             m_drawables.DisposeAllAndClear();
             m_gameProviders.DisposeAllAndClear();
-
-            m_tickables.Clear();
-            m_widgets.Clear();
+            m_widgets.DisposeAllAndClear();
 
             m_sceneProvider.Dispose();
         }

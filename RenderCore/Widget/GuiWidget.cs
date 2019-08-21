@@ -26,5 +26,10 @@ namespace RenderCore.Widget
         {
             return m_widget;
         }
+
+        public void Dispose()
+        {
+            m_widget.Dispose();
+        }
     }
 }
