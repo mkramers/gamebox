@@ -71,6 +71,7 @@ namespace Games.Games
             {
                 SetViewProvider(null);
                 RemoveGameProvider(m_currentGame);
+                m_currentGame.Dispose();
             }
             
             if (_gameType == null)
