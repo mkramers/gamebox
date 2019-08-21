@@ -3,6 +3,7 @@ using System.Collections;
 using System.Diagnostics;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
+using System.Text.RegularExpressions;
 using NUnit.Framework;
 
 namespace IOUtilities.Tests
@@ -91,9 +92,20 @@ namespace IOUtilities.Tests
         public void CreatesCorrectCsText()
         {
             string csText = EnumCsGenerator.GenerateEnumCs(Enum.GetNames(typeof(TestEnum)), nameof(TestEnum), "TestNamespace");
-            Debug.WriteLine(csText);
+            
+            const string expectedCsText = @"namespace TestNamespace
+{
+	public enum TestEnum
+	{
+		A_B,
+		A_B_C,
+		A_B_C_D
+	}
+}";
+            //normalize the line endings
+            string actualResult = Regex.Replace(csText, @"\r\n?|\n", Environment.NewLine);
+            string expectedResult = Regex.Replace(expectedCsText, @"\r\n?|\n", Environment.NewLine);
 
-            string expectedCsText = $"namespace TestNamespace{Environment.NewLine}{{{Environment.NewLine}\tpublic enum TestEnum{Environment.NewLine}\t{{{Environment.NewLine}\t\tA_B,{Environment.NewLine}\t\tA_B_C,{Environment.NewLine}\t\tA_B_C_D{Environment.NewLine}\t}}{Environment.NewLine}}}";
             Assert.That(csText, Is.EqualTo(expectedCsText));
         }
     }
