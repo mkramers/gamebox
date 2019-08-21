@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using System.Text;
 using Moq;
 using NUnit.Framework;
 using RenderCore.Resource;
