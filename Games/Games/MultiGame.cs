@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
@@ -12,14 +13,14 @@ namespace Games.Games
 {
     public class MultiGame : GameBase
     {
-        private readonly IEnumerable<IGame> m_games;
+        private readonly IEnumerable<Type> m_gameTypes;
         private IGame m_currentGame;
 
-        public MultiGame(IEnumerable<IGame> _games, ISceneProvider _sceneProvider) : base(_sceneProvider)
+        public MultiGame(IEnumerable<Type> _games, ISceneProvider _sceneProvider) : base(_sceneProvider)
         {
-            IGame[] games = _games as IGame[] ?? _games.ToArray();
+            Type[] gameTypes = _games as Type[] ?? _games.ToArray();
 
-            m_games = games;
+            m_gameTypes = gameTypes;
 
             const int panelWidth = 400;
             const int panelHeight = 200;
@@ -33,19 +34,19 @@ namespace Games.Games
 
             const float xPosition = panelWidth / 2.0f - buttonWidth / 2.0f;
 
-            for (int i = 0; i < games.Length; i++)
+            for (int i = 0; i < gameTypes.Length; i++)
             {
-                IGame gameBase = games[i];
+                Type gameType = gameTypes[i];
 
                 float yPosition = panelHeight / 3.0f + i * buttonHeight;
 
-                Button button = new Button(gameBase.GetType().Name)
+                Button button = new Button(gameType.Name)
                 {
                     Size = new Vector2f(buttonWidth, buttonHeight),
                     Position = new Vector2f(xPosition, yPosition)
                 };
 
-                button.Clicked += (_sender, _args) => SetCurrentGame(gameBase);
+                button.Clicked += (_sender, _args) => SetCurrentGame(gameType);
                 panel.Add(button);
             }
 
@@ -61,25 +62,27 @@ namespace Games.Games
             GuiWidget panelWidget = new GuiWidget(panel, new Vector2(0.25f, 0.25f));
             AddWidget(panelWidget);
 
-            SetCurrentGame(m_games.First());
+            SetCurrentGame(m_gameTypes.First());
         }
 
-        private void SetCurrentGame(IGame _game)
+        private void SetCurrentGame(Type _gameType)
         {
             if (m_currentGame != null)
             {
+                SetViewProvider(null);
                 RemoveGameProvider(m_currentGame);
             }
-
-            m_currentGame = _game;
-
-            if (m_currentGame == null)
+            
+            if (_gameType == null)
             {
+                m_currentGame = null;
                 return;
             }
 
-            Debug.Assert(m_games.Contains(_game));
+            Debug.Assert(m_gameTypes.Contains(_gameType));
 
+            m_currentGame = Activator.CreateInstance(_gameType) as GameBase;
+            
             AddGameProvider(m_currentGame);
             SetViewProvider(m_currentGame.GetViewProvider());
         }

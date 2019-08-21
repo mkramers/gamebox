@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Common.Extensions;
 using GameCore;
@@ -27,19 +28,9 @@ namespace GameBox
         {
             List<GameBase> games = new List<GameBase>();
             Assembly executingAssembly = Assembly.Load("Games");
-            IEnumerable<Type> gameTypes = executingAssembly.FindAllDerivedTypes<GameBase>();
-            foreach (Type gameType in gameTypes)
-            {
-                if (gameType == typeof(MultiGame))
-                {
-                    continue;
-                }
+            IEnumerable<Type> gameTypes = executingAssembly.FindAllDerivedTypes<GameBase>().Where(_gameType => _gameType != typeof(MultiGame));
 
-                GameBase game = Activator.CreateInstance(gameType) as GameBase;
-                games.Add(game);
-            }
-
-            MultiGame multiGame = new MultiGame(games, _sceneProvider);
+            MultiGame multiGame = new MultiGame(gameTypes, _sceneProvider);
             return multiGame;
         }
     }

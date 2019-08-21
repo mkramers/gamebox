@@ -31,7 +31,7 @@ namespace RenderCore.Render
 
         public Texture GetTexture()
         {
-            if (m_sceneRenderTexture == null)
+            if (m_sceneRenderTexture == null || m_viewProvider == null)
             {
                 return null;
             }

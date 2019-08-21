@@ -74,6 +74,10 @@ namespace RenderCore.Render
 
         private void Draw()
         {
+            m_renderWindow.DispatchEvents();
+
+            m_renderWindow.Clear(Color.Black);
+
             Texture sceneTexture = m_textureProvider?.GetTexture();
             if (sceneTexture == null)
             {
@@ -93,10 +97,6 @@ namespace RenderCore.Render
             {
                 allWidget.OnViewChanged(currentView);
             }
-
-            m_renderWindow.DispatchEvents();
-
-            m_renderWindow.Clear(Color.Black);
 
             m_renderWindow.SetView(currentView);
 
