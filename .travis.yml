@@ -4,10 +4,10 @@ solution: .\Projects.sln
 dotnet: 2.2
 jobs: 
   include: 
-- stage: build
+  - stage: build
     script:
      - dotnet restore 
      - dotnet build
-- stage: test
+  - stage: test
     script:
      - dotnet test
