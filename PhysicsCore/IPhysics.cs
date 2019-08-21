@@ -11,5 +11,6 @@ namespace PhysicsCore
         void SetGravity(Vector2 _gravity);
         void Remove(IBody _body);
         IEnumerable<IBody> GetBodies();
+        bool ContainsBody(IBody _currentBody);
     }
 }

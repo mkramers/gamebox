@@ -21,7 +21,7 @@ namespace PhysicsCore
 
             foreach (IBody currentBody in currentBodies)
             {
-                if (!bodies.Contains(currentBody))
+                if (!bodies.Contains(currentBody) && _physics.ContainsBody(currentBody))
                 {
                     _physics.Remove(currentBody);
                 }

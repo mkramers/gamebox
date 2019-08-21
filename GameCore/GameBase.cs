@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Extensions;
 using Common.Tickable;
 using GameCore.Entity;
 using PhysicsCore;
@@ -64,13 +65,9 @@ namespace GameCore
         {
             m_bodies.Clear();
 
-            foreach (IDrawable drawable in m_drawables)
-            {
-                drawable.Dispose();
-            }
-            m_drawables.Clear();
+            m_drawables.DisposeAllAndClear();
+            m_gameProviders.DisposeAllAndClear();
 
-            m_gameProviders.Clear();
             m_tickables.Clear();
             m_widgets.Clear();
 

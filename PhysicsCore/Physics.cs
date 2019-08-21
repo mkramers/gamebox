@@ -54,5 +54,10 @@ namespace PhysicsCore
         {
             return m_bodies;
         }
+
+        public bool ContainsBody(IBody _currentBody)
+        {
+            return World.BodyList.Contains(_currentBody.GetBody());
+        }
     }
 }
