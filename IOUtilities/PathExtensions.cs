@@ -8,10 +8,7 @@ namespace IOUtilities
     {
         public static string NormalizeFilepath(this IPath _path, string _filepath)
         {
-            string result = _path.GetFullPath(_filepath).ToLowerInvariant();
-
-            result = result.TrimEnd(Path.DirectorySeparatorChar);
-
+            string result = _path.GetFullPath(_filepath).TrimEnd(Path.DirectorySeparatorChar);
             return result;
         }
 
@@ -25,7 +22,7 @@ namespace IOUtilities
                 throw new Exception("Could not find rootPath in fullPath when calculating relative path.");
             }
 
-            return "." + _fullPath.Substring(_rootPath.Length);
+            return _path.Combine(".", _fullPath.Substring(_rootPath.Length + 1));
         }
     }
 }
