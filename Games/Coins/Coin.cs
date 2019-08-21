@@ -1,8 +1,9 @@
-﻿using GameCore.Entity;
+﻿using System;
+using GameCore.Entity;
 
 namespace Games.Coins
 {
-    public class Coin
+    public class Coin : IDisposable
     {
         public Coin(IEntity _entity, float _value)
         {
@@ -12,5 +13,10 @@ namespace Games.Coins
 
         public IEntity Entity { get; }
         public float Value { get; }
+
+        public void Dispose()
+        {
+            Entity.Dispose();
+        }
     }
 }

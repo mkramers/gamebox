@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using Aether.Physics2D.Dynamics;
+using Common.Extensions;
 using Common.Tickable;
 using GameCore;
 using GameCore.Entity;
@@ -67,6 +68,11 @@ namespace Games.Coins
 
         public void Dispose()
         {
+            m_captureEntity.Dispose();
+            m_coins.DisposeAllAndClear();
+            m_widgets.DisposeAllAndClear();
+            m_scoreLabel.Dispose();
+            m_childWindowWidget?.Dispose();
         }
 
         public IEnumerable<IGuiWidget> GetWidgets()
@@ -120,6 +126,7 @@ namespace Games.Coins
             childWindow.SetSize(new Layout2d(300, 100));
             childWindow.Closed += WinScreenOnClosed;
 
+            Debug.Assert(m_childWindowWidget == null);
             m_childWindowWidget = new GuiWidget(childWindow, new Vector2(0.5f, 0.5f));
             m_widgets.Add(m_childWindowWidget);
         }
@@ -131,6 +138,8 @@ namespace Games.Coins
             Debug.Assert(childWindow == m_childWindowWidget.GetWidget());
 
             m_widgets.Remove(m_childWindowWidget);
+            m_childWindowWidget.Dispose();
+            m_childWindowWidget = null;
 
             ResumeGame?.Invoke(this, EventArgs.Empty);
         }

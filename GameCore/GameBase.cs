@@ -63,7 +63,8 @@ namespace GameCore
 
         public virtual void Dispose()
         {
-            foreach (IGameProvider gameProvider in m_gameProviders)
+            List<IGameProvider> gameProviders = new List<IGameProvider>(m_gameProviders);
+            foreach (IGameProvider gameProvider in gameProviders)
             {
                 RemoveGameProvider(gameProvider);
             }
