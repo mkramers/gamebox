@@ -70,7 +70,7 @@ namespace IOUtilities.Tests
         [Test, TestCaseSource(typeof(EnumTestCases), nameof(EnumTestCases.TestCases))]
         public void PathConvertsCorrectly(TestEnum _enum, string _expectedPath)
         {
-            const string rootDirectory = "C:\\test";
+            const string rootDirectory = "test";
             const string fileExtension = ".txt";
 
             IPath fileSystemPath = EnumTestCases.FileSystemPath;
@@ -93,15 +93,7 @@ namespace IOUtilities.Tests
             string csText = EnumCsGenerator.GenerateEnumCs(Enum.GetNames(typeof(TestEnum)), nameof(TestEnum), "TestNamespace");
             Debug.WriteLine(csText);
 
-            const string expectedCsText = @"namespace TestNamespace
-{
-	public enum TestEnum
-	{
-		A_B,
-		A_B_C,
-		A_B_C_D
-	}
-}";
+            string expectedCsText = $"namespace TestNamespace{Environment.NewLine}{{{Environment.NewLine}\tpublic enum TestEnum{Environment.NewLine}\t{{{Environment.NewLine}\t\tA_B,{Environment.NewLine}\t\tA_B_C,{Environment.NewLine}\t\tA_B_C_D{Environment.NewLine}\t}}{Environment.NewLine}}}";
             Assert.That(csText, Is.EqualTo(expectedCsText));
         }
     }
