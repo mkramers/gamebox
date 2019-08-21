@@ -2,7 +2,12 @@ language: csharp
 mono: none
 solution: .\Projects.sln
 dotnet: 2.2
-script:
- - dotnet restore 
- - dotnet build
- - dotnet test
+jobs: 
+  include: 
+- stage: build
+    script:
+     - dotnet restore 
+     - dotnet build
+- stage: test
+    script:
+     - dotnet test
