@@ -106,7 +106,7 @@ namespace IOUtilities.Tests
             string actualResult = Regex.Replace(csText, @"\r\n?|\n", Environment.NewLine);
             string expectedResult = Regex.Replace(expectedCsText, @"\r\n?|\n", Environment.NewLine);
 
-            Assert.That(csText, Is.EqualTo(expectedCsText));
+            Assert.That(actualResult, Is.EqualTo(expectedResult));
         }
     }
 }
