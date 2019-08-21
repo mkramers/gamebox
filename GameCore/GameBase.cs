@@ -63,11 +63,16 @@ namespace GameCore
 
         public virtual void Dispose()
         {
+            foreach (IGameProvider gameProvider in m_gameProviders)
+            {
+                RemoveGameProvider(gameProvider);
+            }
+            m_gameProviders.DisposeAllAndClear();
+
             m_bodies.Clear();
             m_tickables.Clear();
 
             m_drawables.DisposeAllAndClear();
-            m_gameProviders.DisposeAllAndClear();
             m_widgets.DisposeAllAndClear();
 
             m_sceneProvider.Dispose();
