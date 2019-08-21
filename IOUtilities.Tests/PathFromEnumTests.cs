@@ -42,7 +42,7 @@ namespace IOUtilities.Tests
         }
 
         [Test]
-        public void ConstructorlessDoesNotThrow()
+        public void ConstructorDoesNotThrow()
         {
             Assert.DoesNotThrow(() =>
             {
