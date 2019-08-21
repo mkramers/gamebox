@@ -62,7 +62,7 @@ namespace Games.Games
             GuiWidget panelWidget = new GuiWidget(panel, new Vector2(0.25f, 0.25f));
             AddWidget(panelWidget);
 
-            SetCurrentGame(m_gameTypes.Last());
+            SetCurrentGame(m_gameTypes.First());
         }
 
         private void SetCurrentGame(Type _gameType)
