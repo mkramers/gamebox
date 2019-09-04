@@ -11,7 +11,7 @@
  ],
  "meta": {
   "app": "http://www.aseprite.org/",
-  "version": "1.2.11-x64",
+  "version": "1.2.13-x64",
   "format": "I8",
   "size": { "w": 48, "h": 48 },
   "scale": "1",
