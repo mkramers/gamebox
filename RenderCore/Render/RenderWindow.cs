@@ -20,6 +20,7 @@ namespace RenderCore.Render
 
         public void Draw(Texture _texture, RenderStates _states)
         {
+            m_renderWindow.Draw(_texture, _states);
         }
 
         public void Clear(Color _color)
