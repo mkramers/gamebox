@@ -32,7 +32,7 @@ namespace IOUtilities
             string parentDirectory = m_fileSystemPath.GetDirectoryName(_filePath);
             string filePathNoExtension = m_fileSystemPath.GetFileNameWithoutExtension(_filePath);
 
-            List<string> directoryNames = parentDirectory.Split(new[] { m_fileSystemPath.DirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            string[] directoryNames = parentDirectory.Split(new[] { m_fileSystemPath.DirectorySeparatorChar, '.' }, StringSplitOptions.RemoveEmptyEntries);
             List<string> fileNames = filePathNoExtension.Split(new[] {"-"}, StringSplitOptions.RemoveEmptyEntries).Skip(1).ToList();
 
             IEnumerable<string> allNames = directoryNames.Concat(fileNames);

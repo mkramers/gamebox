@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
 using IOUtilities;
 using ResourceUtilities.Aseprite;
@@ -53,16 +54,11 @@ namespace ResourceGenerator
 
         private static string GetModifiedFileName(string _pngFilePath, string _rootDirectory)
         {
-            string directory = Path.GetDirectoryName(_pngFilePath);
-            string fileName = Path.GetFileName(_pngFilePath);
-            string[] splitName = fileName.Split(new[] {"-"}, StringSplitOptions.RemoveEmptyEntries);
-            string spriteName = splitName.First();
-            string layerName = splitName.Last();
+            IFileSystem fileSystem = new FileSystem();
 
-            string parentDirectory = Directory.GetParent(directory).FullName;
+            string relativePath = fileSystem.Path.GetRelativePath(_rootDirectory, _pngFilePath);
 
-            string modifiedFileName = Path.Combine(_rootDirectory, parentDirectory, spriteName, layerName);
-            return modifiedFileName;
+            return relativePath;
         }
 
         private static string GetUsageText()

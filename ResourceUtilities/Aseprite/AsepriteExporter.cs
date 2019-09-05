@@ -11,8 +11,8 @@ namespace ResourceUtilities.Aseprite
             string fileName = Path.GetFileNameWithoutExtension(_asepriteFilePath);
             string workingDirectory = Path.GetDirectoryName(_asepriteFilePath);
 
-            string outputPngFormat = Path.Combine(workingDirectory, $"{fileName}-{{layer}}.png");
-            string outputJsonFormat = Path.Combine(workingDirectory, $"{fileName}.json");
+            string outputPngFormat = Path.Combine(@".\", $"{fileName}-{{layer}}.png");
+            string outputJsonFormat = Path.Combine(@".\", $"{fileName}.json");
 
             string arguments =
                 $@"-b {fileName}.aseprite --save-as {outputPngFormat} --data {outputJsonFormat} --list-layers --format json-array";
